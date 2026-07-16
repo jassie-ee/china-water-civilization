@@ -1,0 +1,104 @@
+.atom-field {
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(circle at 18% 26%, rgb(214 250 247 / 34%) 0 1px, transparent 2px),
+    radial-gradient(circle at 78% 17%, rgb(214 250 247 / 42%) 0 1px, transparent 2px),
+    radial-gradient(circle at 83% 73%, rgb(214 250 247 / 24%) 0 1px, transparent 2px),
+    radial-gradient(circle at 21% 78%, rgb(214 250 247 / 22%) 0 1px, transparent 2px);
+}
+
+.atom-field__star {
+  position: absolute;
+  width: 0.3rem;
+  aspect-ratio: 1;
+  border-radius: 50%;
+  background: #d6faf7;
+  box-shadow: 0 0 0.8rem rgb(181 242 238 / 70%);
+  animation: atom-star-pulse 4s ease-in-out infinite;
+}
+
+.atom-field__star--one {
+  top: 22%;
+  left: 27%;
+}
+
+.atom-field__star--two {
+  top: 29%;
+  right: 22%;
+  animation-delay: 1s;
+}
+
+.atom-field__star--three {
+  bottom: 29%;
+  left: 19%;
+  animation-delay: 2s;
+}
+
+.atom-field__star--four {
+  right: 31%;
+  bottom: 23%;
+  animation-delay: 3s;
+}
+
+.atom-field .atom-particle {
+  opacity: 0.42;
+  animation: background-atom-drift 8s ease-in-out infinite;
+}
+
+.atom-field--atoms-converging .atom-particle,
+.atom-field--energy-forming .atom-particle,
+.atom-field--water-drop-formed .atom-particle {
+  opacity: 0.14;
+  transition: opacity 1.2s ease;
+}
+
+.atom-particle--background-one {
+  top: 20%;
+  left: 18%;
+}
+
+.atom-particle--background-two {
+  top: 22%;
+  right: 16%;
+  animation-delay: -2s !important;
+}
+
+.atom-particle--background-three {
+  bottom: 21%;
+  left: 14%;
+  animation-delay: -4s !important;
+}
+
+.atom-particle--background-four {
+  right: 18%;
+  bottom: 20%;
+  animation-delay: -6s !important;
+}
+
+@keyframes atom-star-pulse {
+  50% {
+    opacity: 0.25;
+    transform: scale(0.6);
+  }
+}
+
+@keyframes background-atom-drift {
+  50% {
+    transform: translate(1rem, -0.8rem);
+  }
+}
+
+@media (max-width: 640px) {
+  .atom-particle--background-three,
+  .atom-particle--background-four {
+    display: none;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .atom-field .atom-particle,
+  .atom-field__star {
+    animation: none;
+  }
+}

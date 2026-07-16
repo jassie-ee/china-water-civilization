@@ -1,0 +1,94 @@
+.molecule-formation {
+  position: absolute;
+  top: 43%;
+  left: 52%;
+  width: min(64vw, 44rem);
+  aspect-ratio: 1;
+  transform: translate(-50%, -50%);
+}
+
+.molecule-formation .atom-particle {
+  opacity: 1;
+  transition: opacity 900ms ease, transform 2.8s cubic-bezier(0.42, 0, 0.18, 1);
+}
+
+.atom-particle--core-oxygen {
+  top: 47%;
+  left: 47%;
+  animation: core-oxygen-drift 5.2s ease-in-out infinite;
+}
+
+.atom-particle--core-hydrogen-left {
+  top: 16%;
+  left: 8%;
+  animation: core-atom-drift-left 5s ease-in-out infinite;
+}
+
+.atom-particle--core-hydrogen-right {
+  right: 7%;
+  bottom: 17%;
+  animation: core-atom-drift-right 5.5s ease-in-out infinite;
+}
+
+.molecule-formation--atoms-converging .atom-particle--core-hydrogen-left,
+.molecule-formation--energy-forming .atom-particle--core-hydrogen-left,
+.molecule-formation--water-drop-formed .atom-particle--core-hydrogen-left {
+  animation: none;
+  transform: translate(12rem, 10rem) scale(0.72);
+}
+
+.molecule-formation--atoms-converging .atom-particle--core-hydrogen-right,
+.molecule-formation--energy-forming .atom-particle--core-hydrogen-right,
+.molecule-formation--water-drop-formed .atom-particle--core-hydrogen-right {
+  animation: none;
+  transform: translate(-12rem, -10rem) scale(0.72);
+}
+
+.molecule-formation--energy-forming .atom-particle,
+.molecule-formation--water-drop-formed .atom-particle {
+  opacity: 0;
+}
+
+@keyframes core-atom-drift-left {
+  50% {
+    transform: translate(0.8rem, -0.7rem);
+  }
+}
+
+@keyframes core-oxygen-drift {
+  50% {
+    transform: translate(0.2rem, -0.4rem);
+  }
+}
+
+@keyframes core-atom-drift-right {
+  50% {
+    transform: translate(-0.8rem, 0.7rem);
+  }
+}
+
+@media (max-width: 640px) {
+  .molecule-formation {
+    width: 92vw;
+  }
+
+  .molecule-formation--atoms-converging .atom-particle--core-hydrogen-left,
+  .molecule-formation--energy-forming .atom-particle--core-hydrogen-left,
+  .molecule-formation--water-drop-formed .atom-particle--core-hydrogen-left {
+    transform: translate(8rem, 8rem) scale(0.72);
+  }
+
+  .molecule-formation--atoms-converging .atom-particle--core-hydrogen-right,
+  .molecule-formation--energy-forming .atom-particle--core-hydrogen-right,
+  .molecule-formation--water-drop-formed .atom-particle--core-hydrogen-right {
+    transform: translate(-8rem, -8rem) scale(0.72);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .atom-particle--core-hydrogen-left,
+  .atom-particle--core-hydrogen-right,
+  .atom-particle--core-oxygen {
+    animation: none;
+  }
+}

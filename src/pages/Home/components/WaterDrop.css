@@ -1,0 +1,93 @@
+.water-drop {
+  position: absolute;
+  top: 43%;
+  left: 52%;
+  width: clamp(4rem, 8vw, 6.5rem);
+  aspect-ratio: 0.76;
+  opacity: 0;
+  transform: translate(-50%, -50%) scale(0.45);
+}
+
+.water-drop__shape {
+  display: block;
+  width: 100%;
+  height: 100%;
+  border: 1px solid rgb(205 251 247 / 65%);
+  border-radius: 60% 40% 62% 38% / 68% 43% 57% 32%;
+  background: linear-gradient(135deg, rgb(230 255 253 / 82%), rgb(76 182 207 / 34%) 58%, transparent);
+  box-shadow: inset 1rem 1rem 1.2rem rgb(255 255 255 / 28%), 0 0 3rem rgb(83 194 210 / 35%);
+  transform: rotate(45deg);
+}
+
+.water-drop--water-drop-formed {
+  animation: water-drop-appear 1.4s ease-out forwards;
+}
+
+.water-drop--water-drop-formed .water-drop__shape {
+  animation: water-drop-float 4s ease-in-out 1.4s infinite;
+}
+
+.water-drop--water-drop-falling {
+  opacity: 1;
+  animation: water-drop-descent 2.2s cubic-bezier(0.66, 0, 0.3, 1) forwards;
+}
+
+.water-drop--earth-approaching,
+.water-drop--china-focusing,
+.water-drop--transitioning-to-basins {
+  opacity: 0;
+  transform: translate(14vw, 42vh) scale(0.28);
+}
+
+.water-drop--water-drop-falling .water-drop__shape,
+.water-drop--earth-approaching .water-drop__shape,
+.water-drop--china-focusing .water-drop__shape,
+.water-drop--transitioning-to-basins .water-drop__shape {
+  animation: none;
+}
+
+@keyframes water-drop-appear {
+  65% {
+    opacity: 1;
+    transform: translate(-50%, -50%) scale(1.08);
+  }
+
+  100% {
+    opacity: 1;
+    transform: translate(-50%, -50%) scale(1);
+  }
+}
+
+@keyframes water-drop-float {
+  50% {
+    transform: rotate(45deg) translate(0.35rem, -0.5rem);
+  }
+}
+
+@keyframes water-drop-descent {
+  18% {
+    opacity: 1;
+    transform: translate(-42%, -35%) scale(0.95);
+  }
+
+  100% {
+    opacity: 0;
+    transform: translate(14vw, 42vh) scale(0.28);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .water-drop {
+    opacity: 1;
+    transform: translate(-50%, -50%);
+  }
+
+  .water-drop--water-drop-formed,
+  .water-drop--water-drop-formed .water-drop__shape,
+  .water-drop--water-drop-falling,
+  .water-drop--earth-approaching,
+  .water-drop--china-focusing,
+  .water-drop--transitioning-to-basins {
+    animation: none;
+  }
+}

@@ -1,0 +1,216 @@
+.basin-overview-page {
+  display: grid;
+  grid-template-rows: auto minmax(0, 1fr);
+  gap: clamp(0.75rem, 2vh, 1.5rem);
+  min-height: 100vh;
+  padding: clamp(1rem, 3vh, 2rem) clamp(1.5rem, 5vw, 5rem);
+  overflow: hidden;
+  color: #e8f6f4;
+  background:
+    radial-gradient(circle at 35% 70%, rgb(49 138 148 / 22%), transparent 28rem),
+    linear-gradient(135deg, #071d2b, #0b3041 64%, #071d2b);
+}
+
+.basin-overview-page--leaving {
+  opacity: 0;
+  transform: scale(1.015);
+  transition: opacity 360ms ease, transform 360ms ease;
+}
+
+.basin-overview-page__experience {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(16rem, 20rem);
+  align-items: center;
+  gap: clamp(1rem, 3vw, 3rem);
+  width: min(100%, var(--page-max-width));
+  min-height: 0;
+  margin: 0 auto;
+}
+
+.basin-overview-page__sidebar {
+  display: grid;
+  gap: 1rem;
+}
+
+.basin-overview-header {
+  width: min(100%, var(--page-max-width));
+  margin: 0 auto;
+}
+
+.basin-overview-header__eyebrow {
+  margin-bottom: 0.75rem;
+  color: rgb(202 234 231 / 72%);
+  font-size: 0.75rem;
+  letter-spacing: 0.16em;
+}
+
+.basin-overview-header h1 {
+  margin: 0;
+  font-family: "STKaiti", "KaiTi", serif;
+  font-size: clamp(2.2rem, 5vw, 4.6rem);
+  font-weight: 400;
+}
+
+.basin-overview-header h1:focus-visible {
+  outline: 2px solid #d0fffb;
+  outline-offset: 0.25rem;
+}
+
+.basin-overview-header > p:not(.basin-overview-header__eyebrow) {
+  margin-top: 0.9rem;
+  color: rgb(232 246 244 / 76%);
+}
+
+.china-basin-map {
+  position: relative;
+  width: 100%;
+  min-width: 0;
+  aspect-ratio: 1040 / 650;
+  max-height: 55vh;
+  overflow: hidden;
+  border: 1px solid rgb(169 232 226 / 28%);
+  border-radius: var(--radius-lg);
+  background: linear-gradient(135deg, rgb(22 83 94 / 46%), rgb(7 34 48 / 62%));
+  box-shadow: inset 0 0 4rem rgb(92 204 203 / 9%), var(--shadow-sm);
+}
+
+.china-basin-map svg {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+
+.china-basin-map__atmosphere ellipse {
+  fill: rgb(75 172 183 / 8%);
+  stroke: rgb(168 232 228 / 12%);
+}
+
+.china-basin-map__outline path:first-child {
+  fill: rgb(51 123 131 / 25%);
+  stroke: rgb(184 237 229 / 50%);
+  stroke-width: 2;
+}
+
+.china-basin-map__terrain {
+  fill: none;
+  stroke: rgb(167 224 212 / 20%);
+  stroke-dasharray: 5 9;
+  stroke-width: 2;
+}
+
+.china-basin-map__caption {
+  position: absolute;
+  right: 1rem;
+  bottom: 0.8rem;
+  margin: 0;
+  color: rgb(214 242 238 / 52%);
+  font-size: 0.7rem;
+}
+
+.source-marker__drop {
+  fill: url(#none);
+  fill: #8fdde1;
+  opacity: 0;
+  filter: drop-shadow(0 0 10px rgb(133 232 228 / 75%));
+  transform-box: fill-box;
+  transform-origin: center;
+}
+
+.source-marker--drop-landing .source-marker__drop,
+.source-marker--source-rippling .source-marker__drop,
+.source-marker--rivers-awakening .source-marker__drop,
+.source-marker--interactive .source-marker__drop {
+  animation: source-drop-landing 850ms cubic-bezier(.2, .75, .3, 1) forwards;
+}
+
+.source-marker__point,
+.source-marker__energy,
+.source-marker__ripple,
+.source-marker__label {
+  opacity: 0;
+}
+
+.source-marker--source-rippling .source-marker__point,
+.source-marker--rivers-awakening .source-marker__point,
+.source-marker--interactive .source-marker__point,
+.source-marker--source-rippling .source-marker__label,
+.source-marker--rivers-awakening .source-marker__label,
+.source-marker--interactive .source-marker__label {
+  opacity: 1;
+}
+
+.source-marker__point { fill: #e2fffb; filter: drop-shadow(0 0 8px #9ce9e1); }
+.source-marker__label { fill: #d7f3ed; font-size: 16px; letter-spacing: .12em; }
+.source-marker__energy { fill: rgb(129 223 219 / 28%); }
+.source-marker__ripple { fill: none; stroke: rgb(177 244 235 / 70%); stroke-width: 2; }
+
+.source-marker--source-rippling .source-marker__energy,
+.source-marker--rivers-awakening .source-marker__energy,
+.source-marker--interactive .source-marker__energy { animation: source-energy 1.4s ease-out both; }
+.source-marker--source-rippling .source-marker__ripple--one,
+.source-marker--rivers-awakening .source-marker__ripple--one,
+.source-marker--interactive .source-marker__ripple--one { animation: source-ripple 1.6s ease-out both; }
+.source-marker--source-rippling .source-marker__ripple--two,
+.source-marker--rivers-awakening .source-marker__ripple--two,
+.source-marker--interactive .source-marker__ripple--two { animation: source-ripple 1.6s 280ms ease-out both; }
+
+.river-path { cursor: pointer; outline: none; }
+.river-path__hit-area { fill: none; stroke: transparent; stroke-width: 28; }
+.river-path__line, .river-path__glow { fill: none; stroke-linecap: round; stroke-linejoin: round; stroke-dasharray: 650; stroke-dashoffset: 650; }
+.river-path__line { stroke-width: 5; }
+.river-path__glow { stroke-width: 15; opacity: .12; }
+.river-path__label { opacity: 0; font-size: 18px; letter-spacing: .08em; pointer-events: none; transition: opacity 180ms ease, font-size 180ms ease; }
+.basin--yellow-river .river-path__line { stroke: var(--color-yellow-river); }
+.basin--yellow-river .river-path__glow { stroke: #e6b85e; }
+.basin--yellow-river .river-path__label { fill: #f2d48f; }
+.basin--yangtze-river .river-path__line { stroke: var(--color-yangtze-river); }
+.basin--yangtze-river .river-path__glow { stroke: #75c6de; }
+.basin--yangtze-river .river-path__label { fill: #a9e1ed; }
+.river-path__line--rivers-awakening, .river-path__line--interactive { animation: river-draw 2.2s ease-out forwards; }
+.river-path__glow--rivers-awakening, .river-path__glow--interactive { animation: river-draw 2.2s ease-out forwards; }
+.basin--yangtze-river .river-path__line--rivers-awakening, .basin--yangtze-river .river-path__line--interactive { animation-delay: 300ms; }
+.basin--yangtze-river .river-path__glow--rivers-awakening, .basin--yangtze-river .river-path__glow--interactive { animation-delay: 300ms; }
+.river-path.is-active .river-path__line, .river-path.is-selected .river-path__line { stroke-width: 8; }
+.river-path.is-active .river-path__glow, .river-path.is-selected .river-path__glow { opacity: .5; }
+.river-path.is-active .river-path__label, .river-path.is-selected .river-path__label { opacity: 1; font-size: 21px; }
+.china-basin-map--has-selection .river-path:not(.is-selected) { opacity: .32; }
+.river-path:focus-visible .river-path__line { stroke: #effffc; stroke-width: 9; }
+.china-basin-map--interactive .river-path__label { opacity: .82; }
+
+.basin-info-panel, .basin-selection-list button {
+  border: 1px solid rgb(170 233 226 / 23%);
+  border-radius: var(--radius-md);
+  background: rgb(5 32 45 / 48%);
+}
+.basin-info-panel { min-height: 9.5rem; padding: 1.25rem; }
+.basin-info-panel p { margin: 0; color: rgb(232 246 244 / 76%); line-height: 1.75; }
+.basin-info-panel h2 { margin: .35rem 0 .65rem; color: #f1fbf9; font-family: "STKaiti", "KaiTi", serif; font-size: 1.8rem; font-weight: 400; }
+.basin-info-panel__eyebrow { color: rgb(202 234 231 / 68%) !important; font-size: .68rem; letter-spacing: .12em; }
+.basin-selection-list { display: grid; gap: .75rem; }
+.basin-selection-list button { display: flex; align-items: center; justify-content: space-between; width: 100%; padding: .95rem 1rem; color: #e8f6f4; text-align: left; transition: border-color 180ms ease, background 180ms ease, transform 180ms ease; }
+.basin-selection-list button span { font-family: "STKaiti", "KaiTi", serif; font-size: 1.25rem; }
+.basin-selection-list button small { color: rgb(218 244 240 / 66%); }
+.basin-selection-list button:hover, .basin-selection-list button.is-active { transform: translateX(3px); border-color: rgb(188 244 236 / 65%); background: rgb(35 108 120 / 48%); }
+.basin-selection-list button:focus-visible { outline: 2px solid #d0fffb; outline-offset: 3px; }
+
+@keyframes source-drop-landing { from { opacity: 1; transform: translateY(-72px) scale(1.18); } 78% { opacity: 1; transform: translateY(7px) scale(.78); } to { opacity: 0; transform: translateY(11px) scale(.2); } }
+@keyframes source-energy { from { opacity: .8; transform: scale(.25); } to { opacity: 0; transform: scale(2.2); } }
+@keyframes source-ripple { from { opacity: .7; transform: scale(.35); } to { opacity: 0; transform: scale(3); } }
+@keyframes river-draw { to { stroke-dashoffset: 0; } }
+
+@media (max-width: 850px) {
+  .basin-overview-page { overflow: auto; }
+  .basin-overview-page__experience { grid-template-columns: 1fr; padding-bottom: 1.5rem; }
+  .basin-overview-page__sidebar { grid-template-columns: minmax(0, 1fr) minmax(13rem, .8fr); }
+}
+
+@media (max-width: 560px) {
+  .basin-overview-page__sidebar { grid-template-columns: 1fr; }
+  .china-basin-map__caption { right: .6rem; bottom: .5rem; font-size: .6rem; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .basin-overview-page--leaving, .basin-selection-list button, .river-path__label { transition: none; }
+  .basin-overview-page--leaving { transform: none; }
+  .source-marker__drop, .source-marker__energy, .source-marker__ripple, .river-path__line, .river-path__glow { animation-duration: 1ms !important; animation-delay: 0ms !important; }
+}

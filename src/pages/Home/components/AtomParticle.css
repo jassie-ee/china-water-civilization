@@ -1,0 +1,62 @@
+.atom-particle {
+  position: absolute;
+  display: grid;
+  place-items: center;
+  width: clamp(2.2rem, 4vw, 3.5rem);
+  aspect-ratio: 1;
+  border-radius: 50%;
+  opacity: 0.6;
+}
+
+.atom-particle--oxygen {
+  color: #d9fbf7;
+}
+
+.atom-particle--hydrogen {
+  color: #d6eefd;
+}
+
+.atom-particle__core {
+  width: 45%;
+  aspect-ratio: 1;
+  border-radius: 50%;
+  box-shadow: 0 0 1.2rem currentcolor;
+}
+
+.atom-particle--oxygen .atom-particle__core {
+  background: radial-gradient(circle at 32% 28%, #d6fffb, #25859b 75%);
+}
+
+.atom-particle--hydrogen .atom-particle__core {
+  background: radial-gradient(circle at 32% 28%, #f1ffff, #65aeca 75%);
+}
+
+.atom-particle__orbit {
+  position: absolute;
+  width: 100%;
+  height: 43%;
+  border: 1px solid rgb(211 248 245 / 34%);
+  border-radius: 50%;
+  transform: rotate(-28deg);
+}
+
+.atom-particle__electron {
+  position: absolute;
+  top: 22%;
+  right: 6%;
+  width: 0.22rem;
+  aspect-ratio: 1;
+  border-radius: 50%;
+  background: currentcolor;
+  box-shadow: 0 0 0.45rem currentcolor;
+}
+
+.atom-particle__symbol {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  color: rgb(5 29 43 / 80%);
+  font-family: Georgia, serif;
+  font-size: 0.68rem;
+}

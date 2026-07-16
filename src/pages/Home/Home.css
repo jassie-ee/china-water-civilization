@@ -1,0 +1,94 @@
+.home-page {
+  position: relative;
+  display: grid;
+  grid-template-rows: auto 1fr auto;
+  isolation: isolate;
+  min-height: 100vh;
+  overflow: hidden;
+  padding: 2rem clamp(1.5rem, 5vw, 5rem);
+  background:
+    radial-gradient(circle at 50% 43%, rgb(31 128 164 / 28%), transparent 22rem),
+    linear-gradient(135deg, #071d2b 0%, #0b2e40 50%, #061b2a 100%);
+  color: #e8f6f4;
+  transition: opacity 650ms ease, transform 650ms ease;
+}
+
+.home-page--transitioning {
+  opacity: 0;
+  transform: scale(1.03);
+}
+
+.home-page__topbar,
+.home-page__content,
+.home-page__role {
+  position: relative;
+  z-index: 1;
+}
+
+.home-page__topbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+}
+
+.home-page__eyebrow,
+.home-page__chapter,
+.home-page__role {
+  color: rgb(202 234 231 / 72%);
+  font-size: 0.75rem;
+  letter-spacing: 0.16em;
+}
+
+.home-page__content {
+  align-self: center;
+  width: min(100%, 52rem);
+  padding-bottom: 8vh;
+}
+
+.home-page__chapter {
+  margin-bottom: 1rem;
+}
+
+.home-page__title {
+  margin: 0;
+  /* 用低饱和水色模拟题字的温润层次，避免高亮渐变喧宾夺主。 */
+  background: linear-gradient(112deg, #d7f0eb 8%, #f3fbfa 45%, #9cd8dc 100%);
+  background-clip: text;
+  color: transparent;
+  font-family: "STKaiti", "KaiTi", serif;
+  font-size: clamp(2rem, 5.6vw, 5.5rem);
+  font-weight: 400;
+  letter-spacing: 0.06em;
+  line-height: 1.15;
+  text-shadow: 0 0 2.25rem rgb(90 202 209 / 24%);
+  white-space: nowrap;
+}
+
+.home-page__subtitle {
+  margin: 1.5rem 0 2.25rem;
+  color: rgb(232 246 244 / 80%);
+  font-size: clamp(1rem, 1.7vw, 1.2rem);
+  line-height: 2;
+}
+
+.home-page__role {
+  align-self: end;
+}
+
+@media (max-width: 640px) {
+  .home-page {
+    padding: 1.25rem;
+  }
+
+  .home-page__title {
+    letter-spacing: 0.03em;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .home-page,
+  .intro-controls__button {
+    transition: none;
+  }
+}

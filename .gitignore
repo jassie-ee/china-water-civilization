@@ -1,0 +1,22 @@
+# Dependencies and build output
+node_modules/
+dist/
+
+# Local environment files
+.env
+.env.local
+.env.*.local
+!.env.example
+
+# Editor files
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# System files and caches
+.DS_Store
+Thumbs.db
+*.log
+coverage/
