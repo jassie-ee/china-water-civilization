@@ -20,7 +20,7 @@
 .basin-overview-page__experience {
   display: grid;
   grid-template-columns: minmax(0, 1fr) minmax(16rem, 20rem);
-  align-items: center;
+  align-items: start;
   gap: clamp(1rem, 3vw, 3rem);
   width: min(100%, var(--page-max-width));
   min-height: 0;
@@ -47,7 +47,7 @@
 .basin-overview-header h1 {
   margin: 0;
   font-family: "STKaiti", "KaiTi", serif;
-  font-size: clamp(2.2rem, 5vw, 4.6rem);
+  font-size: clamp(2.1rem, 4.2vw, 4.4rem);
   font-weight: 400;
 }
 
@@ -66,7 +66,7 @@
   width: 100%;
   min-width: 0;
   aspect-ratio: 1040 / 650;
-  max-height: 55vh;
+  max-height: min(55vh, 35rem);
   overflow: hidden;
   border: 1px solid rgb(169 232 226 / 28%);
   border-radius: var(--radius-lg);
@@ -108,7 +108,6 @@
 }
 
 .source-marker__drop {
-  fill: url(#none);
   fill: #8fdde1;
   opacity: 0;
   filter: drop-shadow(0 0 10px rgb(133 232 228 / 75%));
@@ -173,6 +172,8 @@
 .river-path.is-active .river-path__line, .river-path.is-selected .river-path__line { stroke-width: 8; }
 .river-path.is-active .river-path__glow, .river-path.is-selected .river-path__glow { opacity: .5; }
 .river-path.is-active .river-path__label, .river-path.is-selected .river-path__label { opacity: 1; font-size: 21px; }
+.china-basin-map--hovered .river-path:not(.is-hovered) { opacity: .62; }
+.river-path.is-focused .river-path__line { stroke: #effffc; stroke-width: 9; }
 .china-basin-map--has-selection .river-path:not(.is-selected) { opacity: .32; }
 .river-path:focus-visible .river-path__line { stroke: #effffc; stroke-width: 9; }
 .china-basin-map--interactive .river-path__label { opacity: .82; }
@@ -202,6 +203,14 @@
   .basin-overview-page { overflow: auto; }
   .basin-overview-page__experience { grid-template-columns: 1fr; padding-bottom: 1.5rem; }
   .basin-overview-page__sidebar { grid-template-columns: minmax(0, 1fr) minmax(13rem, .8fr); }
+}
+
+@media (max-height: 760px) and (min-width: 851px) {
+  .basin-overview-header__eyebrow { margin-bottom: .4rem; }
+  .basin-overview-header > p:not(.basin-overview-header__eyebrow) { margin-top: .55rem; }
+  .basin-info-panel { min-height: 8.5rem; padding: 1rem; }
+  .basin-selection-list { gap: .5rem; }
+  .basin-selection-list button { padding: .75rem .9rem; }
 }
 
 @media (max-width: 560px) {

@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
 import usePrefersReducedMotion from '@/hooks/usePrefersReducedMotion';
@@ -21,6 +21,8 @@ function Home() {
   const prefersReducedMotion = usePrefersReducedMotion();
   const [phase, setPhase] = useState<IntroPhase>('atoms-floating');
   const [animationVersion, setAnimationVersion] = useState(0);
+  const [isNavigating, setIsNavigating] = useState(false);
+  const navigationLockRef = useRef(false);
 
   useEffect(() => {
     const activeDelays = prefersReducedMotion ? reducedMotionPhaseDelays : phaseDelays;
@@ -43,7 +45,15 @@ function Home() {
 
       return [phaseTimer];
     });
-    const navigationTimer = window.setTimeout(() => navigate('/basins'), elapsedTime + transitionDelay);
+    const navigationTimer = window.setTimeout(() => {
+      if (navigationLockRef.current) {
+        return;
+      }
+
+      navigationLockRef.current = true;
+      setIsNavigating(true);
+      navigate('/basins', { state: { basinOverviewEntry: 'intro' } });
+    }, elapsedTime + transitionDelay);
 
     return () => {
       phaseTimers.forEach((timer) => window.clearTimeout(timer));
@@ -52,11 +62,21 @@ function Home() {
   }, [animationVersion, navigate, prefersReducedMotion]);
 
   const handleReplayAnimation = () => {
+    navigationLockRef.current = false;
+    setIsNavigating(false);
     setPhase('atoms-floating');
     setAnimationVersion((currentVersion) => currentVersion + 1);
   };
 
-  const handleSkipIntro = () => navigate('/basins');
+  const handleSkipIntro = () => {
+    if (isNavigating || navigationLockRef.current) {
+      return;
+    }
+
+    navigationLockRef.current = true;
+    setIsNavigating(true);
+    navigate('/basins', { state: { basinOverviewEntry: 'skipped' } });
+  };
 
   return (
     <section className={`home-page${phase === 'transitioning-to-basins' ? ' home-page--transitioning' : ''}`}>

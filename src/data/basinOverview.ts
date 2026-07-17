@@ -26,14 +26,14 @@ const basinDetailConfigs: BasinDetailConfig[] = [
     id: 'yellow-river',
     title: '黄河流域治理系统',
     subtitle: 'YELLOW RIVER BASIN',
-    description: '从源区涵养、黄土高原水土保持，到下游水沙调控，黄河流域专门地图将在下一阶段展开。',
+    description: '从高原水源、黄土高原水沙过程，到下游防洪与人水协调，探索黄河治理理念的系统演进。',
     themeClassName: 'basin-detail--yellow-river',
   },
   {
     id: 'yangtze-river',
     title: '长江流域治理系统',
     subtitle: 'YANGTZE RIVER BASIN',
-    description: '从高原水源、峡谷水能、江湖调蓄，到江海交汇，长江流域专门地图将在下一阶段展开。',
+    description: '从高原源区、峡谷水能、江湖调蓄，到长江口江海交汇，探索开发、保护与协同治理。',
     themeClassName: 'basin-detail--yangtze-river',
   },
 ];

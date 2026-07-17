@@ -1,18 +1,19 @@
 import { riverLabelPositions, riverPaths } from '@/data/basinMapPaths';
-import type { BasinId, BasinOverviewItem, BasinOverviewPhase } from '@/types/basin';
+import type { BasinId, BasinInteractionState, BasinOverviewItem, BasinOverviewPhase } from '@/types/basin';
 
 interface RiverPathProps {
   basin: BasinOverviewItem;
   phase: BasinOverviewPhase;
   isActive: boolean;
+  interactionState: BasinInteractionState;
   isSelected: boolean;
   onActivate: (basinId: BasinId) => void;
-  onActiveChange: (basinId: BasinId | null) => void;
+  onInteractionChange: (basinId: BasinId | null, interactionState: BasinInteractionState) => void;
 }
 
-function RiverPath({ basin, phase, isActive, isSelected, onActivate, onActiveChange }: RiverPathProps) {
+function RiverPath({ basin, phase, isActive, interactionState, isSelected, onActivate, onInteractionChange }: RiverPathProps) {
   const labelPosition = riverLabelPositions[basin.id];
-  const stateClassName = isSelected ? 'is-selected' : isActive ? 'is-active' : '';
+  const stateClassName = isSelected ? 'is-selected' : isActive ? `is-active is-${interactionState}` : '';
 
   const handleKeyDown = (event: React.KeyboardEvent<SVGGElement>) => {
     if (event.key === 'Enter' || event.key === ' ') {
@@ -27,11 +28,11 @@ function RiverPath({ basin, phase, isActive, isSelected, onActivate, onActiveCha
       role="button"
       tabIndex={0}
       aria-label={`进入${basin.name}`}
-      onBlur={() => onActiveChange(null)}
-      onFocus={() => onActiveChange(basin.id)}
+      onBlur={() => onInteractionChange(null, 'idle')}
+      onFocus={() => onInteractionChange(basin.id, 'focused')}
       onKeyDown={handleKeyDown}
-      onMouseEnter={() => onActiveChange(basin.id)}
-      onMouseLeave={() => onActiveChange(null)}
+      onMouseEnter={() => onInteractionChange(basin.id, 'hovered')}
+      onMouseLeave={() => onInteractionChange(null, 'idle')}
       onClick={() => onActivate(basin.id)}
     >
       <path className="river-path__hit-area" d={riverPaths[basin.id]} />

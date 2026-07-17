@@ -4,13 +4,15 @@ import { Link } from 'react-router-dom';
 import { basinDetailConfigs } from '@/data/basinOverview';
 import type { BasinId } from '@/types/basin';
 
+import YellowRiver from '@/pages/YellowRiver/YellowRiver';
+
 import './BasinDetail.css';
 
 interface BasinDetailProps {
   basinId: BasinId;
 }
 
-function BasinDetail({ basinId }: BasinDetailProps) {
+function GenericBasinDetail({ basinId }: BasinDetailProps) {
   const headingRef = useRef<HTMLHeadingElement>(null);
   const basin = basinDetailConfigs.find((config) => config.id === basinId);
 
@@ -25,7 +27,9 @@ function BasinDetail({ basinId }: BasinDetailProps) {
   return (
     <section className={`basin-detail ${basin.themeClassName}`}>
       <div className="basin-detail__content">
-        <Link className="basin-detail__back" to="/basins">返回中国流域总览</Link>
+        <Link className="basin-detail__back" to="/basins" state={{ basinOverviewEntry: 'returning' }}>
+          返回中国流域总览
+        </Link>
         <p className="basin-detail__eyebrow">{basin.subtitle}</p>
         <h1 ref={headingRef} tabIndex={-1}>{basin.title}</h1>
         <p className="basin-detail__description">{basin.description}</p>
@@ -36,6 +40,14 @@ function BasinDetail({ basinId }: BasinDetailProps) {
       </div>
     </section>
   );
+}
+
+function BasinDetail({ basinId }: BasinDetailProps) {
+  if (basinId === 'yellow-river') {
+    return <YellowRiver />;
+  }
+
+  return <GenericBasinDetail basinId={basinId} />;
 }
 
 export default BasinDetail;

@@ -1,13 +1,13 @@
-import type { BasinId, BasinOverviewItem } from '@/types/basin';
+import type { BasinId, BasinInteractionState, BasinOverviewItem } from '@/types/basin';
 
 interface BasinSelectionListProps {
   basins: BasinOverviewItem[];
   activeBasinId: BasinId | null;
   onBasinActivate: (basinId: BasinId) => void;
-  onActiveBasinChange: (basinId: BasinId | null) => void;
+  onBasinInteractionChange: (basinId: BasinId | null, interactionState: BasinInteractionState) => void;
 }
 
-function BasinSelectionList({ basins, activeBasinId, onBasinActivate, onActiveBasinChange }: BasinSelectionListProps) {
+function BasinSelectionList({ basins, activeBasinId, onBasinActivate, onBasinInteractionChange }: BasinSelectionListProps) {
   return (
     <nav className="basin-selection-list" aria-label="流域选择">
       {basins.map((basin) => (
@@ -15,10 +15,10 @@ function BasinSelectionList({ basins, activeBasinId, onBasinActivate, onActiveBa
           key={basin.id}
           type="button"
           className={`${basin.themeClassName}${activeBasinId === basin.id ? ' is-active' : ''}`}
-          onBlur={() => onActiveBasinChange(null)}
-          onFocus={() => onActiveBasinChange(basin.id)}
-          onMouseEnter={() => onActiveBasinChange(basin.id)}
-          onMouseLeave={() => onActiveBasinChange(null)}
+          onBlur={() => onBasinInteractionChange(null, 'idle')}
+          onFocus={() => onBasinInteractionChange(basin.id, 'focused')}
+          onMouseEnter={() => onBasinInteractionChange(basin.id, 'hovered')}
+          onMouseLeave={() => onBasinInteractionChange(null, 'idle')}
           onClick={() => onBasinActivate(basin.id)}
         >
           <span>{basin.name}</span>

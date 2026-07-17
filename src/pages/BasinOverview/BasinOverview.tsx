@@ -1,29 +1,46 @@
 import { useEffect, useRef, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 
 import { basinOverviewItems } from '@/data/basinOverview';
 import usePrefersReducedMotion from '@/hooks/usePrefersReducedMotion';
-import type { BasinId, BasinOverviewPhase } from '@/types/basin';
+import type { BasinId, BasinInteractionState, BasinOverviewEntry, BasinOverviewPhase } from '@/types/basin';
 
 import BasinInfoPanel from './components/BasinInfoPanel';
 import BasinOverviewHeader from './components/BasinOverviewHeader';
 import BasinSelectionList from './components/BasinSelectionList';
 import ChinaBasinMap from './components/ChinaBasinMap';
-import { basinOverviewTimings, reducedMotionBasinOverviewTimings } from './constants';
+import {
+  basinOverviewEntryTimings,
+  basinSelectionTransitionDelay,
+  reducedMotionBasinOverviewTimings,
+} from './constants';
 
 import './BasinOverview.css';
 
 function BasinOverview() {
   const navigate = useNavigate();
+  const location = useLocation();
   const prefersReducedMotion = usePrefersReducedMotion();
-  const [overviewPhase, setOverviewPhase] = useState<BasinOverviewPhase>('map-entering');
+  const entryState = location.state as { basinOverviewEntry?: BasinOverviewEntry } | null;
+  const overviewEntry = entryState?.basinOverviewEntry ?? 'direct';
+  const [overviewPhase, setOverviewPhase] = useState<BasinOverviewPhase>(
+    overviewEntry === 'returning' ? 'interactive' : 'map-entering',
+  );
   const [activeBasinId, setActiveBasinId] = useState<BasinId | null>(null);
+  const [interactionState, setInteractionState] = useState<BasinInteractionState>('idle');
   const [selectedBasinId, setSelectedBasinId] = useState<BasinId | null>(null);
   const [isLeaving, setIsLeaving] = useState(false);
   const navigationTimerRef = useRef<number | null>(null);
 
   useEffect(() => {
-    const timings = prefersReducedMotion ? reducedMotionBasinOverviewTimings : basinOverviewTimings;
+    if (overviewEntry === 'returning') {
+      setOverviewPhase('interactive');
+      return undefined;
+    }
+
+    const timings = prefersReducedMotion
+      ? reducedMotionBasinOverviewTimings
+      : basinOverviewEntryTimings[overviewEntry];
 
     setOverviewPhase('map-entering');
     const phaseTimers = [
@@ -34,7 +51,7 @@ function BasinOverview() {
     ];
 
     return () => phaseTimers.forEach((timer) => window.clearTimeout(timer));
-  }, [prefersReducedMotion]);
+  }, [overviewEntry, prefersReducedMotion]);
 
   useEffect(() => () => {
     if (navigationTimerRef.current !== null) {
@@ -54,28 +71,40 @@ function BasinOverview() {
 
     setSelectedBasinId(basinId);
     setActiveBasinId(basinId);
+    setInteractionState('selected');
     setIsLeaving(true);
     navigationTimerRef.current = window.setTimeout(
       () => navigate(selectedBasin.route),
-      prefersReducedMotion
-        ? reducedMotionBasinOverviewTimings.selectionTransition
-        : basinOverviewTimings.selectionTransition,
+      prefersReducedMotion ? 0 : basinSelectionTransitionDelay,
     );
+  };
+
+  const handleBasinInteractionChange = (
+    basinId: BasinId | null,
+    nextInteractionState: BasinInteractionState,
+  ): void => {
+    if (isLeaving || selectedBasinId !== null) {
+      return;
+    }
+
+    setActiveBasinId(basinId);
+    setInteractionState(nextInteractionState);
   };
 
   const activeBasin = basinOverviewItems.find((basin) => basin.id === activeBasinId) ?? null;
 
   return (
-    <section className={`basin-overview-page${isLeaving ? ' basin-overview-page--leaving' : ''}`}>
-      <BasinOverviewHeader />
+    <section className={`basin-overview-page basin-overview-page--${overviewEntry}${isLeaving ? ' basin-overview-page--leaving' : ''}`}>
+      <BasinOverviewHeader shouldFocus={overviewEntry === 'returning'} />
       <div className="basin-overview-page__experience">
         <ChinaBasinMap
           basins={basinOverviewItems}
           phase={overviewPhase}
           activeBasinId={activeBasinId}
+          interactionState={interactionState}
           selectedBasinId={selectedBasinId}
           onBasinActivate={handleBasinActivate}
-          onActiveBasinChange={setActiveBasinId}
+          onBasinInteractionChange={handleBasinInteractionChange}
         />
         <div className="basin-overview-page__sidebar">
           <BasinInfoPanel activeBasin={activeBasin} />
@@ -83,7 +112,7 @@ function BasinOverview() {
             basins={basinOverviewItems}
             activeBasinId={activeBasinId}
             onBasinActivate={handleBasinActivate}
-            onActiveBasinChange={setActiveBasinId}
+            onBasinInteractionChange={handleBasinInteractionChange}
           />
         </div>
       </div>

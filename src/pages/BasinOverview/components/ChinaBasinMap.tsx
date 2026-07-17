@@ -1,5 +1,5 @@
 import { chinaOutlinePath } from '@/data/basinMapPaths';
-import type { BasinId, BasinOverviewItem, BasinOverviewPhase } from '@/types/basin';
+import type { BasinId, BasinInteractionState, BasinOverviewItem, BasinOverviewPhase } from '@/types/basin';
 
 import RiverPath from './RiverPath';
 import SourceMarker from './SourceMarker';
@@ -8,15 +8,16 @@ interface ChinaBasinMapProps {
   basins: BasinOverviewItem[];
   phase: BasinOverviewPhase;
   activeBasinId: BasinId | null;
+  interactionState: BasinInteractionState;
   selectedBasinId: BasinId | null;
   onBasinActivate: (basinId: BasinId) => void;
-  onActiveBasinChange: (basinId: BasinId | null) => void;
+  onBasinInteractionChange: (basinId: BasinId | null, interactionState: BasinInteractionState) => void;
 }
 
-function ChinaBasinMap({ basins, phase, activeBasinId, selectedBasinId, onBasinActivate, onActiveBasinChange }: ChinaBasinMapProps) {
+function ChinaBasinMap({ basins, phase, activeBasinId, interactionState, selectedBasinId, onBasinActivate, onBasinInteractionChange }: ChinaBasinMapProps) {
   return (
     <div
-      className={`china-basin-map china-basin-map--${phase}${selectedBasinId === null ? '' : ' china-basin-map--has-selection'}`}
+      className={`china-basin-map china-basin-map--${phase} china-basin-map--${interactionState}${selectedBasinId === null ? '' : ' china-basin-map--has-selection'}`}
       aria-label="中国流域互动叙事示意图"
     >
       <svg viewBox="0 0 1040 650" role="img" aria-label="从青藏高原源头点亮黄河和长江的抽象流域地图">
@@ -35,9 +36,10 @@ function ChinaBasinMap({ basins, phase, activeBasinId, selectedBasinId, onBasinA
               basin={basin}
               phase={phase}
               isActive={activeBasinId === basin.id}
+              interactionState={activeBasinId === basin.id ? interactionState : 'idle'}
               isSelected={selectedBasinId === basin.id}
               onActivate={onBasinActivate}
-              onActiveChange={onActiveBasinChange}
+              onInteractionChange={onBasinInteractionChange}
             />
           ))}
         </g>
