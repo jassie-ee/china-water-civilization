@@ -37,8 +37,26 @@
   margin: 0 auto;
 }
 
+.basin-overview-header__home-link {
+  display: inline-flex;
+  align-items: center;
+  min-height: 1.75rem;
+  color: rgb(220 242 238 / 78%);
+  font-size: .78rem;
+  letter-spacing: .06em;
+}
+
+.basin-overview-header__home-link:hover {
+  color: #e8f8f4;
+}
+
+.basin-overview-header__home-link:focus-visible {
+  outline: 2px solid #d0fffb;
+  outline-offset: .2rem;
+}
+
 .basin-overview-header__eyebrow {
-  margin-bottom: 0.75rem;
+  margin: .3rem 0 0.75rem;
   color: rgb(202 234 231 / 72%);
   font-size: 0.75rem;
   letter-spacing: 0.16em;

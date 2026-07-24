@@ -1,0 +1,37 @@
+.global-score-display {
+  position: fixed;
+  z-index: 30;
+  top: clamp(.8rem, 2vw, 1.5rem);
+  right: clamp(.9rem, 3vw, 2.5rem);
+  display: inline-flex;
+  align-items: center;
+  gap: .25rem;
+  min-height: 2rem;
+  padding: .35rem .65rem;
+  border: 1px solid rgb(235 199 115 / 42%);
+  border-radius: 999px;
+  color: #f5f1dc;
+  background: rgb(4 29 39 / 78%);
+  box-shadow: 0 0 .9rem rgb(225 179 78 / 12%);
+  font-size: .78rem;
+  letter-spacing: .04em;
+  line-height: 1;
+  pointer-events: none;
+  white-space: nowrap;
+}
+
+.global-score-display__star {
+  color: #e6bd69;
+  font-size: .95rem;
+  text-shadow: 0 0 .55rem rgb(230 189 105 / 40%);
+}
+
+@media (max-width: 640px) {
+  .global-score-display {
+    top: .7rem;
+    right: .75rem;
+    min-height: 1.85rem;
+    padding-inline: .55rem;
+    font-size: .72rem;
+  }
+}

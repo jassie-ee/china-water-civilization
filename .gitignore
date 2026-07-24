@@ -20,3 +20,6 @@ dist/
 Thumbs.db
 *.log
 coverage/
+
+# Local source-map conversion workspace; original files and raw conversions stay out of Git.
+work/map-processing/

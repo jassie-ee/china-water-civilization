@@ -1,28 +1,10 @@
-import type { YellowRiverNode, YellowRiverPanelMode, YellowRiverRegion } from '@/types/basin';
+import type { YellowRiverRegion } from '@/types/basin';
 
-type YellowRiverInfoPanelProps =
-  | { mode: Extract<YellowRiverPanelMode, 'region'>; region: YellowRiverRegion }
-  | { mode: Extract<YellowRiverPanelMode, 'node'>; node: YellowRiverNode; region: YellowRiverRegion };
+interface YellowRiverInfoPanelProps {
+  region: YellowRiverRegion;
+}
 
-function YellowRiverInfoPanel(props: YellowRiverInfoPanelProps) {
-  if (props.mode === 'node') {
-    const { node, region } = props;
-    const typeLabel = node.type === 'ecological' ? '生态问题节点' : '关键工程节点';
-
-    return (
-      <aside className={`yellow-river-region-panel yellow-river-region-panel--node yellow-river-node-panel yellow-river-node-panel--${node.type}`} aria-live="polite">
-        <p className="yellow-river-region-panel__eyebrow">{typeLabel} · {region.shortName}</p>
-        <h2>{node.name}</h2>
-        {node.locationDescription && <div className="yellow-river-node-panel__location"><span>节点位置</span><strong>{node.locationDescription}</strong></div>}
-        {node.summary && <section><h3>基础简介</h3><p>{node.summary}</p></section>}
-        {node.keywords && node.keywords.length > 0 && <section><h3>核心关键词</h3><ul className="yellow-river-node-panel__keywords">{node.keywords.map((keyword) => <li key={keyword}>{keyword}</li>)}</ul></section>}
-        {node.significance && <section className="yellow-river-region-panel__governance"><h3>节点意义</h3><p>{node.significance}</p></section>}
-        <p className="yellow-river-node-panel__notice">节点治理任务将在下一阶段开放</p>
-      </aside>
-    );
-  }
-
-  const { region } = props;
+function YellowRiverInfoPanel({ region }: YellowRiverInfoPanelProps) {
   return (
     <aside className={`yellow-river-region-panel ${region.themeClassName}`} aria-live="polite">
       <p className="yellow-river-region-panel__eyebrow">{region.metaphor}</p>

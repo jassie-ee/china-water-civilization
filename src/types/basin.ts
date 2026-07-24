@@ -24,8 +24,6 @@ export type YellowRiverNodeId =
   | 'xiaolangdi'
   | 'zhengzhou-levee';
 
-export type YellowRiverPanelMode = 'region' | 'node';
-
 export interface YellowRiverMapPosition {
   x: number;
   y: number;

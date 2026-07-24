@@ -1,5 +1,6 @@
 import { useEffect, useRef } from 'react';
 
+import { governanceQuestionLevelConfigs } from '@/data/governanceLevels/questionLevelConfigs';
 import type { YellowRiverNode, YellowRiverRegion } from '@/types/basin';
 
 interface YellowRiverNodeDetailPanelProps {
@@ -8,6 +9,7 @@ interface YellowRiverNodeDetailPanelProps {
   previousNode: YellowRiverNode;
   nextNode: YellowRiverNode;
   onClose: () => void;
+  onStartGovernance: () => void;
   onSelectPrevious: () => void;
   onSelectNext: () => void;
 }
@@ -32,12 +34,14 @@ function YellowRiverNodeDetailPanel({
   previousNode,
   nextNode,
   onClose,
+  onStartGovernance,
   onSelectPrevious,
   onSelectNext,
 }: YellowRiverNodeDetailPanelProps) {
   const closeButtonRef = useRef<HTMLButtonElement>(null);
   const contentRef = useRef<HTMLDivElement>(null);
   const typeLabel = node.type === 'ecological' ? '生态问题节点' : '关键工程节点';
+  const governanceLevel = governanceQuestionLevelConfigs.find((level) => level.levelId === node.id);
 
   useEffect(() => {
     closeButtonRef.current?.focus();
@@ -57,8 +61,10 @@ function YellowRiverNodeDetailPanel({
   }, [onClose]);
 
   return (
-    <aside
+    <section
       className={`yellow-river-detail-panel yellow-river-detail-panel--${node.type}`}
+      role="dialog"
+      aria-modal="true"
       aria-labelledby="yellow-river-node-detail-title"
     >
       <header className="yellow-river-detail-panel__header">
@@ -67,7 +73,14 @@ function YellowRiverNodeDetailPanel({
           <h2 id="yellow-river-node-detail-title">{node.name}</h2>
           {node.locationDescription && <p className="yellow-river-detail-panel__location">{node.locationDescription}</p>}
         </div>
-        <button ref={closeButtonRef} className="yellow-river-detail-panel__close" type="button" aria-label="关闭节点详情" onClick={onClose}>关闭</button>
+        <div className="yellow-river-detail-panel__header-actions">
+          {governanceLevel && (
+            <button className="yellow-river-detail-panel__start" type="button" onClick={onStartGovernance}>
+              开始闯关
+            </button>
+          )}
+          <button ref={closeButtonRef} className="yellow-river-detail-panel__close" type="button" aria-label="关闭节点详情" onClick={onClose}>关闭</button>
+        </div>
       </header>
 
       <div ref={contentRef} className="yellow-river-detail-panel__content" aria-live="polite">
@@ -89,10 +102,6 @@ function YellowRiverNodeDetailPanel({
           </DetailSection>
         )}
         {node.significance && <p className="yellow-river-detail-panel__summary">{node.significance}</p>}
-        <div className="yellow-river-detail-panel__next-step">
-          <strong>下一步：进入治理任务</strong>
-          <span>节点交互治理任务将在下一阶段开放。</span>
-        </div>
       </div>
 
       <footer className="yellow-river-detail-panel__navigation">
@@ -100,7 +109,7 @@ function YellowRiverNodeDetailPanel({
         <button type="button" onClick={onSelectNext}>下一个节点 · {nextNode.shortName}</button>
         <button type="button" className="yellow-river-detail-panel__return" onClick={onClose}>返回流域地图</button>
       </footer>
-    </aside>
+    </section>
   );
 }
 

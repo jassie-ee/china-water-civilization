@@ -44,7 +44,7 @@ function ChinaBasinMap({ basins, phase, activeBasinId, interactionState, selecte
           ))}
         </g>
       </svg>
-      <p className="china-basin-map__caption">互动叙事地理示意，非测绘地图</p>
+      <p className="china-basin-map__caption">流域空间分布为叙事示意，主要用于展示中华水生态文明的系统关系。</p>
     </div>
   );
 }

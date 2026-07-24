@@ -1,14 +1,15 @@
 import { useMemo, useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 
 import { yellowRiverRegions } from '@/data/yellowRiverRegions';
 import { yellowRiverNodes } from '@/data/yellowRiverNodes';
-import type { YellowRiverNode, YellowRiverNodeId, YellowRiverPanelMode, YellowRiverRegionId } from '@/types/basin';
+import { governanceQuestionLevelConfigs } from '@/data/governanceLevels/questionLevelConfigs';
+import type { YellowRiverNode, YellowRiverNodeId, YellowRiverRegionId } from '@/types/basin';
 
 import YellowRiverMap from './components/YellowRiverMap';
 import YellowRiverInfoPanel from './components/YellowRiverInfoPanel';
 import YellowRiverNodeDetailPanel from './components/YellowRiverNodeDetailPanel';
-import YellowRiverRegionTabs from './components/YellowRiverRegionTabs';
+import YellowRiverGovernancePanel from './components/YellowRiverGovernancePanel';
 
 import './YellowRiver.css';
 
@@ -27,24 +28,46 @@ const detailNodes = yellowRiverNodes
   .slice()
   .sort((firstNode, secondNode) => firstNode.position.x - secondNode.position.x);
 
+type YellowRiverModalMode = 'detail' | 'governance';
+
+interface RestoredModalState {
+  nodeId: YellowRiverNodeId | null;
+  modalMode: YellowRiverModalMode;
+}
+
+function getRestoredModalState(locationState: unknown): RestoredModalState {
+  if (typeof locationState !== 'object' || locationState === null) {
+    return { nodeId: null, modalMode: 'detail' };
+  }
+
+  const state = locationState as { selectedNodeId?: unknown; openNodeDetail?: unknown; openGovernance?: unknown };
+  if (state.openNodeDetail !== true || typeof state.selectedNodeId !== 'string') {
+    return { nodeId: null, modalMode: 'detail' };
+  }
+
+  return {
+    nodeId: detailNodes.find((node) => node.id === state.selectedNodeId)?.id ?? null,
+    modalMode: state.openGovernance === true ? 'governance' : 'detail',
+  };
+}
+
 function YellowRiver() {
-  const [selectedRegionId, setSelectedRegionId] = useState<YellowRiverRegionId>('upper');
+  const location = useLocation();
+  const restoredModalState = getRestoredModalState(location.state);
+  const restoredNodeId = restoredModalState.nodeId;
+  const restoredNode = yellowRiverNodes.find((node) => node.id === restoredNodeId) ?? null;
+  const [selectedRegionId, setSelectedRegionId] = useState<YellowRiverRegionId>(restoredNode?.regionId ?? 'upper');
   const [previewRegionId, setPreviewRegionId] = useState<YellowRiverRegionId | null>(null);
-  const [selectedNodeId, setSelectedNodeId] = useState<YellowRiverNodeId | null>(null);
+  const [selectedNodeId, setSelectedNodeId] = useState<YellowRiverNodeId | null>(restoredNodeId);
   const [previewNodeId, setPreviewNodeId] = useState<YellowRiverNodeId | null>(null);
-  const visibleNodeId = previewNodeId ?? selectedNodeId;
-  const visibleNode = useMemo(
-    () => yellowRiverNodes.find((node) => node.id === visibleNodeId) ?? null,
-    [visibleNodeId],
-  );
+  const [modalMode, setModalMode] = useState<YellowRiverModalMode>(restoredModalState.modalMode);
   const selectedDetailNode = useMemo(
     () => detailNodes.find((node) => node.id === selectedNodeId) ?? null,
     [selectedNodeId],
   );
-  const visibleRegionId = visibleNode?.regionId ?? previewRegionId ?? selectedRegionId;
-  const visibleRegion = useMemo(
-    () => yellowRiverRegions.find((region) => region.id === visibleRegionId) ?? yellowRiverRegions[0],
-    [visibleRegionId],
+  const selectedRegion = useMemo(
+    () => yellowRiverRegions.find((region) => region.id === selectedRegionId) ?? yellowRiverRegions[0],
+    [selectedRegionId],
   );
 
   const handleRegionPreview = (regionId: YellowRiverRegionId | null): void => {
@@ -57,6 +80,7 @@ function YellowRiver() {
     setPreviewRegionId(null);
     setSelectedNodeId(null);
     setPreviewNodeId(null);
+    setModalMode('detail');
   };
 
   const handleNodeSelect = (nodeId: YellowRiverNodeId): void => {
@@ -67,6 +91,7 @@ function YellowRiver() {
     setPreviewNodeId(null);
     setPreviewRegionId(null);
     setSelectedRegionId(node.regionId);
+    setModalMode('detail');
   };
 
   const handleDetailClose = (): void => {
@@ -74,6 +99,7 @@ function YellowRiver() {
     setSelectedNodeId(null);
     setPreviewNodeId(null);
     setPreviewRegionId(null);
+    setModalMode('detail');
 
     // 详情关闭后回到原节点，避免键盘焦点留在已移除的侧栏中。
     window.requestAnimationFrame(() => {
@@ -91,10 +117,11 @@ function YellowRiver() {
     ? detailNodes[(selectedDetailIndex + 1) % detailNodes.length]
     : null;
   const selectedDetailRegion = selectedDetailNode
-    ? yellowRiverRegions.find((region) => region.id === selectedDetailNode.regionId) ?? visibleRegion
+    ? yellowRiverRegions.find((region) => region.id === selectedDetailNode.regionId) ?? selectedRegion
     : null;
-
-  const panelMode: YellowRiverPanelMode = visibleNode ? 'node' : 'region';
+  const governanceLevel = selectedDetailNode
+    ? governanceQuestionLevelConfigs.find((level) => level.levelId === selectedDetailNode.id) ?? null
+    : null;
 
   return (
     <section className="yellow-river-page">
@@ -111,8 +138,8 @@ function YellowRiver() {
         <section className="yellow-river-page__map-section" aria-labelledby="yellow-river-map-title">
           <div className="yellow-river-page__map-heading">
             <p className="yellow-river-page__eyebrow">YELLOW RIVER SYSTEM</p>
-            <h2 id="yellow-river-map-title">识别黄河的三段运行逻辑</h2>
-            <p>选择一个河段，查看黄河不同区域的生态功能与治理重点。</p>
+            <h2 id="yellow-river-map-title">黄河流域示意图</h2>
+            <p>选择河段或节点，查看不同区域的生态功能与治理重点。</p>
           </div>
           <YellowRiverMap
             selectedRegionId={selectedRegionId}
@@ -124,28 +151,38 @@ function YellowRiver() {
             onNodeSelect={handleNodeSelect}
             onNodePreview={setPreviewNodeId}
           />
-          <YellowRiverRegionTabs
-            regions={yellowRiverRegions}
-            selectedRegionId={selectedRegionId}
-            onRegionSelect={handleRegionSelect}
-            onRegionPreview={handleRegionPreview}
-          />
         </section>
 
-        {selectedDetailNode && selectedDetailRegion && previousDetailNode && nextDetailNode ? (
-          <YellowRiverNodeDetailPanel
-            node={selectedDetailNode}
-            region={selectedDetailRegion}
-            previousNode={previousDetailNode}
-            nextNode={nextDetailNode}
-            onClose={handleDetailClose}
-            onSelectPrevious={() => handleNodeSelect(previousDetailNode.id)}
-            onSelectNext={() => handleNodeSelect(nextDetailNode.id)}
-          />
-        ) : panelMode === 'node' && visibleNode
-          ? <YellowRiverInfoPanel mode="node" node={visibleNode} region={visibleRegion} />
-          : <YellowRiverInfoPanel mode="region" region={visibleRegion} />}
+        <aside className="yellow-river-page__reference-panel" aria-label="黄河流域查阅栏">
+          <YellowRiverInfoPanel region={selectedRegion} />
+        </aside>
       </main>
+      {selectedDetailNode && selectedDetailRegion && previousDetailNode && nextDetailNode && (
+        <div className="yellow-river-detail-modal" role="presentation" onClick={handleDetailClose}>
+          <div className={`yellow-river-detail-modal__dialog${modalMode === 'governance' ? ' yellow-river-detail-modal__dialog--governance' : ''}`} onClick={(event) => event.stopPropagation()}>
+            {modalMode === 'governance' && governanceLevel !== null ? (
+              <YellowRiverGovernancePanel
+                node={selectedDetailNode}
+                region={selectedDetailRegion}
+                level={governanceLevel}
+                onBackToDetail={() => setModalMode('detail')}
+                onClose={handleDetailClose}
+              />
+            ) : (
+              <YellowRiverNodeDetailPanel
+                node={selectedDetailNode}
+                region={selectedDetailRegion}
+                previousNode={previousDetailNode}
+                nextNode={nextDetailNode}
+                onClose={handleDetailClose}
+                onStartGovernance={() => setModalMode('governance')}
+                onSelectPrevious={() => handleNodeSelect(previousDetailNode.id)}
+                onSelectNext={() => handleNodeSelect(nextDetailNode.id)}
+              />
+            )}
+          </div>
+        </div>
+      )}
     </section>
   );
 }

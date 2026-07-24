@@ -13,18 +13,21 @@
   margin: 0 auto;
 }
 
-.yellow-river-page__header { margin-bottom: clamp(1rem, 2.5vh, 1.75rem); }
+.yellow-river-page__header { margin-bottom: clamp(.8rem, 1.8vh, 1.2rem); }
 .yellow-river-page__back { display: inline-block; color: #dceee7; font-size: .9rem; }
-.yellow-river-page__breadcrumb { margin: 1.25rem 0 .55rem; color: rgb(218 235 225 / 62%); font-size: .72rem; letter-spacing: .12em; }
-.yellow-river-page h1 { margin: 0; font-family: "STKaiti", "KaiTi", serif; font-size: clamp(2.4rem, 5vw, 4.75rem); font-weight: 400; line-height: 1.12; }
-.yellow-river-page__header > p:last-child { max-width: 48rem; margin: .9rem 0 0; color: rgb(236 246 241 / 78%); line-height: 1.8; }
+.yellow-river-page__breadcrumb { margin: .55rem 0 .25rem; color: rgb(218 235 225 / 62%); font-size: .72rem; letter-spacing: .12em; }
+.yellow-river-page h1 { margin: 0; font-family: "STKaiti", "KaiTi", serif; font-size: clamp(2rem, 3.2vw, 3.2rem); font-weight: 400; line-height: 1.16; }
+.yellow-river-page__header > p:last-child { max-width: 60rem; margin: .45rem 0 0; color: rgb(236 246 241 / 78%); font-size: .9rem; line-height: 1.65; }
 
-.yellow-river-page__content { display: grid; grid-template-columns: minmax(0, 1.55fr) minmax(20rem, .85fr); gap: clamp(1rem, 2.5vw, 2rem); align-items: stretch; }
+.yellow-river-page__content { display: grid; grid-template-columns: minmax(0, 1.65fr) minmax(19rem, .7fr); gap: clamp(1rem, 2.5vw, 2rem); align-items: start; }
 .yellow-river-page__map-section { min-width: 0; }
-.yellow-river-page__map-heading { margin-bottom: .75rem; }
+.yellow-river-page__map-heading { margin-bottom: .55rem; }
 .yellow-river-page__eyebrow { margin: 0 0 .35rem; color: #e6bd69; font-size: .68rem; letter-spacing: .16em; }
-.yellow-river-page__map-heading h2 { margin: 0; font-family: "STKaiti", "KaiTi", serif; font-size: clamp(1.4rem, 2.5vw, 2rem); font-weight: 400; }
-.yellow-river-page__map-heading > p:last-child { margin: .4rem 0 0; color: rgb(231 244 237 / 70%); font-size: .9rem; }
+.yellow-river-page__map-heading h2 { margin: 0; font-family: "STKaiti", "KaiTi", serif; font-size: clamp(1.2rem, 2vw, 1.55rem); font-weight: 400; }
+.yellow-river-page__map-heading > p:last-child { margin: .25rem 0 0; color: rgb(231 244 237 / 70%); font-size: .82rem; }
+.yellow-river-page__content { align-items: stretch; }
+.yellow-river-page__reference-panel { display: flex; min-height: 0; margin-block: -.55rem; }
+.yellow-river-page__reference-panel .yellow-river-region-panel { flex: 1; max-height: calc(100vh - 3rem); }
 
 .yellow-river-map { position: relative; aspect-ratio: 1400 / 800; overflow: hidden; border: 1px solid rgb(225 193 120 / 32%); border-radius: var(--radius-lg); background: linear-gradient(135deg, rgb(29 83 91 / 76%), rgb(11 43 55 / 90%)); box-shadow: inset 0 0 4rem rgb(233 190 96 / 8%), var(--shadow-sm); }
 .yellow-river-map svg { display: block; width: 100%; height: 100%; }
@@ -36,7 +39,7 @@
 .yellow-river-map__region-hit-area { fill: transparent; stroke: transparent; stroke-width: 36; }
 .yellow-river-map__region-shape { fill: rgb(235 211 158 / 7%); stroke: rgb(236 216 167 / 28%); stroke-width: 2; transition: fill 180ms ease, stroke 180ms ease; }
 .yellow-river-map__region-mainstream { fill: none; stroke: transparent; stroke-linecap: round; stroke-width: 13; transition: stroke 180ms ease, stroke-width 180ms ease, filter 180ms ease; }
-.yellow-river-map__region-label { fill: rgb(236 246 239 / 76%); font-family: "STKaiti", "KaiTi", serif; font-size: 28px; letter-spacing: .12em; pointer-events: none; transition: opacity 180ms ease; }
+.yellow-river-map__region-label { fill: rgb(236 246 239 / 76%); font-family: "STKaiti", "KaiTi", serif; font-size: 28px; letter-spacing: .12em; pointer-events: none; paint-order: stroke; stroke: rgb(5 28 38 / 72%); stroke-width: 5px; stroke-linejoin: round; transition: fill 180ms ease, stroke 180ms ease, font-size 180ms ease, filter 180ms ease; }
 .yellow-river-map__mainstream-layer path { fill: none; stroke: var(--color-yellow-river); stroke-linecap: round; stroke-linejoin: round; stroke-width: 6; filter: drop-shadow(0 0 6px rgb(232 181 78 / 34%)); }
 .yellow-river-map__node-layer { isolation: isolate; }
 .yellow-river-node-marker { cursor: pointer; outline: none; animation: yellow-river-node-enter 460ms ease-out both; }
@@ -63,6 +66,7 @@
 @keyframes yellow-river-node-enter { from { opacity: 0; } to { opacity: 1; } }
 .yellow-river-map__region.is-visible .yellow-river-map__region-shape { stroke-width: 4; }
 .yellow-river-map__region.is-visible .yellow-river-map__region-mainstream { stroke-width: 16; filter: drop-shadow(0 0 10px currentColor); }
+.yellow-river-map__region.is-selected .yellow-river-map__region-label { fill: currentColor; stroke: rgb(4 29 39 / 88%); font-size: 32px; font-weight: 700; filter: drop-shadow(0 0 6px currentColor); }
 .yellow-river-map__region:focus-visible .yellow-river-map__region-shape { stroke: #f4fff9; stroke-width: 6; }
 .yellow-river-map__region:focus-visible .yellow-river-map__region-label { fill: #fffdf0; }
 .yellow-river-region--upper { color: #97e2df; }
@@ -76,15 +80,7 @@
 .yellow-river-region--lower.is-visible .yellow-river-map__region-mainstream { stroke: #c6d88c; }
 .yellow-river-map__caption { position: absolute; right: .8rem; bottom: .6rem; margin: 0; color: rgb(228 240 231 / 56%); font-size: .68rem; }
 
-.yellow-river-region-tabs { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: .6rem; margin-top: .8rem; }
-.yellow-river-region-tabs button { min-width: 0; padding: .75rem .8rem; border: 1px solid rgb(226 239 226 / 22%); border-radius: var(--radius-md); color: #eff8f2; background: rgb(5 29 40 / 48%); text-align: left; transition: background 180ms ease, border-color 180ms ease, transform 180ms ease; }
-.yellow-river-region-tabs button span, .yellow-river-region-tabs button small { display: block; }
-.yellow-river-region-tabs button span { font-family: "STKaiti", "KaiTi", serif; font-size: 1.15rem; }
-.yellow-river-region-tabs button small { margin-top: .2rem; color: rgb(225 243 235 / 62%); font-size: .7rem; }
-.yellow-river-region-tabs button:hover, .yellow-river-region-tabs button.is-selected { border-color: currentColor; background: rgb(37 86 92 / 56%); transform: translateY(-2px); }
-.yellow-river-region-tabs button:focus-visible { outline: 2px solid #f4fff9; outline-offset: 3px; }
-
-.yellow-river-region-panel { min-height: 0; max-height: min(67vh, 41rem); padding: clamp(1rem, 2vw, 1.4rem); overflow: auto; border: 1px solid rgb(228 203 144 / 30%); border-radius: var(--radius-lg); background: linear-gradient(180deg, rgb(8 36 48 / 84%), rgb(7 29 40 / 88%)); box-shadow: inset 0 0 3rem rgb(229 182 87 / 6%); }
+.yellow-river-region-panel { min-height: 0; padding: clamp(1rem, 2vw, 1.25rem); overflow: auto; border: 1px solid rgb(228 203 144 / 30%); border-radius: var(--radius-lg); background: linear-gradient(180deg, rgb(8 36 48 / 84%), rgb(7 29 40 / 88%)); box-shadow: inset 0 0 3rem rgb(229 182 87 / 6%); }
 .yellow-river-region-panel__eyebrow { margin: 0; color: currentColor; font-size: .75rem; letter-spacing: .12em; }
 .yellow-river-region-panel h2 { margin: .45rem 0 1rem; color: #f4f8ef; font-family: "STKaiti", "KaiTi", serif; font-size: clamp(1.5rem, 2.5vw, 2.1rem); font-weight: 400; line-height: 1.25; }
 .yellow-river-region-panel h3 { margin: 1.1rem 0 .35rem; color: rgb(241 249 239 / 90%); font-size: .88rem; letter-spacing: .08em; }
@@ -108,17 +104,24 @@
 .yellow-river-node-panel__keywords li { padding: .3rem .55rem; border: 1px solid color-mix(in srgb, currentColor 46%, transparent); border-radius: 999px; color: rgb(231 244 234 / 82%); font-size: .76rem; }
 .yellow-river-node-panel__notice { margin-top: 1.2rem !important; color: currentColor !important; font-family: "STKaiti", "KaiTi", serif; font-size: 1.02rem !important; }
 
-.yellow-river-detail-panel { display: grid; grid-template-rows: auto minmax(0, 1fr) auto; min-height: 0; max-height: min(67vh, 41rem); overflow: hidden; border: 1px solid rgb(238 194 104 / 42%); border-radius: var(--radius-lg); background: linear-gradient(180deg, rgb(10 41 53 / 97%), rgb(7 27 38 / 98%)); box-shadow: inset 0 0 3rem rgb(229 182 87 / 8%), var(--shadow-sm); animation: yellow-river-detail-enter 220ms ease-out both; }
+.yellow-river-detail-modal { position: fixed; z-index: 40; inset: 0; display: grid; place-items: center; padding: clamp(1rem, 4vw, 3rem); overflow: auto; background: rgb(1 15 23 / 66%); backdrop-filter: blur(5px); }
+.yellow-river-detail-modal__dialog { width: min(100%, 54rem); max-height: min(84vh, 52rem); }
+.yellow-river-detail-modal__dialog--governance { width: min(100%, 60rem); }
+.yellow-river-detail-panel { display: grid; grid-template-rows: auto minmax(0, 1fr) auto; min-height: min(35rem, 78vh); max-height: min(84vh, 52rem); overflow: hidden; border: 1px solid rgb(238 194 104 / 42%); border-radius: var(--radius-lg); background: linear-gradient(180deg, rgb(10 41 53 / 98%), rgb(7 27 38 / 99%)); box-shadow: inset 0 0 3rem rgb(229 182 87 / 8%), 0 1.5rem 4rem rgb(0 0 0 / 38%); animation: yellow-river-detail-enter 220ms ease-out both; }
 .yellow-river-detail-panel--engineering { color: #edbd65; }
 .yellow-river-detail-panel--ecological { color: #94ded0; }
 .yellow-river-detail-panel__header { display: flex; align-items: flex-start; justify-content: space-between; gap: .8rem; padding: clamp(1rem, 2vw, 1.4rem); border-bottom: 1px solid rgb(232 213 164 / 20%); }
 .yellow-river-detail-panel__eyebrow { margin: 0; color: currentColor; font-size: .72rem; letter-spacing: .1em; }
 .yellow-river-detail-panel h2 { margin: .4rem 0 .3rem; color: #f5f7eb; font-family: "STKaiti", "KaiTi", serif; font-size: clamp(1.55rem, 2.8vw, 2.2rem); font-weight: 400; line-height: 1.25; }
 .yellow-river-detail-panel__location { margin: 0; color: rgb(227 242 233 / 68%); font-size: .83rem; line-height: 1.55; }
-.yellow-river-detail-panel__close, .yellow-river-detail-panel__navigation button { border: 1px solid rgb(237 220 169 / 34%); border-radius: var(--radius-sm); color: #eef7ed; background: rgb(255 255 255 / 6%); font-size: .78rem; transition: border-color 180ms ease, background 180ms ease; }
+.yellow-river-detail-panel__header-actions { display: flex; flex: 0 0 auto; align-items: center; gap: .5rem; }
+.yellow-river-detail-panel__close, .yellow-river-detail-panel__start, .yellow-river-detail-panel__navigation button { border: 1px solid rgb(237 220 169 / 34%); border-radius: var(--radius-sm); color: #eef7ed; background: rgb(255 255 255 / 6%); font-size: .78rem; transition: border-color 180ms ease, background 180ms ease; }
 .yellow-river-detail-panel__close { flex: 0 0 auto; padding: .42rem .58rem; }
-.yellow-river-detail-panel__close:hover, .yellow-river-detail-panel__navigation button:hover { border-color: currentColor; background: rgb(255 255 255 / 11%); }
-.yellow-river-detail-panel__close:focus-visible, .yellow-river-detail-panel__navigation button:focus-visible { outline: 2px solid #f8fff0; outline-offset: 2px; }
+.yellow-river-detail-panel__start { padding: .44rem .68rem; border-color: #e6bd69; color: #fff7dc; background: rgb(170 118 46 / 45%); text-decoration: none; }
+.yellow-river-governance-panel__back { padding: .42rem .58rem; border: 1px solid rgb(237 220 169 / 34%); border-radius: var(--radius-sm); color: rgb(232 243 237 / 80%); background: transparent; font-size: .78rem; }
+.yellow-river-detail-panel__close:hover, .yellow-river-detail-panel__start:hover, .yellow-river-governance-panel__back:hover, .yellow-river-detail-panel__navigation button:hover { border-color: currentColor; background: rgb(255 255 255 / 11%); text-decoration: none; }
+.yellow-river-detail-panel__start:hover { background: rgb(188 134 54 / 58%); }
+.yellow-river-detail-panel__close:focus-visible, .yellow-river-detail-panel__start:focus-visible, .yellow-river-detail-panel__navigation button:focus-visible { outline: 2px solid #f8fff0; outline-offset: 2px; }
 .yellow-river-detail-panel__content { min-height: 0; padding: 0 clamp(1rem, 2vw, 1.4rem) 1.2rem; overflow: auto; scrollbar-color: rgb(232 190 98 / 62%) transparent; }
 .yellow-river-detail-panel__content::-webkit-scrollbar { width: .45rem; }
 .yellow-river-detail-panel__content::-webkit-scrollbar-thumb { border-radius: 99px; background: rgb(232 190 98 / 50%); }
@@ -132,8 +135,17 @@
 .yellow-river-detail-panel__keywords { display: flex; flex-wrap: wrap; gap: .45rem; margin: 0 !important; padding: 0 !important; list-style: none; }
 .yellow-river-detail-panel__keywords li { padding: .28rem .5rem; border: 1px solid color-mix(in srgb, currentColor 44%, transparent); border-radius: 999px; font-size: .75rem; line-height: 1.3; }
 .yellow-river-detail-panel__summary { margin: 1.15rem 0 0; color: #f5f2dc; font-family: "STKaiti", "KaiTi", serif; font-size: 1.03rem; line-height: 1.7; }
-.yellow-river-detail-panel__next-step { display: grid; gap: .25rem; margin-top: 1.2rem; padding: .8rem .9rem; border: 1px dashed color-mix(in srgb, currentColor 54%, transparent); border-radius: var(--radius-sm); color: rgb(229 241 234 / 75%); font-size: .8rem; line-height: 1.6; }
-.yellow-river-detail-panel__next-step strong { color: currentColor; font-weight: 500; }
+.yellow-river-governance-panel__level-name { margin: .35rem 0 0; color: rgb(234 209 144 / 86%); font-family: "STKaiti", "KaiTi", serif; font-size: 1rem; line-height: 1.45; }
+.yellow-river-governance-panel__content { padding: clamp(.75rem, 1.7vw, 1.15rem); }
+.yellow-river-governance-panel .governance-stage { gap: .7rem; }
+.yellow-river-governance-panel .governance-stage__progress { padding: .55rem .7rem; font-size: .76rem; }
+.yellow-river-governance-panel .governance-question-card, .yellow-river-governance-panel .governance-feedback-card, .yellow-river-governance-panel .governance-question-result { padding: clamp(.85rem, 1.8vw, 1.2rem); }
+.yellow-river-governance-panel .governance-question-card__scenario { margin: .65rem 0 .4rem; font-size: .88rem; line-height: 1.55; }
+.yellow-river-governance-panel .governance-question-card h2, .yellow-river-governance-panel .governance-feedback-card h2, .yellow-river-governance-panel .governance-question-result h2 { font-size: clamp(1.25rem, 2.2vw, 1.75rem); }
+.yellow-river-governance-panel .governance-question-card__options { gap: .5rem; margin-top: .85rem; }
+.yellow-river-governance-panel .governance-question-option { padding: .7rem .8rem; gap: .75rem; }
+.yellow-river-governance-panel .governance-question-option__text { font-size: .9rem; line-height: 1.5; }
+.yellow-river-governance-panel .governance-question-option__action { font-size: .72rem; }
 .yellow-river-detail-panel__navigation { display: grid; grid-template-columns: 1fr 1fr; gap: .5rem; padding: .8rem clamp(1rem, 2vw, 1.4rem); border-top: 1px solid rgb(232 213 164 / 20%); background: rgb(3 22 32 / 40%); }
 .yellow-river-detail-panel__navigation button { min-width: 0; padding: .55rem .45rem; line-height: 1.35; }
 .yellow-river-detail-panel__navigation .yellow-river-detail-panel__return { grid-column: 1 / -1; color: currentColor; }
@@ -141,31 +153,33 @@
 
 @media (max-width: 980px) {
   .yellow-river-page__content { grid-template-columns: 1fr; }
-  .yellow-river-region-panel, .yellow-river-detail-panel { max-height: none; }
+  .yellow-river-page__reference-panel { display: block; margin-block: 0; }
+  .yellow-river-page__reference-panel .yellow-river-region-panel { max-height: none; }
   .yellow-river-detail-panel { min-height: min(32rem, 78vh); }
 }
 
 @media (max-height: 800px) and (min-width: 981px) {
   .yellow-river-page { padding-block: 1rem; }
-  .yellow-river-page__header { margin-bottom: .8rem; }
-  .yellow-river-page__breadcrumb { margin: .7rem 0 .3rem; }
-  .yellow-river-page__header > p:last-child { margin-top: .55rem; }
-  .yellow-river-map { max-height: 43vh; }
-  .yellow-river-region-tabs { margin-top: .55rem; }
-  .yellow-river-region-tabs button { padding-block: .55rem; }
+  .yellow-river-page__header { margin-bottom: .65rem; }
+  .yellow-river-page__breadcrumb { margin: .4rem 0 .2rem; }
+  .yellow-river-page__header > p:last-child { margin-top: .35rem; }
+  .yellow-river-page__reference-panel .yellow-river-region-panel { max-height: calc(100vh - 2rem); }
 }
 
 @media (max-width: 640px) {
   .yellow-river-page { padding-inline: 1rem; }
-  .yellow-river-region-tabs { grid-template-columns: 1fr; }
-  .yellow-river-region-tabs button { display: flex; align-items: center; justify-content: space-between; }
-  .yellow-river-region-tabs button small { margin-top: 0; }
   .yellow-river-region-panel__lists { grid-template-columns: 1fr; gap: 0; }
   .yellow-river-map__region-label { font-size: 23px; }
   .yellow-river-map__node-label { display: none; }
   .yellow-river-map__legend { right: .8rem; max-width: none; }
+  .yellow-river-detail-modal { padding: .75rem; }
+  .yellow-river-detail-modal__dialog, .yellow-river-detail-panel { max-height: 88vh; }
+  .yellow-river-detail-panel { min-height: 0; }
+  .yellow-river-detail-panel__header { gap: .55rem; }
+  .yellow-river-detail-panel__header-actions { gap: .35rem; }
+  .yellow-river-governance-panel__back { font-size: .72rem; }
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .yellow-river-map__region, .yellow-river-map__region-shape, .yellow-river-map__region-mainstream, .yellow-river-region-tabs button, .yellow-river-node-marker, .yellow-river-node-marker__glow, .yellow-river-node-marker__shape, .yellow-river-map__node-label, .yellow-river-detail-panel, .yellow-river-detail-panel__close, .yellow-river-detail-panel__navigation button { transition: none; animation: none; }
+  .yellow-river-map__region, .yellow-river-map__region-shape, .yellow-river-map__region-mainstream, .yellow-river-map__region-label, .yellow-river-node-marker, .yellow-river-node-marker__glow, .yellow-river-node-marker__shape, .yellow-river-map__node-label, .yellow-river-detail-panel, .yellow-river-detail-panel__close, .yellow-river-detail-panel__start, .yellow-river-detail-panel__navigation button { transition: none; animation: none; }
 }
