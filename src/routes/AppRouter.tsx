@@ -1,4 +1,4 @@
-import { BrowserRouter, Navigate, Route, Routes } from 'react-router-dom';
+import { HashRouter, Navigate, Route, Routes } from 'react-router-dom';
 
 import AppLayout from '@/components/layout/AppLayout';
 import BasinDetail from '@/pages/BasinDetail/BasinDetail';
@@ -9,7 +9,7 @@ import NotFound from '@/pages/NotFound/NotFound';
 
 function AppRouter() {
   return (
-    <BrowserRouter>
+    <HashRouter>
       <AppLayout>
         <Routes>
           <Route path="/" element={<Home />} />
@@ -21,7 +21,7 @@ function AppRouter() {
           <Route path="*" element={<NotFound />} />
         </Routes>
       </AppLayout>
-    </BrowserRouter>
+    </HashRouter>
   );
 }
 
