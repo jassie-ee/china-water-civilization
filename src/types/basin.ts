@@ -11,7 +11,11 @@ export type BasinOverviewEntry = 'intro' | 'skipped' | 'direct' | 'returning';
 
 export type BasinInteractionState = 'idle' | 'hovered' | 'focused' | 'selected';
 
-export type YellowRiverRegionId = 'upper' | 'middle' | 'lower';
+export type RiverRegionId = 'upper' | 'middle' | 'lower';
+
+export type YellowRiverRegionId = RiverRegionId;
+
+export type YangtzeRiverRegionId = RiverRegionId;
 
 export type YellowRiverNodeType = 'ecological' | 'engineering';
 
@@ -31,12 +35,14 @@ export interface YellowRiverMapPosition {
   labelOffsetY?: number;
 }
 
-export interface YellowRiverNode {
-  id: YellowRiverNodeId;
+export type RiverNodeType = 'ecological' | 'engineering';
+
+export interface RiverNode {
+  id: string;
   name: string;
   shortName: string;
-  type: YellowRiverNodeType;
-  regionId: YellowRiverRegionId;
+  type: RiverNodeType;
+  regionId: RiverRegionId;
   locationDescription?: string;
   summary?: string;
   keywords?: string[];
@@ -49,6 +55,10 @@ export interface YellowRiverNode {
   position: YellowRiverMapPosition;
   isAvailable: boolean;
 }
+
+export type YellowRiverNode = RiverNode & { id: YellowRiverNodeId };
+
+export type YangtzeRiverNode = RiverNode;
 
 export interface BasinOverviewItem {
   id: BasinId;
@@ -68,8 +78,8 @@ export interface BasinDetailConfig {
   themeClassName: string;
 }
 
-export interface YellowRiverRegion {
-  id: YellowRiverRegionId;
+export interface RiverRegion {
+  id: RiverRegionId;
   name: string;
   shortName: string;
   metaphor: string;
@@ -82,3 +92,7 @@ export interface YellowRiverRegion {
   summary: string;
   themeClassName: string;
 }
+
+export type YellowRiverRegion = RiverRegion;
+
+export type YangtzeRiverRegion = RiverRegion;

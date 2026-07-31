@@ -1,7 +1,7 @@
-import type { YellowRiverRegion } from '@/types/basin';
+import type { RiverRegion } from '@/types/basin';
 
 interface YellowRiverInfoPanelProps {
-  region: YellowRiverRegion;
+  region: RiverRegion;
 }
 
 function YellowRiverInfoPanel({ region }: YellowRiverInfoPanelProps) {

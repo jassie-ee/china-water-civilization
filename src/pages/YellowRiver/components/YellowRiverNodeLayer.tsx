@@ -1,19 +1,20 @@
-import { yellowRiverNodes } from '@/data/yellowRiverNodes';
-import type { YellowRiverNodeId } from '@/types/basin';
+import type { RiverNode } from '@/types/basin';
 
 import YellowRiverNodeMarker from './YellowRiverNodeMarker';
 
 interface YellowRiverNodeLayerProps {
-  selectedNodeId: YellowRiverNodeId | null;
-  previewNodeId: YellowRiverNodeId | null;
-  onNodePreview: (nodeId: YellowRiverNodeId | null) => void;
-  onNodeSelect: (nodeId: YellowRiverNodeId) => void;
+  nodes: RiverNode[];
+  selectedNodeId: string | null;
+  previewNodeId: string | null;
+  onNodePreview: (nodeId: string | null) => void;
+  onNodeSelect: (nodeId: string) => void;
+  mapId?: string;
 }
 
-function YellowRiverNodeLayer({ selectedNodeId, previewNodeId, onNodePreview, onNodeSelect }: YellowRiverNodeLayerProps) {
+function YellowRiverNodeLayer({ nodes, selectedNodeId, previewNodeId, onNodePreview, onNodeSelect, mapId }: YellowRiverNodeLayerProps) {
   const activeNodeId = previewNodeId ?? selectedNodeId;
-  const ecologicalNodes = yellowRiverNodes.filter((node) => node.type === 'ecological');
-  const engineeringNodes = yellowRiverNodes.filter((node) => node.type === 'engineering');
+  const ecologicalNodes = nodes.filter((node) => node.type === 'ecological');
+  const engineeringNodes = nodes.filter((node) => node.type === 'engineering');
 
   return (
     <>
@@ -26,6 +27,7 @@ function YellowRiverNodeLayer({ selectedNodeId, previewNodeId, onNodePreview, on
             isPreviewed={node.id === activeNodeId}
             onPreview={onNodePreview}
             onSelect={onNodeSelect}
+            mapId={mapId}
           />
         ))}
       </g>
@@ -38,11 +40,12 @@ function YellowRiverNodeLayer({ selectedNodeId, previewNodeId, onNodePreview, on
             isPreviewed={node.id === activeNodeId}
             onPreview={onNodePreview}
             onSelect={onNodeSelect}
+            mapId={mapId}
           />
         ))}
       </g>
       <g className="yellow-river-map__node-label-layer" aria-hidden="true">
-        {yellowRiverNodes.map((node) => (
+        {nodes.map((node) => (
           <text
             key={node.id}
             className={`yellow-river-map__node-label yellow-river-map__node-label--${node.type}${node.id === activeNodeId ? ' is-active' : ''}`}

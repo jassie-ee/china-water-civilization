@@ -1,13 +1,13 @@
 import { useEffect, useRef } from 'react';
 
 import { governanceQuestionLevelConfigs } from '@/data/governanceLevels/questionLevelConfigs';
-import type { YellowRiverNode, YellowRiverRegion } from '@/types/basin';
+import type { RiverNode, RiverRegion } from '@/types/basin';
 
 interface YellowRiverNodeDetailPanelProps {
-  node: YellowRiverNode;
-  region: YellowRiverRegion;
-  previousNode: YellowRiverNode;
-  nextNode: YellowRiverNode;
+  node: RiverNode;
+  region: RiverRegion;
+  previousNode: RiverNode;
+  nextNode: RiverNode;
   onClose: () => void;
   onStartGovernance: () => void;
   onSelectPrevious: () => void;
@@ -69,7 +69,7 @@ function YellowRiverNodeDetailPanel({
     >
       <header className="yellow-river-detail-panel__header">
         <div>
-          <p className="yellow-river-detail-panel__eyebrow">{typeLabel} · 黄河{region.shortName}</p>
+          <p className="yellow-river-detail-panel__eyebrow">{typeLabel} · {region.shortName}</p>
           <h2 id="yellow-river-node-detail-title">{node.name}</h2>
           {node.locationDescription && <p className="yellow-river-detail-panel__location">{node.locationDescription}</p>}
         </div>

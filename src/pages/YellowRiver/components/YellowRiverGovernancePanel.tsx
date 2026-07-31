@@ -2,11 +2,11 @@ import { useEffect, useRef } from 'react';
 
 import GovernanceStage from '@/pages/GovernanceLevel/components/GovernanceStage';
 import type { GovernanceQuestionLevelConfig } from '@/types/governanceLevel';
-import type { YellowRiverNode, YellowRiverRegion } from '@/types/basin';
+import type { RiverNode, RiverRegion } from '@/types/basin';
 
 interface YellowRiverGovernancePanelProps {
-  node: YellowRiverNode;
-  region: YellowRiverRegion;
+  node: RiverNode;
+  region: RiverRegion;
   level: GovernanceQuestionLevelConfig;
   onBackToDetail: () => void;
   onClose: () => void;
@@ -44,7 +44,7 @@ function YellowRiverGovernancePanel({
     >
       <header className="yellow-river-detail-panel__header">
         <div>
-          <p className="yellow-river-detail-panel__eyebrow">{typeLabel} · 黄河{region.shortName}</p>
+          <p className="yellow-river-detail-panel__eyebrow">{typeLabel} · {region.shortName}</p>
           <h2 id="yellow-river-governance-title">{node.name}</h2>
           <p className="yellow-river-governance-panel__level-name">{level.title}</p>
         </div>

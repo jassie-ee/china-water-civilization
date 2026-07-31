@@ -1,16 +1,17 @@
 import type { KeyboardEvent } from 'react';
 
-import type { YellowRiverNode } from '@/types/basin';
+import type { RiverNode } from '@/types/basin';
 
 interface YellowRiverNodeMarkerProps {
-  node: YellowRiverNode;
+  node: RiverNode;
   isSelected: boolean;
   isPreviewed: boolean;
-  onPreview: (nodeId: YellowRiverNode['id'] | null) => void;
-  onSelect: (nodeId: YellowRiverNode['id']) => void;
+  onPreview: (nodeId: RiverNode['id'] | null) => void;
+  onSelect: (nodeId: RiverNode['id']) => void;
+  mapId?: string;
 }
 
-function YellowRiverNodeMarker({ node, isSelected, isPreviewed, onPreview, onSelect }: YellowRiverNodeMarkerProps) {
+function YellowRiverNodeMarker({ node, isSelected, isPreviewed, onPreview, onSelect, mapId = 'yellow-river' }: YellowRiverNodeMarkerProps) {
   const handleKeyDown = (event: KeyboardEvent<SVGGElement>): void => {
     if (event.key === 'Enter' || event.key === ' ') {
       event.preventDefault();
@@ -23,7 +24,7 @@ function YellowRiverNodeMarker({ node, isSelected, isPreviewed, onPreview, onSel
   return (
     <g
       className={`yellow-river-node-marker yellow-river-node-marker--${node.type}${stateClassName}`}
-      id={`yellow-river-node-${node.id}`}
+      id={`${mapId}-node-${node.id}`}
       transform={`translate(${node.position.x} ${node.position.y})`}
       role="button"
       tabIndex={0}

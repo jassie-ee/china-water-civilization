@@ -1,0 +1,75 @@
+import type { YangtzeRiverNode } from '@/types/basin';
+
+// 坐标仅服务于 1400 × 800 的长江叙事示意图，不代表工程测绘位置。
+const yangtzeRiverNodes: YangtzeRiverNode[] = [
+  {
+    id: 'source-ecology', name: '长江源区生态安全区', shortName: '源区生态', type: 'ecological', regionId: 'upper',
+    position: { x: 218, y: 381, labelOffsetX: -42, labelOffsetY: 58 }, isAvailable: true,
+    locationDescription: '青藏高原长江源区及其高寒草地、湿地生态系统。',
+    summary: '源区来水和生态完整性是后续梯级开发与全流域用水的共同基础。',
+    keywords: ['水源涵养', '高寒草地', '湿地保护', '生态安全'],
+    significance: '源区不是开发链条之外的背景，而是长江水资源长期稳定的前提。',
+  },
+  {
+    id: 'xiluodu', name: '溪洛渡水电站', shortName: '溪洛渡', type: 'engineering', regionId: 'upper',
+    position: { x: 418, y: 319, labelOffsetX: -31, labelOffsetY: -30 }, isAvailable: true,
+    locationDescription: '金沙江下游川滇交界河段，是国家重点水电工程。',
+    summary: '溪洛渡代表上游峡谷河段的梯级水能开发：将来水、库容、电网送出与流域约束放在同一套运行逻辑中。',
+    keywords: ['梯级开发', '清洁能源', '西电东送', '联合调度'],
+    problemDescription: '来水节律、大发电出力、库区安全和下游河道过程需要同步考虑；只追求单站出力会削弱梯级系统的整体效益。',
+    causes: ['峡谷河段落差大、水能集中', '来水具有季节性变化', '梯级电站之间存在水量与时序传导', '开发运行需面对生态与地方协同约束'],
+    governanceMeasures: ['以预报为基础安排蓄放节奏', '与相邻梯级和电网共享运行信息', '在工程安全边界内兼顾下游过程与生态要求'],
+    ecologicalImpacts: ['清洁电能可支撑能源结构转型', '运行过程仍需持续关注河道水文和生境响应'],
+    culturalMeaning: '大江的能量可以被利用，但工程能力越强，越需要以流域整体的尺度理解责任。',
+  },
+  {
+    id: 'three-gorges', name: '三峡工程', shortName: '三峡工程', type: 'engineering', regionId: 'middle',
+    position: { x: 665, y: 411, labelOffsetX: -42, labelOffsetY: -30 }, isAvailable: true,
+    locationDescription: '长江三峡河段的控制性枢纽；在本页作为上中游衔接枢纽展示。',
+    summary: '三峡工程将防洪、发电、航运与水资源利用汇入综合调度，是连接上游梯级开发与中下游安全、通航需求的关键环节。',
+    keywords: ['综合枢纽', '防洪', '发电', '航运', '联合调度'],
+    problemDescription: '防洪库容、发电计划、航运条件、补水和生态过程并不总能同时达到最优，需要通过预报和联合调度管理取舍。',
+    causes: ['流域洪水与枯水过程变化明显', '上游梯级运行会传导至枢纽', '中下游防洪、航运、供水需求高度集中', '生态过程对水文节律敏感'],
+    governanceMeasures: ['在安全边界内实施滚动预报调度', '统筹上下游库群与河道响应', '将关键生态过程纳入调度约束和复盘机制'],
+    ecologicalImpacts: ['综合调度可发挥防洪、发电、航运等多重效益', '工程运行需持续评估水文节律和生境响应'],
+    culturalMeaning: '综合枢纽的价值不在于放大单一功能，而在于让多种公共需求在流域尺度上被协调。',
+  },
+  {
+    id: 'dongting-lake', name: '洞庭湖江湖调蓄区', shortName: '洞庭湖', type: 'ecological', regionId: 'middle',
+    position: { x: 780, y: 413, labelOffsetX: -31, labelOffsetY: 56 }, isAvailable: true,
+    locationDescription: '长江中游重要通江湖泊与湿地系统。',
+    summary: '洞庭湖是综合开发必须面对的江湖调蓄与湿地约束：工程调度不能脱离江湖连通和洪水空间。',
+    keywords: ['江湖连通', '洪水调蓄', '湿地', '生态约束'],
+    significance: '它提示开发利用需要给洪水和湿地过程保留必要空间。',
+  },
+  {
+    id: 'poyang-lake', name: '鄱阳湖湿地与候鸟栖息地', shortName: '鄱阳湖', type: 'ecological', regionId: 'middle',
+    position: { x: 906, y: 494, labelOffsetX: -31, labelOffsetY: 56 }, isAvailable: true,
+    locationDescription: '长江中下游重要通江湖泊湿地。',
+    summary: '季节水位涨落连接湖泊生态与干流水文，是评估流域开发影响的重要反馈窗口。',
+    keywords: ['候鸟栖息地', '湿地', '季节水位', '江湖交换'],
+    significance: '工程与水网运行应以监测和适应性管理回应江湖系统的变化。',
+  },
+  {
+    id: 'jiangdu', name: '江都水利枢纽', shortName: '江都枢纽', type: 'engineering', regionId: 'lower',
+    position: { x: 1052, y: 467, labelOffsetX: -32, labelOffsetY: -30 }, isAvailable: true,
+    locationDescription: '江苏扬州，位于长江与江淮水网交汇区域，是南水北调东线工程源头。',
+    summary: '江都水利枢纽代表下游水网开发与水资源调配：以泵站、水闸和河网协同连接长江来水、区域供水、防洪排涝与航运需求。',
+    keywords: ['南水北调东线', '水网调配', '泵站枢纽', '城乡供水'],
+    problemDescription: '调水、排涝、通航、供水和水质安全共同占用有限的水网调度空间，单项用水目标无法替代跨区域协同。',
+    causes: ['下游河网与人口产业高度集聚', '长江来水和区域需水存在时序差异', '泵站、水闸和输水通道需要联合运行', '调水过程需兼顾水质与生态要求'],
+    governanceMeasures: ['依据来水、需水与水质监测实施分级调度', '统筹引江、输水、排涝和通航时序', '建立跨区域信息共享、应急与复盘机制'],
+    ecologicalImpacts: ['水网调配可增强区域水安全保障能力', '调水和岸线利用需持续守住水质与生态底线'],
+    culturalMeaning: '下游水利工程展示的不是“把水搬走”，而是让一张水网服务于更广阔区域的共同安全。',
+  },
+  {
+    id: 'yangtze-estuary', name: '长江口江海协同区', shortName: '长江口', type: 'ecological', regionId: 'lower',
+    position: { x: 1170, y: 451, labelOffsetX: -24, labelOffsetY: 56 }, isAvailable: true,
+    locationDescription: '长江入海口及其河口湿地、城市供水和潮汐影响区域。',
+    summary: '江海交汇处承接全流域来水与开发活动，是检验水资源利用、供水安全和河口生态协同的最后一环。',
+    keywords: ['咸潮', '河口湿地', '供水安全', '江海协同'],
+    significance: '流域开发的影响会延伸到河口，不能以行政边界切断责任链条。',
+  },
+];
+
+export { yangtzeRiverNodes };

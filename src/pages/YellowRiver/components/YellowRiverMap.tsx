@@ -5,6 +5,7 @@ import {
   yellowRiverBasinPath,
   yellowRiverMainstreamPath,
 } from '@/data/yellowRiverMapPaths';
+import { yellowRiverNodes } from '@/data/yellowRiverNodes';
 import { yellowRiverRegions } from '@/data/yellowRiverRegions';
 import type { YellowRiverNodeId, YellowRiverRegionId } from '@/types/basin';
 
@@ -84,10 +85,11 @@ function YellowRiverMap({
         </g>
         <g className="yellow-river-map__node-layer">
           <YellowRiverNodeLayer
+            nodes={yellowRiverNodes}
             selectedNodeId={selectedNodeId}
             previewNodeId={previewNodeId}
-            onNodePreview={onNodePreview}
-            onNodeSelect={onNodeSelect}
+            onNodePreview={(nodeId) => onNodePreview(nodeId as YellowRiverNodeId | null)}
+            onNodeSelect={(nodeId) => onNodeSelect(nodeId as YellowRiverNodeId)}
           />
         </g>
       </svg>
