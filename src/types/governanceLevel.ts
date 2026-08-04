@@ -19,7 +19,6 @@ export interface GovernanceQuestionLevelConfig {
   basinId: BasinId;
   title: string;
   description: string;
-  knowledgeNotes?: string[];
   initialMetrics: GovernanceMetricValues;
   evaluation: GovernanceQuestionEvaluation;
   questions: GovernanceQuestion[];

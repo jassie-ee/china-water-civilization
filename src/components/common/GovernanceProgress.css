@@ -1,8 +1,4 @@
 .global-score-display {
-  position: fixed;
-  z-index: 30;
-  top: clamp(.8rem, 2vw, 1.5rem);
-  right: clamp(.9rem, 3vw, 2.5rem);
   display: inline-flex;
   align-items: center;
   gap: .25rem;
@@ -48,12 +44,11 @@
 .score-popover__clear:hover, .score-popover__confirmation button:hover { border-color: #eed08a; background: rgb(224 179 80 / 14%); }
 .score-popover__confirmation { display: flex; flex-wrap: wrap; justify-content: flex-end; gap: .32rem; color: #f2d68f; font-size: .68rem; text-align: right; }
 .score-popover__confirmation span { width: 100%; }
-.score-popover__confirmation button { padding: .3rem .45rem; }
+.score-popover__confirm-actions { display: flex; gap: .35rem; }
+.score-popover__confirmation button { display: grid; width: 1.8rem; height: 1.8rem; place-items: center; padding: 0; font-size: .95rem; line-height: 1; }
 
 @media (max-width: 640px) {
   .global-score-display {
-    top: .7rem;
-    right: .75rem;
     min-height: 1.85rem;
     padding-inline: .55rem;
     font-size: .72rem;

@@ -8,6 +8,9 @@ dist/
 .env.*.local
 !.env.example
 
+# Local answer-key exports: import them in Supabase SQL Editor, never publish them with the frontend.
+supabase/seeds/*-question-bank.sql
+
 # Editor files
 .vscode/
 .idea/
@@ -18,6 +21,7 @@ dist/
 # System files and caches
 .DS_Store
 Thumbs.db
+__pycache__/
 *.log
 coverage/
 

@@ -1,7 +1,5 @@
-import type { GovernanceQuestionStarCount } from '@/types/governanceLevel';
-
 interface StarScoreProps {
-  stars: GovernanceQuestionStarCount;
+  stars: 0 | 1 | 2 | 3;
   label?: string;
 }
 

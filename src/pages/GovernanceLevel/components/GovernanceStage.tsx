@@ -11,6 +11,8 @@ import { useGovernanceProgress } from '@/components/common/governanceProgressCon
 import FeedbackCard from './FeedbackCard';
 import QuestionCard from './QuestionCard';
 import ResultPanel from './ResultPanel';
+import RemoteGovernanceStage from './RemoteGovernanceStage';
+import { governanceDataSource } from '@/services/governanceDataSource';
 
 import './GovernanceQuestionSystem.css';
 
@@ -21,7 +23,7 @@ interface GovernanceStageProps {
   onCurrentStarsChange?: (stars: number) => void;
 }
 
-function GovernanceStage({ level, onCurrentStarsChange }: GovernanceStageProps) {
+function LocalGovernanceStage({ level, onCurrentStarsChange }: GovernanceStageProps) {
   const { recordLevelResult } = useGovernanceProgress();
   const [phase, setPhase] = useState<GovernanceStagePhase>('question');
   const [questionIndex, setQuestionIndex] = useState(0);
@@ -89,12 +91,6 @@ function GovernanceStage({ level, onCurrentStarsChange }: GovernanceStageProps) 
 
   return (
     <section className="governance-stage" aria-label={`${level.title} 治理问答`}>
-      {level.knowledgeNotes && level.knowledgeNotes.length > 0 && (
-        <aside className="governance-stage__knowledge-notes" aria-label="闯关前阅读要点">
-          <strong>闯关前阅读要点</strong>
-          <ul>{level.knowledgeNotes.map((note) => <li key={note}>{note}</li>)}</ul>
-        </aside>
-      )}
       <header className="governance-stage__progress">
         <span>第 {Math.min(questionIndex + 1, level.questions.length)} / {level.questions.length} 题</span>
         <span>本关累计 {currentStars} 星</span>
@@ -125,6 +121,14 @@ function GovernanceStage({ level, onCurrentStarsChange }: GovernanceStageProps) 
       </div>
     </section>
   );
+}
+
+function GovernanceStage(props: GovernanceStageProps) {
+  if (governanceDataSource.isRemoteQuestionLevel(props.level.levelId)) {
+    return <RemoteGovernanceStage {...props} />;
+  }
+
+  return <LocalGovernanceStage {...props} />;
 }
 
 export default GovernanceStage;

@@ -1,0 +1,5 @@
+.app-layout__utility-cluster { position: fixed; z-index: 30; top: clamp(.8rem, 2vw, 1.5rem); right: clamp(.9rem, 3vw, 2.5rem); display: flex; align-items: flex-start; gap: .5rem; }
+
+@media (max-width: 640px) {
+  .app-layout__utility-cluster { top: .7rem; right: .75rem; gap: .35rem; }
+}

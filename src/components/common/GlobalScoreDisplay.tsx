@@ -2,6 +2,7 @@ import { useEffect, useRef, useState } from 'react';
 import { useLocation } from 'react-router-dom';
 
 import type { GovernanceProgressScope } from '@/types/governanceData';
+
 import { useGovernanceProgress } from './governanceProgressContext';
 
 import './GovernanceProgress.css';
@@ -29,8 +30,10 @@ function ScoreCard({ title, stars, scope, clearLabel, pendingScope, onRequestCle
       {isConfirming ? (
         <div className="score-popover__confirmation" aria-live="polite">
           <span>确认清空？</span>
-          <button type="button" onClick={onConfirmClear}>确认</button>
-          <button type="button" onClick={onCancelClear}>取消</button>
+          <div className="score-popover__confirm-actions">
+            <button type="button" aria-label={`确认清空${title}积分`} title="确认清空" onClick={onConfirmClear}>√</button>
+            <button type="button" aria-label={`取消清空${title}积分`} title="取消" onClick={onCancelClear}>×</button>
+          </div>
         </div>
       ) : (
         <button className="score-popover__clear" type="button" onClick={() => onRequestClear(scope)}>{clearLabel}</button>
@@ -58,9 +61,7 @@ function GlobalScoreDisplay() {
 
     closeButtonRef.current?.focus();
     const handleKeyDown = (event: KeyboardEvent): void => {
-      if (event.key === 'Escape') {
-        handleClose();
-      }
+      if (event.key === 'Escape') handleClose();
     };
 
     window.addEventListener('keydown', handleKeyDown);
@@ -69,7 +70,6 @@ function GlobalScoreDisplay() {
 
   const handleConfirmClear = async (): Promise<void> => {
     if (pendingClearScope === null) return;
-
     await clearProgress(pendingClearScope);
     setPendingClearScope(null);
   };
@@ -78,28 +78,14 @@ function GlobalScoreDisplay() {
 
   return (
     <>
-      <button
-        ref={triggerRef}
-        className="global-score-display"
-        type="button"
-        aria-haspopup="dialog"
-        aria-expanded={isOpen}
-        aria-controls="score-popover"
-        onClick={() => (isOpen ? handleClose() : setIsOpen(true))}
-      >
-        <span>积分</span>
-        <span className="global-score-display__star" aria-hidden="true">★</span>
-        <span>：{totalStars}</span>
+      <button ref={triggerRef} className="global-score-display" type="button" aria-haspopup="dialog" aria-expanded={isOpen} aria-controls="score-popover" onClick={() => (isOpen ? handleClose() : setIsOpen(true))}>
+        <span>积分</span><span className="global-score-display__star" aria-hidden="true">★</span><span>：{totalStars}</span>
       </button>
-
       {isOpen && (
         <div className="score-popover__backdrop" role="presentation" onClick={handleClose}>
           <section id="score-popover" className="score-popover" role="dialog" aria-modal="true" aria-labelledby="score-popover-title" onClick={(event) => event.stopPropagation()}>
             <header className="score-popover__header">
-              <div>
-                <p>STAR ARCHIVE</p>
-                <h2 id="score-popover-title">我的积分</h2>
-              </div>
+              <div><p>STAR ARCHIVE</p><h2 id="score-popover-title">我的积分</h2></div>
               <button ref={closeButtonRef} className="score-popover__close" type="button" aria-label="关闭积分面板" onClick={handleClose}>×</button>
             </header>
             <div className="score-popover__cards">

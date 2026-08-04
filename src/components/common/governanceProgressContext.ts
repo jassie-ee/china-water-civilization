@@ -10,6 +10,7 @@ interface GovernanceProgressContextValue {
   getBasinStars: (basinId: BasinId) => number;
   recordLevelResult: (levelId: string, completedStars: number) => Promise<GovernanceProgressUpdate>;
   clearProgress: (scope: GovernanceProgressScope) => Promise<void>;
+  refreshProgress: () => Promise<void>;
 }
 
 const GovernanceProgressContext = createContext<GovernanceProgressContextValue | null>(null);

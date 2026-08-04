@@ -13,12 +13,6 @@ const xiaolangdiQuestionLevel: GovernanceQuestionLevelConfig = {
   basinId: 'yellow-river',
   title: '小浪底：水沙平衡调度',
   description: '通过连续治理取舍，理解防洪、泥沙、生态与工程收益之间的系统关系。',
-  knowledgeNotes: [
-    '小浪底位于黄河中游最后一段峡谷出口，是进入下游平原前的关键控制枢纽。',
-    '调水调沙依靠水库群联合调度塑造水沙过程，不是孤立水库的简单放水。',
-    '调度同时服务防洪、减淤、供水、生态补水与下游河道塑造，不能只看单一指标。',
-    '监测、复盘与下一轮方案优化共同构成适应性管理的闭环。',
-  ],
   initialMetrics,
   evaluation: {
     title: '系统治理需要持续权衡',

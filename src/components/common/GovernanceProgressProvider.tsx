@@ -5,6 +5,7 @@ import type { GovernanceProgressScope } from '@/types/governanceData';
 import type { BasinId } from '@/types/basin';
 import { governanceDataSource } from '@/services/governanceDataSource';
 import { getTotalStars } from '@/utils/governanceProgress';
+import { useAccount } from './accountContext';
 import { GovernanceProgressContext } from './governanceProgressContext';
 
 interface GovernanceProgressProviderProps {
@@ -15,19 +16,28 @@ const demoAccountId = 'local-demo-account';
 const emptyProgress: GovernanceProgressState = { levelBestStars: {} };
 
 function GovernanceProgressProvider({ children }: GovernanceProgressProviderProps) {
+  const { user } = useAccount();
   const [progress, setProgress] = useState<GovernanceProgressState>(emptyProgress);
+  const accountId = user?.id ?? demoAccountId;
+
+  const refreshProgress = useCallback(async (): Promise<void> => {
+    const savedProgress = await governanceDataSource.loadProgress(accountId);
+    setProgress(savedProgress);
+  }, [accountId]);
 
   useEffect(() => {
     let isMounted = true;
 
-    void governanceDataSource.loadProgress(demoAccountId).then((savedProgress) => {
+    void governanceDataSource.loadProgress(accountId).then((savedProgress) => {
       if (isMounted) setProgress(savedProgress);
+    }).catch(() => {
+      if (isMounted) setProgress(emptyProgress);
     });
 
     return () => {
       isMounted = false;
     };
-  }, []);
+  }, [accountId]);
 
   const getLevelBestStars = useCallback(
     (levelId: string): number => progress.levelBestStars[levelId] ?? 0,
@@ -37,7 +47,7 @@ function GovernanceProgressProvider({ children }: GovernanceProgressProviderProp
   const recordLevelResult = useCallback(
     async (levelId: string, completedStars: number): Promise<GovernanceProgressUpdate> => {
       const { progress: nextProgress, update } = await governanceDataSource.recordLevelResult({
-        accountId: demoAccountId,
+        accountId,
         currentProgress: progress,
         levelId,
         completedStars,
@@ -46,7 +56,7 @@ function GovernanceProgressProvider({ children }: GovernanceProgressProviderProp
       setProgress(nextProgress);
       return update;
     },
-    [progress],
+    [accountId, progress],
   );
 
   const getBasinStars = useCallback(
@@ -59,10 +69,10 @@ function GovernanceProgressProvider({ children }: GovernanceProgressProviderProp
 
   const clearProgress = useCallback(
     async (scope: GovernanceProgressScope): Promise<void> => {
-      const nextProgress = await governanceDataSource.clearProgress(demoAccountId, progress, scope);
+      const nextProgress = await governanceDataSource.clearProgress(accountId, progress, scope);
       setProgress(nextProgress);
     },
-    [progress],
+    [accountId, progress],
   );
 
   const value = useMemo(
@@ -72,8 +82,9 @@ function GovernanceProgressProvider({ children }: GovernanceProgressProviderProp
       getBasinStars,
       recordLevelResult,
       clearProgress,
+      refreshProgress,
     }),
-    [clearProgress, getBasinStars, getLevelBestStars, progress, recordLevelResult],
+    [clearProgress, getBasinStars, getLevelBestStars, progress, recordLevelResult, refreshProgress],
   );
 
   return <GovernanceProgressContext.Provider value={value}>{children}</GovernanceProgressContext.Provider>;
