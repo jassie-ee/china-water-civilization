@@ -20,13 +20,13 @@ export type YangtzeRiverRegionId = RiverRegionId;
 export type YellowRiverNodeType = 'ecological' | 'engineering';
 
 export type YellowRiverNodeId =
-  | 'source-ecology'
+  | 'sanjiangyuan'
   | 'loess-plateau'
   | 'sediment-corridor'
   | 'longyangxia'
   | 'sanmenxia'
   | 'xiaolangdi'
-  | 'zhengzhou-levee';
+  | 'yellow-river-delta-wetland';
 
 export interface YellowRiverMapPosition {
   x: number;
@@ -36,6 +36,18 @@ export interface YellowRiverMapPosition {
 }
 
 export type RiverNodeType = 'ecological' | 'engineering';
+
+/** 节点媒体保持为可选配置，素材可在后续按节点逐步接入。 */
+export interface RiverNodeVideo {
+  title: string;
+  description?: string;
+  src?: string;
+  poster?: string;
+}
+
+export interface RiverNodeMedia {
+  video?: RiverNodeVideo;
+}
 
 export interface RiverNode {
   id: string;
@@ -52,6 +64,7 @@ export interface RiverNode {
   governanceMeasures?: string[];
   ecologicalImpacts?: string[];
   culturalMeaning?: string;
+  media?: RiverNodeMedia;
   position: YellowRiverMapPosition;
   isAvailable: boolean;
 }

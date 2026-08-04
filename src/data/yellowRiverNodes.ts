@@ -1,18 +1,21 @@
-import type { YellowRiverNode } from '@/types/basin';
+import type { YellowRiverNode, YellowRiverNodeId } from '@/types/basin';
 
 // 节点 ID 将在后续关卡路由和完成状态中复用，修改时需保持兼容。
 const yellowRiverNodes: YellowRiverNode[] = [
   {
-    id: 'source-ecology',
-    name: '冰川与草地退化区',
-    shortName: '源区生态',
+    id: 'sanjiangyuan',
+    name: '三江源国家公园黄河源园区',
+    shortName: '三江源',
     type: 'ecological',
     regionId: 'upper',
-    locationDescription: '黄河源区、青藏高原及高寒生态区域',
-    summary: '气候变暖、冰川退缩、高寒草地退化和湿地功能下降，共同影响黄河源区的水源涵养与径流稳定。',
-    keywords: ['冰川退缩', '高寒草地', '湿地保护', '水源涵养', '源区韧性'],
-    significance: '这是黄河水资源形成和生态安全的源头节点。',
-    position: { x: 254, y: 401, labelOffsetX: -38, labelOffsetY: 56 },
+    locationDescription: '青藏高原腹地的黄河源区，是三江源国家公园的重要组成部分。',
+    summary: '黄河源园区以高寒草地、湿地、河流、湖泊和冰川雪山共同构成水源涵养系统；源区生态的完整性决定着黄河径流形成与下游用水安全的基础。',
+    problemDescription: '气候变化、草地湿地退化和人类活动扰动，可能削弱源区的保水、调蓄与生物多样性维持能力。',
+    governanceMeasures: ['保护高寒草地、湿地与湖泊群，维持自然水文连通', '以生态监测识别水源涵养和生境变化', '通过社区共管与低扰动利用守住源头生态底线'],
+    ecologicalImpacts: ['稳定源区生态过程，有助于维持河流补给与径流节律', '保护关键栖息地，为高原生物多样性保留连续空间'],
+    keywords: ['黄河源园区', '高寒草地', '湿地保护', '水源涵养', '生态完整性'],
+    significance: '这是黄河水资源形成和生态安全的源头节点，提示治黄必须从源头保护开始。',
+    position: { x: 230, y: 410, labelOffsetX: -28, labelOffsetY: 56 },
     isAvailable: true,
   },
   {
@@ -22,8 +25,8 @@ const yellowRiverNodes: YellowRiverNode[] = [
     type: 'engineering',
     regionId: 'upper',
     locationDescription: '黄河上游龙青段梯级开发最上一级，高原深切峡谷河段',
-    summary: '依托大库容的多年调节能力，龙羊峡在丰枯年之间调配来水，并统筹防洪、供水、发电与生态流量，是上游水量节奏的关键控制点。',
-    keywords: ['多年调节', '削丰补枯', '上游龙头', '生态流量', '水沙协同'],
+    summary: '龙羊峡位于黄河上游龙青河段梯级开发起点，被称为“龙头”工程。它依托多年调节库容，在丰枯年之间配置来水，并统筹防洪、供水、发电、生态流量与下游水沙调控。',
+    keywords: ['多年调节', '削丰补枯', '上游龙头', '梯级协同', '生态流量', '水沙协同'],
     significance: '它为下游梯级与水沙联合调度提供稳定水源动力，体现了因势利导的上游系统调节。',
     problemDescription: '黄河上游来水存在明显的年际丰枯与季节差异；流域治理既要保障下游水资源安全，也要统筹防洪、发电与生态流量。',
     causes: ['黄河上游径流年际变化显著，丰水与枯水年份之间需要跨年度调配。', '天然来水的季节分配与下游供水、防洪、发电等多重需求并不完全一致。'],
@@ -66,8 +69,8 @@ const yellowRiverNodes: YellowRiverNode[] = [
     type: 'engineering',
     regionId: 'middle',
     locationDescription: '黄河中游下段峡谷、连接河南与山西的中下游过渡河段',
-    summary: '作为黄河干流首座大型水利枢纽，三门峡经历了从蓄水拦沙到蓄清排浑的运行演进，并在联合调度中为下游调水调沙提供水动力。',
-    keywords: ['蓄清排浑', '水沙规律', '工程改建', '联合调度', '治黄探路'],
+    summary: '作为黄河干流首座大型水利枢纽，三门峡经历了从“蓄水拦沙”到“蓄清排浑”的运行演进；它通过持续监测、工程改建与联合调度，成为认识黄河水沙规律的探路工程。',
+    keywords: ['蓄清排浑', '水沙规律', '工程改建', '联合调度', '四库联调', '治黄探路'],
     significance: '它以持续的实践与调整推动黄河治理由单一工程思路转向尊重规律的流域系统治理。',
     problemDescription: '早期“蓄水拦沙”运行后，库区出现严重泥沙淤积并影响上游河道，暴露出以单一工程方式处理复杂水沙关系的局限。',
     causes: ['黄河高含沙水流的运动与淤积规律复杂，早期设计对此认识不足。', '汛期水沙集中进入水库，长期拦沙会改变库区及上游河道的冲淤关系。'],
@@ -84,30 +87,37 @@ const yellowRiverNodes: YellowRiverNode[] = [
     type: 'engineering',
     regionId: 'middle',
     locationDescription: '黄河中游最后一段峡谷出口、进入下游平原前的关键咽喉',
-    summary: '小浪底通过水库群联合调度与调水调沙，协调防洪、减淤、供水和生态补水；它利用水沙过程塑造下游河道，而非仅以拦蓄应对泥沙。',
-    keywords: ['调水调沙', '蓄清排浑', '下游防洪', '河道塑造', '生态补水'],
+    summary: '小浪底位于黄河中游最后一段峡谷出口，是进入下游平原前的关键控制枢纽。它通过三门峡、小浪底等水库群联合调度塑造水沙过程，并以调水调沙兼顾防洪、减淤、供水、生态补水与下游河道塑造。',
+    keywords: ['调水调沙', '水库群联合调度', '异重流排沙', '下游防洪', '河道塑造', '生态补水'],
     significance: '它是衔接上游来水来沙与下游安全的重要枢纽，代表黄河治理走向动态协同的人水和谐实践。',
     problemDescription: '黄河下游长期面临河床淤积抬高、行洪能力不足和水沙关系不协调等风险，需要在进入平原前统筹调控来水来沙。',
     causes: ['中上游来水来沙集中，细泥沙持续向下游输移并在河道中淤积。', '下游平原河段坡降变缓，河流输沙能力下降，防洪、供水与减淤目标相互关联。'],
     governanceMeasures: ['采用蓄清排浑与调水调沙，通过水库群联合调度塑造有利的水沙过程。', '利用异重流排沙、泄水冲沙和综合调度，兼顾防洪、减淤、供水、灌溉与生态补水。'],
     ecologicalImpacts: ['下游主河槽冲刷下切、行洪能力提升，河势趋于稳定。', '持续生态补水有助于维持下游不断流，并促进河口湿地修复与生物多样性改善。', '工程调度对水生态存在复杂影响，仍需要持续监测与精细化调度。'],
     culturalMeaning: '小浪底不是单纯拦蓄洪水，而是在理解水沙规律的基础上利用和塑造洪水过程，体现了统筹兼顾、因势利导的人水和谐实践。',
-    position: { x: 754, y: 494, labelOffsetX: 20, labelOffsetY: 56 },
+    // 小浪底位于中游末端、进入下游平原前的控制河段。
+    position: { x: 740, y: 481, labelOffsetX: 20, labelOffsetY: 56 },
     isAvailable: true,
   },
   {
-    id: 'zhengzhou-levee',
-    name: '郑州—黄河下游堤防系统',
-    shortName: '下游堤防',
-    type: 'engineering',
+    id: 'yellow-river-delta-wetland',
+    name: '黄河三角洲国家级自然保护区',
+    shortName: '黄河三角洲湿地',
+    type: 'ecological',
     regionId: 'lower',
-    locationDescription: '黄河下游地上河与人口城市密集区域',
-    summary: '堤防、滞洪区和河道整治共同承担下游防洪安全任务，同时也使河流空间受到更强的人工约束。',
-    keywords: ['地上河', '堤防', '滞洪区', '城市防洪', '人河空间'],
-    significance: '体现黄河下游治理中防洪安全、城市发展与河流空间之间的矛盾。',
-    position: { x: 1015, y: 456, labelOffsetX: -42, labelOffsetY: 56 },
+    locationDescription: '山东东营黄河入海口区域，是河流、陆地与海洋交汇形成的新生湿地系统。',
+    summary: '黄河三角洲国家级自然保护区依托黄河入海口的新生湿地，承担候鸟迁徙停歇、繁殖越冬和河海生态连通等功能。',
+    problemDescription: '来水来沙变化、潮沟阻塞、盐沼退化与沿海开发压力，会影响湿地更新、淡咸水交换和鸟类栖息地质量。',
+    governanceMeasures: ['保障必要的生态补水与河口水沙过程', '疏通潮沟，恢复湿地与海洋潮汐交换', '保护鸟类栖息地并控制高扰动开发活动'],
+    ecologicalImpacts: ['河海连通改善后，湿地生境与食物链更具恢复条件', '稳定的水沙与潮汐过程有助于维持河口湿地的演变活力'],
+    keywords: ['黄河入海口', '新生湿地', '候鸟栖息地', '河海连通', '生态补水'],
+    significance: '它把上中游的水沙调控结果延伸到河口，展示黄河治理最终如何影响海岸湿地与生物多样性。',
+    position: { x: 1145, y: 507, labelOffsetX: -62, labelOffsetY: 56 },
     isAvailable: true,
   },
 ];
 
-export { yellowRiverNodes };
+// 仅已开放治理关卡的工程节点参与弹窗内的前后切换，顺序遵循河流自上而下的叙事。
+const yellowRiverGovernanceNodeIds: YellowRiverNodeId[] = ['longyangxia', 'sanmenxia', 'xiaolangdi'];
+
+export { yellowRiverGovernanceNodeIds, yellowRiverNodes };

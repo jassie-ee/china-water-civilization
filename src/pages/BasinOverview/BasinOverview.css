@@ -206,6 +206,7 @@
 .basin-info-panel h2 { margin: .35rem 0 .65rem; color: #f1fbf9; font-family: "STKaiti", "KaiTi", serif; font-size: 1.8rem; font-weight: 400; }
 .basin-info-panel__eyebrow { color: rgb(202 234 231 / 68%) !important; font-size: .68rem; letter-spacing: .12em; }
 .basin-selection-list { display: grid; gap: .75rem; }
+.basin-selection-list__coming-soon { margin: .15rem .15rem 0; color: rgb(215 241 236 / 48%); font-size: .72rem; letter-spacing: .04em; }
 .basin-selection-list button { display: flex; align-items: center; justify-content: space-between; width: 100%; padding: .95rem 1rem; color: #e8f6f4; text-align: left; transition: border-color 180ms ease, background 180ms ease, transform 180ms ease; }
 .basin-selection-list button span { font-family: "STKaiti", "KaiTi", serif; font-size: 1.25rem; }
 .basin-selection-list button small { color: rgb(218 244 240 / 66%); }

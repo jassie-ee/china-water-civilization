@@ -1,3 +1,5 @@
+import type { BasinId } from './basin';
+
 export type GovernanceMetricId =
   | 'floodSafety'
   | 'sedimentControl'
@@ -14,8 +16,10 @@ export interface GovernanceMetricValues {
 /** 通用问答关卡可由任意流域的治理任务复用。 */
 export interface GovernanceQuestionLevelConfig {
   levelId: string;
+  basinId: BasinId;
   title: string;
   description: string;
+  knowledgeNotes?: string[];
   initialMetrics: GovernanceMetricValues;
   evaluation: GovernanceQuestionEvaluation;
   questions: GovernanceQuestion[];

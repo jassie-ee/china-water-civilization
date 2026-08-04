@@ -10,8 +10,15 @@ const initialMetrics: GovernanceMetricValues = {
 // 题目依据龙羊峡综述梳理，用于认识多年调节与上游系统协同，不替代实际调度指令。
 const longyangxiaQuestionLevel: GovernanceQuestionLevelConfig = {
   levelId: 'longyangxia',
+  basinId: 'yellow-river',
   title: '龙羊峡：上游多年调节',
   description: '在黄河上游“龙头”工程中，理解削丰补枯、生态基流与水库群协同的治理逻辑。',
+  knowledgeNotes: [
+    '龙羊峡位于黄河上游梯级开发起点，是调节来水节奏的“龙头”工程。',
+    '多年调节的核心是结合预报，在丰水年蓄水、枯水年补水，而不是只追求当期发电。',
+    '防洪库容需要提前、分阶段预留，并与下游河道承受能力相协调。',
+    '生态基流是调度硬约束；上游出库过程还会影响下游梯级与水沙协同。',
+  ],
   initialMetrics,
   evaluation: {
     title: '以多年调节支撑全流域协同',

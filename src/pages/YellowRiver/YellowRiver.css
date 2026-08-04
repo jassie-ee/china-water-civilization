@@ -119,12 +119,20 @@
 .yellow-river-detail-panel__close { flex: 0 0 auto; padding: .42rem .58rem; }
 .yellow-river-detail-panel__start { padding: .44rem .68rem; border-color: #e6bd69; color: #fff7dc; background: rgb(170 118 46 / 45%); text-decoration: none; }
 .yellow-river-governance-panel__back { padding: .42rem .58rem; border: 1px solid rgb(237 220 169 / 34%); border-radius: var(--radius-sm); color: rgb(232 243 237 / 80%); background: transparent; font-size: .78rem; }
+.yellow-river-governance-panel__score { display: inline-flex; align-items: center; min-height: 1.9rem; padding: .35rem .52rem; border: 1px solid rgb(235 201 114 / 38%); border-radius: 999px; color: #f4f2da; background: rgb(5 31 41 / 58%); font-size: .74rem; white-space: nowrap; }
+.yellow-river-governance-panel__score span { margin-right: .14rem; color: #e7bd69; }
 .yellow-river-detail-panel__close:hover, .yellow-river-detail-panel__start:hover, .yellow-river-governance-panel__back:hover, .yellow-river-detail-panel__navigation button:hover { border-color: currentColor; background: rgb(255 255 255 / 11%); text-decoration: none; }
 .yellow-river-detail-panel__start:hover { background: rgb(188 134 54 / 58%); }
 .yellow-river-detail-panel__close:focus-visible, .yellow-river-detail-panel__start:focus-visible, .yellow-river-detail-panel__navigation button:focus-visible { outline: 2px solid #f8fff0; outline-offset: 2px; }
 .yellow-river-detail-panel__content { min-height: 0; padding: 0 clamp(1rem, 2vw, 1.4rem) 1.2rem; overflow: auto; scrollbar-color: rgb(232 190 98 / 62%) transparent; }
 .yellow-river-detail-panel__content::-webkit-scrollbar { width: .45rem; }
 .yellow-river-detail-panel__content::-webkit-scrollbar-thumb { border-radius: 99px; background: rgb(232 190 98 / 50%); }
+.node-video-panel { aspect-ratio: 16 / 9; margin-top: 1.1rem; overflow: hidden; border: 1px solid color-mix(in srgb, currentColor 40%, transparent); border-radius: var(--radius-md); background: rgb(5 29 38 / 72%); }
+.node-video-panel__media { display: block; width: 100%; height: 100%; background: #061d28; object-fit: cover; }
+.node-video-panel__placeholder { display: grid; place-content: center; width: 100%; height: 100%; gap: .35rem; padding: 1rem; color: rgb(216 245 237 / 76%); text-align: center; background: radial-gradient(circle at 50% 38%, rgb(88 187 170 / 18%), transparent 44%), linear-gradient(135deg, rgb(16 77 84 / 68%), rgb(4 30 41 / 85%)); }
+.node-video-panel__placeholder span { color: rgb(170 231 218 / 58%); font-size: .65rem; letter-spacing: .2em; }
+.node-video-panel__placeholder strong { font-family: "STKaiti", "KaiTi", serif; font-size: clamp(1.15rem, 2vw, 1.45rem); font-weight: 400; }
+.node-video-panel__placeholder small { color: rgb(219 241 234 / 60%); font-size: .75rem; }
 .yellow-river-detail-panel__introduction { margin: 1.1rem 0 0; color: #f0f6e8; font-family: "STKaiti", "KaiTi", serif; font-size: 1.03rem; line-height: 1.8; }
 .yellow-river-detail-panel__section { padding-top: 1rem; }
 .yellow-river-detail-panel__section h3 { margin: 0 0 .4rem; color: currentColor; font-size: .86rem; letter-spacing: .07em; }
@@ -177,6 +185,7 @@
   .yellow-river-detail-panel { min-height: 0; }
   .yellow-river-detail-panel__header { gap: .55rem; }
   .yellow-river-detail-panel__header-actions { gap: .35rem; }
+  .yellow-river-governance-panel__score { font-size: .68rem; }
   .yellow-river-governance-panel__back { font-size: .72rem; }
 }
 

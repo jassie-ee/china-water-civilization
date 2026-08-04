@@ -1,8 +1,8 @@
 import { useMemo, useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 
-import { governanceQuestionLevelConfigs } from '@/data/governanceLevels/questionLevelConfigs';
-import { yangtzeRiverNodes } from '@/data/yangtzeRiverNodes';
+import { governanceDataSource } from '@/services/governanceDataSource';
+import { yangtzeRiverGovernanceNodeIds, yangtzeRiverNodes } from '@/data/yangtzeRiverNodes';
 import { yangtzeRiverRegions } from '@/data/yangtzeRiverRegions';
 import type { YangtzeRiverNode, YangtzeRiverRegionId } from '@/types/basin';
 import YellowRiverGovernancePanel from '@/pages/YellowRiver/components/YellowRiverGovernancePanel';
@@ -19,6 +19,9 @@ function hasDetailContent(node: YangtzeRiverNode): boolean {
 }
 
 const detailNodes = yangtzeRiverNodes.filter(hasDetailContent).slice().sort((firstNode, secondNode) => firstNode.position.x - secondNode.position.x);
+const governanceNodes = yangtzeRiverGovernanceNodeIds
+  .map((nodeId) => detailNodes.find((node) => node.id === nodeId))
+  .filter((node): node is YangtzeRiverNode => node !== undefined);
 
 function YangtzeRiver() {
   const location = useLocation();
@@ -31,11 +34,11 @@ function YangtzeRiver() {
   const [modalMode, setModalMode] = useState<YangtzeModalMode>(restoredState?.openGovernance ? 'governance' : 'detail');
   const selectedRegion = useMemo(() => yangtzeRiverRegions.find((region) => region.id === selectedRegionId) ?? yangtzeRiverRegions[0], [selectedRegionId]);
   const selectedDetailNode = useMemo(() => detailNodes.find((node) => node.id === selectedNodeId) ?? null, [selectedNodeId]);
-  const selectedDetailIndex = selectedDetailNode ? detailNodes.findIndex((node) => node.id === selectedDetailNode.id) : -1;
-  const previousDetailNode = selectedDetailIndex >= 0 ? detailNodes[(selectedDetailIndex - 1 + detailNodes.length) % detailNodes.length] : null;
-  const nextDetailNode = selectedDetailIndex >= 0 ? detailNodes[(selectedDetailIndex + 1) % detailNodes.length] : null;
+  const selectedDetailIndex = selectedDetailNode ? governanceNodes.findIndex((node) => node.id === selectedDetailNode.id) : -1;
+  const previousDetailNode = selectedDetailIndex >= 0 ? governanceNodes[(selectedDetailIndex - 1 + governanceNodes.length) % governanceNodes.length] : null;
+  const nextDetailNode = selectedDetailIndex >= 0 ? governanceNodes[(selectedDetailIndex + 1) % governanceNodes.length] : null;
   const selectedDetailRegion = selectedDetailNode ? yangtzeRiverRegions.find((region) => region.id === selectedDetailNode.regionId) ?? selectedRegion : null;
-  const governanceLevel = selectedDetailNode ? governanceQuestionLevelConfigs.find((level) => level.levelId === selectedDetailNode.id) ?? null : null;
+  const governanceLevel = selectedDetailNode ? governanceDataSource.getQuestionLevelConfig(selectedDetailNode.id) : null;
 
   const closeModal = (): void => {
     const nodeId = selectedNodeId;
@@ -66,10 +69,10 @@ function YangtzeRiver() {
         </section>
         <aside className="yellow-river-page__reference-panel" aria-label="长江流域查阅栏"><YellowRiverInfoPanel region={selectedRegion} /></aside>
       </main>
-      {selectedDetailNode && selectedDetailRegion && previousDetailNode && nextDetailNode && (
+      {selectedDetailNode && selectedDetailRegion && (
         <div className="yellow-river-detail-modal" role="presentation" onClick={closeModal}>
           <div className={`yellow-river-detail-modal__dialog${modalMode === 'governance' ? ' yellow-river-detail-modal__dialog--governance' : ''}`} onClick={(event) => event.stopPropagation()}>
-            {modalMode === 'governance' && governanceLevel ? <YellowRiverGovernancePanel node={selectedDetailNode} region={selectedDetailRegion} level={governanceLevel} onBackToDetail={() => setModalMode('detail')} onClose={closeModal} /> : <YellowRiverNodeDetailPanel node={selectedDetailNode} region={selectedDetailRegion} previousNode={previousDetailNode} nextNode={nextDetailNode} onClose={closeModal} onStartGovernance={() => setModalMode('governance')} onSelectPrevious={() => selectNode(previousDetailNode.id)} onSelectNext={() => selectNode(nextDetailNode.id)} />}
+            {modalMode === 'governance' && governanceLevel ? <YellowRiverGovernancePanel node={selectedDetailNode} region={selectedDetailRegion} level={governanceLevel} onBackToDetail={() => setModalMode('detail')} onClose={closeModal} /> : <YellowRiverNodeDetailPanel node={selectedDetailNode} region={selectedDetailRegion} previousNode={previousDetailNode} nextNode={nextDetailNode} onClose={closeModal} onStartGovernance={() => setModalMode('governance')} onSelectPrevious={previousDetailNode ? () => selectNode(previousDetailNode.id) : undefined} onSelectNext={nextDetailNode ? () => selectNode(nextDetailNode.id) : undefined} />}
           </div>
         </div>
       )}

@@ -1,17 +1,19 @@
 import { useEffect, useRef } from 'react';
 
-import { governanceQuestionLevelConfigs } from '@/data/governanceLevels/questionLevelConfigs';
+import { governanceDataSource } from '@/services/governanceDataSource';
 import type { RiverNode, RiverRegion } from '@/types/basin';
+
+import NodeVideoPanel from './NodeVideoPanel';
 
 interface YellowRiverNodeDetailPanelProps {
   node: RiverNode;
   region: RiverRegion;
-  previousNode: RiverNode;
-  nextNode: RiverNode;
+  previousNode: RiverNode | null;
+  nextNode: RiverNode | null;
   onClose: () => void;
   onStartGovernance: () => void;
-  onSelectPrevious: () => void;
-  onSelectNext: () => void;
+  onSelectPrevious?: () => void;
+  onSelectNext?: () => void;
 }
 
 interface DetailSectionProps {
@@ -41,7 +43,7 @@ function YellowRiverNodeDetailPanel({
   const closeButtonRef = useRef<HTMLButtonElement>(null);
   const contentRef = useRef<HTMLDivElement>(null);
   const typeLabel = node.type === 'ecological' ? '生态问题节点' : '关键工程节点';
-  const governanceLevel = governanceQuestionLevelConfigs.find((level) => level.levelId === node.id);
+  const governanceLevel = governanceDataSource.getQuestionLevelConfig(node.id);
 
   useEffect(() => {
     closeButtonRef.current?.focus();
@@ -84,6 +86,7 @@ function YellowRiverNodeDetailPanel({
       </header>
 
       <div ref={contentRef} className="yellow-river-detail-panel__content" aria-live="polite">
+        {node.type === 'ecological' && <NodeVideoPanel video={node.media?.video} />}
         {node.summary && <p className="yellow-river-detail-panel__introduction">{node.summary}</p>}
         {node.problemDescription && <DetailSection title="这里发生了什么？"><p>{node.problemDescription}</p></DetailSection>}
         {node.causes && node.causes.length > 0 && (
@@ -105,8 +108,8 @@ function YellowRiverNodeDetailPanel({
       </div>
 
       <footer className="yellow-river-detail-panel__navigation">
-        <button type="button" onClick={onSelectPrevious}>上一个节点 · {previousNode.shortName}</button>
-        <button type="button" onClick={onSelectNext}>下一个节点 · {nextNode.shortName}</button>
+        {previousNode && onSelectPrevious && <button type="button" onClick={onSelectPrevious}>上一个节点 · {previousNode.shortName}</button>}
+        {nextNode && onSelectNext && <button type="button" onClick={onSelectNext}>下一个节点 · {nextNode.shortName}</button>}
         <button type="button" className="yellow-river-detail-panel__return" onClick={onClose}>返回流域地图</button>
       </footer>
     </section>

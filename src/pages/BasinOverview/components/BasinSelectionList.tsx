@@ -25,6 +25,7 @@ function BasinSelectionList({ basins, activeBasinId, onBasinActivate, onBasinInt
           <small>探索流域</small>
         </button>
       ))}
+      <p className="basin-selection-list__coming-soon">其他流域正在整理中。</p>
     </nav>
   );
 }

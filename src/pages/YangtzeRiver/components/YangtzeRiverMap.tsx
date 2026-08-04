@@ -2,6 +2,7 @@ import {
   mainstreamSegmentPaths,
   regionLabelPositions,
   regionPaths,
+  supportWaterwayPaths,
   yangtzeRiverBasinPath,
   yangtzeRiverMainstreamPath,
 } from '@/data/yangtzeRiverMapPaths';
@@ -38,6 +39,9 @@ function YangtzeRiverMap({
           <path className="yangtze-river-map__delta" d="M896 343 C1038 301 1189 369 1239 473 C1274 547 1160 644 1001 615 C929 595 884 544 855 478 C907 420 936 377 896 343 Z" />
         </g>
         <g className="yellow-river-map__basin-layer" aria-hidden="true"><path d={yangtzeRiverBasinPath} /></g>
+        <g className="yangtze-river-map__support-waterway-layer" aria-hidden="true">
+          {supportWaterwayPaths.map((path) => <path key={path} d={path} />)}
+        </g>
         <g className="yellow-river-map__region-layer">
           {yangtzeRiverRegions.map((region) => {
             const isVisible = region.id === visibleRegionId;

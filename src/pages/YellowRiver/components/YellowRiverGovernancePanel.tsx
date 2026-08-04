@@ -1,4 +1,4 @@
-import { useEffect, useRef } from 'react';
+import { useEffect, useRef, useState } from 'react';
 
 import GovernanceStage from '@/pages/GovernanceLevel/components/GovernanceStage';
 import type { GovernanceQuestionLevelConfig } from '@/types/governanceLevel';
@@ -20,11 +20,16 @@ function YellowRiverGovernancePanel({
   onClose,
 }: YellowRiverGovernancePanelProps) {
   const closeButtonRef = useRef<HTMLButtonElement>(null);
+  const [currentStars, setCurrentStars] = useState(0);
   const typeLabel = node.type === 'ecological' ? '生态问题节点' : '关键工程节点';
 
   useEffect(() => {
     closeButtonRef.current?.focus();
   }, []);
+
+  useEffect(() => {
+    setCurrentStars(0);
+  }, [level.levelId]);
 
   useEffect(() => {
     const handleKeyDown = (event: KeyboardEvent): void => {
@@ -49,12 +54,13 @@ function YellowRiverGovernancePanel({
           <p className="yellow-river-governance-panel__level-name">{level.title}</p>
         </div>
         <div className="yellow-river-detail-panel__header-actions">
+          <span className="yellow-river-governance-panel__score" aria-live="polite">本关积分 <span aria-hidden="true">★</span>：{currentStars}</span>
           <button className="yellow-river-governance-panel__back" type="button" onClick={onBackToDetail}>返回节点介绍</button>
           <button ref={closeButtonRef} className="yellow-river-detail-panel__close" type="button" aria-label="关闭治理关卡" onClick={onClose}>关闭</button>
         </div>
       </header>
       <div className="yellow-river-detail-panel__content yellow-river-governance-panel__content">
-        <GovernanceStage level={level} />
+        <GovernanceStage level={level} onCurrentStarsChange={setCurrentStars} />
       </div>
     </section>
   );

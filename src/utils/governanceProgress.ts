@@ -39,6 +39,17 @@ function getTotalStars(progress: GovernanceProgressState): number {
   return Object.values(progress.levelBestStars).reduce((total, stars) => total + stars, 0);
 }
 
+function clearLevelBestStars(progress: GovernanceProgressState, levelIds?: readonly string[]): GovernanceProgressState {
+  if (levelIds === undefined) return emptyGovernanceProgress;
+
+  const levelIdSet = new Set(levelIds);
+  const retainedEntries = Object.entries(progress.levelBestStars).filter(([levelId]) => !levelIdSet.has(levelId));
+
+  return retainedEntries.length === Object.keys(progress.levelBestStars).length
+    ? progress
+    : { levelBestStars: Object.fromEntries(retainedEntries) };
+}
+
 function updateLevelBestStars(
   progress: GovernanceProgressState,
   levelId: string,
@@ -65,6 +76,7 @@ function updateLevelBestStars(
 export {
   getGovernanceProgress,
   getTotalStars,
+  clearLevelBestStars,
   saveGovernanceProgress,
   updateLevelBestStars,
 };

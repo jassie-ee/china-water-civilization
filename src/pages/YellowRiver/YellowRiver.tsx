@@ -2,8 +2,8 @@ import { useMemo, useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 
 import { yellowRiverRegions } from '@/data/yellowRiverRegions';
-import { yellowRiverNodes } from '@/data/yellowRiverNodes';
-import { governanceQuestionLevelConfigs } from '@/data/governanceLevels/questionLevelConfigs';
+import { yellowRiverGovernanceNodeIds, yellowRiverNodes } from '@/data/yellowRiverNodes';
+import { governanceDataSource } from '@/services/governanceDataSource';
 import type { YellowRiverNode, YellowRiverNodeId, YellowRiverRegionId } from '@/types/basin';
 
 import YellowRiverMap from './components/YellowRiverMap';
@@ -15,7 +15,8 @@ import './YellowRiver.css';
 
 function hasDetailContent(node: YellowRiverNode): boolean {
   return Boolean(
-    node.problemDescription
+    node.summary
+    || node.problemDescription
     || node.causes?.length
     || node.governanceMeasures?.length
     || node.ecologicalImpacts?.length
@@ -27,6 +28,10 @@ const detailNodes = yellowRiverNodes
   .filter(hasDetailContent)
   .slice()
   .sort((firstNode, secondNode) => firstNode.position.x - secondNode.position.x);
+
+const governanceNodes = yellowRiverGovernanceNodeIds
+  .map((nodeId) => detailNodes.find((node) => node.id === nodeId))
+  .filter((node): node is YellowRiverNode => node !== undefined);
 
 type YellowRiverModalMode = 'detail' | 'governance';
 
@@ -108,19 +113,19 @@ function YellowRiver() {
   };
 
   const selectedDetailIndex = selectedDetailNode
-    ? detailNodes.findIndex((node) => node.id === selectedDetailNode.id)
+    ? governanceNodes.findIndex((node) => node.id === selectedDetailNode.id)
     : -1;
   const previousDetailNode = selectedDetailIndex >= 0
-    ? detailNodes[(selectedDetailIndex - 1 + detailNodes.length) % detailNodes.length]
+    ? governanceNodes[(selectedDetailIndex - 1 + governanceNodes.length) % governanceNodes.length]
     : null;
   const nextDetailNode = selectedDetailIndex >= 0
-    ? detailNodes[(selectedDetailIndex + 1) % detailNodes.length]
+    ? governanceNodes[(selectedDetailIndex + 1) % governanceNodes.length]
     : null;
   const selectedDetailRegion = selectedDetailNode
     ? yellowRiverRegions.find((region) => region.id === selectedDetailNode.regionId) ?? selectedRegion
     : null;
   const governanceLevel = selectedDetailNode
-    ? governanceQuestionLevelConfigs.find((level) => level.levelId === selectedDetailNode.id) ?? null
+    ? governanceDataSource.getQuestionLevelConfig(selectedDetailNode.id)
     : null;
 
   return (
@@ -157,7 +162,7 @@ function YellowRiver() {
           <YellowRiverInfoPanel region={selectedRegion} />
         </aside>
       </main>
-      {selectedDetailNode && selectedDetailRegion && previousDetailNode && nextDetailNode && (
+      {selectedDetailNode && selectedDetailRegion && (
         <div className="yellow-river-detail-modal" role="presentation" onClick={handleDetailClose}>
           <div className={`yellow-river-detail-modal__dialog${modalMode === 'governance' ? ' yellow-river-detail-modal__dialog--governance' : ''}`} onClick={(event) => event.stopPropagation()}>
             {modalMode === 'governance' && governanceLevel !== null ? (
@@ -176,8 +181,8 @@ function YellowRiver() {
                 nextNode={nextDetailNode}
                 onClose={handleDetailClose}
                 onStartGovernance={() => setModalMode('governance')}
-                onSelectPrevious={() => handleNodeSelect(previousDetailNode.id)}
-                onSelectNext={() => handleNodeSelect(nextDetailNode.id)}
+                onSelectPrevious={previousDetailNode ? () => handleNodeSelect(previousDetailNode.id) : undefined}
+                onSelectNext={nextDetailNode ? () => handleNodeSelect(nextDetailNode.id) : undefined}
               />
             )}
           </div>

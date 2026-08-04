@@ -10,8 +10,15 @@ const initialMetrics: GovernanceMetricValues = {
 // 题目依据三门峡综述梳理，强调从工程实践中认识水沙规律，不替代实际调度指令。
 const sanmenxiaQuestionLevel: GovernanceQuestionLevelConfig = {
   levelId: 'sanmenxia',
+  basinId: 'yellow-river',
   title: '三门峡：从拦沙到协同调控',
   description: '通过八个决策情境，理解多泥沙河流治理如何从单一工程思维走向尊重规律的联合调度。',
+  knowledgeNotes: [
+    '三门峡是黄河干流首座大型水利枢纽，也是认识黄河水沙规律的重要探路工程。',
+    '早期“蓄水拦沙”加重库区淤积，促成运行方式转向“蓄清排浑”。',
+    '工程改建要针对泄流、排沙与库区演变的实际关系，并以监测验证效果。',
+    '三门峡需要与小浪底等工程共享预报和监测信息，按时序开展联合调度。',
+  ],
   initialMetrics,
   evaluation: {
     title: '在实践中修正认知，形成系统治理',

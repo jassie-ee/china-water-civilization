@@ -5,6 +5,7 @@ const initialMetrics: GovernanceMetricValues = { floodSafety: 50, sedimentContro
 const explain = '三峡工程是连接上游梯级开发与中下游安全、通航需求的综合枢纽，调度应以预报、工程边界、下游响应和生态约束共同支撑。';
 
 const threeGorgesQuestionLevel: GovernanceQuestionLevelConfig = {
+  basinId: 'yangtze-river',
   levelId: 'three-gorges', title: '三峡：上中游综合枢纽', description: '在防洪、发电、航运、水资源利用与生态约束之间完成八次连续判断。', initialMetrics,
   evaluation: { title: '让综合枢纽服务于流域整体', description: '三峡工程的综合效益依赖于预报、联合调度和对上下游生态过程的持续关注。' },
   questions: [

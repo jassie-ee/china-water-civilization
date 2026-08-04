@@ -8,6 +8,7 @@
 .yangtze-river-map__delta { fill: rgb(103 145 166 / 18%); stroke: rgb(166 209 227 / 24%); }
 .yangtze-river-map .yellow-river-map__basin-layer path { fill: rgb(105 192 222 / 7%); stroke: rgb(148 218 239 / 34%); }
 .yangtze-river-map .yellow-river-map__mainstream-layer path { stroke: #75cbe5; filter: drop-shadow(0 0 6px rgb(110 203 230 / 36%)); }
+.yangtze-river-map__support-waterway-layer path { fill: none; stroke: rgb(117 203 229 / 58%); stroke-width: 4; stroke-linecap: round; stroke-dasharray: 7 9; }
 .yangtze-river-region--upper { color: #91d9ed; }
 .yangtze-river-region--upper.is-visible .yellow-river-map__region-shape { fill: rgb(82 182 215 / 23%); stroke: #91d9ed; }
 .yangtze-river-region--upper.is-visible .yellow-river-map__region-mainstream { stroke: #91d9ed; }
