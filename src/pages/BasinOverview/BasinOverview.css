@@ -133,6 +133,13 @@
   transform-origin: center;
 }
 
+.source-marker__mountains { opacity: .88; pointer-events: none; }
+.source-marker__terrain { stroke-linejoin: round; }
+.source-marker__terrain--far { fill: rgb(72 129 143 / 40%); stroke: rgb(157 219 216 / 34%); stroke-width: 1; }
+.source-marker__terrain--near { fill: rgb(97 165 174 / 42%); stroke: rgb(186 237 229 / 42%); stroke-width: 1.1; }
+.source-marker__contour { fill: none; stroke: rgb(200 241 233 / 38%); stroke-linecap: round; stroke-width: .9; }
+.source-marker__contour--two { opacity: .68; }
+
 .source-marker--drop-landing .source-marker__drop,
 .source-marker--source-rippling .source-marker__drop,
 .source-marker--rivers-awakening .source-marker__drop,
@@ -142,17 +149,13 @@
 
 .source-marker__point,
 .source-marker__energy,
-.source-marker__ripple,
-.source-marker__label {
+.source-marker__ripple {
   opacity: 0;
 }
 
 .source-marker--source-rippling .source-marker__point,
 .source-marker--rivers-awakening .source-marker__point,
-.source-marker--interactive .source-marker__point,
-.source-marker--source-rippling .source-marker__label,
-.source-marker--rivers-awakening .source-marker__label,
-.source-marker--interactive .source-marker__label {
+.source-marker--interactive .source-marker__point {
   opacity: 1;
 }
 
