@@ -6,18 +6,11 @@ import { governanceDataSource } from '@/services/governanceDataSource';
 import type { GovernanceQuestionLevelConfig } from '@/types/governanceLevel';
 import type { RemoteGovernanceChallenge, RemoteGovernanceChallengeReview } from '@/types/governanceData';
 
-import QuestionReviewPanel from './QuestionReviewPanel';
-import StarScore from './StarScore';
+import FormalChallengeResult, { type FormalChallengeAnswer } from './FormalChallengeResult';
 
 interface RemoteGovernanceStageProps {
   level: GovernanceQuestionLevelConfig;
   onCurrentStarsChange?: (stars: number) => void;
-}
-
-interface AnswerRecord {
-  questionId: string;
-  selectedOptionId: string;
-  awardedStars: 0 | 3;
 }
 
 /** 正式题库采用连续答题模式：判题入库后立即推进到下一题。 */
@@ -26,9 +19,8 @@ function RemoteGovernanceStage({ level, onCurrentStarsChange }: RemoteGovernance
   const { getLevelBestStars, refreshProgress } = useGovernanceProgress();
   const [challenge, setChallenge] = useState<RemoteGovernanceChallenge | null>(null);
   const [questionIndex, setQuestionIndex] = useState(0);
-  const [answers, setAnswers] = useState<AnswerRecord[]>([]);
+  const [answers, setAnswers] = useState<FormalChallengeAnswer[]>([]);
   const [review, setReview] = useState<RemoteGovernanceChallengeReview | null>(null);
-  const [reviewQuestionIndex, setReviewQuestionIndex] = useState<number | null>(null);
   const [isResultVisible, setIsResultVisible] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
@@ -45,7 +37,6 @@ function RemoteGovernanceStage({ level, onCurrentStarsChange }: RemoteGovernance
     setQuestionIndex(0);
     setAnswers([]);
     setReview(null);
-    setReviewQuestionIndex(null);
     setIsResultVisible(false);
     setErrorMessage(null);
 
@@ -116,55 +107,7 @@ function RemoteGovernanceStage({ level, onCurrentStarsChange }: RemoteGovernance
     );
   }
 
-  if (isComplete) {
-    if (reviewQuestionIndex !== null) {
-      const reviewQuestion = challenge.questions[reviewQuestionIndex];
-      const itemReview = review?.questions.find((item) => item.questionId === reviewQuestion?.id);
-      const answer = answers.find((item) => item.questionId === reviewQuestion?.id);
-
-      return (
-        <section className="governance-question-review" aria-label="逐题复盘">
-          {reviewQuestion === undefined || itemReview === undefined || answer === undefined ? (
-            <p className="governance-question-review__loading">{errorMessage ?? '正在准备正确答案与解析…'}</p>
-          ) : (
-            <QuestionReviewPanel
-              question={reviewQuestion}
-              review={itemReview}
-              questionNumber={reviewQuestionIndex + 1}
-              totalQuestions={challenge.questions.length}
-              awardedStars={answer.awardedStars}
-              onPrevious={reviewQuestionIndex > 0 ? () => setReviewQuestionIndex((index) => (index ?? 1) - 1) : null}
-              onNext={reviewQuestionIndex < challenge.questions.length - 1 ? () => setReviewQuestionIndex((index) => (index ?? 0) + 1) : null}
-              onBackToResult={() => setReviewQuestionIndex(null)}
-            />
-          )}
-        </section>
-      );
-    }
-
-    return (
-      <section className="governance-question-result" aria-live="polite">
-        <p className="governance-question-result__eyebrow">正式题库结果</p>
-        <h2>完成 {answers.length} 题 · 本次新增 {sessionStars} 星</h2>
-        <p className="governance-question-result__history">本关累计积分 ★：{displayedStars} / 120</p>
-        <div className="governance-question-result__stars" aria-label="本次答题星级">
-          {answers.map((answer, index) => (
-            <button key={answer.questionId} type="button" className="governance-question-result__score-button" onClick={() => setReviewQuestionIndex(index)}>
-              <span>第 {index + 1} 题 · 查看题目</span>
-              <StarScore stars={answer.awardedStars} label={`第 ${index + 1} 题得分`} />
-            </button>
-          ))}
-        </div>
-        <button className="governance-question-result__review-button" type="button" onClick={() => setReviewQuestionIndex(0)}>
-          查看逐题复盘
-        </button>
-        <section className="governance-question-result__evaluation">
-          <h3>学习提示</h3>
-          <p>本关题目会在后续挑战中随机轮换；已答对题目可复习，但不会重复获得积分。</p>
-        </section>
-      </section>
-    );
-  }
+  if (isComplete) return <FormalChallengeResult mode="official" questions={challenge.questions} answers={answers} reviews={review?.questions ?? null} levelStars={displayedStars} />;
 
   if (currentQuestion === undefined) return <p className="governance-stage__empty">未能读取本次题目。</p>;
 
