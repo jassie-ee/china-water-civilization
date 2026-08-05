@@ -173,7 +173,7 @@
 
 .river-path { cursor: pointer; outline: none; }
 .river-path__hit-area { fill: none; stroke: transparent; stroke-width: 28; }
-.river-path__line, .river-path__glow { fill: none; stroke-linecap: round; stroke-linejoin: round; stroke-dasharray: 650; stroke-dashoffset: 650; }
+.river-path__line, .river-path__glow { fill: none; stroke-linecap: round; stroke-linejoin: round; stroke-dasharray: 1; stroke-dashoffset: 1; }
 .river-path__line { stroke-width: 5; }
 .river-path__glow { stroke-width: 15; opacity: .12; }
 .river-path__label { opacity: 0; font-size: 18px; letter-spacing: .08em; pointer-events: none; transition: opacity 180ms ease, font-size 180ms ease; }

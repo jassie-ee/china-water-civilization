@@ -36,8 +36,9 @@ function RiverPath({ basin, phase, isActive, interactionState, isSelected, onAct
       onClick={() => onActivate(basin.id)}
     >
       <path className="river-path__hit-area" d={riverPaths[basin.id]} />
-      <path className={`river-path__glow river-path__glow--${phase}`} d={riverPaths[basin.id]} />
-      <path className={`river-path__line river-path__line--${phase}`} d={riverPaths[basin.id]} />
+      {/* pathLength 将不同长度的河流统一为 0–1，避免固定虚线长度露出尾端。 */}
+      <path className={`river-path__glow river-path__glow--${phase}`} d={riverPaths[basin.id]} pathLength={1} />
+      <path className={`river-path__line river-path__line--${phase}`} d={riverPaths[basin.id]} pathLength={1} />
       <text className="river-path__label" x={labelPosition.x} y={labelPosition.y}>{basin.name}</text>
     </g>
   );
