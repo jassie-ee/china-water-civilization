@@ -106,7 +106,10 @@ function BasinOverview() {
           onBasinActivate={handleBasinActivate}
           onBasinInteractionChange={handleBasinInteractionChange}
         />
-        <div className="basin-overview-page__sidebar">
+        <div
+          className="basin-overview-page__sidebar"
+          onMouseLeave={() => handleBasinInteractionChange(null, 'idle')}
+        >
           <BasinInfoPanel activeBasin={activeBasin} />
           <BasinSelectionList
             basins={basinOverviewItems}

@@ -18,7 +18,6 @@ function BasinSelectionList({ basins, activeBasinId, onBasinActivate, onBasinInt
           onBlur={() => onBasinInteractionChange(null, 'idle')}
           onFocus={() => onBasinInteractionChange(basin.id, 'focused')}
           onMouseEnter={() => onBasinInteractionChange(basin.id, 'hovered')}
-          onMouseLeave={() => onBasinInteractionChange(null, 'idle')}
           onClick={() => onBasinActivate(basin.id)}
         >
           <span>{basin.name}</span>
