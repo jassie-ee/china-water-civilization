@@ -37,6 +37,19 @@ export interface RemoteGovernanceAnswerResult {
   explanation: string;
 }
 
+/** 已完成关卡才返回的复盘数据，正确答案不会出现在答题过程。 */
+export interface RemoteGovernanceQuestionReview {
+  questionId: string;
+  selectedOptionId: string;
+  correctOptionId: string;
+  explanation: string;
+}
+
+export interface RemoteGovernanceChallengeReview {
+  attemptId: string;
+  questions: RemoteGovernanceQuestionReview[];
+}
+
 /**
  * 页面只依赖此接口；本地 demo 与未来 API 实现可以在不改动 UI 的情况下替换。
  * 关卡配置在 demo 阶段随前端代码发布，因此采用同步查询；远端实现可在启动时预载并缓存。
@@ -50,4 +63,5 @@ export interface GovernanceDataSource {
   isRemoteQuestionLevel: (levelId: string) => boolean;
   startRemoteChallenge: (levelId: string) => Promise<RemoteGovernanceChallenge>;
   submitRemoteAnswer: (attemptId: string, questionId: string, optionId: string) => Promise<RemoteGovernanceAnswerResult>;
+  loadRemoteChallengeReview: (attemptId: string) => Promise<RemoteGovernanceChallengeReview>;
 }

@@ -1,4 +1,5 @@
 .account-menu__trigger { display: inline-flex; align-items: center; justify-content: center; gap: .32rem; min-height: 2rem; border: 1px solid rgb(163 224 219 / 38%); border-radius: 999px; padding: .28rem .55rem; color: #e7f3e9; background: rgb(4 29 39 / 74%); font-size: .72rem; cursor: pointer; }
+.account-menu__trigger--error { border-color: rgb(255 172 161 / 50%); color: #ffd9d3; }
 .account-menu__identity { display: inline-grid; justify-items: center; gap: .08rem; min-width: 2.35rem; font-size: .62rem; line-height: 1.1; }
 .account-menu__avatar { width: 1.15rem; height: 1.15rem; fill: none; stroke: currentColor; stroke-linecap: round; stroke-linejoin: round; stroke-width: 1.55; }
 .account-menu__backdrop { position: fixed; z-index: 60; inset: 0; display: grid; place-items: center; padding: 1rem; background: rgb(2 19 27 / 42%); }
@@ -29,7 +30,7 @@
 .account-menu__confirm-actions { display: flex; gap: .45rem; }
 .account-menu__confirm-icon { display: grid; width: 2rem; height: 2rem; place-items: center; border: 1px solid rgb(183 229 218 / 35%); border-radius: 50%; color: rgb(220 244 235 / 88%); background: rgb(255 255 255 / 5%); font-size: 1.05rem; line-height: 1; cursor: pointer; }
 .account-menu__confirm-icon--danger { border-color: rgb(255 172 161 / 58%); color: #ffd9d3; background: rgb(145 48 46 / 19%); }
-.account-menu__confirm-icon:disabled, .account-menu__submit:disabled, .account-menu__text-button:disabled { cursor: not-allowed; opacity: .58; }
+.account-menu__confirm-icon:disabled, .account-menu__submit:disabled, .account-menu__switch:disabled, .account-menu__text-button:disabled { cursor: not-allowed; opacity: .58; }
 .account-menu button:focus-visible, .account-menu input:focus-visible, .account-menu__trigger:focus-visible { outline: 2px solid #eafff3; outline-offset: 3px; }
 
 @media (max-width: 360px) {

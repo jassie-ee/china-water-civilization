@@ -147,9 +147,9 @@
 .yellow-river-governance-panel__content { padding: clamp(.75rem, 1.7vw, 1.15rem); }
 .yellow-river-governance-panel .governance-stage { gap: .7rem; }
 .yellow-river-governance-panel .governance-stage__progress { padding: .55rem .7rem; font-size: .76rem; }
-.yellow-river-governance-panel .governance-question-card, .yellow-river-governance-panel .governance-feedback-card, .yellow-river-governance-panel .governance-question-result { padding: clamp(.85rem, 1.8vw, 1.2rem); }
+.yellow-river-governance-panel .governance-question-card, .yellow-river-governance-panel .governance-question-result, .yellow-river-governance-panel .governance-result-ready { padding: clamp(.85rem, 1.8vw, 1.2rem); }
 .yellow-river-governance-panel .governance-question-card__scenario { margin: .65rem 0 .4rem; font-size: .88rem; line-height: 1.55; }
-.yellow-river-governance-panel .governance-question-card h2, .yellow-river-governance-panel .governance-feedback-card h2, .yellow-river-governance-panel .governance-question-result h2 { font-size: clamp(1.25rem, 2.2vw, 1.75rem); }
+.yellow-river-governance-panel .governance-question-card h2, .yellow-river-governance-panel .governance-question-result h2, .yellow-river-governance-panel .governance-result-ready h2 { font-size: clamp(1.25rem, 2.2vw, 1.75rem); }
 .yellow-river-governance-panel .governance-question-card__options { gap: .5rem; margin-top: .85rem; }
 .yellow-river-governance-panel .governance-question-option { padding: .7rem .8rem; gap: .75rem; }
 .yellow-river-governance-panel .governance-question-option__text { font-size: .9rem; line-height: 1.5; }

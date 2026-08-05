@@ -16,6 +16,28 @@ interface GuestMigrationClaim {
 
 const guestMigrationStorageKey = 'chinese-water-ecological-civilization:guest-migration-claim';
 
+interface GuestSessionResult {
+  user: User | null;
+  errorMessage: string | null;
+}
+
+/** Ensure the demo always has an upgradeable anonymous session before registration. */
+async function ensureGuestSession(): Promise<GuestSessionResult> {
+  const client = await getSupabaseClient();
+  if (client === null) return { user: null, errorMessage: 'Supabase 尚未配置。' };
+
+  const { data: userData, error: userError } = await client.auth.getUser();
+  if (userData.user !== null) return { user: userData.user, errorMessage: null };
+
+  // Invalid persisted tokens must not block creation of a fresh anonymous session.
+  if (userError !== null) await client.auth.signOut({ scope: 'local' });
+  const { data: anonymousData, error: anonymousError } = await client.auth.signInAnonymously();
+  return {
+    user: anonymousData.user,
+    errorMessage: anonymousError === null ? null : `无法创建游客会话：${anonymousError.message}`,
+  };
+}
+
 async function readGuestMigrationClaim(): Promise<GuestMigrationClaim | null> {
   const client = await getSupabaseClient();
   if (client === null) return null;
@@ -76,23 +98,15 @@ function AccountProvider({ children }: AccountProviderProps) {
     const initializeSession = async (): Promise<void> => {
       const client = await getSupabaseClient();
       if (client === null) return;
-      const { data, error } = await client.auth.getSession();
-      if (error !== null) {
-        if (isMounted) setErrorMessage(error.message);
-        return;
-      }
-
-      if (data.session !== null) {
-        if (isMounted) setUser(data.session.user);
-        void readDisplayName(data.session.user.id);
-        return;
-      }
-
-      const anonymousResult = await client.auth.signInAnonymously();
+      const guestSession = await ensureGuestSession();
       if (isMounted) {
-        setUser(anonymousResult.data.user);
-        setDisplayName(null);
-        setErrorMessage(anonymousResult.error?.message ?? null);
+        setUser(guestSession.user);
+        if (guestSession.user?.is_anonymous ?? true) {
+          setDisplayName(null);
+        } else if (guestSession.user !== null) {
+          void readDisplayName(guestSession.user.id);
+        }
+        setErrorMessage(guestSession.errorMessage);
       }
     };
 
@@ -120,6 +134,14 @@ function AccountProvider({ children }: AccountProviderProps) {
     };
   }, []);
 
+  const restoreGuestSession = useCallback(async (): Promise<boolean> => {
+    const guestSession = await ensureGuestSession();
+    setUser(guestSession.user);
+    setErrorMessage(guestSession.errorMessage);
+    if (guestSession.user?.is_anonymous ?? true) setDisplayName(null);
+    return guestSession.user?.is_anonymous === true;
+  }, []);
+
   const signUpWithEmail = useCallback(async (email: string, password: string, displayName?: string): Promise<boolean> => {
     const client = await getSupabaseClient();
     if (client === null) return false;
@@ -129,11 +151,13 @@ function AccountProvider({ children }: AccountProviderProps) {
       return false;
     }
     setErrorMessage(null);
-    const { data: currentUserData } = await client.auth.getUser();
-    if (currentUserData.user === null || !currentUserData.user.is_anonymous) {
-      setErrorMessage('当前游客会话不存在，请刷新页面后重试。');
+    const guestSession = await ensureGuestSession();
+    if (guestSession.user === null || !guestSession.user.is_anonymous) {
+      setUser(guestSession.user);
+      setErrorMessage(guestSession.errorMessage ?? '当前并非游客会话，无法执行游客账户升级。');
       return false;
     }
+    setUser(guestSession.user);
     const normalizedEmail = email.trim().toLowerCase();
     const { data, error } = await client.auth.updateUser({
       email: normalizedEmail,
@@ -260,12 +284,13 @@ function AccountProvider({ children }: AccountProviderProps) {
     user,
     displayName,
     errorMessage,
+    restoreGuestSession,
     signUpWithEmail,
     signInWithEmail,
     updateDisplayName,
     deleteAccount,
     signOut,
-  }), [deleteAccount, displayName, errorMessage, isLoading, signInWithEmail, signOut, signUpWithEmail, updateDisplayName, user]);
+  }), [deleteAccount, displayName, errorMessage, isLoading, restoreGuestSession, signInWithEmail, signOut, signUpWithEmail, updateDisplayName, user]);
 
   return <AccountContext.Provider value={value}>{children}</AccountContext.Provider>;
 }

@@ -7,6 +7,7 @@ interface AccountContextValue {
   user: User | null;
   displayName: string | null;
   errorMessage: string | null;
+  restoreGuestSession: () => Promise<boolean>;
   signUpWithEmail: (email: string, password: string, displayName: string) => Promise<boolean>;
   signInWithEmail: (email: string, password: string) => Promise<boolean>;
   updateDisplayName: (displayName: string) => Promise<boolean>;

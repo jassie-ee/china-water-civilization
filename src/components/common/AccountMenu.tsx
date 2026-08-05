@@ -12,6 +12,7 @@ function AccountMenu() {
     user,
     displayName,
     errorMessage,
+    restoreGuestSession,
     signInWithEmail,
     signOut,
     signUpWithEmail,
@@ -30,7 +31,8 @@ function AccountMenu() {
   const [isDeleting, setIsDeleting] = useState(false);
   const triggerRef = useRef<HTMLButtonElement>(null);
 
-  const isAnonymous = user?.is_anonymous ?? true;
+  const isAnonymous = user?.is_anonymous === true;
+  const isAccountUnavailable = !isLoading && user === null;
   const closeMenu = (): void => {
     setIsOpen(false);
     setIsEditingName(false);
@@ -75,12 +77,29 @@ function AccountMenu() {
     if (didSucceed) closeMenu();
   };
 
+  const handleRestoreGuest = async (): Promise<void> => {
+    setIsSubmitting(true);
+    const didRestore = await restoreGuestSession();
+    setIsSubmitting(false);
+    if (didRestore) {
+      setMode('sign-up');
+      setPassword('');
+    }
+  };
+
   if (!isConfigured || location.pathname === '/') return null;
 
   return (
     <>
-      <button ref={triggerRef} className="account-menu__trigger" type="button" onClick={() => setIsOpen(true)}>
-        {isLoading ? '连接中…' : isAnonymous ? (
+      <button
+        ref={triggerRef}
+        className={`account-menu__trigger${isAccountUnavailable ? ' account-menu__trigger--error' : ''}`}
+        type="button"
+        onClick={() => setIsOpen(true)}
+      >
+        {isLoading ? '连接中…' : isAccountUnavailable ? (
+          <><UserIcon /><span>账户连接异常</span></>
+        ) : isAnonymous ? (
           <><UserIcon /><span>游客账户</span></>
         ) : (
           <span className="account-menu__identity"><UserIcon /><span>{displayName ?? '水生态工程师'}</span></span>
@@ -90,21 +109,33 @@ function AccountMenu() {
         <div className="account-menu__backdrop" role="presentation" onClick={closeMenu}>
           <section className="account-menu" role="dialog" aria-modal="true" aria-labelledby="account-menu-title" onClick={(event) => event.stopPropagation()}>
             <button className="account-menu__close" type="button" aria-label="关闭账户面板" onClick={closeMenu}>×</button>
-            {isAnonymous ? (
+            {(isAnonymous || isAccountUnavailable) ? (
               <>
                 <p className="account-menu__eyebrow">WATER ENGINEER ID</p>
-                <h2 id="account-menu-title">{mode === 'sign-in' ? '登录账户' : '创建账户'}</h2>
-                <p className="account-menu__description">登录后可保留当前游客学习记录，并在不同设备继续体验。</p>
+                <h2 id="account-menu-title">{isAccountUnavailable ? '账户连接异常' : mode === 'sign-in' ? '登录账户' : '创建账户'}</h2>
+                <p className="account-menu__description">
+                  {isAccountUnavailable
+                    ? '未能建立游客会话。你仍可登录已有账户，或重新连接后注册。'
+                    : '登录后可保留当前游客学习记录，并在不同设备继续体验。'}
+                </p>
                 <form onSubmit={handleSubmit}>
-                  {mode === 'sign-up' && <label>用户名<input value={username} maxLength={24} autoComplete="nickname" onChange={(event) => setUsername(event.target.value)} required /></label>}
+                  {isAnonymous && mode === 'sign-up' && <label>用户名<input value={username} maxLength={24} autoComplete="nickname" onChange={(event) => setUsername(event.target.value)} required /></label>}
                   <label>邮箱<input value={email} type="email" autoComplete="email" onChange={(event) => setEmail(event.target.value)} required /></label>
-                  <label>密码<input value={password} type="password" minLength={6} autoComplete={mode === 'sign-in' ? 'current-password' : 'new-password'} onChange={(event) => setPassword(event.target.value)} required /></label>
+                  <label>密码<input value={password} type="password" minLength={6} autoComplete={isAnonymous && mode === 'sign-up' ? 'new-password' : 'current-password'} onChange={(event) => setPassword(event.target.value)} required /></label>
                   {errorMessage !== null && <p className="account-menu__error" role="alert">{errorMessage}</p>}
-                  <button className="account-menu__submit" type="submit" disabled={isSubmitting}>{isSubmitting ? '处理中…' : mode === 'sign-in' ? '登录' : '注册并绑定记录'}</button>
+                  <button className="account-menu__submit" type="submit" disabled={isSubmitting || isLoading || (isAccountUnavailable && mode === 'sign-up')}>
+                    {isSubmitting ? '处理中…' : isAnonymous && mode === 'sign-up' ? '注册并绑定记录' : '登录'}
+                  </button>
                 </form>
-                <button className="account-menu__switch" type="button" onClick={() => setMode(mode === 'sign-in' ? 'sign-up' : 'sign-in')}>
-                  {mode === 'sign-in' ? '还没有账户？创建账户' : '已有账户？返回登录'}
-                </button>
+                {isAccountUnavailable ? (
+                  <button className="account-menu__switch" type="button" disabled={isSubmitting} onClick={() => void handleRestoreGuest()}>
+                    {isSubmitting ? '正在重新连接…' : '重新连接游客会话'}
+                  </button>
+                ) : (
+                  <button className="account-menu__switch" type="button" disabled={isLoading || isSubmitting} onClick={() => setMode(mode === 'sign-in' ? 'sign-up' : 'sign-in')}>
+                    {mode === 'sign-in' ? '还没有账户？创建账户' : '已有账户？返回登录'}
+                  </button>
+                )}
               </>
             ) : (
               <>

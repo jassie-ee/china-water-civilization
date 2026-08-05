@@ -34,6 +34,39 @@ function readRemoteChallenge(value: unknown) {
   };
 }
 
+function readRemoteChallengeReview(value: unknown) {
+  if (typeof value !== 'object' || value === null) throw new Error('正式题库复盘返回格式异常。');
+  const payload = value as { attemptId?: unknown; questions?: unknown };
+  if (typeof payload.attemptId !== 'string' || !Array.isArray(payload.questions)) {
+    throw new Error('正式题库未返回可用复盘。');
+  }
+  return {
+    attemptId: payload.attemptId,
+    questions: payload.questions.map((question) => {
+      const item = question as {
+        questionId?: unknown;
+        selectedOptionId?: unknown;
+        correctOptionId?: unknown;
+        explanation?: unknown;
+      };
+      if (
+        typeof item.questionId !== 'string'
+        || typeof item.selectedOptionId !== 'string'
+        || typeof item.correctOptionId !== 'string'
+        || typeof item.explanation !== 'string'
+      ) {
+        throw new Error('正式题库复盘题目格式异常。');
+      }
+      return {
+        questionId: item.questionId,
+        selectedOptionId: item.selectedOptionId,
+        correctOptionId: item.correctOptionId,
+        explanation: item.explanation,
+      };
+    }),
+  };
+}
+
 async function requireSupabaseClient() {
   const client = await getSupabaseClient();
   if (client === null) throw new Error('尚未配置 Supabase，无法加载正式题库。');
@@ -111,6 +144,12 @@ const localGovernanceDataSource: GovernanceDataSource = {
       throw new Error('云端判题返回格式异常。');
     }
     return { isCorrect: result.isCorrect, awardedStars: result.awardedStars, levelStars: result.levelStars, explanation: result.explanation };
+  },
+  loadRemoteChallengeReview: async (attemptId) => {
+    const client = await requireSupabaseClient();
+    const { data, error } = await client.rpc('get_governance_challenge_review', { p_attempt_id: attemptId });
+    if (error !== null) throw new Error(error.message);
+    return readRemoteChallengeReview(data);
   },
 };
 

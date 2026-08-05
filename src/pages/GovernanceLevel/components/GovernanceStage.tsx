@@ -8,7 +8,6 @@ import type {
 import type { GovernanceProgressUpdate } from '@/types/governanceProgress';
 import { useGovernanceProgress } from '@/components/common/governanceProgressContext';
 
-import FeedbackCard from './FeedbackCard';
 import QuestionCard from './QuestionCard';
 import ResultPanel from './ResultPanel';
 import RemoteGovernanceStage from './RemoteGovernanceStage';
@@ -16,7 +15,7 @@ import { governanceDataSource } from '@/services/governanceDataSource';
 
 import './GovernanceQuestionSystem.css';
 
-type GovernanceStagePhase = 'question' | 'feedback' | 'result';
+type GovernanceStagePhase = 'question' | 'result-ready' | 'result';
 
 interface GovernanceStageProps {
   level: GovernanceQuestionLevelConfig;
@@ -28,42 +27,31 @@ function LocalGovernanceStage({ level, onCurrentStarsChange }: GovernanceStagePr
   const [phase, setPhase] = useState<GovernanceStagePhase>('question');
   const [questionIndex, setQuestionIndex] = useState(0);
   const [answers, setAnswers] = useState<GovernanceQuestionAnswerRecord[]>([]);
-  const [lockedAnswer, setLockedAnswer] = useState<GovernanceQuestionAnswerRecord | null>(null);
-  const [lockedOption, setLockedOption] = useState<GovernanceQuestionOption | null>(null);
   const [progressUpdate, setProgressUpdate] = useState<GovernanceProgressUpdate | null>(null);
   const currentQuestion = level.questions[questionIndex];
   const completedStars = useMemo(
     () => answers.reduce((total, answer) => total + answer.earnedStars, 0),
     [answers],
   );
-  const currentStars = completedStars + (lockedAnswer?.earnedStars ?? 0);
+  const currentStars = completedStars;
 
   useEffect(() => {
     onCurrentStarsChange?.(currentStars);
   }, [currentStars, onCurrentStarsChange]);
-  const handleOptionSelect = (option: GovernanceQuestionOption): void => {
+  const handleOptionSelect = async (option: GovernanceQuestionOption): Promise<void> => {
     if (currentQuestion === undefined || phase !== 'question') return;
 
-    setLockedOption(option);
-    setLockedAnswer({
+    const nextAnswer: GovernanceQuestionAnswerRecord = {
       questionNumber: questionIndex + 1,
       questionId: currentQuestion.id,
       selectedOptionId: option.id,
       earnedStars: option.stars,
       metricChanges: option.metricChanges,
-    });
-    setPhase('feedback');
-  };
-
-  const handleContinue = async (): Promise<void> => {
-    if (lockedAnswer === null) return;
-
-    const nextAnswers = [...answers, lockedAnswer];
+    };
+    const nextAnswers = [...answers, nextAnswer];
     const isLastQuestion = questionIndex === level.questions.length - 1;
 
     setAnswers(nextAnswers);
-    setLockedAnswer(null);
-    setLockedOption(null);
 
     if (isLastQuestion) {
       const update = await recordLevelResult(
@@ -71,18 +59,11 @@ function LocalGovernanceStage({ level, onCurrentStarsChange }: GovernanceStagePr
         nextAnswers.reduce((total, answer) => total + answer.earnedStars, 0),
       );
       setProgressUpdate(update);
-      setPhase('result');
+      setPhase('result-ready');
       return;
     }
 
     setQuestionIndex((currentIndex) => currentIndex + 1);
-    setPhase('question');
-  };
-
-  const handleReconsider = (): void => {
-    setLockedAnswer(null);
-    setLockedOption(null);
-    setPhase('question');
   };
 
   if (level.questions.length === 0 || currentQuestion === undefined) {
@@ -102,18 +83,15 @@ function LocalGovernanceStage({ level, onCurrentStarsChange }: GovernanceStagePr
               question={currentQuestion}
               questionNumber={questionIndex + 1}
               totalQuestions={level.questions.length}
-              onOptionSelect={handleOptionSelect}
+              onOptionSelect={(option) => void handleOptionSelect(option)}
             />
           )}
-          {phase === 'feedback' && lockedAnswer !== null && lockedOption !== null && (
-            <FeedbackCard
-              answer={lockedAnswer}
-              option={lockedOption}
-              totalStars={currentStars}
-              continueLabel={questionIndex === level.questions.length - 1 ? '查看治理结果' : '进入下一题'}
-              onContinue={handleContinue}
-              onReconsider={handleReconsider}
-            />
+          {phase === 'result-ready' && (
+            <section className="governance-result-ready" aria-live="polite">
+              <p>八题作答已完成</p>
+              <h2>本次治理决策已归档</h2>
+              <button type="button" onClick={() => setPhase('result')}>查看治理结果</button>
+            </section>
           )}
           {phase === 'result' && <ResultPanel level={level} answers={answers} progressUpdate={progressUpdate} />}
         </div>
