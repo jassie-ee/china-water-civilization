@@ -27,13 +27,17 @@ export interface RemoteGovernanceQuestion {
 
 export interface RemoteGovernanceChallenge {
   attemptId: string;
+  /** 开始本轮前已结算的本关累计积分。 */
+  levelStars: number;
   questions: RemoteGovernanceQuestion[];
 }
 
 export interface RemoteGovernanceAnswerResult {
   isCorrect: boolean;
   awardedStars: 0 | 3;
-  levelStars: number;
+  /** 仅第八题完成整轮结算后才返回累计积分。 */
+  levelStars: number | null;
+  isComplete: boolean;
   explanation: string;
 }
 
@@ -42,6 +46,7 @@ export interface RemoteGovernanceQuestionReview {
   questionId: string;
   selectedOptionId: string;
   correctOptionId: string;
+  awardedStars: 0 | 3;
   explanation: string;
 }
 

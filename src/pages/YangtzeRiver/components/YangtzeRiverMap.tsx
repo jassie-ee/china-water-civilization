@@ -1,5 +1,4 @@
 import {
-  mainstreamSegmentPaths,
   regionLabelPositions,
   regionPaths,
   supportWaterwayPaths,
@@ -33,6 +32,13 @@ function YangtzeRiverMap({
   return (
     <div className="yellow-river-map yangtze-river-map" aria-label="长江上中下游互动叙事地图">
       <svg viewBox="0 0 1400 800" role="img" aria-label="可选择长江上游、中游和下游的抽象流域地图">
+        <defs>
+          {yangtzeRiverRegions.map((region) => (
+            <clipPath key={region.id} id={`yangtze-river-region-clip-${region.id}`} clipPathUnits="userSpaceOnUse">
+              <path d={regionPaths[region.id]} />
+            </clipPath>
+          ))}
+        </defs>
         <g className="yellow-river-map__terrain-layer" aria-hidden="true">
           <path className="yangtze-river-map__mountains" d="M133 468 C183 276 376 181 550 258 C488 336 505 428 425 506 C313 550 203 533 133 468 Z" />
           <path className="yangtze-river-map__lakes" d="M585 329 C686 242 825 250 900 351 C945 423 892 531 775 562 C669 566 589 501 555 432 C608 408 618 359 585 329 Z" />
@@ -64,7 +70,12 @@ function YangtzeRiverMap({
               >
                 <path className="yellow-river-map__region-hit-area" d={regionPaths[region.id]} />
                 <path className="yellow-river-map__region-shape" d={regionPaths[region.id]} />
-                <path className="yellow-river-map__region-mainstream" d={mainstreamSegmentPaths[region.id]} />
+                {/* 由河段边界裁切完整干流，避免手写分段端点与区域边界错位。 */}
+                <path
+                  className="yellow-river-map__region-mainstream"
+                  d={yangtzeRiverMainstreamPath}
+                  clipPath={`url(#yangtze-river-region-clip-${region.id})`}
+                />
                 <text className="yellow-river-map__region-label" x={labelPosition.x} y={labelPosition.y}>{region.shortName}</text>
               </g>
             );

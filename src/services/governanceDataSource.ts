@@ -7,12 +7,13 @@ const remoteQuestionLevelIds = new Set(['dujiangyan', 'danjiangkou']);
 
 function readRemoteChallenge(value: unknown) {
   if (typeof value !== 'object' || value === null) throw new Error('云端题库返回格式异常。');
-  const payload = value as { attemptId?: unknown; questions?: unknown };
-  if (typeof payload.attemptId !== 'string' || !Array.isArray(payload.questions)) {
+  const payload = value as { attemptId?: unknown; levelStars?: unknown; questions?: unknown };
+  if (typeof payload.attemptId !== 'string' || typeof payload.levelStars !== 'number' || !Array.isArray(payload.questions)) {
     throw new Error('云端题库未返回可用题目。');
   }
   return {
     attemptId: payload.attemptId,
+    levelStars: payload.levelStars,
     questions: payload.questions.map((question) => {
       const item = question as { id?: unknown; scenario?: unknown; questionText?: unknown; options?: unknown };
       if (typeof item.id !== 'string' || typeof item.questionText !== 'string' || !Array.isArray(item.options)) {
@@ -47,12 +48,14 @@ function readRemoteChallengeReview(value: unknown) {
         questionId?: unknown;
         selectedOptionId?: unknown;
         correctOptionId?: unknown;
+        awardedStars?: unknown;
         explanation?: unknown;
       };
       if (
         typeof item.questionId !== 'string'
         || typeof item.selectedOptionId !== 'string'
         || typeof item.correctOptionId !== 'string'
+        || (item.awardedStars !== 0 && item.awardedStars !== 3)
         || typeof item.explanation !== 'string'
       ) {
         throw new Error('正式题库复盘题目格式异常。');
@@ -61,6 +64,7 @@ function readRemoteChallengeReview(value: unknown) {
         questionId: item.questionId,
         selectedOptionId: item.selectedOptionId,
         correctOptionId: item.correctOptionId,
+        awardedStars: item.awardedStars as 0 | 3,
         explanation: item.explanation,
       };
     }),
@@ -113,7 +117,13 @@ const localGovernanceDataSource: GovernanceDataSource = {
 
     return { progress, update };
   },
-  clearProgress: async (_accountId, currentProgress, scope) => {
+  clearProgress: async (accountId, currentProgress, scope) => {
+    if (isSupabaseConfigured && accountId !== 'local-demo-account') {
+      const client = await requireSupabaseClient();
+      const { error } = await client.rpc('reset_governance_progress', { p_scope: scope });
+      if (error !== null) throw new Error(error.message);
+    }
+
     const levelIds = scope === 'all'
       ? undefined
       : governanceQuestionLevelConfigs
@@ -139,11 +149,23 @@ const localGovernanceDataSource: GovernanceDataSource = {
       p_option_id: optionId,
     });
     if (error !== null || typeof data !== 'object' || data === null) throw new Error(error?.message ?? '提交答案失败。');
-    const result = data as { isCorrect?: unknown; awardedStars?: unknown; levelStars?: unknown; explanation?: unknown };
-    if (typeof result.isCorrect !== 'boolean' || (result.awardedStars !== 0 && result.awardedStars !== 3) || typeof result.levelStars !== 'number' || typeof result.explanation !== 'string') {
+    const result = data as { isCorrect?: unknown; awardedStars?: unknown; levelStars?: unknown; isComplete?: unknown; explanation?: unknown };
+    if (
+      typeof result.isCorrect !== 'boolean'
+      || (result.awardedStars !== 0 && result.awardedStars !== 3)
+      || (result.levelStars !== null && typeof result.levelStars !== 'number')
+      || typeof result.isComplete !== 'boolean'
+      || typeof result.explanation !== 'string'
+    ) {
       throw new Error('云端判题返回格式异常。');
     }
-    return { isCorrect: result.isCorrect, awardedStars: result.awardedStars, levelStars: result.levelStars, explanation: result.explanation };
+    return {
+      isCorrect: result.isCorrect,
+      awardedStars: result.awardedStars,
+      levelStars: result.levelStars,
+      isComplete: result.isComplete,
+      explanation: result.explanation,
+    };
   },
   loadRemoteChallengeReview: async (attemptId) => {
     const client = await requireSupabaseClient();

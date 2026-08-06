@@ -79,6 +79,13 @@ function YellowRiver() {
     setPreviewRegionId(regionId);
   };
 
+  /** 节点预览只改变地图高亮，不改变右侧已选河段的说明内容。 */
+  const handleNodePreview = (nodeId: YellowRiverNodeId | null): void => {
+    const node = yellowRiverNodes.find((item) => item.id === nodeId);
+    setPreviewNodeId(nodeId);
+    setPreviewRegionId(node?.regionId ?? null);
+  };
+
   const handleRegionSelect = (regionId: YellowRiverRegionId): void => {
     // 区域选择恢复区域面板，避免节点预览与区域说明同时竞争内容区。
     setSelectedRegionId(regionId);
@@ -154,7 +161,7 @@ function YellowRiver() {
             onRegionSelect={handleRegionSelect}
             onRegionPreview={handleRegionPreview}
             onNodeSelect={handleNodeSelect}
-            onNodePreview={setPreviewNodeId}
+            onNodePreview={handleNodePreview}
           />
         </section>
 

@@ -84,6 +84,7 @@ function DemoFormalGovernanceStage({ level, onCurrentStarsChange }: GovernanceSt
     questionId: question.id,
     selectedOptionId: answers.find((answer) => answer.questionId === question.id)?.selectedOptionId ?? '',
     correctOptionId: temporaryCorrectOptions[index][0].id,
+    awardedStars: answers.find((answer) => answer.questionId === question.id)?.awardedStars ?? 0,
     explanation: temporaryCorrectOptions[index][0].explanation,
   }));
 

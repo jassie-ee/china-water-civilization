@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 
 import { useAccount } from '@/components/common/accountContext';
 import { useGovernanceProgress } from '@/components/common/governanceProgressContext';
@@ -16,17 +16,17 @@ interface RemoteGovernanceStageProps {
 /** 正式题库采用连续答题模式：判题入库后立即推进到下一题。 */
 function RemoteGovernanceStage({ level, onCurrentStarsChange }: RemoteGovernanceStageProps) {
   const { isLoading: isAccountLoading, user, errorMessage: accountErrorMessage } = useAccount();
-  const { getLevelBestStars, refreshProgress } = useGovernanceProgress();
+  const { refreshProgress } = useGovernanceProgress();
   const [challenge, setChallenge] = useState<RemoteGovernanceChallenge | null>(null);
   const [questionIndex, setQuestionIndex] = useState(0);
   const [answers, setAnswers] = useState<FormalChallengeAnswer[]>([]);
   const [review, setReview] = useState<RemoteGovernanceChallengeReview | null>(null);
+  const [settledLevelStars, setSettledLevelStars] = useState(0);
   const [isResultVisible, setIsResultVisible] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
-  const initialLevelStars = getLevelBestStars(level.levelId);
-  const sessionStars = useMemo(() => answers.reduce((total, answer) => total + answer.awardedStars, 0), [answers]);
-  const displayedStars = initialLevelStars + sessionStars;
+  // React 状态更新并非同步；用 ref 防止末题在点击重放期间被重复提交。
+  const submissionLockRef = useRef(false);
   const currentQuestion = challenge?.questions[questionIndex];
   const isComplete = challenge !== null && answers.length === challenge.questions.length;
 
@@ -37,12 +37,17 @@ function RemoteGovernanceStage({ level, onCurrentStarsChange }: RemoteGovernance
     setQuestionIndex(0);
     setAnswers([]);
     setReview(null);
+    submissionLockRef.current = false;
+    setSettledLevelStars(0);
     setIsResultVisible(false);
     setErrorMessage(null);
 
     void governanceDataSource.startRemoteChallenge(level.levelId)
       .then((nextChallenge) => {
-        if (isMounted) setChallenge(nextChallenge);
+        if (isMounted) {
+          setChallenge(nextChallenge);
+          setSettledLevelStars(nextChallenge.levelStars);
+        }
       })
       .catch((error: unknown) => {
         if (isMounted) setErrorMessage(error instanceof Error ? error.message : '正式题库加载失败。');
@@ -54,41 +59,52 @@ function RemoteGovernanceStage({ level, onCurrentStarsChange }: RemoteGovernance
   }, [isAccountLoading, level.levelId, user]);
 
   useEffect(() => {
-    onCurrentStarsChange?.(displayedStars);
-  }, [displayedStars, onCurrentStarsChange]);
+    onCurrentStarsChange?.(settledLevelStars);
+  }, [onCurrentStarsChange, settledLevelStars]);
 
-  const loadReview = async (attemptId: string): Promise<void> => {
+  const loadReview = async (attemptId: string): Promise<RemoteGovernanceChallengeReview | null> => {
     try {
       const nextReview = await governanceDataSource.loadRemoteChallengeReview(attemptId);
       setReview(nextReview);
+      return nextReview;
     } catch (error) {
       setErrorMessage(error instanceof Error ? error.message : '答题完成，但暂时无法读取逐题复盘。');
+      return null;
     }
   };
 
   const selectOption = async (optionId: string): Promise<void> => {
-    if (challenge === null || currentQuestion === undefined || isSubmitting) return;
+    if (challenge === null || currentQuestion === undefined || isSubmitting || submissionLockRef.current) return;
+    submissionLockRef.current = true;
     setIsSubmitting(true);
     setErrorMessage(null);
     try {
       const result = await governanceDataSource.submitRemoteAnswer(challenge.attemptId, currentQuestion.id, optionId);
-      const nextAnswers = [...answers, {
+      let nextAnswers = [...answers, {
         questionId: currentQuestion.id,
         selectedOptionId: optionId,
         awardedStars: result.awardedStars,
       }];
-      const isLastQuestion = nextAnswers.length === challenge.questions.length;
-      setAnswers(nextAnswers);
 
-      if (isLastQuestion) {
-        void refreshProgress();
-        void loadReview(challenge.attemptId);
+      if (result.isComplete) {
+        const nextReview = await loadReview(challenge.attemptId);
+        if (nextReview !== null) {
+          nextAnswers = nextAnswers.map((answer) => ({
+            ...answer,
+            awardedStars: nextReview.questions.find((item) => item.questionId === answer.questionId)?.awardedStars ?? 0,
+          }));
+        }
+        setAnswers(nextAnswers);
+        setSettledLevelStars(result.levelStars ?? settledLevelStars);
+        await refreshProgress();
       } else {
+        setAnswers(nextAnswers);
         setQuestionIndex((index) => index + 1);
       }
     } catch (error) {
       setErrorMessage(error instanceof Error ? error.message : '答案提交失败，请重试。');
     } finally {
+      submissionLockRef.current = false;
       setIsSubmitting(false);
     }
   };
@@ -107,7 +123,7 @@ function RemoteGovernanceStage({ level, onCurrentStarsChange }: RemoteGovernance
     );
   }
 
-  if (isComplete) return <FormalChallengeResult mode="official" questions={challenge.questions} answers={answers} reviews={review?.questions ?? null} levelStars={displayedStars} />;
+  if (isComplete) return <FormalChallengeResult mode="official" questions={challenge.questions} answers={answers} reviews={review?.questions ?? null} levelStars={settledLevelStars} />;
 
   if (currentQuestion === undefined) return <p className="governance-stage__empty">未能读取本次题目。</p>;
 
@@ -115,7 +131,7 @@ function RemoteGovernanceStage({ level, onCurrentStarsChange }: RemoteGovernance
     <section className="governance-stage" aria-label={`${level.title} 正式问答`}>
       <header className="governance-stage__progress">
         <span>第 {questionIndex + 1} / {challenge.questions.length} 题 · 正式题库</span>
-        <span>本关累计 {displayedStars} / 120 星</span>
+        <span>本关累计 {settledLevelStars} / 120 星</span>
       </header>
       <section className="governance-question-card" aria-labelledby={`governance-question-${currentQuestion.id}`}>
         <p className="governance-question-card__eyebrow">知识问答 · 第 {questionIndex + 1} / {challenge.questions.length} 题</p>

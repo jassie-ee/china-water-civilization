@@ -48,6 +48,11 @@ function YangtzeRiver() {
   const selectRegion = (regionId: YangtzeRiverRegionId): void => {
     setSelectedRegionId(regionId); setPreviewRegionId(null); setSelectedNodeId(null); setPreviewNodeId(null); setModalMode('detail');
   };
+  /** 节点预览只改变地图高亮，不改变右侧已选河段的说明内容。 */
+  const previewNode = (nodeId: string | null): void => {
+    const node = yangtzeRiverNodes.find((item) => item.id === nodeId);
+    setPreviewNodeId(nodeId); setPreviewRegionId(node?.regionId ?? null);
+  };
   const selectNode = (nodeId: string): void => {
     const node = yangtzeRiverNodes.find((item) => item.id === nodeId);
     if (!node) return;
@@ -65,7 +70,7 @@ function YangtzeRiver() {
       <main className="yellow-river-page__content">
         <section className="yellow-river-page__map-section" aria-labelledby="yangtze-river-map-title">
           <div className="yellow-river-page__map-heading"><p className="yellow-river-page__eyebrow">YANGTZE RIVER DEVELOPMENT SYSTEM</p><h2 id="yangtze-river-map-title">长江流域示意图</h2><p>选择河段或节点，查看开发利用、生态约束与流域协同的关系。</p></div>
-          <YangtzeRiverMap selectedRegionId={selectedRegionId} previewRegionId={previewRegionId} selectedNodeId={selectedNodeId} previewNodeId={previewNodeId} onRegionSelect={selectRegion} onRegionPreview={setPreviewRegionId} onNodeSelect={selectNode} onNodePreview={setPreviewNodeId} />
+          <YangtzeRiverMap selectedRegionId={selectedRegionId} previewRegionId={previewRegionId} selectedNodeId={selectedNodeId} previewNodeId={previewNodeId} onRegionSelect={selectRegion} onRegionPreview={setPreviewRegionId} onNodeSelect={selectNode} onNodePreview={previewNode} />
         </section>
         <aside className="yellow-river-page__reference-panel" aria-label="长江流域查阅栏"><YellowRiverInfoPanel region={selectedRegion} /></aside>
       </main>
