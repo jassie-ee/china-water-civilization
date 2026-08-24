@@ -3,7 +3,7 @@ import type { GovernanceMetricValues, GovernanceQuestionLevelConfig } from '@/ty
 import { createCosmicOpenOptions } from './cosmicQuestionOptions';
 
 // PDF 第四章·天地人和：宇宙共生哲思开放题
-// PDF 原题：三个选项均可，无标准答案（"成立 / 不一定 / 不好说"都接受）
+// PDF 原题（题 35）：三个选项均可，无标准答案（"成立 / 不一定 / 不好说"都接受）
 
 const initialMetrics: GovernanceMetricValues = { floodSafety: 50, sedimentControl: 50, ecologicalStability: 50, engineeringBenefit: 50 };
 
@@ -21,13 +21,7 @@ const cosmicSymbiosisQuestionLevel: GovernanceQuestionLevelConfig = {
     {
       id: 'cosmic-wisdom-transferable',
       scenario: '彗星上的冰、木星冰层下的海、火星深处的远古水脉，宇宙遍布水的痕迹。',
-      questionText: '地球治水"和水好好相处"的核心智慧，放到浩瀚宇宙中，是否仍然成立？',
-      options: createCosmicOpenOptions(),
-    },
-    {
-      id: 'cosmic-attitude',
-      scenario: '若你有机会在未来真正站上外星的水环境，你最想先问自己的问题是什么？',
-      questionText: '请用一句话写下你最想先问自己的那个问题（不评分，只记录）。',
+      questionText: '咱们在地球上学到的、和水相处的道理，放到浩瀚的宇宙里，你觉得还会成立吗？',
       options: createCosmicOpenOptions(),
     },
   ],
