@@ -59,3 +59,82 @@
 .governance-result-ready button:focus-visible, .governance-question-result__review-button:focus-visible, .governance-question-result__score-button:focus-visible, .question-review-panel__explanation button:focus-visible { outline: 2px solid #f4fff9; outline-offset: 3px; }
 @media (max-width: 600px) { .governance-stage__progress { align-items: flex-start; flex-direction: column; }.governance-feedback-card__metrics { grid-template-columns: repeat(2, minmax(0, 1fr)); }.governance-question-option { align-items: flex-start; flex-direction: column; }.governance-feedback-card__actions { align-items: stretch; flex-direction: column; }.governance-feedback-card__actions button { width: 100%; } }
 @media (prefers-reduced-motion: reduce) { .governance-question-option { transition: none; }.governance-question-option:hover { transform: none; } }
+
+/* ====== 动效叠加层（与 prefers-reduced-motion 共存） ====== */
+
+/* 1) 答题按钮点击涟漪：青色水波从中心向四周扩散 */
+.governance-question-option { position: relative; overflow: hidden; }
+.governance-question-option::after {
+  content: '';
+  position: absolute;
+  inset: 50% 50%;
+  width: 0;
+  height: 0;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgb(168 216 232 / 38%) 0%, rgb(168 216 232 / 12%) 40%, transparent 70%);
+  pointer-events: none;
+  opacity: 0;
+  transform: translate(-50%, -50%);
+  transition: width .55s ease-out, height .55s ease-out, opacity .55s ease-out;
+}
+.governance-question-option:active::after {
+  width: 240%;
+  height: 240%;
+  opacity: 1;
+  transition: width 0s, height 0s, opacity 0s;
+}
+
+/* 2) 正确选项金色脉冲：选对后用 .is-correct 触发的呼吸光晕 */
+@keyframes governance-correct-pulse {
+  0%   { box-shadow: 0 0 0 0   rgb(230 189 105 / 55%); border-color: #e6bd69; }
+  35%  { box-shadow: 0 0 0 .55rem rgb(230 189 105 / 0%); border-color: #f4d887; }
+  100% { box-shadow: 0 0 0 0   rgb(230 189 105 / 0%); border-color: #e6bd69; }
+}
+.question-review-panel__option.is-correct {
+  animation: governance-correct-pulse 1.6s ease-out 1;
+}
+
+/* 3) 错误选项提示性微闪：低饱和红橙一闪而过，不刺眼 */
+@keyframes governance-incorrect-shake {
+  0%, 100% { transform: translateX(0); }
+  20%      { transform: translateX(-3px); }
+  40%      { transform: translateX(3px); }
+  60%      { transform: translateX(-2px); }
+  80%      { transform: translateX(2px); }
+}
+.question-review-panel__option.is-incorrect {
+  animation: governance-incorrect-shake .45s ease-in-out 1;
+}
+
+/* 4) 题卡入场：轻微 fade + 上浮 */
+@keyframes governance-card-enter {
+  from { opacity: 0; transform: translateY(8px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+.governance-question-card,
+.governance-feedback-card {
+  animation: governance-card-enter .42s ease-out both;
+}
+
+/* 5) 星级结算：获得星星时逐颗轻微放大 */
+@keyframes governance-star-bloom {
+  0%   { transform: scale(.6); opacity: 0; }
+  60%  { transform: scale(1.18); opacity: 1; }
+  100% { transform: scale(1); opacity: 1; }
+}
+.governance-star-score__star.is-earned {
+  animation: governance-star-bloom .5s ease-out both;
+}
+
+/* 无障碍降级：尊重用户的 prefers-reduced-motion */
+@media (prefers-reduced-motion: reduce) {
+  .governance-question-option::after,
+  .question-review-panel__option.is-correct,
+  .question-review-panel__option.is-incorrect,
+  .governance-question-card,
+  .governance-feedback-card,
+  .governance-star-score__star.is-earned {
+    animation: none;
+    transition: none;
+  }
+}
