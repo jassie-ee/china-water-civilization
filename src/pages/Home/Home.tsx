@@ -52,7 +52,7 @@ function Home() {
 
       navigationLockRef.current = true;
       setIsNavigating(true);
-      navigate('/basins', { state: { basinOverviewEntry: 'intro' } });
+      navigate('/chapters', { state: { chapterOverviewEntry: 'intro' } });
     }, elapsedTime + transitionDelay);
 
     return () => {
@@ -75,7 +75,7 @@ function Home() {
 
     navigationLockRef.current = true;
     setIsNavigating(true);
-    navigate('/basins', { state: { basinOverviewEntry: 'skipped' } });
+    navigate('/chapters', { state: { chapterOverviewEntry: 'skipped' } });
   };
 
   return (
