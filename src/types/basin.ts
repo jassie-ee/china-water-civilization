@@ -7,7 +7,7 @@ export type BasinOverviewPhase =
   | 'rivers-awakening'
   | 'interactive';
 
-export type BasinOverviewEntry = 'intro' | 'skipped' | 'direct' | 'returning';
+export type BasinOverviewEntry = 'intro' | 'skipped' | 'direct' | 'returning' | 'chapter-overview';
 
 export type BasinInteractionState = 'idle' | 'hovered' | 'focused' | 'selected';
 

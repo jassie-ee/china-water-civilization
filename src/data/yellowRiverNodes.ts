@@ -15,7 +15,7 @@ const yellowRiverNodes: YellowRiverNode[] = [
     ecologicalImpacts: ['稳定源区生态过程，有助于维持河流补给与径流节律', '保护关键栖息地，为高原生物多样性保留连续空间'],
     keywords: ['黄河源园区', '高寒草地', '湿地保护', '水源涵养', '生态完整性'],
     significance: '这是黄河水资源形成和生态安全的源头节点，提示治黄必须从源头保护开始。',
-    position: { x: 230, y: 410, labelOffsetX: -28, labelOffsetY: 56 },
+    position: { x: 284, y: 208, labelOffsetX: -28, labelOffsetY: 56 },
     isAvailable: true,
   },
   {
@@ -33,7 +33,7 @@ const yellowRiverNodes: YellowRiverNode[] = [
     governanceMeasures: ['依托多年调节库容实施削丰补枯，平衡年内与跨年度来水。', '通过水库调度统筹防洪、供水、发电和生态流量，并为下游水沙联合调度提供动力。'],
     ecologicalImpacts: ['形成高峡平湖及湿地、草原、水域复合生态景观。', '在保障生态基流的调度中，为下游河道维持稳定水源。'],
     culturalMeaning: '工程利用高原深切峡谷的自然条件，通过因地制宜、削丰补枯的调度方式，体现了尊重河流节律、因势利导的治水智慧。',
-    position: { x: 367, y: 326, labelOffsetX: -37, labelOffsetY: 56 },
+    position: { x: 372, y: 324, labelOffsetX: -37, labelOffsetY: 56 },
     isAvailable: true,
   },
   {
@@ -46,7 +46,7 @@ const yellowRiverNodes: YellowRiverNode[] = [
     summary: '松散黄土、集中降雨、坡地利用和植被变化造成强烈侵蚀，大量泥沙由坡面和沟壑进入黄河。',
     keywords: ['水土流失', '坡面侵蚀', '沟壑侵蚀', '泥沙来源', '退耕还林还草'],
     significance: '这是塑造黄河高含沙特征的核心生态节点。',
-    position: { x: 483, y: 397, labelOffsetX: -58, labelOffsetY: -28 },
+    position: { x: 446, y: 415, labelOffsetX: -58, labelOffsetY: -28 },
     isAvailable: true,
   },
   {
@@ -59,7 +59,7 @@ const yellowRiverNodes: YellowRiverNode[] = [
     summary: '大量泥沙随水流向下游输移，并通过冲刷、淤积和河道变化持续影响下游河床与洪水风险。',
     keywords: ['水沙输移', '河道淤积', '冲淤变化', '洪水风险', '分级调控'],
     significance: '这是连接中游泥沙生成与下游风险累积的过程节点。',
-    position: { x: 577, y: 470, labelOffsetX: -48, labelOffsetY: 53 },
+    position: { x: 540, y: 548, labelOffsetX: -48, labelOffsetY: 53 },
     isAvailable: true,
   },
   {
@@ -77,7 +77,7 @@ const yellowRiverNodes: YellowRiverNode[] = [
     governanceMeasures: ['通过增建排沙设施、改造底孔等方式提高泄流排沙能力。', '确立“蓄清排浑”运行方式：非汛期蓄水兴利，汛期降低水位泄洪排沙。', '与小浪底及支流水库联合调度，为调水调沙提供水动力。'],
     ecologicalImpacts: ['库区河道冲淤逐步趋于动态平衡，潼关高程得到一定控制。', '库区形成较大水域与湿地，为白天鹅等鸟类提供栖息环境。'],
     culturalMeaning: '三门峡的运行演进说明，复杂河流治理需要在实践中认识规律、修正方案；从“拦”到“排”的转变，是知行合一与尊重自然的具体体现。',
-    position: { x: 685, y: 447, labelOffsetX: -35, labelOffsetY: -30 },
+    position: { x: 670, y: 596, labelOffsetX: -35, labelOffsetY: -30 },
     isAvailable: true,
   },
   {
@@ -96,7 +96,7 @@ const yellowRiverNodes: YellowRiverNode[] = [
     ecologicalImpacts: ['下游主河槽冲刷下切、行洪能力提升，河势趋于稳定。', '持续生态补水有助于维持下游不断流，并促进河口湿地修复与生物多样性改善。', '工程调度对水生态存在复杂影响，仍需要持续监测与精细化调度。'],
     culturalMeaning: '小浪底不是单纯拦蓄洪水，而是在理解水沙规律的基础上利用和塑造洪水过程，体现了统筹兼顾、因势利导的人水和谐实践。',
     // 小浪底位于中游末端、进入下游平原前的控制河段。
-    position: { x: 740, y: 481, labelOffsetX: 20, labelOffsetY: 56 },
+    position: { x: 777, y: 620, labelOffsetX: 20, labelOffsetY: 56 },
     isAvailable: true,
   },
   {
@@ -112,7 +112,7 @@ const yellowRiverNodes: YellowRiverNode[] = [
     ecologicalImpacts: ['河海连通改善后，湿地生境与食物链更具恢复条件', '稳定的水沙与潮汐过程有助于维持河口湿地的演变活力'],
     keywords: ['黄河入海口', '新生湿地', '候鸟栖息地', '河海连通', '生态补水'],
     significance: '它把上中游的水沙调控结果延伸到河口，展示黄河治理最终如何影响海岸湿地与生物多样性。',
-    position: { x: 1145, y: 507, labelOffsetX: -62, labelOffsetY: 56 },
+    position: { x: 1195, y: 482, labelOffsetX: -62, labelOffsetY: 56 },
     isAvailable: true,
   },
 ];

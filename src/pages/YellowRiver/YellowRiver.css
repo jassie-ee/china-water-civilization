@@ -1,10 +1,17 @@
 .yellow-river-page {
+  position: relative;
+  isolation: isolate;
   min-height: 100vh;
   padding: clamp(1rem, 3vh, 2rem) clamp(1.25rem, 4vw, 4.5rem);
   color: #edf5f0;
   background:
-    radial-gradient(circle at 22% 72%, rgb(203 154 64 / 16%), transparent 28rem),
+    linear-gradient(180deg, rgb(5 25 35 / 87%) 0%, rgb(8 37 47 / 75%) 48%, rgb(5 24 33 / 91%) 100%),
+    radial-gradient(circle at 22% 72%, rgb(203 154 64 / 22%), transparent 28rem),
+    var(--yellow-river-page-background),
     linear-gradient(135deg, #0b2430, #123746 58%, #081e2b);
+  background-position: center;
+  background-size: cover;
+  background-attachment: fixed;
 }
 
 .yellow-river-page__header,
@@ -16,20 +23,21 @@
 .yellow-river-page__header { margin-bottom: clamp(.8rem, 1.8vh, 1.2rem); }
 .yellow-river-page__back { display: inline-block; color: #dceee7; font-size: .9rem; }
 .yellow-river-page__breadcrumb { margin: .55rem 0 .25rem; color: rgb(218 235 225 / 62%); font-size: .72rem; letter-spacing: .12em; }
-.yellow-river-page h1 { margin: 0; font-family: "STKaiti", "KaiTi", serif; font-size: clamp(2rem, 3.2vw, 3.2rem); font-weight: 400; line-height: 1.16; }
+.yellow-river-page h1 { margin: 0; font-family: var(--font-calligraphy); font-size: clamp(2rem, 3.2vw, 3.2rem); font-weight: 400; line-height: 1.16; }
 .yellow-river-page__header > p:last-child { max-width: 60rem; margin: .45rem 0 0; color: rgb(236 246 241 / 78%); font-size: .9rem; line-height: 1.65; }
 
 .yellow-river-page__content { display: grid; grid-template-columns: minmax(0, 1.65fr) minmax(19rem, .7fr); gap: clamp(1rem, 2.5vw, 2rem); align-items: start; }
 .yellow-river-page__map-section { min-width: 0; }
+.yellow-river-page__map-stage { position: relative; }
 .yellow-river-page__map-heading { margin-bottom: .55rem; }
 .yellow-river-page__eyebrow { margin: 0 0 .35rem; color: #e6bd69; font-size: .68rem; letter-spacing: .16em; }
-.yellow-river-page__map-heading h2 { margin: 0; font-family: "STKaiti", "KaiTi", serif; font-size: clamp(1.2rem, 2vw, 1.55rem); font-weight: 400; }
+.yellow-river-page__map-heading h2 { margin: 0; font-family: var(--font-calligraphy); font-size: clamp(1.2rem, 2vw, 1.55rem); font-weight: 400; }
 .yellow-river-page__map-heading > p:last-child { margin: .25rem 0 0; color: rgb(231 244 237 / 70%); font-size: .82rem; }
 .yellow-river-page__content { align-items: stretch; }
 .yellow-river-page__reference-panel { display: flex; min-height: 0; margin-block: -.55rem; }
 .yellow-river-page__reference-panel .yellow-river-region-panel { flex: 1; max-height: calc(100vh - 3rem); }
 
-.yellow-river-map { position: relative; aspect-ratio: 1400 / 800; overflow: hidden; border: 1px solid rgb(225 193 120 / 32%); border-radius: var(--radius-lg); background: linear-gradient(135deg, rgb(29 83 91 / 76%), rgb(11 43 55 / 90%)); box-shadow: inset 0 0 4rem rgb(233 190 96 / 8%), var(--shadow-sm); }
+.yellow-river-map { position: relative; aspect-ratio: 1400 / 800; overflow: hidden; border: 1px solid rgb(225 193 120 / 38%); border-radius: var(--radius-lg); background: linear-gradient(135deg, rgb(12 48 58 / 75%), rgb(5 29 40 / 84%)), var(--yellow-river-page-background); background-position: center; background-size: cover; box-shadow: inset 0 0 4rem rgb(233 190 96 / 10%), 0 1.2rem 3rem rgb(0 0 0 / 22%), var(--shadow-sm); }
 .yellow-river-map svg { display: block; width: 100%; height: 100%; }
 .yellow-river-map__plateau { fill: rgb(84 152 158 / 18%); stroke: rgb(171 223 218 / 24%); }
 .yellow-river-map__loess { fill: rgb(191 144 63 / 18%); stroke: rgb(228 180 95 / 24%); }
@@ -39,7 +47,7 @@
 .yellow-river-map__region-hit-area { fill: transparent; stroke: transparent; stroke-width: 36; }
 .yellow-river-map__region-shape { fill: rgb(235 211 158 / 7%); stroke: rgb(236 216 167 / 28%); stroke-width: 2; transition: fill 180ms ease, stroke 180ms ease; }
 .yellow-river-map__region-mainstream { fill: none; stroke: transparent; stroke-linecap: round; stroke-width: 13; transition: stroke 180ms ease, stroke-width 180ms ease, filter 180ms ease; }
-.yellow-river-map__region-label { fill: rgb(236 246 239 / 76%); font-family: "STKaiti", "KaiTi", serif; font-size: 28px; letter-spacing: .12em; pointer-events: none; paint-order: stroke; stroke: rgb(5 28 38 / 72%); stroke-width: 5px; stroke-linejoin: round; transition: fill 180ms ease, stroke 180ms ease, font-size 180ms ease, filter 180ms ease; }
+.yellow-river-map__region-label { fill: rgb(236 246 239 / 76%); font-family: var(--font-calligraphy); font-size: 28px; letter-spacing: .12em; pointer-events: none; paint-order: stroke; stroke: rgb(5 28 38 / 72%); stroke-width: 5px; stroke-linejoin: round; transition: fill 180ms ease, stroke 180ms ease, font-size 180ms ease, filter 180ms ease; }
 .yellow-river-map__mainstream-layer path { fill: none; stroke: var(--color-yellow-river); stroke-linecap: round; stroke-linejoin: round; stroke-width: 6; filter: drop-shadow(0 0 6px rgb(232 181 78 / 34%)); }
 .yellow-river-map__node-layer { isolation: isolate; }
 .yellow-river-node-marker { cursor: pointer; outline: none; animation: yellow-river-node-enter 460ms ease-out both; }
@@ -56,7 +64,7 @@
 .yellow-river-node-marker.is-selected .yellow-river-node-marker__glow, .yellow-river-node-marker.is-previewed .yellow-river-node-marker__glow { opacity: .95; transform: scale(1.22); }
 .yellow-river-node-marker.is-selected .yellow-river-node-marker__shape, .yellow-river-node-marker.is-previewed .yellow-river-node-marker__shape { stroke-width: 3; filter: drop-shadow(0 0 7px currentColor); }
 .yellow-river-node-marker:focus-visible .yellow-river-node-marker__glow { opacity: 1; stroke: #fffdec; stroke-width: 3; transform: scale(1.35); }
-.yellow-river-map__node-label { fill: rgb(242 246 225 / 76%); font-family: "STKaiti", "KaiTi", serif; font-size: 21px; letter-spacing: .04em; pointer-events: none; transition: fill 180ms ease, opacity 180ms ease; }
+.yellow-river-map__node-label { fill: rgb(242 246 225 / 76%); font-family: var(--font-calligraphy); font-size: 21px; letter-spacing: .04em; pointer-events: none; transition: fill 180ms ease, opacity 180ms ease; }
 .yellow-river-map__node-label.is-active { fill: #fffdf1; font-weight: 700; }
 .yellow-river-map__legend { position: absolute; left: .8rem; bottom: .7rem; display: flex; flex-wrap: wrap; gap: .3rem .8rem; max-width: calc(100% - 11rem); color: rgb(239 246 233 / 78%); font-size: .66rem; line-height: 1.35; }
 .yellow-river-map__legend span { display: inline-flex; align-items: center; gap: .32rem; }
@@ -80,20 +88,38 @@
 .yellow-river-region--lower.is-visible .yellow-river-map__region-mainstream { stroke: #c6d88c; }
 .yellow-river-map__caption { position: absolute; right: .8rem; bottom: .6rem; margin: 0; color: rgb(228 240 231 / 56%); font-size: .68rem; }
 
+.yellow-river-spirit-dialogue { position: absolute; z-index: 5; right: 1rem; bottom: 1.8rem; left: 1rem; display: flex; align-items: flex-end; gap: .65rem; max-width: 31rem; pointer-events: none; }
+.yellow-river-spirit-dialogue__character { position: relative; flex: 0 0 4.35rem; height: 5.35rem; filter: drop-shadow(0 .45rem .65rem rgb(0 0 0 / 30%)); animation: yellow-river-spirit-float 3.8s ease-in-out infinite; }
+.yellow-river-spirit-dialogue__halo { position: absolute; top: .05rem; left: .25rem; width: 3.85rem; height: 3.85rem; border: 1px solid rgb(175 238 223 / 56%); border-radius: 50%; background: radial-gradient(circle, rgb(147 229 208 / 26%), transparent 68%); }
+.yellow-river-spirit-dialogue__body { position: absolute; bottom: .15rem; left: .65rem; width: 3rem; height: 3.95rem; border: 1px solid rgb(206 249 231 / 82%); border-radius: 50% 50% 44% 44%; background: linear-gradient(150deg, #a9efdc 0%, #4caaa4 52%, #246579 100%); box-shadow: inset -.55rem -.35rem 0 rgb(20 83 100 / 30%); }
+.yellow-river-spirit-dialogue__face { position: absolute; top: 1.08rem; left: .55rem; width: 1.9rem; height: 1.25rem; border-radius: 50%; background: #e6fff0; box-shadow: .6rem .18rem 0 -.32rem #174e62, 1.25rem .18rem 0 -.32rem #174e62; }
+.yellow-river-spirit-dialogue__ribbon { position: absolute; right: -.55rem; bottom: .58rem; width: 1.4rem; height: .5rem; border: 1px solid #f4d98b; border-radius: 60% 20% 60% 20%; background: #d39a43; transform: rotate(-23deg); }
+.yellow-river-spirit-dialogue__bubble { position: relative; flex: 1 1 auto; min-width: 0; padding: .75rem .85rem .7rem; border: 1px solid rgb(185 238 220 / 44%); border-radius: 1rem 1rem 1rem .25rem; color: #edf9f0; background: linear-gradient(145deg, rgb(5 35 47 / 93%), rgb(8 51 59 / 88%)); box-shadow: 0 .8rem 1.8rem rgb(0 0 0 / 25%), inset 0 0 1.5rem rgb(154 226 202 / 7%); backdrop-filter: blur(8px); pointer-events: auto; }
+.yellow-river-spirit-dialogue__bubble::before { position: absolute; bottom: .8rem; left: -.45rem; width: .75rem; height: .75rem; border-bottom: 1px solid rgb(185 238 220 / 44%); border-left: 1px solid rgb(185 238 220 / 44%); background: #07303b; content: ""; transform: skewX(-28deg) rotate(18deg); }
+.yellow-river-spirit-dialogue__meta { display: flex; justify-content: space-between; gap: .75rem; color: #a8e6d2; font-size: .67rem; letter-spacing: .08em; }
+.yellow-river-spirit-dialogue__meta span:last-child { color: rgb(223 241 229 / 54%); letter-spacing: .04em; }
+.yellow-river-spirit-dialogue__text { min-height: 3.05rem; margin: .42rem 0 .55rem; color: #f3faed; font-family: "STKaiti", "KaiTi", serif; font-size: .98rem; line-height: 1.65; animation: yellow-river-dialogue-reveal 220ms ease-out both; }
+.yellow-river-spirit-dialogue__text { font-family: var(--font-calligraphy); }
+.yellow-river-spirit-dialogue__next { display: block; margin-left: auto; padding: .28rem .5rem; border: 1px solid rgb(226 206 138 / 42%); border-radius: 999px; color: #f5dc9a; background: rgb(226 206 138 / 7%); font-size: .72rem; }
+.yellow-river-spirit-dialogue__next:hover { border-color: #f3d98f; background: rgb(226 206 138 / 16%); }
+.yellow-river-spirit-dialogue__next:focus-visible { outline: 2px solid #f8fff0; outline-offset: 2px; }
+@keyframes yellow-river-spirit-float { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-.35rem); } }
+@keyframes yellow-river-dialogue-reveal { from { opacity: 0; transform: translateY(.2rem); } to { opacity: 1; transform: translateY(0); } }
+
 .yellow-river-region-panel { min-height: 0; padding: clamp(1rem, 2vw, 1.25rem); overflow: auto; border: 1px solid rgb(228 203 144 / 30%); border-radius: var(--radius-lg); background: linear-gradient(180deg, rgb(8 36 48 / 84%), rgb(7 29 40 / 88%)); box-shadow: inset 0 0 3rem rgb(229 182 87 / 6%); }
 .yellow-river-region-panel__eyebrow { margin: 0; color: currentColor; font-size: .75rem; letter-spacing: .12em; }
-.yellow-river-region-panel h2 { margin: .45rem 0 1rem; color: #f4f8ef; font-family: "STKaiti", "KaiTi", serif; font-size: clamp(1.5rem, 2.5vw, 2.1rem); font-weight: 400; line-height: 1.25; }
+.yellow-river-region-panel h2 { margin: .45rem 0 1rem; color: #f4f8ef; font-family: var(--font-calligraphy); font-size: clamp(1.5rem, 2.5vw, 2.1rem); font-weight: 400; line-height: 1.25; }
 .yellow-river-region-panel h3 { margin: 1.1rem 0 .35rem; color: rgb(241 249 239 / 90%); font-size: .88rem; letter-spacing: .08em; }
 .yellow-river-region-panel p { margin: 0; color: rgb(229 241 234 / 76%); font-size: .9rem; line-height: 1.75; }
 .yellow-river-region-panel__question { padding: .85rem 1rem; border-left: 3px solid currentColor; background: rgb(255 255 255 / 5%); }
 .yellow-river-region-panel__question span, .yellow-river-region-panel__question strong { display: block; }
 .yellow-river-region-panel__question span { color: rgb(224 240 233 / 60%); font-size: .7rem; letter-spacing: .1em; }
-.yellow-river-region-panel__question strong { margin-top: .25rem; color: #f7f8e8; font-family: "STKaiti", "KaiTi", serif; font-size: 1.2rem; font-weight: 400; }
+.yellow-river-region-panel__question strong { margin-top: .25rem; color: #f7f8e8; font-family: var(--font-calligraphy); font-size: 1.2rem; font-weight: 400; }
 .yellow-river-region-panel__lists { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
 .yellow-river-region-panel ul { margin: 0; padding-left: 1.05rem; color: rgb(230 242 234 / 74%); font-size: .83rem; line-height: 1.65; }
 .yellow-river-region-panel__governance { padding: .8rem 1rem; border: 1px solid color-mix(in srgb, currentColor 38%, transparent); border-radius: var(--radius-sm); }
 .yellow-river-region-panel__governance h3 { margin-top: 0; color: currentColor; }
-.yellow-river-region-panel__summary { margin-top: 1.2rem !important; color: #f4f8e5 !important; font-family: "STKaiti", "KaiTi", serif; font-size: 1.15rem !important; }
+.yellow-river-region-panel__summary { margin-top: 1.2rem !important; color: #f4f8e5 !important; font-family: var(--font-calligraphy); font-size: 1.15rem !important; }
 .yellow-river-node-panel--ecological { color: #94ded0; }
 .yellow-river-node-panel--engineering { color: #edbd65; }
 .yellow-river-node-panel__location { padding: .85rem 1rem; border-left: 3px solid currentColor; background: rgb(255 255 255 / 5%); }
@@ -102,7 +128,7 @@
 .yellow-river-node-panel__location strong { margin-top: .25rem; color: #f7f8e8; font-size: .95rem; font-weight: 400; line-height: 1.55; }
 .yellow-river-node-panel__keywords { display: flex; flex-wrap: wrap; gap: .45rem; margin: 0; padding: 0; list-style: none; }
 .yellow-river-node-panel__keywords li { padding: .3rem .55rem; border: 1px solid color-mix(in srgb, currentColor 46%, transparent); border-radius: 999px; color: rgb(231 244 234 / 82%); font-size: .76rem; }
-.yellow-river-node-panel__notice { margin-top: 1.2rem !important; color: currentColor !important; font-family: "STKaiti", "KaiTi", serif; font-size: 1.02rem !important; }
+.yellow-river-node-panel__notice { margin-top: 1.2rem !important; color: currentColor !important; font-family: var(--font-calligraphy); font-size: 1.02rem !important; }
 
 .yellow-river-detail-modal { position: fixed; z-index: 40; inset: 0; display: grid; place-items: center; padding: clamp(1rem, 4vw, 3rem); overflow: auto; background: rgb(1 15 23 / 66%); backdrop-filter: blur(5px); }
 .yellow-river-detail-modal__dialog { width: min(100%, 54rem); max-height: min(84vh, 52rem); }
@@ -112,7 +138,7 @@
 .yellow-river-detail-panel--ecological { color: #94ded0; }
 .yellow-river-detail-panel__header { display: flex; align-items: flex-start; justify-content: space-between; gap: .8rem; padding: clamp(1rem, 2vw, 1.4rem); border-bottom: 1px solid rgb(232 213 164 / 20%); }
 .yellow-river-detail-panel__eyebrow { margin: 0; color: currentColor; font-size: .72rem; letter-spacing: .1em; }
-.yellow-river-detail-panel h2 { margin: .4rem 0 .3rem; color: #f5f7eb; font-family: "STKaiti", "KaiTi", serif; font-size: clamp(1.55rem, 2.8vw, 2.2rem); font-weight: 400; line-height: 1.25; }
+.yellow-river-detail-panel h2 { margin: .4rem 0 .3rem; color: #f5f7eb; font-family: var(--font-calligraphy); font-size: clamp(1.55rem, 2.8vw, 2.2rem); font-weight: 400; line-height: 1.25; }
 .yellow-river-detail-panel__location { margin: 0; color: rgb(227 242 233 / 68%); font-size: .83rem; line-height: 1.55; }
 .yellow-river-detail-panel__header-actions { display: flex; flex: 0 0 auto; align-items: center; gap: .5rem; }
 .yellow-river-detail-panel__close, .yellow-river-detail-panel__start, .yellow-river-detail-panel__navigation button { border: 1px solid rgb(237 220 169 / 34%); border-radius: var(--radius-sm); color: #eef7ed; background: rgb(255 255 255 / 6%); font-size: .78rem; transition: border-color 180ms ease, background 180ms ease; }
@@ -131,9 +157,9 @@
 .node-video-panel__media { display: block; width: 100%; height: 100%; background: #061d28; object-fit: cover; }
 .node-video-panel__placeholder { display: grid; place-content: center; width: 100%; height: 100%; gap: .35rem; padding: 1rem; color: rgb(216 245 237 / 76%); text-align: center; background: radial-gradient(circle at 50% 38%, rgb(88 187 170 / 18%), transparent 44%), linear-gradient(135deg, rgb(16 77 84 / 68%), rgb(4 30 41 / 85%)); }
 .node-video-panel__placeholder span { color: rgb(170 231 218 / 58%); font-size: .65rem; letter-spacing: .2em; }
-.node-video-panel__placeholder strong { font-family: "STKaiti", "KaiTi", serif; font-size: clamp(1.15rem, 2vw, 1.45rem); font-weight: 400; }
+.node-video-panel__placeholder strong { font-family: var(--font-calligraphy); font-size: clamp(1.15rem, 2vw, 1.45rem); font-weight: 400; }
 .node-video-panel__placeholder small { color: rgb(219 241 234 / 60%); font-size: .75rem; }
-.yellow-river-detail-panel__introduction { margin: 1.1rem 0 0; color: #f0f6e8; font-family: "STKaiti", "KaiTi", serif; font-size: 1.03rem; line-height: 1.8; }
+.yellow-river-detail-panel__introduction { margin: 1.1rem 0 0; color: #f0f6e8; font-family: var(--font-calligraphy); font-size: 1.03rem; line-height: 1.8; }
 .yellow-river-detail-panel__section { padding-top: 1rem; }
 .yellow-river-detail-panel__section h3 { margin: 0 0 .4rem; color: currentColor; font-size: .86rem; letter-spacing: .07em; }
 .yellow-river-detail-panel__section p, .yellow-river-detail-panel__section li { color: rgb(229 241 234 / 78%); font-size: .88rem; line-height: 1.7; }
@@ -142,8 +168,8 @@
 .yellow-river-detail-panel__culture { padding: .8rem .9rem; border-left: 3px solid currentColor; background: rgb(255 255 255 / 5%); }
 .yellow-river-detail-panel__keywords { display: flex; flex-wrap: wrap; gap: .45rem; margin: 0 !important; padding: 0 !important; list-style: none; }
 .yellow-river-detail-panel__keywords li { padding: .28rem .5rem; border: 1px solid color-mix(in srgb, currentColor 44%, transparent); border-radius: 999px; font-size: .75rem; line-height: 1.3; }
-.yellow-river-detail-panel__summary { margin: 1.15rem 0 0; color: #f5f2dc; font-family: "STKaiti", "KaiTi", serif; font-size: 1.03rem; line-height: 1.7; }
-.yellow-river-governance-panel__level-name { margin: .35rem 0 0; color: rgb(234 209 144 / 86%); font-family: "STKaiti", "KaiTi", serif; font-size: 1rem; line-height: 1.45; }
+.yellow-river-detail-panel__summary { margin: 1.15rem 0 0; color: #f5f2dc; font-family: var(--font-calligraphy); font-size: 1.03rem; line-height: 1.7; }
+.yellow-river-governance-panel__level-name { margin: .35rem 0 0; color: rgb(234 209 144 / 86%); font-family: var(--font-calligraphy); font-size: 1rem; line-height: 1.45; }
 .yellow-river-governance-panel__content { padding: clamp(.75rem, 1.7vw, 1.15rem); }
 .yellow-river-governance-panel .governance-stage { gap: .7rem; }
 .yellow-river-governance-panel .governance-stage__progress { padding: .55rem .7rem; font-size: .76rem; }
@@ -187,8 +213,105 @@
   .yellow-river-detail-panel__header-actions { gap: .35rem; }
   .yellow-river-governance-panel__score { font-size: .68rem; }
   .yellow-river-governance-panel__back { font-size: .72rem; }
+  .yellow-river-spirit-dialogue { position: relative; right: auto; bottom: auto; left: auto; max-width: none; margin-top: .65rem; }
+  .yellow-river-spirit-dialogue__character { flex-basis: 3.8rem; transform: scale(.88); transform-origin: bottom center; }
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .yellow-river-map__region, .yellow-river-map__region-shape, .yellow-river-map__region-mainstream, .yellow-river-map__region-label, .yellow-river-node-marker, .yellow-river-node-marker__glow, .yellow-river-node-marker__shape, .yellow-river-map__node-label, .yellow-river-detail-panel, .yellow-river-detail-panel__close, .yellow-river-detail-panel__start, .yellow-river-detail-panel__navigation button { transition: none; animation: none; }
+  .yellow-river-map__region, .yellow-river-map__region-shape, .yellow-river-map__region-mainstream, .yellow-river-map__region-label, .yellow-river-node-marker, .yellow-river-node-marker__glow, .yellow-river-node-marker__shape, .yellow-river-map__node-label, .yellow-river-detail-panel, .yellow-river-detail-panel__close, .yellow-river-detail-panel__start, .yellow-river-detail-panel__navigation button, .yellow-river-spirit-dialogue__character, .yellow-river-spirit-dialogue__text { transition: none; animation: none; }
+}
+
+/* 黄河图册舞台：保留共用详情与长江样式，仅覆盖黄河子页。 */
+.yellow-river-page--atlas {
+  padding: 0;
+  background:
+    linear-gradient(90deg, rgb(5 17 24 / 14%), transparent 28%, transparent 72%, rgb(4 16 23 / 20%)),
+    linear-gradient(0deg, rgb(4 16 22 / 18%), transparent 42%),
+    var(--yellow-river-page-background);
+  background-position: center;
+  background-size: cover;
+  background-attachment: fixed;
+}
+
+.yellow-river-page--atlas .yellow-river-page__header {
+  position: fixed;
+  z-index: 12;
+  top: clamp(1rem, 3vw, 2rem);
+  left: clamp(1rem, 4vw, 3.2rem);
+  width: auto;
+  margin: 0;
+}
+
+.yellow-river-page--atlas .yellow-river-page__back {
+  min-height: 2rem;
+  color: rgb(248 231 187 / 88%);
+  font-family: var(--font-calligraphy);
+  font-size: .84rem;
+  letter-spacing: .12em;
+  text-shadow: 0 .1rem .35rem rgb(0 12 18 / 76%);
+}
+
+.yellow-river-page--atlas .yellow-river-page__content {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: 0;
+  width: 100%;
+  min-height: 100vh;
+  margin: 0;
+  place-items: center;
+}
+
+.yellow-river-page--atlas .yellow-river-page__map-section {
+  width: min(92vw, 88rem);
+  min-width: 0;
+  padding: clamp(4.5rem, 9vh, 6rem) 0 clamp(1.5rem, 5vh, 3.5rem);
+}
+
+.yellow-river-page--atlas .yellow-river-page__map-stage { position: relative; }
+
+.yellow-river-page--atlas .yellow-river-map--atlas {
+  width: 100%;
+  max-height: none;
+  overflow: visible;
+  border: 0;
+  border-radius: 0;
+  background: transparent;
+  box-shadow: none;
+}
+
+.yellow-river-map--atlas svg { overflow: visible; filter: drop-shadow(0 .8rem 1.3rem rgb(20 12 3 / 18%)); }
+.yellow-river-map--atlas .yellow-river-map__waterway path,
+.yellow-river-map--atlas .yellow-river-map__atlas-region-water { fill: none; stroke-linecap: round; stroke-linejoin: round; }
+.yellow-river-map--atlas .yellow-river-map__waterway-bed { stroke: rgb(86 51 19 / 38%); stroke-width: 24; }
+.yellow-river-map--atlas .yellow-river-map__waterway-body { stroke: rgb(203 151 64 / 72%); stroke-width: 15; }
+.yellow-river-map--atlas .yellow-river-map__waterway-glint { stroke: rgb(255 229 160 / 74%); stroke-width: 3.2; stroke-dasharray: 7 13; }
+.yellow-river-map__atlas-region { cursor: pointer; outline: none; color: #efc76f; }
+.yellow-river-map__atlas-region-hit-area { fill: none; stroke: transparent; stroke-width: 44; }
+.yellow-river-map__atlas-region-water { stroke: transparent; stroke-width: 19; opacity: 0; transition: opacity 180ms ease, stroke 180ms ease, filter 180ms ease; }
+.yellow-river-map__atlas-region.is-visible .yellow-river-map__atlas-region-water { stroke: currentColor; opacity: .76; filter: drop-shadow(0 0 7px currentColor); }
+.yellow-river-map__atlas-region.is-selected .yellow-river-map__atlas-region-water { opacity: .94; }
+.yellow-river-map__atlas-region:focus-visible .yellow-river-map__atlas-region-water { stroke: #fff0b7; opacity: 1; }
+.yellow-river-map__atlas-region .yellow-river-map__region-label { fill: rgb(249 232 182 / 84%); stroke: rgb(48 28 8 / 72%); stroke-width: 4px; font-size: 25px; }
+.yellow-river-map__atlas-region .yellow-river-map__region-label { pointer-events: all; cursor: pointer; }
+.yellow-river-map__atlas-region.is-selected .yellow-river-map__region-label { fill: #fff0bf; font-size: 29px; filter: drop-shadow(0 0 5px rgb(255 221 133 / 72%)); }
+.yellow-river-map__atlas-region:focus-visible .yellow-river-map__region-label { fill: #fff7d7; }
+
+.yellow-river-page--atlas .yellow-river-spirit-dialogue {
+  right: auto;
+  bottom: clamp(.5rem, 2.2vw, 1.6rem);
+  left: clamp(.45rem, 2vw, 1.4rem);
+  max-width: min(31rem, 47%);
+}
+
+@media (max-width: 720px) {
+  .yellow-river-page--atlas { overflow: auto; background-attachment: scroll; }
+  .yellow-river-page--atlas .yellow-river-page__map-section { width: min(100% - 1.25rem, 44rem); padding-top: 4.4rem; }
+  .yellow-river-page--atlas .yellow-river-map--atlas { overflow: hidden; }
+  .yellow-river-map--atlas .yellow-river-map__region-label { font-size: 20px; }
+  .yellow-river-page--atlas .yellow-river-spirit-dialogue { position: relative; right: auto; bottom: auto; left: auto; max-width: none; margin-top: .45rem; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .yellow-river-map--atlas .yellow-river-map__atlas-region-water,
+  .yellow-river-map--atlas .yellow-river-map__region-label { transition: none; }
 }

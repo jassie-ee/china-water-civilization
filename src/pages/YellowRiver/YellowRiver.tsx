@@ -1,5 +1,6 @@
 import { useMemo, useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
+import type { CSSProperties } from 'react';
 
 import { yellowRiverRegions } from '@/data/yellowRiverRegions';
 import { yellowRiverGovernanceNodeIds, yellowRiverNodes } from '@/data/yellowRiverNodes';
@@ -7,9 +8,10 @@ import { governanceDataSource } from '@/services/governanceDataSource';
 import type { YellowRiverNode, YellowRiverNodeId, YellowRiverRegionId } from '@/types/basin';
 
 import YellowRiverMap from './components/YellowRiverMap';
-import YellowRiverInfoPanel from './components/YellowRiverInfoPanel';
 import YellowRiverNodeDetailPanel from './components/YellowRiverNodeDetailPanel';
 import YellowRiverGovernancePanel from './components/YellowRiverGovernancePanel';
+import YellowRiverSpiritDialogue from './components/YellowRiverSpiritDialogue';
+import yellowRiverBackground from '@/assets/images/basins/yellow-river-background.png';
 
 import './YellowRiver.css';
 
@@ -134,40 +136,37 @@ function YellowRiver() {
   const governanceLevel = selectedDetailNode
     ? governanceDataSource.getQuestionLevelConfig(selectedDetailNode.id)
     : null;
+  const pageStyle = {
+    '--yellow-river-page-background': `url(${yellowRiverBackground})`,
+  } as CSSProperties;
 
   return (
-    <section className="yellow-river-page">
+    <section className="yellow-river-page yellow-river-page--atlas" style={pageStyle}>
       <header className="yellow-river-page__header">
         <Link className="yellow-river-page__back" to="/basins" state={{ basinOverviewEntry: 'returning' }}>
           返回中国流域总览
         </Link>
-        <p className="yellow-river-page__breadcrumb">中国流域总览 / 黄河流域</p>
-        <h1>黄河流域治理系统</h1>
-        <p>上中下游是对黄河水循环全过程的空间拆解，分别对应水源形成、水沙迁移与风险承载。</p>
       </header>
 
       <main className="yellow-river-page__content">
-        <section className="yellow-river-page__map-section" aria-labelledby="yellow-river-map-title">
-          <div className="yellow-river-page__map-heading">
-            <p className="yellow-river-page__eyebrow">YELLOW RIVER SYSTEM</p>
-            <h2 id="yellow-river-map-title">黄河流域示意图</h2>
-            <p>选择河段或节点，查看不同区域的生态功能与治理重点。</p>
+        <section className="yellow-river-page__map-section" aria-label="黄河上中下游互动水脉地图">
+          <div className="yellow-river-page__map-stage">
+            <YellowRiverMap
+              selectedRegionId={selectedRegionId}
+              previewRegionId={previewRegionId}
+              selectedNodeId={selectedNodeId}
+              previewNodeId={previewNodeId}
+              onRegionSelect={handleRegionSelect}
+              onRegionPreview={handleRegionPreview}
+              onNodeSelect={handleNodeSelect}
+              onNodePreview={handleNodePreview}
+            />
+            <YellowRiverSpiritDialogue
+              region={selectedRegion}
+              node={selectedDetailNode}
+            />
           </div>
-          <YellowRiverMap
-            selectedRegionId={selectedRegionId}
-            previewRegionId={previewRegionId}
-            selectedNodeId={selectedNodeId}
-            previewNodeId={previewNodeId}
-            onRegionSelect={handleRegionSelect}
-            onRegionPreview={handleRegionPreview}
-            onNodeSelect={handleNodeSelect}
-            onNodePreview={handleNodePreview}
-          />
         </section>
-
-        <aside className="yellow-river-page__reference-panel" aria-label="黄河流域查阅栏">
-          <YellowRiverInfoPanel region={selectedRegion} />
-        </aside>
       </main>
       {selectedDetailNode && selectedDetailRegion && (
         <div className="yellow-river-detail-modal" role="presentation" onClick={handleDetailClose}>
