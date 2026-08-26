@@ -1,0 +1,104 @@
+.lan-conversation {
+  position: absolute;
+  z-index: 4;
+  display: flex;
+  gap: .18rem;
+  align-items: flex-end;
+  width: min(35rem, calc(100vw - 2rem));
+  animation: lan-dialogue-in 220ms ease-out both;
+}
+
+.lan-conversation--right { transform: translate(1rem, calc(-100% - .55rem)); }
+.lan-conversation--left { flex-direction: row-reverse; transform: translate(calc(-100% - 1rem), calc(-100% - .55rem)); }
+.lan-conversation--below.lan-conversation--right { transform: translate(1rem, 1rem); }
+.lan-conversation--below.lan-conversation--left { transform: translate(calc(-100% - 1rem), 1rem); }
+
+.lan-conversation__bubble {
+  position: relative;
+  flex: 1;
+  min-height: 15rem;
+  aspect-ratio: 359 / 256;
+}
+
+.lan-conversation__art {
+  position: absolute;
+  z-index: 0;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  pointer-events: none;
+}
+
+.lan-conversation__content {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  width: min(56%, 20rem);
+  min-height: 100%;
+  margin: 0 auto;
+  padding: 17% 0 13%;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+}
+
+.lan-conversation__close {
+  position: absolute;
+  z-index: 2;
+  top: 10%;
+  right: 11%;
+  display: grid;
+  width: 1.7rem;
+  height: 1.7rem;
+  place-items: center;
+  padding: 0;
+  border: 0;
+  border-radius: 50%;
+  background: transparent;
+  color: rgb(239 213 144 / 72%);
+  cursor: pointer;
+  font-size: 1.18rem;
+  line-height: 1;
+}
+
+.lan-conversation__close:hover { color: #fff0bb; transform: scale(1.08); }
+.lan-conversation__message { margin: 0; color: #f2ead0; font-family: var(--font-calligraphy, "STKaiti", "KaiTi", serif); font-size: clamp(.92rem, 1.35vw, 1.08rem); letter-spacing: .06em; line-height: 1.72; text-shadow: 0 .12rem .4rem rgb(1 17 20 / 84%); }
+.lan-conversation__notice { margin: .7rem 0 0; color: #efd48d; font-size: .75rem; line-height: 1.55; }
+.lan-conversation__next,
+.lan-conversation__action { display: inline-flex; gap: .45rem; align-items: center; margin-top: clamp(.7rem, 2vw, 1.2rem); padding: .25rem .58rem; border: 1px solid rgb(229 193 104 / 56%); border-radius: 999px; background: rgb(13 38 43 / 36%); cursor: pointer; font: inherit; font-family: var(--font-calligraphy, "STKaiti", "KaiTi", serif); font-size: .82rem; letter-spacing: .1em; }
+.lan-conversation__next { color: rgb(230 218 174 / 88%); }
+.lan-conversation__action { color: #f6d889; }
+.lan-conversation__next:hover,
+.lan-conversation__action:hover { border-color: #ffe4a0; color: #fff2c5; transform: translateY(-1px); }
+
+.lan-avatar { position: relative; display: grid; width: 3.05rem; height: 3.4rem; place-items: center; flex: 0 0 auto; }
+.lan-avatar__drop { position: relative; z-index: 1; display: block; width: 1.85rem; height: 2.1rem; overflow: hidden; border: 1px solid rgb(224 255 245 / 74%); border-radius: 52% 48% 58% 42% / 47% 51% 49% 53%; background: linear-gradient(145deg, #b8e4d9, #62b9c5 47%, #216e93); box-shadow: inset .25rem .3rem .5rem rgb(247 255 250 / 35%), 0 .3rem .75rem rgb(0 19 28 / 35%); transform: rotate(45deg); }
+.lan-avatar__shine { position: absolute; top: .25rem; left: .35rem; width: .3rem; height: .7rem; border-radius: 50%; background: rgb(255 255 247 / 50%); transform: rotate(-25deg); }
+.lan-avatar__eyes { position: absolute; top: .88rem; left: .49rem; display: flex; gap: .3rem; transform: rotate(-45deg); }
+.lan-avatar__eyes i { width: .16rem; height: .25rem; border-radius: 50%; background: #103e55; }
+.lan-avatar__ripple { position: absolute; bottom: .18rem; left: .25rem; width: 2.55rem; height: .65rem; border: 1px solid rgb(190 233 222 / 44%); border-radius: 50%; }
+
+.lan-conversation button:focus-visible { outline: 2px solid #ffe291; outline-offset: .22rem; }
+
+@keyframes lan-dialogue-in { from { opacity: 0; } to { opacity: 1; } }
+
+@media (max-width: 720px) {
+  .lan-conversation,
+  .lan-conversation--right,
+  .lan-conversation--left,
+  .lan-conversation--below.lan-conversation--right,
+  .lan-conversation--below.lan-conversation--left { position: fixed; right: 1rem; bottom: 1rem; left: 1rem !important; width: auto; transform: none; }
+  .lan-conversation { align-items: flex-end; }
+  .lan-conversation--left { flex-direction: row; }
+  .lan-conversation .lan-avatar { position: absolute; z-index: 3; bottom: -.2rem; left: -.1rem; transform: scale(.8); transform-origin: bottom left; }
+  .lan-conversation__bubble { width: 100%; min-height: 0; max-height: min(24rem, calc(100vh - 7rem)); }
+  .lan-conversation__content { width: 62%; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .lan-conversation__next,
+  .lan-conversation__action { transition: none; }
+  .lan-conversation { animation: none; }
+}
