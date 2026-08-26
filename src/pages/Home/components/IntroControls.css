@@ -1,26 +1,31 @@
 .intro-controls {
   display: flex;
-  gap: 0.6rem;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+  gap: .6rem;
 }
 
 .intro-controls__button {
-  padding: 0.45rem 0.75rem;
-  color: rgb(232 246 244 / 66%);
-  font-size: 0.78rem;
-  letter-spacing: 0.06em;
-  background: transparent;
-  border: 1px solid rgb(169 224 223 / 28%);
+  border: 1px solid rgb(155 226 231 / 38%);
   border-radius: 999px;
-  transition: color var(--transition-base), background-color var(--transition-base), border-color var(--transition-base);
+  background: linear-gradient(135deg, rgb(93 190 204 / 21%), rgb(5 39 53 / 45%));
+  box-shadow: inset 0 1px 0 rgb(229 255 255 / 24%);
+  color: rgb(232 250 249 / 84%);
+  cursor: pointer;
+  font: inherit;
+  font-size: .78rem;
+  letter-spacing: .08em;
+  padding: .54rem .82rem;
+  transition: background-color 180ms ease, border-color 180ms ease, color 180ms ease;
 }
 
-.intro-controls__button:hover {
-  color: #e8f6f4;
-  background: rgb(120 202 202 / 12%);
-  border-color: rgb(192 241 239 / 52%);
+.intro-controls__button:hover:not(:disabled) {
+  border-color: rgb(191 245 245 / 74%);
+  background-color: rgb(59 153 168 / 48%);
+  color: #f1ffff;
 }
 
-.intro-controls__button:focus-visible {
-  outline: 2px solid #d0fffb;
-  outline-offset: 3px;
+.intro-controls__button:disabled {
+  cursor: not-allowed;
+  opacity: .42;
 }
