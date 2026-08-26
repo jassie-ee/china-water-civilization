@@ -7,6 +7,12 @@ import { dujiangyanQuestionLevel } from './dujiangyanQuestionLevel';
 import { taihuGovernanceQuestionLevel } from './taihuGovernanceQuestionLevel';
 import { threeGorgesQuestionLevel } from './threeGorgesQuestionLevel';
 import { xiaolangdiQuestionLevel } from './xiaolangdiQuestionLevel';
+import { saudiDesalQuestionLevel } from './saudiDesalQuestionLevel';
+import { pakistanDamQuestionLevel } from './pakistanDamQuestionLevel';
+import { guineaHydropowerQuestionLevel } from './guineaHydropowerQuestionLevel';
+import { equatorialGuineaSewageQuestionLevel } from './equatorialGuineaSewageQuestionLevel';
+import { lancangMekongJointAllocation, lancangMekongSharedMonitoring } from './lancangMekongQuestionLevel';
+import { cosmicSymbiosisQuestionLevel } from './cosmicQuestionLevel';
 
 const governanceQuestionLevelConfigs: GovernanceQuestionLevelConfig[] = [
   longyangxiaQuestionLevel,
@@ -16,6 +22,13 @@ const governanceQuestionLevelConfigs: GovernanceQuestionLevelConfig[] = [
   threeGorgesQuestionLevel,
   danjiangkouQuestionLevel,
   taihuGovernanceQuestionLevel,
+  saudiDesalQuestionLevel,
+  pakistanDamQuestionLevel,
+  guineaHydropowerQuestionLevel,
+  equatorialGuineaSewageQuestionLevel,
+  lancangMekongSharedMonitoring,
+  lancangMekongJointAllocation,
+  cosmicSymbiosisQuestionLevel,
 ];
 
 export { governanceQuestionLevelConfigs };

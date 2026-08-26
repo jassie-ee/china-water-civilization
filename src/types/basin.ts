@@ -1,4 +1,4 @@
-export type BasinId = 'yellow-river' | 'yangtze-river';
+export type BasinId = 'yellow-river' | 'yangtze-river' | 'global-water' | 'cosmic';
 
 export type BasinOverviewPhase =
   | 'map-entering'
