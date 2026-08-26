@@ -1,6 +1,5 @@
 import { useMemo, useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
-import type { CSSProperties } from 'react';
 
 import { yellowRiverRegions } from '@/data/yellowRiverRegions';
 import { yellowRiverGovernanceNodeIds, yellowRiverNodes } from '@/data/yellowRiverNodes';
@@ -11,8 +10,6 @@ import YellowRiverMap from './components/YellowRiverMap';
 import YellowRiverNodeDetailPanel from './components/YellowRiverNodeDetailPanel';
 import YellowRiverGovernancePanel from './components/YellowRiverGovernancePanel';
 import YellowRiverSpiritDialogue from './components/YellowRiverSpiritDialogue';
-import yellowRiverBackground from '@/assets/images/basins/yellow-river-background.png';
-
 import './YellowRiver.css';
 
 function hasDetailContent(node: YellowRiverNode): boolean {
@@ -29,7 +26,7 @@ function hasDetailContent(node: YellowRiverNode): boolean {
 const detailNodes = yellowRiverNodes
   .filter(hasDetailContent)
   .slice()
-  .sort((firstNode, secondNode) => firstNode.position.x - secondNode.position.x);
+  .sort((firstNode, secondNode) => firstNode.sequence - secondNode.sequence);
 
 const governanceNodes = yellowRiverGovernanceNodeIds
   .map((nodeId) => detailNodes.find((node) => node.id === nodeId))
@@ -136,12 +133,8 @@ function YellowRiver() {
   const governanceLevel = selectedDetailNode
     ? governanceDataSource.getQuestionLevelConfig(selectedDetailNode.id)
     : null;
-  const pageStyle = {
-    '--yellow-river-page-background': `url(${yellowRiverBackground})`,
-  } as CSSProperties;
-
   return (
-    <section className="yellow-river-page yellow-river-page--atlas" style={pageStyle}>
+    <section className="yellow-river-page yellow-river-page--atlas">
       <header className="yellow-river-page__header">
         <Link className="yellow-river-page__back" to="/basins" state={{ basinOverviewEntry: 'returning' }}>
           返回中国流域总览

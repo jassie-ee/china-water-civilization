@@ -224,13 +224,7 @@
 /* 黄河图册舞台：保留共用详情与长江样式，仅覆盖黄河子页。 */
 .yellow-river-page--atlas {
   padding: 0;
-  background:
-    linear-gradient(90deg, rgb(5 17 24 / 14%), transparent 28%, transparent 72%, rgb(4 16 23 / 20%)),
-    linear-gradient(0deg, rgb(4 16 22 / 18%), transparent 42%),
-    var(--yellow-river-page-background);
-  background-position: center;
-  background-size: cover;
-  background-attachment: fixed;
+  background: #10262e;
 }
 
 .yellow-river-page--atlas .yellow-river-page__header {
@@ -271,25 +265,31 @@
 
 .yellow-river-page--atlas .yellow-river-map--atlas {
   width: 100%;
+  aspect-ratio: 1672 / 941;
   max-height: none;
-  overflow: visible;
+  overflow: hidden;
   border: 0;
   border-radius: 0;
-  background: transparent;
+  background: #162f36;
   box-shadow: none;
 }
 
-.yellow-river-map--atlas svg { overflow: visible; filter: drop-shadow(0 .8rem 1.3rem rgb(20 12 3 / 18%)); }
+.yellow-river-map--atlas svg { overflow: hidden; filter: drop-shadow(0 .8rem 1.3rem rgb(20 12 3 / 18%)); }
+.yellow-river-map--atlas .yellow-river-map__background { pointer-events: none; }
+.yellow-river-map--atlas .yellow-river-map__background-shade {
+  pointer-events: none;
+  fill: url(#yellow-river-atlas-shade);
+}
 .yellow-river-map--atlas .yellow-river-map__waterway path,
 .yellow-river-map--atlas .yellow-river-map__atlas-region-water { fill: none; stroke-linecap: round; stroke-linejoin: round; }
-.yellow-river-map--atlas .yellow-river-map__waterway-bed { stroke: rgb(86 51 19 / 38%); stroke-width: 24; }
-.yellow-river-map--atlas .yellow-river-map__waterway-body { stroke: rgb(203 151 64 / 72%); stroke-width: 15; }
-.yellow-river-map--atlas .yellow-river-map__waterway-glint { stroke: rgb(255 229 160 / 74%); stroke-width: 3.2; stroke-dasharray: 7 13; }
+.yellow-river-map--atlas .yellow-river-map__waterway-bed { stroke: rgb(95 59 22 / 10%); stroke-width: 12; }
+.yellow-river-map--atlas .yellow-river-map__waterway-body { stroke: rgb(209 159 75 / 27%); stroke-width: 6; }
+.yellow-river-map--atlas .yellow-river-map__waterway-glint { stroke: rgb(255 239 194 / 36%); stroke-width: 1; }
 .yellow-river-map__atlas-region { cursor: pointer; outline: none; color: #efc76f; }
-.yellow-river-map__atlas-region-hit-area { fill: none; stroke: transparent; stroke-width: 44; }
-.yellow-river-map__atlas-region-water { stroke: transparent; stroke-width: 19; opacity: 0; transition: opacity 180ms ease, stroke 180ms ease, filter 180ms ease; }
-.yellow-river-map__atlas-region.is-visible .yellow-river-map__atlas-region-water { stroke: currentColor; opacity: .76; filter: drop-shadow(0 0 7px currentColor); }
-.yellow-river-map__atlas-region.is-selected .yellow-river-map__atlas-region-water { opacity: .94; }
+.yellow-river-map__atlas-region-hit-area { fill: none; stroke: transparent; stroke-width: 52; }
+.yellow-river-map__atlas-region-water { stroke: transparent; stroke-width: 11; opacity: 0; transition: opacity 180ms ease, stroke 180ms ease; }
+.yellow-river-map__atlas-region.is-visible .yellow-river-map__atlas-region-water { stroke: currentColor; opacity: .34; }
+.yellow-river-map__atlas-region.is-selected .yellow-river-map__atlas-region-water { opacity: .48; }
 .yellow-river-map__atlas-region:focus-visible .yellow-river-map__atlas-region-water { stroke: #fff0b7; opacity: 1; }
 .yellow-river-map__atlas-region .yellow-river-map__region-label { fill: rgb(249 232 182 / 84%); stroke: rgb(48 28 8 / 72%); stroke-width: 4px; font-size: 25px; }
 .yellow-river-map__atlas-region .yellow-river-map__region-label { pointer-events: all; cursor: pointer; }

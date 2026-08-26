@@ -1,18 +1,20 @@
 import type { YellowRiverRegionId } from '@/types/basin';
 
-/** 坐标与黄河底图的山地—峡谷—平原—河口叙事对齐，仅用于互动引导。 */
-const yellowRiverMainstreamPath = 'M284 208 C354 222 366 250 331 282 C304 308 341 331 390 341 C440 351 461 384 434 424 C407 463 424 495 466 524 C513 557 539 582 588 587 C655 596 706 628 776 620 C854 611 879 566 935 548 C1030 518 1121 526 1209 472';
+/**
+ * 坐标直接使用黄河长卷底图的 1672 × 941 画布；水脉只作互动引导，沿图中河道从源区贯通至河口。
+ */
+const yellowRiverMainstreamPath = 'M185 178 C207 198 233 214 251 226 C270 286 277 402 301 471 C361 452 468 372 548 350 C588 333 623 329 652 339 C686 393 689 540 719 612 C775 613 860 530 953 480 C1008 524 1021 662 1053 735 C1146 742 1316 678 1471 659';
 
 const mainstreamSegmentPaths: Record<YellowRiverRegionId, string> = {
-  upper: 'M284 208 C354 222 366 250 331 282 C304 308 341 331 390 341 C440 351 461 384 434 424',
-  middle: 'M434 424 C407 463 424 495 466 524 C513 557 539 582 588 587 C655 596 706 628 776 620',
-  lower: 'M776 620 C854 611 879 566 935 548 C1030 518 1121 526 1209 472',
+  upper: 'M185 178 C207 198 233 214 251 226 C270 286 277 402 301 471 C354 457 424 404 492 383',
+  middle: 'M492 383 C548 350 588 333 652 339 C686 393 689 540 719 612 C775 613 860 530 953 480 C1008 524 1021 662 1053 735',
+  lower: 'M1053 735 C1146 742 1316 678 1471 659',
 };
 
 const regionLabelPositions: Record<YellowRiverRegionId, { x: number; y: number }> = {
-  upper: { x: 358, y: 260 },
-  middle: { x: 633, y: 500 },
-  lower: { x: 1010, y: 450 },
+  upper: { x: 332, y: 318 },
+  middle: { x: 766, y: 412 },
+  lower: { x: 1292, y: 592 },
 };
 
 export { mainstreamSegmentPaths, regionLabelPositions, yellowRiverMainstreamPath };

@@ -6,6 +6,7 @@ import {
 import { yellowRiverNodes } from '@/data/yellowRiverNodes';
 import { yellowRiverRegions } from '@/data/yellowRiverRegions';
 import type { YellowRiverNodeId, YellowRiverRegionId } from '@/types/basin';
+import yellowRiverBackground from '@/assets/images/basins/yellow-river-background.png';
 
 import YellowRiverNodeLayer from './YellowRiverNodeLayer';
 
@@ -41,7 +42,24 @@ function YellowRiverMap({
 
   return (
     <div className="yellow-river-map yellow-river-map--atlas" aria-label="黄河上游、中游、下游互动水脉地图">
-      <svg viewBox="0 0 1400 800" role="img" aria-label="可选择黄河上游、中游和下游的黄河水脉地图">
+      <svg viewBox="0 0 1672 941" preserveAspectRatio="xMidYMid meet" role="img" aria-label="可选择黄河上游、中游和下游的黄河水脉地图">
+        <defs>
+          <radialGradient id="yellow-river-atlas-shade" cx="50%" cy="44%" r="76%">
+            <stop offset="56%" stopColor="#071b22" stopOpacity="0" />
+            <stop offset="100%" stopColor="#071b22" stopOpacity="0.3" />
+          </radialGradient>
+        </defs>
+        <image
+          className="yellow-river-map__background"
+          href={yellowRiverBackground}
+          x="0"
+          y="0"
+          width="1672"
+          height="941"
+          preserveAspectRatio="xMidYMid meet"
+          aria-hidden="true"
+        />
+        <rect className="yellow-river-map__background-shade" x="0" y="0" width="1672" height="941" aria-hidden="true" />
         <g className="yellow-river-map__waterway" aria-hidden="true">
           <path className="yellow-river-map__waterway-bed" d={yellowRiverMainstreamPath} />
           <path className="yellow-river-map__waterway-body" d={yellowRiverMainstreamPath} />

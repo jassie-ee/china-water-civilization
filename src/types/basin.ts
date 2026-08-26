@@ -69,7 +69,11 @@ export interface RiverNode {
   isAvailable: boolean;
 }
 
-export type YellowRiverNode = RiverNode & { id: YellowRiverNodeId };
+export type YellowRiverNode = RiverNode & {
+  id: YellowRiverNodeId;
+  /** 沿河叙事顺序；详情切换与无障碍阅读不依赖画布横向坐标。 */
+  sequence: number;
+};
 
 export type YangtzeRiverNode = RiverNode;
 
