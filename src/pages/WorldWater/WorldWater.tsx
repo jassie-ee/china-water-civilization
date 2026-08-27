@@ -1,63 +1,133 @@
-import { useMemo, useState, type CSSProperties } from 'react';
+import { useState, type CSSProperties } from 'react';
 import { Link } from 'react-router-dom';
 
 import shanhaiWaterChronicle from '@/assets/images/shanhai-water-chronicle.png';
 import { useGovernanceProgress } from '@/components/common/governanceProgressContext';
 import ChapterChoicePanel from '@/components/chapter/ChapterChoicePanel';
 import ChapterSpirit, { type ChapterSpiritMood } from '@/components/chapter/ChapterSpirit';
-import { worldWaterNodes } from '@/data/worldWater';
-import type { WorldWaterChoice, WorldWaterNodeId } from '@/types/worldWater';
+import { worldWaterStations, worldWaterSteps } from '@/data/worldWater';
+import type { WorldWaterChoice, WorldWaterStation, WorldWaterStationId, WorldWaterStep } from '@/types/worldWater';
 
 import './WorldWater.css';
 
+interface WorldWaterResponse {
+  stars: 1 | 2 | 3;
+  feedback: string;
+}
+
+const waterFeelTotal = 30;
+
+function getStationStepId(station: WorldWaterStation, responseByStep: Record<string, WorldWaterResponse>): WorldWaterStep['id'] | null {
+  const nextStepId = station.stepIds.find((stepId) => responseByStep[stepId] === undefined);
+  return nextStepId ?? station.stepIds[station.stepIds.length - 1] ?? null;
+}
+
+function evaluateStep(step: WorldWaterStep, selectedChoiceIds: readonly string[]): WorldWaterResponse {
+  if (step.selectionMode === 'single') {
+    const choice = step.choices.find((candidate) => candidate.id === selectedChoiceIds[0]);
+    return {
+      stars: choice?.stars ?? 1,
+      feedback: choice?.feedback || step.partialFeedback,
+    };
+  }
+
+  const requiredChoiceIds = new Set(step.requiredChoiceIds);
+  const selectedChoiceIdSet = new Set(selectedChoiceIds);
+  const isComplete = selectedChoiceIdSet.size === requiredChoiceIds.size
+    && [...requiredChoiceIds].every((choiceId) => selectedChoiceIdSet.has(choiceId));
+  const includesWrongChoice = [...selectedChoiceIdSet].some((choiceId) => !requiredChoiceIds.has(choiceId));
+
+  return {
+    stars: isComplete ? 3 : includesWrongChoice ? 1 : 2,
+    feedback: isComplete ? step.correctFeedback : step.partialFeedback,
+  };
+}
+
 function WorldWater() {
   const { recordLevelResult } = useGovernanceProgress();
-  const [activeNodeId, setActiveNodeId] = useState<WorldWaterNodeId | null>(null);
-  const [selectedChoiceByNode, setSelectedChoiceByNode] = useState<Record<string, string>>({});
-  const [scoreByNode, setScoreByNode] = useState<Record<string, number>>({});
+  const [activeStationId, setActiveStationId] = useState<WorldWaterStationId | null>(null);
+  const [activeStepId, setActiveStepId] = useState<WorldWaterStep['id'] | null>(null);
+  const [selectedChoiceIdsByStep, setSelectedChoiceIdsByStep] = useState<Record<string, string[]>>({});
+  const [responseByStep, setResponseByStep] = useState<Record<string, WorldWaterResponse>>({});
   const [isFinished, setIsFinished] = useState(false);
 
-  const activeNode = worldWaterNodes.find((node) => node.id === activeNodeId) ?? null;
-  const completedCount = Object.keys(selectedChoiceByNode).length;
-  const totalScore = Object.values(scoreByNode).reduce((total, score) => total + score, 0);
-  const progressPercent = Math.round((completedCount / worldWaterNodes.length) * 100);
-  const activeChoiceId = activeNode === null ? null : selectedChoiceByNode[activeNode.id] ?? null;
+  const activeStep = worldWaterSteps.find((step) => step.id === activeStepId) ?? null;
+  const activeResponse = activeStep === null ? null : responseByStep[activeStep.id] ?? null;
+  const activeSelectedChoiceIds = activeStep === null ? [] : selectedChoiceIdsByStep[activeStep.id] ?? [];
+  const completedCount = worldWaterSteps.filter((step) => responseByStep[step.id] !== undefined).length;
+  const totalScore = Object.values(responseByStep).reduce((total, response) => total + response.stars, 0);
+  const waterFeel = worldWaterSteps
+    .filter((step) => responseByStep[step.id] !== undefined)
+    .reduce((total, step) => total + step.waterGain, 0);
+  const progressPercent = Math.round((waterFeel / waterFeelTotal) * 100);
+  const nextStep = worldWaterSteps.find((step) => responseByStep[step.id] === undefined) ?? null;
+  const nextStepLabel = nextStep === null
+    ? '完成同舟共济'
+    : `前往 ${nextStep.order.toString().padStart(2, '0')} · ${nextStep.title}`;
   const spiritMood: ChapterSpiritMood = isFinished
     ? 'resolved'
-    : activeChoiceId !== null
+    : activeResponse !== null
       ? 'recorded'
-      : activeNodeId !== null
+      : activeStepId !== null
         ? 'listening'
         : 'resting';
 
-  const nextNodeLabel = useMemo(() => {
-    const nextNode = worldWaterNodes.find((node) => selectedChoiceByNode[node.id] === undefined);
-    return nextNode === undefined ? '完成航路记录' : `前往 ${nextNode.order.toString().padStart(2, '0')} · ${nextNode.title}`;
-  }, [selectedChoiceByNode]);
+  const openStation = (station: WorldWaterStation): void => {
+    const stepId = getStationStepId(station, responseByStep);
+    setIsFinished(false);
+    setActiveStationId(station.id);
+    setActiveStepId(stepId);
+  };
+
+  const saveResponse = (step: WorldWaterStep, selectedChoiceIds: readonly string[]): void => {
+    const response = evaluateStep(step, selectedChoiceIds);
+    setSelectedChoiceIdsByStep((current) => ({ ...current, [step.id]: [...selectedChoiceIds] }));
+    setResponseByStep((current) => ({ ...current, [step.id]: response }));
+    void recordLevelResult(`chapter-3-${step.id}`, response.stars).catch(() => undefined);
+  };
 
   const handleChoice = (choice: WorldWaterChoice): void => {
-    if (activeNode === null || activeChoiceId !== null) return;
+    if (activeStep === null || activeStep.selectionMode !== 'single' || activeResponse !== null) return;
+    saveResponse(activeStep, [choice.id]);
+  };
 
-    setSelectedChoiceByNode((current) => ({ ...current, [activeNode.id]: choice.id }));
-    setScoreByNode((current) => ({ ...current, [activeNode.id]: choice.stars }));
-    void recordLevelResult(`chapter-3-${activeNode.id}`, choice.stars).catch(() => undefined);
+  const handleToggleChoice = (choice: WorldWaterChoice): void => {
+    if (activeStep === null || activeStep.selectionMode !== 'multiple' || activeResponse !== null) return;
+
+    setSelectedChoiceIdsByStep((current) => {
+      const selectedChoiceIds = current[activeStep.id] ?? [];
+      const nextChoiceIds = selectedChoiceIds.includes(choice.id)
+        ? selectedChoiceIds.filter((choiceId) => choiceId !== choice.id)
+        : [...selectedChoiceIds, choice.id];
+
+      return { ...current, [activeStep.id]: nextChoiceIds };
+    });
+  };
+
+  const handleSubmit = (): void => {
+    if (activeStep === null || activeStep.selectionMode !== 'multiple' || activeResponse !== null) return;
+    saveResponse(activeStep, activeSelectedChoiceIds);
   };
 
   const handleContinue = (): void => {
-    const nextNode = worldWaterNodes.find((node) => selectedChoiceByNode[node.id] === undefined);
-
-    if (nextNode === undefined) {
-      setActiveNodeId(null);
+    if (nextStep === null) {
+      setActiveStationId(null);
+      setActiveStepId(null);
       setIsFinished(true);
       return;
     }
 
-    setActiveNodeId(nextNode.id);
+    const nextStation = worldWaterStations.find((station) => station.id === nextStep.stationId);
+    if (nextStation !== undefined) {
+      setActiveStationId(nextStation.id);
+    }
+    setActiveStepId(nextStep.id);
   };
 
-  const handleRestartView = (): void => {
+  const handleStartSurvey = (): void => {
     setIsFinished(false);
-    setActiveNodeId(null);
+    setActiveStationId(null);
+    setActiveStepId('local-survey');
   };
 
   return (
@@ -71,64 +141,67 @@ function WorldWater() {
         <Link className="world-water-page__back-link" to="/chapters">← 水脉图册</Link>
         <div className="world-water-page__chapter-mark">
           <span>CHAPTER 03</span>
-          <strong>航 · 共建共享</strong>
+          <strong>航 · 同舟共济</strong>
         </div>
-        <div className="world-water-page__score" aria-label={`本章已记录 ${totalScore} 记忆星`}>
-          <span>航路记忆</span>
-          <strong>{totalScore.toString().padStart(2, '0')}</strong>
+        <div className="world-water-page__score" aria-label={`水脉感悟 ${waterFeel} / ${waterFeelTotal}`}>
+          <span>水脉感悟</span>
+          <strong>{waterFeel.toString().padStart(2, '0')}<small> / 30</small></strong>
         </div>
       </header>
 
       <div className="world-water-page__grid">
         <section className="world-water-page__intro" aria-labelledby="world-water-title">
-          <p className="world-water-page__eyebrow">海上水脉 / WORLD WATER</p>
-          <h1 id="world-water-title">把水脉带向<br /><em>更远的地方</em></h1>
+          <p className="world-water-page__eyebrow">同舟共济 / GLOBAL WATERWAYS</p>
+          <h1 id="world-water-title">让经验随水<br /><em>同行</em></h1>
           <p className="world-water-page__lede">
-            从一条河到一片海，水把不同的土地和生活连接起来。请沿着三处水脉，寻找一条不把答案简单复制出去的路。
+            从红海的荒漠取水，到湄澜六国共管一条河。真正的共享，不是复制一套答案，而是与当地一起找到水的路。
           </p>
           <div className="world-water-page__principle">
             <span>澜澜的航记</span>
-            <p>共享不是把一套答案带去远方，而是和当地一起找到它。</p>
+            <p>方法可以共享，答案必须在地生长。</p>
           </div>
           <div className="world-water-page__legend" aria-label="航路图例">
-            <span><i className="is-current" />可探索水脉</span>
+            <span><i className="is-current" />五处水脉</span>
             <span><i className="is-recorded" />已留下回应</span>
+            <span><i className="is-question" />七道判断</span>
           </div>
         </section>
 
-        <section className="world-water-route" aria-label="世界水域航路">
+        <section className="world-water-route" aria-label="同舟共济五处水脉航路">
           <div className="world-water-route__heading">
-            <span>WATER ROUTE / 01—03</span>
-            <span>河口 → 河廊 → 海湾</span>
+            <span>WATER ROUTE / 05 STOPS</span>
+            <span>九州 → 红海 → 印度河 → 西非 → 湄澜</span>
           </div>
           <div className="world-water-route__surface">
             <svg className="world-water-route__svg" viewBox="0 0 900 360" preserveAspectRatio="none" aria-hidden="true">
-              <path className="world-water-route__contour world-water-route__contour--one" d="M20 110C145 52 186 170 298 126S487 80 596 140s176 52 284-40" />
-              <path className="world-water-route__contour world-water-route__contour--two" d="M-20 226c115-68 193 28 304-4s185-66 292-9 207 20 344-58" />
-              <path className="world-water-route__line" d="M48 270C167 218 229 265 318 220S440 154 523 189s151 14 250-91" />
-              <path className="world-water-route__line world-water-route__line--echo" d="M48 280C167 228 229 275 318 230S440 164 523 199s151 14 250-91" />
+              <path className="world-water-route__contour world-water-route__contour--one" d="M12 103C108 55 178 158 270 120S438 78 539 132s210 71 350-48" />
+              <path className="world-water-route__contour world-water-route__contour--two" d="M-20 225c108-67 198 33 300-1s178-66 283-11 206 25 357-67" />
+              <path className="world-water-route__line" d="M22 264C112 226 170 284 265 235s142-61 224-19 153 25 243-52 113-92 166-110" />
+              <path className="world-water-route__line world-water-route__line--echo" d="M22 276C112 238 170 296 265 247s142-61 224-19 153 25 243-52 113-92 166-110" />
             </svg>
             <ol className="world-water-route__nodes">
-              {worldWaterNodes.map((node) => {
-                const isActive = activeNodeId === node.id;
-                const isRecorded = selectedChoiceByNode[node.id] !== undefined;
+              {worldWaterStations.map((station) => {
+                const isActive = activeStationId === station.id;
+                const isRecorded = station.stepIds.every((stepId) => responseByStep[stepId] !== undefined);
+                const completedStationSteps = station.stepIds.filter((stepId) => responseByStep[stepId] !== undefined).length;
                 const markerStyle = {
-                  '--node-x': `${node.x}%`,
-                  '--node-y': `${node.y}%`,
+                  '--node-x': `${station.x}%`,
+                  '--node-y': `${station.y}%`,
                 } as CSSProperties;
 
                 return (
-                  <li className={`world-water-route__node${isActive ? ' is-active' : ''}${isRecorded ? ' is-recorded' : ''}`} key={node.id} style={markerStyle}>
+                  <li className={`world-water-route__node${isActive ? ' is-active' : ''}${isRecorded ? ' is-recorded' : ''}`} key={station.id} style={markerStyle}>
                     <button
                       type="button"
                       aria-current={isActive ? 'step' : undefined}
-                      aria-label={`${node.order} ${node.region}：${node.title}`}
-                      onClick={() => { setIsFinished(false); setActiveNodeId(node.id); }}
+                      aria-label={`${station.order} ${station.region}：${station.title}`}
+                      onClick={() => openStation(station)}
                     >
                       <span className="world-water-route__node-dot" aria-hidden="true" />
                       <span className="world-water-route__node-copy">
-                        <small>{node.order.toString().padStart(2, '0')} / {node.region}</small>
-                        <strong>{node.title}</strong>
+                        <small>{station.order.toString().padStart(2, '0')} / {station.region}</small>
+                        <strong>{station.title}</strong>
+                        <em>{completedStationSteps} / {station.stepIds.length} 问</em>
                       </span>
                     </button>
                   </li>
@@ -141,56 +214,68 @@ function WorldWater() {
             </div>
             <ChapterSpirit chapter="voyage" mood={spiritMood} />
           </div>
-          <p className="world-water-route__note">点击节点，听见当地的水声。</p>
+          <p className="world-water-route__note">点击节点进入当地情境；湄澜六国会留下最后两道判断。</p>
         </section>
 
         <aside className="world-water-page__panel">
           {isFinished ? (
             <section className="world-water-page__finish" aria-live="polite">
-              <p className="world-water-page__eyebrow">航路已连成 / ROUTE COMPLETE</p>
-              <h2>你把经验交给了水脉，<br />也把答案留给了当地。</h2>
-              <p>三处节点已完成记录，本章获得 <strong>{totalScore} / 9</strong> 记忆星。</p>
+              <p className="world-water-page__eyebrow">同舟之路已连成 / ROUTE COMPLETE</p>
+              <h2>五处水脉连成了<br />一条同舟之路。</h2>
+              <p>七道判断已写入航记，水脉感悟抵达 <strong>{waterFeel} / 30</strong>。你解锁了「同舟共济」的能力。</p>
+              <p className="world-water-page__quote">共同构建人与自然生命共同体。</p>
               <div className="world-water-page__finish-actions">
-                <button type="button" onClick={handleRestartView}>回看航路</button>
+                <button type="button" onClick={() => { setIsFinished(false); setActiveStationId(null); setActiveStepId(null); }}>回看航路</button>
                 <Link to="/chapters">返回章节图册<span aria-hidden="true">→</span></Link>
               </div>
             </section>
-          ) : activeNode !== null ? (
+          ) : activeStep !== null ? (
             <ChapterChoicePanel
-              idPrefix={`world-water-${activeNode.id}`}
-              sectionLabel={`${activeNode.order.toString().padStart(2, '0')} · ${activeNode.region}`}
-              sectionTitle={activeNode.title}
-              sectionSubtitle={activeNode.subtitle}
-              story={activeNode.story}
-              question={activeNode.question}
-              choices={activeNode.choices}
-              selectedChoiceId={activeChoiceId}
+              idPrefix={`world-water-${activeStep.id}`}
+              sectionLabel={`${activeStep.order.toString().padStart(2, '0')} · ${activeStep.region}`}
+              sectionTitle={activeStep.title}
+              sectionSubtitle={activeStep.subtitle}
+              story={activeStep.story}
+              question={activeStep.question}
+              choices={activeStep.choices}
+              selectedChoiceId={activeStep.selectionMode === 'single' ? activeSelectedChoiceIds[0] ?? null : null}
+              selectedChoiceIds={activeSelectedChoiceIds}
+              isSubmitted={activeResponse !== null}
+              selectionMode={activeStep.selectionMode}
               completedCount={completedCount}
-              totalCount={worldWaterNodes.length}
+              totalCount={worldWaterSteps.length}
               score={totalScore}
+              feedbackText={activeResponse?.feedback}
+              feedbackStars={activeResponse?.stars}
               onChoice={handleChoice}
+              onToggleChoice={handleToggleChoice}
+              onSubmit={handleSubmit}
               onContinue={handleContinue}
-              continueLabel={nextNodeLabel}
+              submitLabel="确认这组判断"
+              continueLabel={nextStepLabel}
             />
           ) : (
             <section className="world-water-page__guide">
-              <span className="world-water-page__guide-mark" aria-hidden="true">澜</span>
+              <span className="world-water-page__guide-mark" aria-hidden="true">航</span>
               <p className="world-water-page__eyebrow">澜澜的航记 / FIELD NOTES</p>
-              <h2>先选一处水脉，<br />再决定如何同行。</h2>
-              <p>三处节点没有标准答案。你的选择会留下记忆星，也会改变这段航路的注脚。</p>
+              <h2>先看当地，<br />再和水同行。</h2>
+              <p>五处水脉、七道判断，从在地勘察开始，走过荒漠、印度河、西非和湄澜六国。</p>
               <span className="world-water-page__guide-line" aria-hidden="true" />
-              <small>从左至右探索，或自由选择节点。</small>
+              <button className="world-water-page__text-button" type="button" onClick={handleStartSurvey}>
+                开始勘察<span aria-hidden="true">→</span>
+              </button>
+              <small>也可以自由点击航路上的任一处水脉。</small>
             </section>
           )}
         </aside>
       </div>
 
       <footer className="world-water-page__footer">
-        <span>第三章 · 中国方案与海上丝路</span>
-        <div className="world-water-page__progress" aria-label={`已记录 ${completedCount} / ${worldWaterNodes.length} 处水脉`}>
+        <span>第三章 · 同舟共济</span>
+        <div className="world-water-page__progress" aria-label={`水脉感悟 ${waterFeel} / ${waterFeelTotal}`}>
           <i style={{ '--progress': `${progressPercent}%` } as CSSProperties} />
         </div>
-        <span>{completedCount.toString().padStart(2, '0')} / {worldWaterNodes.length.toString().padStart(2, '0')}</span>
+        <span>{waterFeel.toString().padStart(2, '0')} / {waterFeelTotal}</span>
       </footer>
     </main>
   );

@@ -1,7 +1,7 @@
 .cosmic-future-page {
   --chapter-ink: #edf1dc;
-  --chapter-body: rgb(231 238 217 / 78%);
-  --chapter-muted: rgb(202 220 211 / 63%);
+  --chapter-body: rgb(231 238 217 / 79%);
+  --chapter-muted: rgb(202 220 211 / 64%);
   --chapter-accent: #d7bd72;
   --chapter-focus: #fff1b2;
   --chapter-panel-line: rgb(205 220 187 / 31%);
@@ -77,6 +77,8 @@
 
 .cosmic-future-page__back-link:focus-visible,
 .cosmic-future-orbit__signal button:focus-visible,
+.cosmic-future-orbit__shard:focus-visible,
+.cosmic-future-page__primary-button:focus-visible,
 .cosmic-future-page__finish-actions button:focus-visible,
 .cosmic-future-page__finish-actions a:focus-visible {
   outline: 2px solid var(--chapter-focus);
@@ -118,6 +120,13 @@
   font-size: 1.4rem;
   font-weight: 400;
   letter-spacing: .08em;
+}
+
+.cosmic-future-page__score small {
+  color: var(--chapter-muted);
+  font-family: inherit;
+  font-size: .67rem;
+  letter-spacing: .04em;
 }
 
 .cosmic-future-page__grid {
@@ -216,6 +225,7 @@
 
 .cosmic-future-page__legend i.is-current { background: var(--chapter-accent); }
 .cosmic-future-page__legend i.is-recorded { border-color: #b7d4c0; background: #b7d4c0; }
+.cosmic-future-page__legend i.is-shard { border-radius: 0; transform: rotate(45deg); }
 
 .cosmic-future-orbit {
   align-self: center;
@@ -242,7 +252,7 @@
 .cosmic-future-orbit__surface {
   position: relative;
   aspect-ratio: 640 / 560;
-  min-height: 25rem;
+  min-height: 27rem;
   margin: .7rem 0 .75rem;
   overflow: visible;
   border-bottom: 1px solid var(--chapter-subtle-line);
@@ -323,6 +333,7 @@
   position: absolute;
   top: 50%;
   left: 50%;
+  z-index: 2;
   display: grid;
   width: 7.5rem;
   height: 7.5rem;
@@ -334,6 +345,13 @@
   box-shadow: 0 0 0 1.2rem rgb(191 211 180 / 5%), 0 0 3rem rgb(82 168 156 / 17%);
   text-align: center;
   transform: translate(-50%, -50%);
+  transition: box-shadow 500ms ease, border-color 500ms ease;
+}
+
+.cosmic-future-page--awakening .cosmic-future-orbit__core,
+.cosmic-future-page--complete .cosmic-future-orbit__core {
+  border-color: rgb(242 212 132 / 92%);
+  box-shadow: 0 0 0 1.4rem rgb(191 211 180 / 7%), 0 0 4rem rgb(228 194 95 / 28%);
 }
 
 .cosmic-future-orbit__core::before,
@@ -346,9 +364,7 @@
   transform: rotate(38deg) scaleX(.55);
 }
 
-.cosmic-future-orbit__core::after {
-  transform: rotate(-38deg) scaleX(.55);
-}
+.cosmic-future-orbit__core::after { transform: rotate(-38deg) scaleX(.55); }
 
 .cosmic-future-orbit__core span,
 .cosmic-future-orbit__core strong {
@@ -364,9 +380,53 @@
 .cosmic-future-orbit__core strong { margin-top: 1.15rem; color: var(--chapter-accent); font-size: 1.3rem; }
 .cosmic-future-orbit__core i { position: absolute; bottom: 1.45rem; width: 1.9rem; height: 1px; background: var(--chapter-accent); }
 
+.cosmic-future-orbit__shards {
+  position: absolute;
+  z-index: 4;
+  inset: 0;
+  pointer-events: none;
+}
+
+.cosmic-future-orbit__shard {
+  position: absolute;
+  display: grid;
+  width: 3.5rem;
+  height: 3.5rem;
+  place-items: center;
+  border: 1px solid rgb(225 199 123 / 74%);
+  color: var(--chapter-accent);
+  background: rgb(8 39 46 / 82%);
+  box-shadow: 0 0 0 .45rem rgb(221 190 103 / 7%);
+  pointer-events: auto;
+  transform: rotate(45deg);
+  transition: top 550ms ease, left 550ms ease, background 350ms ease, box-shadow 350ms ease, transform 550ms ease;
+}
+
+.cosmic-future-orbit__shard:nth-child(1) { top: 18%; left: 24%; }
+.cosmic-future-orbit__shard:nth-child(2) { top: 34%; left: 71%; }
+.cosmic-future-orbit__shard:nth-child(3) { top: 73%; left: 22%; }
+
+.cosmic-future-orbit__shard span {
+  font-family: var(--font-calligraphy, "STKaiti", "KaiTi", serif);
+  font-size: 1.25rem;
+  transform: rotate(-45deg);
+}
+
+.cosmic-future-orbit__shard:hover:not(:disabled),
+.cosmic-future-orbit__shard.is-assembled {
+  background: rgb(125 101 42 / 38%);
+  box-shadow: 0 0 0 .55rem rgb(221 190 103 / 12%), 0 0 1.8rem rgb(224 192 102 / 32%);
+}
+
+.cosmic-future-orbit__shard.is-assembled:nth-child(1) { top: 45%; left: 41%; }
+.cosmic-future-orbit__shard.is-assembled:nth-child(2) { top: 48%; left: 50%; }
+.cosmic-future-orbit__shard.is-assembled:nth-child(3) { top: 54%; left: 45%; }
+
+.cosmic-future-orbit__shard:disabled { cursor: default; }
+
 .cosmic-future-orbit__signals {
   position: absolute;
-  z-index: 3;
+  z-index: 5;
   inset: 0;
   padding: 0;
   margin: 0;
@@ -392,6 +452,8 @@
   background: transparent;
   text-align: left;
 }
+
+.cosmic-future-orbit__signal button:disabled { cursor: not-allowed; opacity: .36; }
 
 .cosmic-future-orbit__signal-dot {
   position: relative;
@@ -434,13 +496,13 @@
   line-height: 1.35;
 }
 
-.cosmic-future-orbit__signal:hover .cosmic-future-orbit__signal-dot,
+.cosmic-future-orbit__signal:hover:not(:has(button:disabled)) .cosmic-future-orbit__signal-dot,
 .cosmic-future-orbit__signal.is-active .cosmic-future-orbit__signal-dot {
   background: var(--chapter-accent);
   box-shadow: 0 0 0 .35rem rgb(232 194 108 / 13%), 0 0 .8rem rgb(232 194 108 / 48%);
 }
 
-.cosmic-future-orbit__signal:hover .cosmic-future-orbit__signal-copy strong,
+.cosmic-future-orbit__signal:hover:not(:has(button:disabled)) .cosmic-future-orbit__signal-copy strong,
 .cosmic-future-orbit__signal.is-active .cosmic-future-orbit__signal-copy strong {
   color: var(--chapter-accent);
 }
@@ -448,6 +510,16 @@
 .cosmic-future-orbit__signal.is-recorded .cosmic-future-orbit__signal-dot {
   border-color: #b7d4c0;
   background: #b7d4c0;
+}
+
+.cosmic-future-orbit__assembly-count {
+  position: absolute;
+  right: 1rem;
+  bottom: 4.1rem;
+  z-index: 5;
+  color: rgb(224 196 124 / 68%);
+  font-size: .62rem;
+  letter-spacing: .12em;
 }
 
 .cosmic-future-orbit__stamp {
@@ -484,30 +556,21 @@
   min-width: 0;
 }
 
-.cosmic-future-page__guide,
+.cosmic-future-page__ritual,
+.cosmic-future-page__voyage-panel,
+.cosmic-future-page__awakening-panel,
 .cosmic-future-page__finish {
   display: grid;
   gap: .8rem;
-  min-height: 22rem;
+  min-height: 24rem;
   align-content: center;
   padding: clamp(1.25rem, 2.4vw, 2rem) 0 clamp(1.25rem, 2.4vw, 2rem) clamp(1rem, 2vw, 1.8rem);
   border-left: 1px solid var(--chapter-panel-line);
 }
 
-.cosmic-future-page__guide-mark {
-  display: grid;
-  width: 2.9rem;
-  height: 2.9rem;
-  margin-bottom: .35rem;
-  place-items: center;
-  border: 1px solid var(--chapter-accent);
-  border-radius: 50%;
-  color: var(--chapter-accent);
-  font-family: var(--font-calligraphy, "STKaiti", "KaiTi", serif);
-  font-size: 1.55rem;
-}
-
-.cosmic-future-page__guide h2,
+.cosmic-future-page__ritual h2,
+.cosmic-future-page__voyage-panel h2,
+.cosmic-future-page__awakening-panel h2,
 .cosmic-future-page__finish h2 {
   margin: 0;
   color: var(--chapter-ink);
@@ -517,7 +580,9 @@
   line-height: 1.45;
 }
 
-.cosmic-future-page__guide > p:not(.cosmic-future-page__eyebrow),
+.cosmic-future-page__ritual > p:not(.cosmic-future-page__eyebrow),
+.cosmic-future-page__voyage-panel > p:not(.cosmic-future-page__eyebrow),
+.cosmic-future-page__awakening-panel > p:not(.cosmic-future-page__eyebrow),
 .cosmic-future-page__finish > p:not(.cosmic-future-page__eyebrow) {
   max-width: 19rem;
   color: var(--chapter-body);
@@ -525,27 +590,89 @@
   line-height: 1.8;
 }
 
-.cosmic-future-page__guide-line {
-  display: block;
-  width: 4.2rem;
-  height: 1px;
-  margin-top: .8rem;
-  background: var(--chapter-accent);
-}
-
-.cosmic-future-page__guide small {
+.cosmic-future-page__ritual small {
   color: var(--chapter-muted);
   font-size: .67rem;
   letter-spacing: .05em;
+}
+
+.cosmic-future-page__shard-meter {
+  display: flex;
+  gap: .5rem;
+  margin: .3rem 0 .35rem;
+}
+
+.cosmic-future-page__shard-meter i {
+  display: grid;
+  width: 2rem;
+  height: 2rem;
+  place-items: center;
+  border: 1px solid rgb(225 199 123 / 52%);
+  color: var(--chapter-muted);
+  font-family: var(--font-calligraphy, "STKaiti", "KaiTi", serif);
+  font-size: .9rem;
+  font-style: normal;
+  transform: rotate(45deg);
+}
+
+.cosmic-future-page__shard-meter i span { transform: rotate(-45deg); }
+.cosmic-future-page__shard-meter i.is-assembled { color: var(--chapter-accent); background: rgb(125 101 42 / 36%); }
+
+.cosmic-future-page__primary-button {
+  display: inline-flex;
+  width: fit-content;
+  gap: .6rem;
+  align-items: center;
+  padding: .55rem .75rem;
+  border: 1px solid var(--chapter-accent);
+  color: var(--chapter-ink);
+  background: rgb(224 193 109 / 9%);
+  font-family: var(--font-calligraphy, "STKaiti", "KaiTi", serif);
+  font-size: .82rem;
+  letter-spacing: .08em;
+  transition: background 180ms ease, color 180ms ease, transform 180ms ease;
+}
+
+.cosmic-future-page__primary-button:hover {
+  color: var(--chapter-accent);
+  background: rgb(224 193 109 / 16%);
+  transform: translateX(2px);
+}
+
+.cosmic-future-page__voyage-route {
+  display: flex;
+  gap: .45rem;
+  align-items: center;
+  max-width: 19rem;
+  color: var(--chapter-muted);
+  font-size: .62rem;
+  letter-spacing: .08em;
+}
+
+.cosmic-future-page__voyage-route i {
+  flex: 1;
+  height: 1px;
+  min-width: .8rem;
+  background: var(--chapter-accent);
+  opacity: .65;
+}
+
+.cosmic-future-page__quote {
+  color: var(--chapter-accent) !important;
+  font-family: var(--font-calligraphy, "STKaiti", "KaiTi", serif);
+  font-size: .95rem !important;
+}
+
+.cosmic-future-page__reward {
+  padding-left: .75rem;
+  border-left: 1px solid var(--chapter-accent);
+  color: var(--chapter-accent) !important;
 }
 
 .cosmic-future-page__finish {
   align-content: center;
   border-left-color: var(--chapter-accent);
 }
-
-.cosmic-future-page__finish h2 { font-size: clamp(1.4rem, 2.2vw, 1.9rem); }
-.cosmic-future-page__finish > p strong { color: var(--chapter-accent); font-weight: 500; }
 
 .cosmic-future-page__finish-actions {
   display: flex;
@@ -619,6 +746,7 @@
   }
 
   .cosmic-future-page__intro h1 { font-size: clamp(2.1rem, 4.5vw, 3.8rem); }
+  .cosmic-future-orbit__signal { width: min(9rem, 34%); }
 }
 
 @media (max-width: 900px) {
@@ -663,14 +791,16 @@
   .cosmic-future-orbit,
   .cosmic-future-page__panel { grid-column: 1; }
   .cosmic-future-page__intro h1 { margin-top: .7rem; font-size: clamp(2.35rem, 14vw, 3.6rem); }
-  .cosmic-future-orbit__surface { min-height: 20rem; }
+  .cosmic-future-orbit__surface { min-height: 23rem; }
   .cosmic-future-orbit__signal { width: min(9.5rem, 42%); }
   .cosmic-future-orbit__signal:nth-child(2) { left: 76%; }
   .cosmic-future-orbit__signal-copy strong { font-size: .9rem; }
   .cosmic-future-orbit__core { width: 6.2rem; height: 6.2rem; }
   .cosmic-future-orbit__stamp { right: .55rem; }
   .cosmic-future-page__panel { border-top: 1px solid var(--chapter-panel-line); padding-top: 1.3rem; }
-  .cosmic-future-page__guide,
+  .cosmic-future-page__ritual,
+  .cosmic-future-page__voyage-panel,
+  .cosmic-future-page__awakening-panel,
   .cosmic-future-page__finish { min-height: 0; padding: .6rem 0 1.5rem; border-left: 0; }
   .cosmic-future-page__footer { position: fixed; right: .75rem; bottom: .65rem; left: .75rem; padding: .55rem .7rem; background: rgb(6 29 38 / 90%); }
   .cosmic-future-page__footer span:first-child { display: none; }
@@ -683,5 +813,9 @@
     animation: none;
   }
 
+  .cosmic-future-orbit__shard,
+  .cosmic-future-page__primary-button,
   .cosmic-future-page__progress i { transition: none; }
+
+  .cosmic-future-page__primary-button:hover { transform: none; }
 }
