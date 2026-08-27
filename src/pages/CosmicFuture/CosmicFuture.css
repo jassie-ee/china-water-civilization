@@ -329,6 +329,19 @@
   animation-direction: reverse;
 }
 
+.cosmic-future-orbit__waterline--trace {
+  stroke: #f2d58b;
+  stroke-dasharray: 32 390;
+  stroke-width: 2.6;
+  opacity: 0;
+  animation: none;
+}
+
+.cosmic-future-orbit__waterline--trace.is-active {
+  opacity: .9;
+  animation: cosmic-future-waterline-trace 3.4s linear infinite;
+}
+
 .cosmic-future-orbit__core {
   position: absolute;
   top: 50%;
@@ -735,6 +748,11 @@
   to { stroke-dashoffset: -160; }
 }
 
+@keyframes cosmic-future-waterline-trace {
+  from { stroke-dashoffset: 420; }
+  to { stroke-dashoffset: -420; }
+}
+
 @keyframes cosmic-future-signal-pulse {
   0%, 60%, 100% { opacity: 0; transform: scale(.7); }
   25% { opacity: 1; }
@@ -810,9 +828,12 @@
 @media (prefers-reduced-motion: reduce) {
   .cosmic-future-orbit__orbit,
   .cosmic-future-orbit__waterline,
+  .cosmic-future-orbit__waterline--trace,
   .cosmic-future-orbit__signal:not(.is-recorded) .cosmic-future-orbit__signal-dot::after {
     animation: none;
   }
+
+  .cosmic-future-orbit__waterline--trace.is-active { opacity: .58; }
 
   .cosmic-future-orbit__shard,
   .cosmic-future-page__primary-button,

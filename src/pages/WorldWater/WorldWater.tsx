@@ -5,6 +5,8 @@ import shanhaiWaterChronicle from '@/assets/images/shanhai-water-chronicle.png';
 import { useGovernanceProgress } from '@/components/common/governanceProgressContext';
 import ChapterChoicePanel from '@/components/chapter/ChapterChoicePanel';
 import ChapterSpirit, { type ChapterSpiritMood } from '@/components/chapter/ChapterSpirit';
+import InkRipple, { type InkRippleTrigger } from '@/components/chapter/InkRipple';
+import StatefulActionButton from '@/components/chapter/StatefulActionButton';
 import { worldWaterStations, worldWaterSteps } from '@/data/worldWater';
 import type { WorldWaterChoice, WorldWaterStation, WorldWaterStationId, WorldWaterStep } from '@/types/worldWater';
 
@@ -50,6 +52,7 @@ function WorldWater() {
   const [selectedChoiceIdsByStep, setSelectedChoiceIdsByStep] = useState<Record<string, string[]>>({});
   const [responseByStep, setResponseByStep] = useState<Record<string, WorldWaterResponse>>({});
   const [isFinished, setIsFinished] = useState(false);
+  const [ripple, setRipple] = useState<InkRippleTrigger | null>(null);
 
   const activeStep = worldWaterSteps.find((step) => step.id === activeStepId) ?? null;
   const activeResponse = activeStep === null ? null : responseByStep[activeStep.id] ?? null;
@@ -64,6 +67,15 @@ function WorldWater() {
   const nextStepLabel = nextStep === null
     ? '完成同舟共济'
     : `前往 ${nextStep.order.toString().padStart(2, '0')} · ${nextStep.title}`;
+
+  const triggerRipple = (x: number, y: number): void => {
+    setRipple((current) => ({
+      id: (current?.id ?? 0) + 1,
+      x,
+      y,
+      tone: 'water',
+    }));
+  };
   const spiritMood: ChapterSpiritMood = isFinished
     ? 'resolved'
     : activeResponse !== null
@@ -73,6 +85,7 @@ function WorldWater() {
         : 'resting';
 
   const openStation = (station: WorldWaterStation): void => {
+    triggerRipple(station.x, station.y);
     const stepId = getStationStepId(station, responseByStep);
     setIsFinished(false);
     setActiveStationId(station.id);
@@ -178,7 +191,9 @@ function WorldWater() {
               <path className="world-water-route__contour world-water-route__contour--two" d="M-20 225c108-67 198 33 300-1s178-66 283-11 206 25 357-67" />
               <path className="world-water-route__line" d="M22 264C112 226 170 284 265 235s142-61 224-19 153 25 243-52 113-92 166-110" />
               <path className="world-water-route__line world-water-route__line--echo" d="M22 276C112 238 170 296 265 247s142-61 224-19 153 25 243-52 113-92 166-110" />
+              <path className={`world-water-route__trace${activeStationId === null ? '' : ' is-active'}`} d="M22 264C112 226 170 284 265 235s142-61 224-19 153 25 243-52 113-92 166-110" />
             </svg>
+            <InkRipple trigger={ripple} />
             <ol className="world-water-route__nodes">
               {worldWaterStations.map((station) => {
                 const isActive = activeStationId === station.id;
@@ -261,9 +276,9 @@ function WorldWater() {
               <h2>先看当地，<br />再和水同行。</h2>
               <p>五处水脉、七道判断，从在地勘察开始，走过荒漠、印度河、西非和湄澜六国。</p>
               <span className="world-water-page__guide-line" aria-hidden="true" />
-              <button className="world-water-page__text-button" type="button" onClick={handleStartSurvey}>
-                开始勘察<span aria-hidden="true">→</span>
-              </button>
+              <StatefulActionButton className="world-water-page__text-button" onCommit={handleStartSurvey} completeLabel="已进入航路">
+                开始勘察
+              </StatefulActionButton>
               <small>也可以自由点击航路上的任一处水脉。</small>
             </section>
           )}

@@ -65,6 +65,9 @@
 | 本地 design library 的 editorial waterline 原则 | 细线、虚线、持续水流、留白 | `WorldWater.css` 的五站航路；`CosmicFuture.css` 的水线、轨道与碎片场 | 项目内 SVG 适配，不引入付费组件 |
 | shadcn / 无障碍按钮模式 | 原生按钮、键盘焦点、禁用后的选择锁定 | `ChapterChoicePanel.tsx` 与节点按钮 | 采用语义 HTML 和 `:focus-visible` |
 | React Bits / Aceternity library | 作为动效检索参考 | 本轮未直接安装组件 | 不使用 React Bits Pro、GSAP、WebGL 或未授权资源 |
+| [Aceternity Background Ripple Effect](https://ui.aceternity.com/components/background-ripple-effect) | 点击后扩散的邻近反馈 | `src/components/chapter/InkRipple.tsx`、`src/components/chapter/ink-ripple.css` | 本地适配为三层不规则水墨圈；落在第三章节点和第四章碎片坐标；不复制整面网格，不引入 Tailwind/Motion |
+| [Aceternity Tracing Beam](https://ui.aceternity.com/components/tracing-beam) | 沿 SVG 路径追踪的动态短线 | `src/pages/WorldWater/WorldWater.tsx`、`src/pages/WorldWater/WorldWater.css`；`src/pages/CosmicFuture/CosmicFuture.tsx`、`src/pages/CosmicFuture/CosmicFuture.css` | 将滚动触发改为选择/阶段触发；保留 SVG stroke offset，使用暖金低亮度，`prefers-reduced-motion` 下静态显示 |
+| [Aceternity Stateful Button](https://ui.aceternity.com/components/stateful-button) | action → recording → complete 状态反馈 | `src/components/chapter/StatefulActionButton.tsx`、`src/components/chapter/stateful-action-button.css` | 本地适配为 220ms 的真实状态提交；复用于选择面板、章节 CTA；保留语义按钮、焦点和禁用态 |
 
 ## 6. 验收清单
 
@@ -75,5 +78,7 @@
 - [x] 桌面端三栏叙事布局和两章差异化中部图形已检查。
 - [x] 移动端无横向溢出，顶部全局积分不遮挡章节标记。
 - [x] 选择按钮有禁用态、选中态、键盘焦点和屏幕阅读器文本。
+- [x] 第三章节点和第四章碎片点击后有局部水墨波纹；波纹不拦截后续点击。
+- [x] 当前节点/阶段显示追踪水线；按钮显示“记录中/完成”状态后再进入下一阶段。
 - [x] `prefers-reduced-motion` 下停用持续运动。
 - [x] 构建与 lint 检查通过；开发服务器支持热更新预览。

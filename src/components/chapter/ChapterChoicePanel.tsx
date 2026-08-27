@@ -1,4 +1,5 @@
 import './chapter-choice-panel.css';
+import StatefulActionButton from './StatefulActionButton';
 
 export interface ChapterChoice {
   id: string;
@@ -123,21 +124,25 @@ function ChapterChoicePanel({
             <strong>+{displayedStars} 记忆星</strong>
           </div>
           <p>{displayedFeedback}</p>
-          <button className="chapter-choice-panel__continue" type="button" onClick={onContinue}>
-            {continueLabel}<span aria-hidden="true">→</span>
-          </button>
+          <StatefulActionButton
+            className="chapter-choice-panel__continue"
+            completeLabel="已记录"
+            onCommit={onContinue}
+          >
+            {continueLabel}
+          </StatefulActionButton>
         </div>
       ) : isMultiple ? (
         <div className="chapter-choice-panel__submit-row">
           <p className="chapter-choice-panel__hint">已选 {currentSelectedChoiceIds.length} 项。把你认为需要同时考虑的因素一起勾选。</p>
-          <button
+          <StatefulActionButton
             className="chapter-choice-panel__submit"
-            type="button"
             disabled={currentSelectedChoiceIds.length === 0}
-            onClick={onSubmit}
+            completeLabel="已写入航记"
+            onCommit={() => onSubmit?.()}
           >
-            {submitLabel}<span aria-hidden="true">→</span>
-          </button>
+            {submitLabel}
+          </StatefulActionButton>
         </div>
       ) : (
         <p className="chapter-choice-panel__hint">选择一个回应，澜澜会把你的判断写进这段水脉。</p>

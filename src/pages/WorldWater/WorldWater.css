@@ -306,6 +306,20 @@
   animation-direction: reverse;
 }
 
+.world-water-route__trace {
+  fill: none;
+  stroke: #f2d58b;
+  stroke-dasharray: 30 430;
+  stroke-linecap: round;
+  stroke-width: 2.5;
+  opacity: 0;
+}
+
+.world-water-route__trace.is-active {
+  opacity: .88;
+  animation: world-water-route-trace 3.2s linear infinite;
+}
+
 .world-water-route__nodes {
   position: absolute;
   z-index: 3;
@@ -578,6 +592,11 @@
   to { stroke-dashoffset: -160; }
 }
 
+@keyframes world-water-route-trace {
+  from { stroke-dashoffset: 460; }
+  to { stroke-dashoffset: -460; }
+}
+
 @keyframes world-water-node-pulse {
   0%, 60%, 100% { opacity: 0; transform: scale(.7); }
   25% { opacity: 1; }
@@ -651,9 +670,12 @@
 
 @media (prefers-reduced-motion: reduce) {
   .world-water-route__line,
+  .world-water-route__trace,
   .world-water-route__node:not(.is-recorded) .world-water-route__node-dot::after {
     animation: none;
   }
+
+  .world-water-route__trace.is-active { opacity: .56; }
 
   .world-water-page__progress i,
   .world-water-page__text-button,

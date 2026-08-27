@@ -5,6 +5,8 @@ import shanhaiWaterChronicle from '@/assets/images/shanhai-water-chronicle.png';
 import { useGovernanceProgress } from '@/components/common/governanceProgressContext';
 import ChapterChoicePanel from '@/components/chapter/ChapterChoicePanel';
 import ChapterSpirit, { type ChapterSpiritMood } from '@/components/chapter/ChapterSpirit';
+import InkRipple, { type InkRippleTrigger } from '@/components/chapter/InkRipple';
+import StatefulActionButton from '@/components/chapter/StatefulActionButton';
 import { cosmicActs, cosmicReflectionChoices } from '@/data/cosmicConstraint';
 import type { CosmicAct, CosmicActId, CosmicChoice } from '@/types/cosmicConstraint';
 
@@ -13,6 +15,11 @@ import './CosmicFuture.css';
 type CosmicPhase = 'assembly' | 'reflection' | 'voyage' | 'awakening' | 'complete';
 
 const shardNames = ['源', '行', '望'];
+const shardPositions = [
+  { x: 24, y: 18 },
+  { x: 71, y: 34 },
+  { x: 22, y: 73 },
+] as const;
 
 function getActForPhase(phase: CosmicPhase): CosmicActId {
   if (phase === 'assembly' || phase === 'reflection') return 'earth-heaven';
@@ -32,6 +39,7 @@ function CosmicFuture() {
   const [assembledShardIds, setAssembledShardIds] = useState<number[]>([]);
   const [reflectionChoiceId, setReflectionChoiceId] = useState<string | null>(null);
   const [reflectionStars, setReflectionStars] = useState<1 | 2 | 3>(3);
+  const [ripple, setRipple] = useState<InkRippleTrigger | null>(null);
 
   const activeActId = getActForPhase(phase);
   const activeAct = cosmicActs.find((act) => act.id === activeActId) ?? cosmicActs[0];
@@ -44,8 +52,19 @@ function CosmicFuture() {
       ? reflectionChoiceId !== null ? 'recorded' : 'listening'
       : 'resting';
 
+  const triggerRipple = (x: number, y: number): void => {
+    setRipple((current) => ({
+      id: (current?.id ?? 0) + 1,
+      x,
+      y,
+      tone: 'gold',
+    }));
+  };
+
   const handleAssembleShard = (shardIndex: number): void => {
     if (phase !== 'assembly') return;
+    const position = shardPositions[shardIndex] ?? { x: 50, y: 50 };
+    triggerRipple(position.x, position.y);
     setAssembledShardIds((current) => current.includes(shardIndex) ? current : [...current, shardIndex]);
   };
 
@@ -145,7 +164,9 @@ function CosmicFuture() {
               <ellipse className="cosmic-future-orbit__orbit cosmic-future-orbit__orbit--three" cx="320" cy="280" rx="132" ry="232" />
               <path className="cosmic-future-orbit__waterline" d="M70 330C157 273 216 358 294 318s124-40 190-4 73 24 104-11" />
               <path className="cosmic-future-orbit__waterline cosmic-future-orbit__waterline--echo" d="M72 342C159 285 218 370 296 330s124-40 190-4 73 24 104-11" />
+              <path className={`cosmic-future-orbit__waterline cosmic-future-orbit__waterline--trace${phase === 'assembly' ? '' : ' is-active'}`} d="M70 330C157 273 216 358 294 318s124-40 190-4 73 24 104-11" />
             </svg>
+            <InkRipple trigger={ripple} />
             <div className="cosmic-future-orbit__core" aria-hidden="true">
               <span>{phase === 'voyage' ? '水脉' : phase === 'assembly' || phase === 'reflection' ? '连' : '天地'}</span>
               <strong>{phase === 'voyage' ? '贯星河' : phase === 'assembly' || phase === 'reflection' ? '天地' : '人和'}</strong>
@@ -236,9 +257,9 @@ function CosmicFuture() {
                 {shardNames.map((shardName, index) => <i className={assembledShardIds.includes(index) ? 'is-assembled' : ''} key={shardName}><span>{shardName}</span></i>)}
               </div>
               {isAssemblyComplete ? (
-                <button className="cosmic-future-page__primary-button" type="button" onClick={handleEnterReflection}>
-                  进入宇宙共生之问<span aria-hidden="true">→</span>
-                </button>
+                <StatefulActionButton className="cosmic-future-page__primary-button" onCommit={handleEnterReflection} completeLabel="已打开共生之问">
+                  进入宇宙共生之问
+                </StatefulActionButton>
               ) : (
                 <small>点击中部的三块碎片，完成拼合仪式。</small>
               )}
@@ -268,9 +289,9 @@ function CosmicFuture() {
               <div className="cosmic-future-page__voyage-route" aria-label="飞行路线">
                 <span>地球</span><i /><span>月球</span><i /><span>火星</span><i /><span>银河</span>
               </div>
-              <button className="cosmic-future-page__primary-button" type="button" onClick={handleLaunch}>
-                开始飞向宇宙<span aria-hidden="true">→</span>
-              </button>
+              <StatefulActionButton className="cosmic-future-page__primary-button" onCommit={handleLaunch} completeLabel="已进入星河">
+                开始飞向宇宙
+              </StatefulActionButton>
             </section>
           ) : (
             <section className="cosmic-future-page__awakening-panel">
@@ -278,9 +299,9 @@ function CosmicFuture() {
               <h2>水流到哪里，<br />共生的道理就用到哪里。</h2>
               <p>地球、星辰和所有未知的水脉，都在同一张图里找到位置。最后一步，让澜澜成为这张图的一部分。</p>
               <p className="cosmic-future-page__quote">治水治到最后，治的不是水，是学会和天地万物好好相处。</p>
-              <button className="cosmic-future-page__primary-button" type="button" onClick={handleComplete}>
-                完成终极觉醒<span aria-hidden="true">→</span>
-              </button>
+              <StatefulActionButton className="cosmic-future-page__primary-button" onCommit={handleComplete} completeLabel="觉醒已完成">
+                完成终极觉醒
+              </StatefulActionButton>
             </section>
           )}
         </aside>
