@@ -46,8 +46,8 @@ const chapterOverviewItems: ChapterOverviewItem[] = [
       '你愿意和我一起，把这段水脉带向更远的地方吗？',
     ],
     ctaLabel: '开始探索',
-    unavailableNotice: '这段水脉仍在修复中，海上丝路的旅程正在筹备。',
-    status: 'preview',
+    status: 'available',
+    route: '/chapter-3',
   },
   {
     id: 'chapter-4',
@@ -62,8 +62,8 @@ const chapterOverviewItems: ChapterOverviewItem[] = [
       '让我们从珍惜脚下的每一滴水开始。',
     ],
     ctaLabel: '开始探索',
-    unavailableNotice: '这段水脉仍在修复中，终章将在前三段记忆汇合后点亮。',
-    status: 'preview',
+    status: 'available',
+    route: '/chapter-4',
   },
 ];
 
