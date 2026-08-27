@@ -299,6 +299,7 @@
 
 .world-water-route__nodes {
   position: absolute;
+  z-index: 3;
   inset: 0;
   padding: 0;
   margin: 0;

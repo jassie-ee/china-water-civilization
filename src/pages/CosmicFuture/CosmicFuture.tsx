@@ -4,6 +4,7 @@ import { Link } from 'react-router-dom';
 import shanhaiWaterChronicle from '@/assets/images/shanhai-water-chronicle.png';
 import { useGovernanceProgress } from '@/components/common/governanceProgressContext';
 import ChapterChoicePanel from '@/components/chapter/ChapterChoicePanel';
+import ChapterSpirit, { type ChapterSpiritMood } from '@/components/chapter/ChapterSpirit';
 import { cosmicSignals } from '@/data/cosmicConstraint';
 import type { CosmicChoice, CosmicSignalId } from '@/types/cosmicConstraint';
 
@@ -21,6 +22,13 @@ function CosmicFuture() {
   const totalScore = Object.values(scoreBySignal).reduce((total, score) => total + score, 0);
   const progressPercent = Math.round((completedCount / cosmicSignals.length) * 100);
   const activeChoiceId = activeSignal === null ? null : selectedChoiceBySignal[activeSignal.id] ?? null;
+  const spiritMood: ChapterSpiritMood = isFinished
+    ? 'resolved'
+    : activeChoiceId !== null
+      ? 'recorded'
+      : activeSignalId !== null
+        ? 'listening'
+        : 'resting';
 
   const nextSignalLabel = useMemo(() => {
     const nextSignal = cosmicSignals.find((signal) => selectedChoiceBySignal[signal.id] === undefined);
@@ -133,6 +141,7 @@ function CosmicFuture() {
               <span>望</span>
               <small>观其变 · 守其界</small>
             </div>
+            <ChapterSpirit chapter="horizon" mood={spiritMood} />
           </div>
           <p className="cosmic-future-orbit__note">点击一个未来信号，留下你的判断。</p>
         </section>

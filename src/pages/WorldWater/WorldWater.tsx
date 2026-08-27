@@ -4,6 +4,7 @@ import { Link } from 'react-router-dom';
 import shanhaiWaterChronicle from '@/assets/images/shanhai-water-chronicle.png';
 import { useGovernanceProgress } from '@/components/common/governanceProgressContext';
 import ChapterChoicePanel from '@/components/chapter/ChapterChoicePanel';
+import ChapterSpirit, { type ChapterSpiritMood } from '@/components/chapter/ChapterSpirit';
 import { worldWaterNodes } from '@/data/worldWater';
 import type { WorldWaterChoice, WorldWaterNodeId } from '@/types/worldWater';
 
@@ -21,6 +22,13 @@ function WorldWater() {
   const totalScore = Object.values(scoreByNode).reduce((total, score) => total + score, 0);
   const progressPercent = Math.round((completedCount / worldWaterNodes.length) * 100);
   const activeChoiceId = activeNode === null ? null : selectedChoiceByNode[activeNode.id] ?? null;
+  const spiritMood: ChapterSpiritMood = isFinished
+    ? 'resolved'
+    : activeChoiceId !== null
+      ? 'recorded'
+      : activeNodeId !== null
+        ? 'listening'
+        : 'resting';
 
   const nextNodeLabel = useMemo(() => {
     const nextNode = worldWaterNodes.find((node) => selectedChoiceByNode[node.id] === undefined);
@@ -131,6 +139,7 @@ function WorldWater() {
               <span>水行</span>
               <small>同流 · 共识 · 共生</small>
             </div>
+            <ChapterSpirit chapter="voyage" mood={spiritMood} />
           </div>
           <p className="world-water-route__note">点击节点，听见当地的水声。</p>
         </section>

@@ -1,0 +1,141 @@
+.chapter-spirit {
+  --spirit-accent: rgb(196 225 207 / 54%);
+  --spirit-tilt: -2deg;
+  position: absolute;
+  z-index: 1;
+  width: clamp(8rem, 21%, 13rem);
+  aspect-ratio: 1;
+  pointer-events: none;
+  isolation: isolate;
+  opacity: .94;
+  transform-origin: 50% 82%;
+  animation: chapter-spirit-float 6.4s ease-in-out infinite;
+  will-change: transform;
+}
+
+.chapter-spirit--voyage {
+  right: 18%;
+  bottom: -2.45rem;
+}
+
+.chapter-spirit--horizon {
+  left: 2%;
+  bottom: -2.5rem;
+  --spirit-accent: rgb(181 215 203 / 56%);
+  --spirit-tilt: 2deg;
+}
+
+.chapter-spirit__image {
+  position: relative;
+  z-index: 2;
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  filter: drop-shadow(0 .8rem .75rem rgb(0 11 15 / 24%));
+}
+
+.chapter-spirit__waterlight {
+  position: absolute;
+  z-index: 1;
+  right: 16%;
+  bottom: 7%;
+  left: 16%;
+  height: 34%;
+  border-radius: 50%;
+  background: radial-gradient(ellipse, var(--spirit-accent), transparent 70%);
+  filter: blur(.72rem);
+  opacity: .54;
+  transform: rotate(-3deg);
+}
+
+.chapter-spirit__ripple {
+  position: absolute;
+  z-index: 0;
+  bottom: 4%;
+  left: 12%;
+  width: 76%;
+  height: 14%;
+  border: 1px solid var(--spirit-accent);
+  border-radius: 50%;
+  opacity: 0;
+  transform: scale(.65);
+}
+
+.chapter-spirit--recorded .chapter-spirit__ripple,
+.chapter-spirit--resolved .chapter-spirit__ripple {
+  animation: chapter-spirit-ripple 2.6s ease-out infinite;
+}
+
+.chapter-spirit--recorded .chapter-spirit__ripple--two,
+.chapter-spirit--resolved .chapter-spirit__ripple--two {
+  animation-delay: 1.25s;
+}
+
+.chapter-spirit--listening {
+  animation-duration: 4.8s;
+}
+
+.chapter-spirit--recorded {
+  --spirit-accent: rgb(231 191 108 / 62%);
+  animation-duration: 5.2s;
+}
+
+.chapter-spirit--resolved {
+  --spirit-accent: rgb(230 202 128 / 66%);
+  animation-duration: 7.2s;
+}
+
+.chapter-spirit--resolved .chapter-spirit__image {
+  filter: drop-shadow(0 .8rem .75rem rgb(0 11 15 / 24%)) brightness(1.035);
+}
+
+@keyframes chapter-spirit-float {
+  0%, 100% { transform: translateY(0) rotate(var(--spirit-tilt)); }
+  50% { transform: translateY(-.35rem) rotate(calc(var(--spirit-tilt) * -1)); }
+}
+
+@keyframes chapter-spirit-ripple {
+  0% { opacity: 0; transform: scale(.65); }
+  24% { opacity: .58; }
+  100% { opacity: 0; transform: scale(1.2); }
+}
+
+@media (max-width: 900px) {
+  .chapter-spirit {
+    width: clamp(7.5rem, 19vw, 10.5rem);
+  }
+}
+
+@media (max-width: 680px) {
+  .chapter-spirit {
+    width: clamp(6.8rem, 31vw, 9.2rem);
+    bottom: -2rem;
+  }
+
+  .chapter-spirit--voyage {
+    right: 5%;
+  }
+
+  .chapter-spirit--horizon {
+    left: -1%;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .chapter-spirit {
+    animation: none;
+    transform: rotate(var(--spirit-tilt));
+    will-change: auto;
+  }
+
+  .chapter-spirit__ripple {
+    animation: none;
+  }
+
+  .chapter-spirit--recorded .chapter-spirit__ripple,
+  .chapter-spirit--resolved .chapter-spirit__ripple {
+    opacity: .25;
+    transform: none;
+  }
+}
