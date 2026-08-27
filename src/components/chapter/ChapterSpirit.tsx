@@ -1,4 +1,4 @@
-import spiritBase from '@/assets/images/characters/spirit_base_ink_atlas_v1.png';
+import spiritBase from '@/assets/images/characters/spirit_base_ink_transparent.png';
 
 import './chapter-spirit.css';
 
