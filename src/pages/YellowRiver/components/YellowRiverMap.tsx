@@ -11,7 +11,7 @@ import yellowRiverBackground from '@/assets/images/basins/yellow-river-backgroun
 import YellowRiverNodeLayer from './YellowRiverNodeLayer';
 
 interface YellowRiverMapProps {
-  selectedRegionId: YellowRiverRegionId;
+  selectedRegionId: YellowRiverRegionId | null;
   previewRegionId: YellowRiverRegionId | null;
   selectedNodeId: YellowRiverNodeId | null;
   previewNodeId: YellowRiverNodeId | null;
@@ -19,6 +19,7 @@ interface YellowRiverMapProps {
   onRegionPreview: (regionId: YellowRiverRegionId | null) => void;
   onNodeSelect: (nodeId: YellowRiverNodeId) => void;
   onNodePreview: (nodeId: YellowRiverNodeId | null) => void;
+  onBlankClick: () => void;
 }
 
 function YellowRiverMap({
@@ -30,6 +31,7 @@ function YellowRiverMap({
   onRegionPreview,
   onNodeSelect,
   onNodePreview,
+  onBlankClick,
 }: YellowRiverMapProps) {
   const visibleRegionId = previewRegionId ?? selectedRegionId;
 
@@ -40,9 +42,17 @@ function YellowRiverMap({
     }
   };
 
+  const handleMapClick = (event: React.MouseEvent<SVGSVGElement>): void => {
+    event.stopPropagation();
+    const target = event.target as Element;
+    if (target.closest('.yellow-river-map__atlas-region, .yellow-river-node-marker') === null) {
+      onBlankClick();
+    }
+  };
+
   return (
     <div className="yellow-river-map yellow-river-map--atlas" aria-label="黄河上游、中游、下游互动水脉地图">
-      <svg viewBox="0 0 1672 941" preserveAspectRatio="xMidYMid meet" role="img" aria-label="可选择黄河上游、中游和下游的黄河水脉地图">
+      <svg viewBox="0 0 1672 941" preserveAspectRatio="xMidYMid meet" role="img" aria-label="可选择黄河上游、中游和下游的黄河水脉地图" onClick={handleMapClick}>
         <defs>
           <radialGradient id="yellow-river-atlas-shade" cx="50%" cy="44%" r="76%">
             <stop offset="56%" stopColor="#071b22" stopOpacity="0" />

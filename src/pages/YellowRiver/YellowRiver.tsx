@@ -1,15 +1,15 @@
-import { useMemo, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 
 import { yellowRiverRegions } from '@/data/yellowRiverRegions';
 import { yellowRiverGovernanceNodeIds, yellowRiverNodes } from '@/data/yellowRiverNodes';
 import { governanceDataSource } from '@/services/governanceDataSource';
 import type { YellowRiverNode, YellowRiverNodeId, YellowRiverRegionId } from '@/types/basin';
+import RiverSpiritDialogue from '@/components/lan/RiverSpiritDialogue';
 
 import YellowRiverMap from './components/YellowRiverMap';
 import YellowRiverNodeDetailPanel from './components/YellowRiverNodeDetailPanel';
 import YellowRiverGovernancePanel from './components/YellowRiverGovernancePanel';
-import YellowRiverSpiritDialogue from './components/YellowRiverSpiritDialogue';
 import './YellowRiver.css';
 
 function hasDetailContent(node: YellowRiverNode): boolean {
@@ -60,11 +60,12 @@ function YellowRiver() {
   const restoredModalState = getRestoredModalState(location.state);
   const restoredNodeId = restoredModalState.nodeId;
   const restoredNode = yellowRiverNodes.find((node) => node.id === restoredNodeId) ?? null;
-  const [selectedRegionId, setSelectedRegionId] = useState<YellowRiverRegionId>(restoredNode?.regionId ?? 'upper');
+  const [selectedRegionId, setSelectedRegionId] = useState<YellowRiverRegionId | null>(restoredNode?.regionId ?? null);
   const [previewRegionId, setPreviewRegionId] = useState<YellowRiverRegionId | null>(null);
   const [selectedNodeId, setSelectedNodeId] = useState<YellowRiverNodeId | null>(restoredNodeId);
   const [previewNodeId, setPreviewNodeId] = useState<YellowRiverNodeId | null>(null);
   const [modalMode, setModalMode] = useState<YellowRiverModalMode>(restoredModalState.modalMode);
+  const [isDialogueOpen, setIsDialogueOpen] = useState(false);
   const selectedDetailNode = useMemo(
     () => detailNodes.find((node) => node.id === selectedNodeId) ?? null,
     [selectedNodeId],
@@ -77,6 +78,15 @@ function YellowRiver() {
   const handleRegionPreview = (regionId: YellowRiverRegionId | null): void => {
     setPreviewRegionId(regionId);
   };
+
+  useEffect(() => {
+    const handleKeyDown = (event: KeyboardEvent): void => {
+      if (event.key === 'Escape') setIsDialogueOpen(false);
+    };
+
+    window.addEventListener('keydown', handleKeyDown);
+    return () => window.removeEventListener('keydown', handleKeyDown);
+  }, []);
 
   /** 节点预览只改变地图高亮，不改变右侧已选河段的说明内容。 */
   const handleNodePreview = (nodeId: YellowRiverNodeId | null): void => {
@@ -92,6 +102,7 @@ function YellowRiver() {
     setSelectedNodeId(null);
     setPreviewNodeId(null);
     setModalMode('detail');
+    setIsDialogueOpen(true);
   };
 
   const handleNodeSelect = (nodeId: YellowRiverNodeId): void => {
@@ -103,6 +114,7 @@ function YellowRiver() {
     setPreviewRegionId(null);
     setSelectedRegionId(node.regionId);
     setModalMode('detail');
+    setIsDialogueOpen(false);
   };
 
   const handleDetailClose = (): void => {
@@ -134,7 +146,7 @@ function YellowRiver() {
     ? governanceDataSource.getQuestionLevelConfig(selectedDetailNode.id)
     : null;
   return (
-    <section className="yellow-river-page yellow-river-page--atlas">
+    <section className="yellow-river-page yellow-river-page--atlas" onClick={() => setIsDialogueOpen(false)}>
       <header className="yellow-river-page__header">
         <Link className="yellow-river-page__back" to="/basins" state={{ basinOverviewEntry: 'returning' }}>
           返回中国流域总览
@@ -153,8 +165,11 @@ function YellowRiver() {
               onRegionPreview={handleRegionPreview}
               onNodeSelect={handleNodeSelect}
               onNodePreview={handleNodePreview}
+              onBlankClick={() => setIsDialogueOpen(false)}
             />
-            <YellowRiverSpiritDialogue
+            <RiverSpiritDialogue
+              isOpen={isDialogueOpen}
+              riverName="黄河"
               region={selectedRegion}
               node={selectedDetailNode}
             />

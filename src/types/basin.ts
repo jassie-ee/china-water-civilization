@@ -75,7 +75,10 @@ export type YellowRiverNode = RiverNode & {
   sequence: number;
 };
 
-export type YangtzeRiverNode = RiverNode;
+export type YangtzeRiverNode = RiverNode & {
+  /** 沿江叙事顺序；详情切换与阅读顺序不依赖画布横向坐标。 */
+  sequence: number;
+};
 
 export interface BasinOverviewItem {
   id: BasinId;
