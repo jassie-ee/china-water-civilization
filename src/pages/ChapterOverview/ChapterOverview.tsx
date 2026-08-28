@@ -1,9 +1,9 @@
-import { useEffect, useRef, useState } from 'react';
+import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 
 import { chapterOverviewItems } from '@/data/chapters';
 import type { ChapterId } from '@/types/chapter';
-import LanConversation from '@/components/lan/LanConversation';
+import { useLanFooting, useLanMascot } from '@/components/lan-mascot';
 
 import StoryAtlas from './components/StoryAtlas';
 import './ChapterOverview.css';
@@ -18,39 +18,78 @@ function ChapterOverview() {
     'chapter-4': null,
   });
   const lastTriggerIdRef = useRef<ChapterId | null>(null);
+  const closeMascotDialogueRef = useRef<() => void>(() => undefined);
   const openChapter = chapterOverviewItems.find((chapter) => chapter.id === openChapterId) ?? null;
+  const dialogueId = 'lan-dialogue-chapter-overview';
 
-  const handleOpen = (chapterId: ChapterId): void => {
+  const handleOpen = useCallback((chapterId: ChapterId): void => {
     lastTriggerIdRef.current = chapterId;
     setOpenChapterId(chapterId);
-  };
+  }, []);
 
-  const handleClose = (): void => {
+  const handleClose = useCallback((): void => {
     const triggerId = lastTriggerIdRef.current;
+    closeMascotDialogueRef.current();
     setOpenChapterId(null);
 
     if (triggerId !== null) {
       window.requestAnimationFrame(() => markerRefs.current[triggerId]?.focus());
     }
-  };
+  }, []);
 
-  useEffect(() => {
-    const handleKeyDown = (event: KeyboardEvent): void => {
-      if (event.key === 'Escape' && openChapterId !== null) {
-        event.preventDefault();
-        handleClose();
-      }
-    };
-
-    window.addEventListener('keydown', handleKeyDown);
-    return () => window.removeEventListener('keydown', handleKeyDown);
-  }, [openChapterId]);
-
-  const handleAction = (): void => {
+  const handleAction = useCallback((): void => {
     if (openChapter?.route !== undefined) {
       navigate(openChapter.route, { state: { basinOverviewEntry: 'chapter-overview' } });
     }
-  };
+  }, [navigate, openChapter]);
+
+  const mascotDialogue = useMemo(() => {
+    if (openChapter !== null) {
+      return {
+        conversationId: openChapter.id,
+        dialogLabel: `小澜：${openChapter.title}`,
+        messages: openChapter.dialogue,
+        actionLabel: openChapter.ctaLabel,
+        unavailableNotice: openChapter.unavailableNotice,
+        onAction: handleAction,
+      };
+    }
+
+    return {
+      conversationId: 'chapter-overview-default',
+      dialogLabel: '水精灵导览',
+      messages: ['你好，我是水精灵。', '点击地图上的章节印记，我会带你继续探索水脉文明。'],
+      actionLabel: '选择章节',
+      unavailableNotice: '请先选择一个章节印记。',
+      onAction: () => undefined,
+    };
+  }, [handleAction, openChapter]);
+
+  const mascotConfig = useMemo(() => ({
+    pageId: 'chapter-overview',
+    routePath: '/chapters',
+    dialogue: mascotDialogue,
+    dialogueId,
+    expressionId: 'happy' as const,
+    spriteAlt: '水精灵，点击打开或关闭导览对话，也可以拖动',
+    onDialogueClose: () => {
+      if (openChapterId !== null) handleClose();
+    },
+  }), [dialogueId, handleClose, mascotDialogue, openChapterId]);
+
+  const { closeDialogue, openDialogue } = useLanMascot(mascotConfig);
+  useLanFooting({
+    pageId: 'chapter-overview',
+    routePath: '/chapters',
+    sceneId: 'complete-map',
+  });
+  closeMascotDialogueRef.current = closeDialogue;
+
+  useEffect(() => {
+    if (openChapterId !== null) {
+      openDialogue();
+    }
+  }, [openChapterId, openDialogue]);
 
   return (
     <main className="chapter-overview">
@@ -63,6 +102,7 @@ function ChapterOverview() {
       <StoryAtlas
         chapters={chapterOverviewItems}
         activeChapterId={openChapterId}
+        dialogueId={dialogueId}
         markerRefs={markerRefs}
         onDismiss={() => {
           if (openChapterId !== null) {
@@ -70,20 +110,7 @@ function ChapterOverview() {
           }
         }}
         onOpenChapter={handleOpen}
-      >
-        {openChapter !== null && (
-          <LanConversation
-            anchor={openChapter.marker}
-            actionLabel={openChapter.ctaLabel}
-            conversationId={openChapter.id}
-            dialogLabel={`小澜：${openChapter.title}`}
-            messages={openChapter.dialogue}
-            unavailableNotice={openChapter.unavailableNotice}
-            onAction={handleAction}
-            onClose={handleClose}
-          />
-        )}
-      </StoryAtlas>
+      />
     </main>
   );
 }

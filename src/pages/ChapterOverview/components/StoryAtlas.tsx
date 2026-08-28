@@ -3,23 +3,54 @@ import type { CSSProperties, ReactNode, RefObject } from 'react';
 import shanhaiWaterChronicle from '@/assets/images/shanhai-water-chronicle.png';
 import type { ChapterId, ChapterOverviewItem } from '@/types/chapter';
 
+import StoryAtlasEffects from './StoryAtlasEffects';
+
 interface StoryAtlasProps {
   chapters: ChapterOverviewItem[];
   activeChapterId: ChapterId | null;
   children?: ReactNode;
+  dialogueId?: string;
   markerRefs: RefObject<Record<ChapterId, HTMLButtonElement | null>>;
   onDismiss: () => void;
   onOpenChapter: (chapterId: ChapterId) => void;
 }
 
-function StoryAtlas({ chapters, activeChapterId, children, markerRefs, onDismiss, onOpenChapter }: StoryAtlasProps) {
+function StoryAtlas({ chapters, activeChapterId, children, dialogueId = 'lan-dialogue', markerRefs, onDismiss, onOpenChapter }: StoryAtlasProps) {
   const activeChapter = chapters.find((chapter) => chapter.id === activeChapterId) ?? null;
   const atlasStyle = activeChapter === null
-    ? undefined
+    ? {
+      '--atlas-art-x': '0px',
+      '--atlas-art-y': '0px',
+      '--atlas-effects-x': '0px',
+      '--atlas-effects-y': '0px',
+    } as CSSProperties
     : {
       '--atlas-focus-x': `${activeChapter.marker.x}%`,
       '--atlas-focus-y': `${activeChapter.marker.y}%`,
+      '--atlas-art-x': '0px',
+      '--atlas-art-y': '0px',
+      '--atlas-effects-x': '0px',
+      '--atlas-effects-y': '0px',
     } as CSSProperties;
+
+  const handlePointerMove = (event: React.PointerEvent<HTMLElement>): void => {
+    if (event.pointerType !== 'mouse') return;
+
+    const bounds = event.currentTarget.getBoundingClientRect();
+    const horizontalOffset = ((event.clientX - bounds.left) / bounds.width - .5) * 12;
+    const verticalOffset = ((event.clientY - bounds.top) / bounds.height - .5) * 12;
+    event.currentTarget.style.setProperty('--atlas-art-x', `${horizontalOffset * .36}px`);
+    event.currentTarget.style.setProperty('--atlas-art-y', `${verticalOffset * .36}px`);
+    event.currentTarget.style.setProperty('--atlas-effects-x', `${horizontalOffset}px`);
+    event.currentTarget.style.setProperty('--atlas-effects-y', `${verticalOffset}px`);
+  };
+
+  const handlePointerLeave = (event: React.PointerEvent<HTMLElement>): void => {
+    event.currentTarget.style.setProperty('--atlas-art-x', '0px');
+    event.currentTarget.style.setProperty('--atlas-art-y', '0px');
+    event.currentTarget.style.setProperty('--atlas-effects-x', '0px');
+    event.currentTarget.style.setProperty('--atlas-effects-y', '0px');
+  };
 
   return (
     <section
@@ -27,10 +58,13 @@ function StoryAtlas({ chapters, activeChapterId, children, markerRefs, onDismiss
       style={atlasStyle}
       aria-label="水脉记忆山海图册"
       onPointerDown={onDismiss}
+      onPointerMove={handlePointerMove}
+      onPointerLeave={handlePointerLeave}
     >
       <div className="story-atlas__art" aria-hidden="true">
         <img src={shanhaiWaterChronicle} alt="" />
       </div>
+      <StoryAtlasEffects chapters={chapters} activeChapterId={activeChapterId} />
       <p className="story-atlas__caption" aria-hidden="true">山川 · 江河 · 海洋 · 家园</p>
       <ol className="story-atlas__markers" aria-label="四章入口">
         {chapters.map((chapter) => {
@@ -52,7 +86,7 @@ function StoryAtlas({ chapters, activeChapterId, children, markerRefs, onDismiss
                 type="button"
                 aria-label={`第 ${chapter.order} 章：${chapter.title}`}
                 aria-expanded={activeChapterId === chapter.id}
-                aria-controls={activeChapterId === chapter.id ? 'lan-dialogue' : undefined}
+                aria-controls={activeChapterId === chapter.id ? dialogueId : undefined}
                 onPointerDown={(event) => event.stopPropagation()}
                 onClick={() => onOpenChapter(chapter.id)}
               >

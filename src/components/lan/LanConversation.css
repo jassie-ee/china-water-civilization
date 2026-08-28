@@ -5,19 +5,44 @@
   gap: .18rem;
   align-items: flex-end;
   width: min(35rem, calc(100vw - 2rem));
+  pointer-events: auto;
   animation: lan-dialogue-in 220ms ease-out both;
 }
 
-.lan-conversation--right { transform: translate(1rem, calc(-100% - .55rem)); }
-.lan-conversation--left { flex-direction: row-reverse; transform: translate(calc(-100% - 1rem), calc(-100% - .55rem)); }
-.lan-conversation--below.lan-conversation--right { transform: translate(1rem, 1rem); }
-.lan-conversation--below.lan-conversation--left { transform: translate(calc(-100% - 1rem), 1rem); }
+.lan-conversation--attached {
+  left: calc(100% + .35rem) !important;
+  top: 0 !important;
+  width: min(35rem, var(--lan-dialogue-width, 23rem));
+  max-width: calc(100vw - 1rem);
+}
+
+.lan-conversation--right {
+  transform: translate(calc(1rem + var(--lan-dialogue-offset-x, 0px)), calc(-100% - .55rem + var(--lan-dialogue-offset-y, 0px)));
+}
+.lan-conversation--attached.lan-conversation--right {
+  transform: translate(var(--lan-dialogue-offset-x, 0px), calc(-100% - .25rem + var(--lan-dialogue-offset-y, 0px)));
+}
+.lan-conversation--left {
+  flex-direction: row-reverse;
+  transform: translate(calc(-100% - 1rem + var(--lan-dialogue-offset-x, 0px)), calc(-100% - .55rem + var(--lan-dialogue-offset-y, 0px)));
+}
+.lan-conversation--below.lan-conversation--right {
+  transform: translate(calc(1rem + var(--lan-dialogue-offset-x, 0px)), calc(1rem + var(--lan-dialogue-offset-y, 0px)));
+}
+.lan-conversation--below.lan-conversation--left {
+  transform: translate(calc(-100% - 1rem + var(--lan-dialogue-offset-x, 0px)), calc(1rem + var(--lan-dialogue-offset-y, 0px)));
+}
 
 .lan-conversation__bubble {
   position: relative;
   flex: 1;
   min-height: 15rem;
   aspect-ratio: 359 / 256;
+}
+
+.lan-conversation--attached .lan-conversation__bubble {
+  min-height: 0;
+  width: 100%;
 }
 
 .lan-conversation__art {
@@ -73,26 +98,21 @@
 .lan-conversation__next:hover,
 .lan-conversation__action:hover { border-color: #ffe4a0; color: #fff2c5; transform: translateY(-1px); }
 
-.lan-avatar { position: relative; display: grid; width: 3.05rem; height: 3.4rem; place-items: center; flex: 0 0 auto; }
-.lan-avatar__drop { position: relative; z-index: 1; display: block; width: 1.85rem; height: 2.1rem; overflow: hidden; border: 1px solid rgb(224 255 245 / 74%); border-radius: 52% 48% 58% 42% / 47% 51% 49% 53%; background: linear-gradient(145deg, #b8e4d9, #62b9c5 47%, #216e93); box-shadow: inset .25rem .3rem .5rem rgb(247 255 250 / 35%), 0 .3rem .75rem rgb(0 19 28 / 35%); transform: rotate(45deg); }
-.lan-avatar__shine { position: absolute; top: .25rem; left: .35rem; width: .3rem; height: .7rem; border-radius: 50%; background: rgb(255 255 247 / 50%); transform: rotate(-25deg); }
-.lan-avatar__eyes { position: absolute; top: .88rem; left: .49rem; display: flex; gap: .3rem; transform: rotate(-45deg); }
-.lan-avatar__eyes i { width: .16rem; height: .25rem; border-radius: 50%; background: #103e55; }
-.lan-avatar__ripple { position: absolute; bottom: .18rem; left: .25rem; width: 2.55rem; height: .65rem; border: 1px solid rgb(190 233 222 / 44%); border-radius: 50%; }
-
 .lan-conversation button:focus-visible { outline: 2px solid #ffe291; outline-offset: .22rem; }
 
 @keyframes lan-dialogue-in { from { opacity: 0; } to { opacity: 1; } }
 
 @media (max-width: 720px) {
-  .lan-conversation,
-  .lan-conversation--right,
-  .lan-conversation--left,
-  .lan-conversation--below.lan-conversation--right,
-  .lan-conversation--below.lan-conversation--left { position: fixed; right: 1rem; bottom: 1rem; left: 1rem !important; width: auto; transform: none; }
+  .lan-conversation:not(.lan-conversation--attached),
+  .lan-conversation--right:not(.lan-conversation--attached),
+  .lan-conversation--left:not(.lan-conversation--attached),
+  .lan-conversation--below.lan-conversation--right:not(.lan-conversation--attached),
+  .lan-conversation--below.lan-conversation--left:not(.lan-conversation--attached) { position: fixed; right: 1rem; bottom: 1rem; left: 1rem !important; width: auto; transform: none; }
+  .lan-conversation--attached {
+    width: min(27rem, var(--lan-dialogue-width, 27rem), max(10rem, calc(100vw - 15rem)));
+  }
   .lan-conversation { align-items: flex-end; }
   .lan-conversation--left { flex-direction: row; }
-  .lan-conversation .lan-avatar { position: absolute; z-index: 3; bottom: -.2rem; left: -.1rem; transform: scale(.8); transform-origin: bottom left; }
   .lan-conversation__bubble { width: 100%; min-height: 0; max-height: min(24rem, calc(100vh - 7rem)); }
   .lan-conversation__content { width: 62%; }
 }
