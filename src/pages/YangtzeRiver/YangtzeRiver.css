@@ -1,0 +1,20 @@
+@import url('../YellowRiver/YellowRiver.css');
+
+.yangtze-river-page { background: radial-gradient(circle at 22% 72%, rgb(75 148 193 / 16%), transparent 28rem), linear-gradient(135deg, #082430, #0d354a 58%, #071b2c); }
+.yangtze-river-page .yellow-river-page__eyebrow { color: #87cee6; }
+.yangtze-river-map { border-color: rgb(123 203 229 / 32%); background: linear-gradient(135deg, rgb(20 74 99 / 76%), rgb(7 38 57 / 90%)); box-shadow: inset 0 0 4rem rgb(103 205 235 / 8%), var(--shadow-sm); }
+.yangtze-river-map__mountains { fill: rgb(96 155 174 / 18%); stroke: rgb(164 222 231 / 24%); }
+.yangtze-river-map__lakes { fill: rgb(94 163 163 / 18%); stroke: rgb(151 220 208 / 24%); }
+.yangtze-river-map__delta { fill: rgb(103 145 166 / 18%); stroke: rgb(166 209 227 / 24%); }
+.yangtze-river-map .yellow-river-map__basin-layer path { fill: rgb(105 192 222 / 7%); stroke: rgb(148 218 239 / 34%); }
+.yangtze-river-map .yellow-river-map__mainstream-layer path { stroke: #75cbe5; filter: drop-shadow(0 0 6px rgb(110 203 230 / 36%)); }
+.yangtze-river-map__support-waterway-layer path { fill: none; stroke: rgb(117 203 229 / 58%); stroke-width: 4; stroke-linecap: round; stroke-dasharray: 7 9; }
+.yangtze-river-region--upper { color: #91d9ed; }
+.yangtze-river-region--upper.is-visible .yellow-river-map__region-shape { fill: rgb(82 182 215 / 23%); stroke: #91d9ed; }
+.yangtze-river-region--upper.is-visible .yellow-river-map__region-mainstream { stroke: #91d9ed; }
+.yangtze-river-region--middle { color: #84d2b1; }
+.yangtze-river-region--middle.is-visible .yellow-river-map__region-shape { fill: rgb(81 185 151 / 23%); stroke: #84d2b1; }
+.yangtze-river-region--middle.is-visible .yellow-river-map__region-mainstream { stroke: #84d2b1; }
+.yangtze-river-region--lower { color: #b1cdec; }
+.yangtze-river-region--lower.is-visible .yellow-river-map__region-shape { fill: rgb(126 169 218 / 23%); stroke: #b1cdec; }
+.yangtze-river-region--lower.is-visible .yellow-river-map__region-mainstream { stroke: #b1cdec; }

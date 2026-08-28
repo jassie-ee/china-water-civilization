@@ -1,0 +1,42 @@
+.lan-footing-preview {
+  position: fixed;
+  z-index: 60;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  padding: clamp(1rem, 4vw, 3rem);
+  background: rgb(2 18 25 / 58%);
+  pointer-events: auto;
+  cursor: zoom-out;
+}
+
+.lan-footing-preview__dialog {
+  position: relative;
+  display: flex;
+  width: fit-content;
+  max-width: 92vw;
+  height: fit-content;
+  max-height: 90vh;
+  align-items: center;
+  justify-content: center;
+  overflow: visible;
+  border: 0;
+  background: transparent;
+  box-shadow: none;
+  cursor: default;
+  outline: none;
+}
+
+.lan-footing-preview__image {
+  display: block;
+  width: auto;
+  max-width: 92vw;
+  height: auto;
+  max-height: 90vh;
+  object-fit: contain;
+  filter: drop-shadow(0 1rem 2.4rem rgb(0 0 0 / 35%));
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .lan-footing-preview__image { filter: none; }
+}

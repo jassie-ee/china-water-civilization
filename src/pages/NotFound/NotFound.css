@@ -1,0 +1,5 @@
+.not-found-page {
+  display: grid;
+  place-items: center;
+  min-height: 40vh;
+}
