@@ -24,7 +24,7 @@ const basinOverviewItems: BasinOverviewItem[] = [
     name: '珠江流域',
     englishName: 'PEARL RIVER BASIN',
     route: '/basins/pearl-river',
-    description: '从南岭山地到珠江三角洲，后续将在此展开珠江流域的治理叙事。',
+    description: '',
     themeClassName: 'basin--pearl-river',
     isAvailable: true,
   },
@@ -44,13 +44,6 @@ const basinDetailConfigs: BasinDetailConfig[] = [
     subtitle: 'YANGTZE RIVER BASIN',
     description: '从高原源区、峡谷水能、江湖调蓄，到长江口江海交汇，探索开发、保护与协同治理。',
     themeClassName: 'basin-detail--yangtze-river',
-  },
-  {
-    id: 'pearl-river',
-    title: '珠江流域治理系统',
-    subtitle: 'PEARL RIVER BASIN',
-    description: '珠江流域的上中下游分区、治理节点与互动内容将在后续阶段展开。',
-    themeClassName: 'basin-detail--pearl-river',
   },
 ];
 

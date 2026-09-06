@@ -6,6 +6,7 @@ import type { BasinId } from '@/types/basin';
 
 import YellowRiver from '@/pages/YellowRiver/YellowRiver';
 import YangtzeRiver from '@/pages/YangtzeRiver/YangtzeRiver';
+import PearlRiver from '@/pages/PearlRiver/PearlRiver';
 
 import './BasinDetail.css';
 
@@ -50,6 +51,10 @@ function BasinDetail({ basinId }: BasinDetailProps) {
 
   if (basinId === 'yangtze-river') {
     return <YangtzeRiver />;
+  }
+
+  if (basinId === 'pearl-river') {
+    return <PearlRiver />;
   }
 
   return <GenericBasinDetail basinId={basinId} />;

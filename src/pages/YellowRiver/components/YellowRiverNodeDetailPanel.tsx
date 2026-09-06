@@ -2,6 +2,7 @@ import { useEffect, useRef } from 'react';
 
 import { governanceDataSource } from '@/services/governanceDataSource';
 import type { RiverNode, RiverRegion } from '@/types/basin';
+import RiverNarrativeSurface from '@/components/layout/RiverNarrativeSurface';
 
 import NodeVideoPanel from './NodeVideoPanel';
 
@@ -69,6 +70,7 @@ function YellowRiverNodeDetailPanel({
       aria-modal="true"
       aria-labelledby="yellow-river-node-detail-title"
     >
+      <RiverNarrativeSurface className="yellow-river-detail-panel__surface">
       <header className="yellow-river-detail-panel__header">
         <div>
           <p className="yellow-river-detail-panel__eyebrow">{typeLabel} · {region.shortName}</p>
@@ -112,6 +114,7 @@ function YellowRiverNodeDetailPanel({
         {nextNode && onSelectNext && <button type="button" onClick={onSelectNext}>下一个节点 · {nextNode.shortName}</button>}
         <button type="button" className="yellow-river-detail-panel__return" onClick={onClose}>返回流域地图</button>
       </footer>
+      </RiverNarrativeSurface>
     </section>
   );
 }

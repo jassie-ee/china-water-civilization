@@ -1,0 +1,34 @@
+.river-narrative-surface {
+  position: relative;
+  isolation: isolate;
+  min-height: inherit;
+  overflow: hidden;
+  background: #0b202b;
+}
+
+.river-narrative-surface::before,
+.river-narrative-surface::after {
+  position: absolute;
+  z-index: -2;
+  inset: 0;
+  content: '';
+  pointer-events: none;
+}
+
+.river-narrative-surface::before {
+  background: center / cover no-repeat var(--river-narrative-surface-image);
+  opacity: .9;
+}
+
+.river-narrative-surface::after {
+  z-index: -1;
+  background:
+    linear-gradient(90deg, rgb(5 22 32 / 48%), rgb(5 22 32 / 18%) 48%, rgb(5 22 32 / 46%)),
+    linear-gradient(180deg, rgb(4 22 32 / 42%), rgb(4 22 32 / 8%) 38%, rgb(4 22 32 / 58%));
+}
+
+.river-narrative-surface__content { display: contents; }
+
+@media (prefers-reduced-motion: reduce) {
+  .river-narrative-surface { scroll-behavior: auto; }
+}

@@ -4,6 +4,7 @@ import GovernanceStage from '@/pages/GovernanceLevel/components/GovernanceStage'
 import { governanceDataSource } from '@/services/governanceDataSource';
 import type { GovernanceQuestionLevelConfig } from '@/types/governanceLevel';
 import type { RiverNode, RiverRegion } from '@/types/basin';
+import RiverNarrativeSurface from '@/components/layout/RiverNarrativeSurface';
 
 interface YellowRiverGovernancePanelProps {
   node: RiverNode;
@@ -49,6 +50,7 @@ function YellowRiverGovernancePanel({
       aria-modal="true"
       aria-labelledby="yellow-river-governance-title"
     >
+      <RiverNarrativeSurface className="yellow-river-detail-panel__surface">
       <header className="yellow-river-detail-panel__header">
         <div>
           <p className="yellow-river-detail-panel__eyebrow">{typeLabel} · {region.shortName}</p>
@@ -66,6 +68,7 @@ function YellowRiverGovernancePanel({
       <div className="yellow-river-detail-panel__content yellow-river-governance-panel__content">
         <GovernanceStage level={level} onCurrentStarsChange={setCurrentStars} />
       </div>
+      </RiverNarrativeSurface>
     </section>
   );
 }

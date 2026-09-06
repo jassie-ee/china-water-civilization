@@ -1,29 +1,29 @@
 import {
   mainstreamSegmentPaths,
+  pearlRiverMainstreamPath,
   regionLabelPositions,
   supportWaterwayPaths,
-  yangtzeRiverMainstreamPath,
-} from '@/data/yangtzeRiverMapPaths';
-import { yangtzeRiverNodes } from '@/data/yangtzeRiverNodes';
-import { yangtzeRiverRegions } from '@/data/yangtzeRiverRegions';
-import type { YangtzeRiverRegionId } from '@/types/basin';
-import yangtzeRiverBackground from '@/assets/images/basins/yangtze-river-background.png';
+} from '@/data/pearlRiverMapPaths';
+import { pearlRiverNodes } from '@/data/pearlRiverNodes';
+import { pearlRiverRegions } from '@/data/pearlRiverRegions';
+import type { PearlRiverRegionId } from '@/types/basin';
+import pearlRiverBackground from '@/assets/images/basins/pearl-river-background-v3.png';
 
 import YellowRiverNodeLayer from '@/pages/YellowRiver/components/YellowRiverNodeLayer';
 
-interface YangtzeRiverMapProps {
-  selectedRegionId: YangtzeRiverRegionId | null;
-  previewRegionId: YangtzeRiverRegionId | null;
+interface PearlRiverMapProps {
+  selectedRegionId: PearlRiverRegionId | null;
+  previewRegionId: PearlRiverRegionId | null;
   selectedNodeId: string | null;
   previewNodeId: string | null;
-  onRegionSelect: (regionId: YangtzeRiverRegionId) => void;
-  onRegionPreview: (regionId: YangtzeRiverRegionId | null) => void;
+  onRegionSelect: (regionId: PearlRiverRegionId) => void;
+  onRegionPreview: (regionId: PearlRiverRegionId | null) => void;
   onNodeSelect: (nodeId: string) => void;
   onNodePreview: (nodeId: string | null) => void;
   onBlankClick: () => void;
 }
 
-function YangtzeRiverMap({
+function PearlRiverMap({
   selectedRegionId,
   previewRegionId,
   selectedNodeId,
@@ -33,10 +33,10 @@ function YangtzeRiverMap({
   onNodeSelect,
   onNodePreview,
   onBlankClick,
-}: YangtzeRiverMapProps) {
+}: PearlRiverMapProps) {
   const visibleRegionId = previewRegionId ?? selectedRegionId;
 
-  const handleRegionKeyDown = (event: React.KeyboardEvent<SVGGElement>, regionId: YangtzeRiverRegionId): void => {
+  const handleRegionKeyDown = (event: React.KeyboardEvent<SVGGElement>, regionId: PearlRiverRegionId): void => {
     if (event.key === 'Enter' || event.key === ' ') {
       event.preventDefault();
       onRegionSelect(regionId);
@@ -52,17 +52,17 @@ function YangtzeRiverMap({
   };
 
   return (
-    <div className="yellow-river-map yellow-river-map--atlas yangtze-river-map yangtze-river-map--atlas" aria-label="长江上游、中游、下游互动水脉地图">
-      <svg viewBox="0 0 1672 941" preserveAspectRatio="xMidYMid meet" role="img" aria-label="可选择长江上游、中游和下游的长江水脉地图" onClick={handleMapClick}>
+    <div className="yellow-river-map yellow-river-map--atlas pearl-river-map pearl-river-map--atlas" aria-label="珠江上游、中游、下游互动水脉地图">
+      <svg viewBox="0 0 1672 941" preserveAspectRatio="xMidYMid meet" role="img" aria-label="可选择珠江上游、中游和下游的珠江水脉地图" onClick={handleMapClick}>
         <defs>
-          <radialGradient id="yangtze-river-atlas-shade" cx="50%" cy="45%" r="76%">
-            <stop offset="56%" stopColor="#061d29" stopOpacity="0" />
-            <stop offset="100%" stopColor="#061d29" stopOpacity="0.28" />
+          <radialGradient id="pearl-river-atlas-shade" cx="50%" cy="43%" r="78%">
+            <stop offset="50%" stopColor="#182d31" stopOpacity="0" />
+            <stop offset="100%" stopColor="#091c29" stopOpacity="0.22" />
           </radialGradient>
         </defs>
         <image
           className="yellow-river-map__background"
-          href={yangtzeRiverBackground}
+          href={pearlRiverBackground}
           x="0"
           y="0"
           width="1672"
@@ -70,26 +70,26 @@ function YangtzeRiverMap({
           preserveAspectRatio="xMidYMid meet"
           aria-hidden="true"
         />
-        <rect className="yangtze-river-map__background-shade" x="0" y="0" width="1672" height="941" aria-hidden="true" />
-        <g className="yellow-river-map__waterway" aria-hidden="true">
-          <path className="yellow-river-map__waterway-bed" d={yangtzeRiverMainstreamPath} />
-          <path className="yellow-river-map__waterway-body" d={yangtzeRiverMainstreamPath} />
-          <path className="yellow-river-map__waterway-glint" d={yangtzeRiverMainstreamPath} />
+        <rect className="pearl-river-map__background-shade" x="0" y="0" width="1672" height="941" aria-hidden="true" />
+        <g className="yellow-river-map__waterway pearl-river-map__waterway" aria-hidden="true">
+          <path className="yellow-river-map__waterway-bed" d={pearlRiverMainstreamPath} />
+          <path className="yellow-river-map__waterway-body" d={pearlRiverMainstreamPath} />
+          <path className="yellow-river-map__waterway-glint" d={pearlRiverMainstreamPath} />
         </g>
-        <g className="yangtze-river-map__support-waterway" aria-hidden="true">
+        <g className="pearl-river-map__support-waterway" aria-hidden="true">
           {supportWaterwayPaths.map(({ regionId, path }) => (
             <g
-              key={regionId}
-              className={`yangtze-river-map__support-waterway-branch${regionId === visibleRegionId ? ' is-visible' : ''}${regionId === selectedRegionId ? ' is-selected' : ''}`}
+              key={path}
+              className={`pearl-river-map__support-waterway-branch${regionId === visibleRegionId ? ' is-visible' : ''}${regionId === selectedRegionId ? ' is-selected' : ''}`}
             >
-              <path className="yangtze-river-map__support-waterway-bed" d={path} />
-              <path className="yangtze-river-map__support-waterway-body" d={path} />
-              <path className="yangtze-river-map__support-waterway-glint" d={path} />
+              <path className="pearl-river-map__support-waterway-bed" d={path} />
+              <path className="pearl-river-map__support-waterway-body" d={path} />
+              <path className="pearl-river-map__support-waterway-glint" d={path} />
             </g>
           ))}
         </g>
         <g className="yellow-river-map__atlas-region-layer">
-          {yangtzeRiverRegions.map((region) => {
+          {pearlRiverRegions.map((region) => {
             const isVisible = region.id === visibleRegionId;
             const labelPosition = regionLabelPositions[region.id];
 
@@ -99,7 +99,7 @@ function YangtzeRiverMap({
                 className={`yellow-river-map__atlas-region ${region.themeClassName}${isVisible ? ' is-visible' : ''}${region.id === selectedRegionId ? ' is-selected' : ''}`}
                 role="button"
                 tabIndex={0}
-                aria-label={`选择长江${region.shortName}`}
+                aria-label={`选择珠江${region.shortName}`}
                 onBlur={() => onRegionPreview(null)}
                 onFocus={() => onRegionPreview(region.id)}
                 onKeyDown={(event) => handleRegionKeyDown(event, region.id)}
@@ -116,8 +116,8 @@ function YangtzeRiverMap({
         </g>
         <g className="yellow-river-map__node-layer">
           <YellowRiverNodeLayer
-            nodes={yangtzeRiverNodes}
-            mapId="yangtze-river"
+            nodes={pearlRiverNodes}
+            mapId="pearl-river"
             selectedNodeId={selectedNodeId}
             previewNodeId={previewNodeId}
             onNodePreview={onNodePreview}
@@ -129,4 +129,4 @@ function YangtzeRiverMap({
   );
 }
 
-export default YangtzeRiverMap;
+export default PearlRiverMap;
