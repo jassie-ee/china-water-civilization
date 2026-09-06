@@ -19,6 +19,15 @@ const basinOverviewItems: BasinOverviewItem[] = [
     themeClassName: 'basin--yangtze-river',
     isAvailable: true,
   },
+  {
+    id: 'pearl-river',
+    name: '珠江流域',
+    englishName: 'PEARL RIVER BASIN',
+    route: '/basins/pearl-river',
+    description: '',
+    themeClassName: 'basin--pearl-river',
+    isAvailable: true,
+  },
 ];
 
 const basinDetailConfigs: BasinDetailConfig[] = [

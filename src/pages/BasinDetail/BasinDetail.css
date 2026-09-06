@@ -8,6 +8,7 @@
 
 .basin-detail--yellow-river { --basin-accent: #d8a94c; --basin-glow: rgb(218 169 76 / 24%); }
 .basin-detail--yangtze-river { --basin-accent: #76c7df; --basin-glow: rgb(118 199 223 / 24%); }
+.basin-detail--pearl-river { --basin-accent: #80cfa2; --basin-glow: rgb(128 207 162 / 24%); }
 
 .basin-detail__content {
   align-self: center;

@@ -24,6 +24,14 @@ const basinMapItems: BasinMapItem[] = [
     labelPosition: { x: 0, y: 0 },
     prompt: '进入长江流域',
   },
+  {
+    id: 'pearl-river',
+    name: '珠江',
+    route: '/basins/pearl-river',
+    geometryAssets: { basinArea: null, mainRiver: null, interactionArea: null },
+    labelPosition: { x: 0, y: 0 },
+    prompt: '进入珠江流域',
+  },
 ];
 
 export { basinMapItems, chinaMapViewBox };
