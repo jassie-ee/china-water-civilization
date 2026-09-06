@@ -57,7 +57,7 @@ function YellowRiverGovernancePanel({
         </div>
         <div className="yellow-river-detail-panel__header-actions">
           <span className="yellow-river-governance-panel__score" aria-live="polite">
-            {isOfficialQuestionLevel ? '本关积分' : '演示得分'} <span aria-hidden="true">★</span>：{currentStars}
+            {isOfficialQuestionLevel ? '本关治理星级' : '演示治理星级'} <span aria-hidden="true">★</span>：{currentStars}
           </span>
           <button className="yellow-river-governance-panel__back" type="button" onClick={onBackToDetail}>返回节点介绍</button>
           <button ref={closeButtonRef} className="yellow-river-detail-panel__close" type="button" aria-label="关闭治理关卡" onClick={onClose}>关闭</button>

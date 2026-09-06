@@ -1,8 +1,9 @@
-import { useLayoutEffect, useRef, type PointerEvent as ReactPointerEvent } from 'react';
+import { useLayoutEffect, useRef, useState, type CSSProperties, type PointerEvent as ReactPointerEvent } from 'react';
 
 import LanConversation from '@/components/lan/LanConversation';
 
 import type { LanMascotRecord } from './LanMascotContext';
+import LanMascotVisual from './LanMascotVisual';
 import { lanMascotExpressions } from './lanMascotExpressions';
 import type { LanMascotPosition } from './lanMascotTypes';
 
@@ -59,6 +60,7 @@ function LanMascot({ record, onCloseDialogue, onOpenDialogue, onPositionChange }
   const dragStateRef = useRef<DragState | null>(null);
   const didDragRef = useRef(false);
   const handleRef = useRef<HTMLButtonElement>(null);
+  const [pointerLook, setPointerLook] = useState({ x: 0, y: 0 });
 
   useLayoutEffect(() => {
     const constrainToViewport = (): void => {
@@ -104,6 +106,11 @@ function LanMascot({ record, onCloseDialogue, onOpenDialogue, onPositionChange }
   };
 
   const handlePointerMove = (event: ReactPointerEvent<HTMLButtonElement>): void => {
+    const rect = event.currentTarget.getBoundingClientRect();
+    const lookX = clamp(((event.clientX - rect.left) / rect.width - .5) * 2, -1, 1);
+    const lookY = clamp(((event.clientY - rect.top) / rect.height - .5) * 2, -1, 1);
+    setPointerLook({ x: lookX, y: lookY });
+
     const dragState = dragStateRef.current;
     if (dragState === null || dragState.pointerId !== event.pointerId) return;
 
@@ -122,6 +129,12 @@ function LanMascot({ record, onCloseDialogue, onOpenDialogue, onPositionChange }
   const handlePointerUp = (event: ReactPointerEvent<HTMLButtonElement>): void => {
     if (dragStateRef.current?.pointerId === event.pointerId) {
       dragStateRef.current = null;
+    }
+  };
+
+  const handlePointerLeave = (): void => {
+    if (dragStateRef.current === null) {
+      setPointerLook({ x: 0, y: 0 });
     }
   };
 
@@ -147,6 +160,10 @@ function LanMascot({ record, onCloseDialogue, onOpenDialogue, onPositionChange }
 
   const { config, expressionId, isDialogueOpen, position } = record;
   const expression = lanMascotExpressions[expressionId];
+  const visualStyle = {
+    '--lan-mascot-look-x': pointerLook.x.toFixed(3),
+    '--lan-mascot-look-y': pointerLook.y.toFixed(3),
+  } as CSSProperties;
 
   return (
     <div
@@ -164,10 +181,16 @@ function LanMascot({ record, onCloseDialogue, onOpenDialogue, onPositionChange }
         onPointerMove={handlePointerMove}
         onPointerUp={handlePointerUp}
         onPointerCancel={handlePointerUp}
+        onPointerLeave={handlePointerLeave}
         onClick={handleClick}
         onKeyDown={handleKeyDown}
       >
-        <img className="lan-mascot__sprite" src={expression.src} alt="" aria-hidden="true" draggable={false} />
+        <LanMascotVisual
+          alt=""
+          expressionId={expressionId}
+          spriteSrc={expression.src}
+          style={visualStyle}
+        />
       </button>
       {isDialogueOpen && (
         <LanConversation

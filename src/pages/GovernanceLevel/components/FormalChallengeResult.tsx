@@ -58,7 +58,7 @@ function FormalChallengeResult({ mode, questions, answers, reviews, levelStars }
       <p className="governance-question-result__eyebrow">{isDemo ? '演示练习结果' : '正式题库结果'}</p>
       <h2>完成 {answers.length} 题 · 本次获得 {sessionStars} 星</h2>
       <p className="governance-question-result__history">
-        {isDemo ? '演示练习成绩不计入全站积分' : `本关累计积分 ★：${levelStars ?? 0} / 120`}
+        {isDemo ? '演示练习成绩不计入全站治理星级' : `本关累计治理星级 ★：${levelStars ?? 0} / 120`}
       </p>
       <div className="governance-question-result__stars" aria-label="本次答题星级">
         {answers.map((answer, index) => (
@@ -74,8 +74,8 @@ function FormalChallengeResult({ mode, questions, answers, reviews, levelStars }
       <section className="governance-question-result__evaluation">
         <h3>学习提示</h3>
         <p>{isDemo
-          ? '本节点正在使用临时题库结构；正式 40 题导入后将自动切换为随机抽题与正式积分。'
-          : '本关题目会在后续挑战中随机轮换；已答对题目可复习，但不会重复获得积分。'}
+          ? '本节点正在使用临时题库结构；正式 40 题导入后将自动切换为随机抽题与正式治理星级。'
+          : '本关题目会在后续挑战中随机轮换；已答对题目可复习，但不会重复获得治理星级。'}
         </p>
       </section>
     </section>

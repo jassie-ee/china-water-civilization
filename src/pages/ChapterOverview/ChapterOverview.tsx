@@ -3,7 +3,7 @@ import { Link, useNavigate } from 'react-router-dom';
 
 import { chapterOverviewItems } from '@/data/chapters';
 import type { ChapterId } from '@/types/chapter';
-import { useLanFooting, useLanMascot } from '@/components/lan-mascot';
+import { useLanMascot } from '@/components/lan-mascot';
 
 import StoryAtlas from './components/StoryAtlas';
 import './ChapterOverview.css';
@@ -78,11 +78,6 @@ function ChapterOverview() {
   }), [dialogueId, handleClose, mascotDialogue, openChapterId]);
 
   const { closeDialogue, openDialogue } = useLanMascot(mascotConfig);
-  useLanFooting({
-    pageId: 'chapter-overview',
-    routePath: '/chapters',
-    sceneId: 'complete-map',
-  });
   closeMascotDialogueRef.current = closeDialogue;
 
   useEffect(() => {

@@ -186,10 +186,15 @@
 .basin--yangtze-river .river-path__line { stroke: var(--color-yangtze-river); }
 .basin--yangtze-river .river-path__glow { stroke: #75c6de; }
 .basin--yangtze-river .river-path__label { fill: #a9e1ed; }
+.basin--pearl-river .river-path__line { stroke: var(--color-pearl-river); }
+.basin--pearl-river .river-path__glow { stroke: #8ad9b8; }
+.basin--pearl-river .river-path__label { fill: #a8e8c9; }
 .river-path__line--rivers-awakening, .river-path__line--interactive { animation: river-draw 2.2s ease-out forwards; }
 .river-path__glow--rivers-awakening, .river-path__glow--interactive { animation: river-draw 2.2s ease-out forwards; }
 .basin--yangtze-river .river-path__line--rivers-awakening, .basin--yangtze-river .river-path__line--interactive { animation-delay: 300ms; }
 .basin--yangtze-river .river-path__glow--rivers-awakening, .basin--yangtze-river .river-path__glow--interactive { animation-delay: 300ms; }
+.basin--pearl-river .river-path__line--rivers-awakening, .basin--pearl-river .river-path__line--interactive { animation-delay: 600ms; }
+.basin--pearl-river .river-path__glow--rivers-awakening, .basin--pearl-river .river-path__glow--interactive { animation-delay: 600ms; }
 .river-path.is-active .river-path__line, .river-path.is-selected .river-path__line { stroke-width: 8; }
 .river-path.is-active .river-path__glow, .river-path.is-selected .river-path__glow { opacity: .5; }
 .river-path.is-active .river-path__label, .river-path.is-selected .river-path__label { opacity: 1; font-size: 21px; }

@@ -22,6 +22,7 @@ function RouteTransition() {
         <Route path="/basins/yellow-river" element={<BasinDetail basinId="yellow-river" />} />
         <Route path="/basins/yellow-river/nodes/:nodeId" element={<GovernanceLevel />} />
         <Route path="/basins/yangtze-river" element={<BasinDetail basinId="yangtze-river" />} />
+        <Route path="/basins/pearl-river" element={<BasinDetail basinId="pearl-river" />} />
         <Route path="/map" element={<Navigate to="/basins" replace />} />
         <Route path="*" element={<NotFound />} />
       </Routes>

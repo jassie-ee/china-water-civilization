@@ -8,11 +8,14 @@ const riverPaths: Record<BasinId, string> = {
   'yellow-river': 'M302 342 C338 312 372 284 414 273 C459 261 500 268 528 292 C548 313 539 338 512 355 C491 369 493 390 519 400 C554 414 593 406 627 391 C665 374 704 380 738 398 C770 414 803 401 831 383',
   // 长江源头在黄河以南，干流以西东向的连续走势进入东部入海口。
   'yangtze-river': 'M314 382 C350 396 386 419 424 426 C463 433 492 415 526 426 C559 437 583 458 620 452 C658 446 693 422 730 429 C766 437 801 456 849 449',
+  // 珠江置于总览图的南部，以西江—珠江三角洲的西东向走势提示其空间位置。
+  'pearl-river': 'M402 470 C442 480 476 499 516 508 C558 517 593 504 629 514 C668 525 702 542 746 538 C786 534 818 517 854 522',
 };
 
 const riverLabelPositions: Record<BasinId, { x: number; y: number }> = {
   'yellow-river': { x: 593, y: 350 },
   'yangtze-river': { x: 650, y: 483 },
+  'pearl-river': { x: 660, y: 570 },
 };
 
 export { chinaOutlinePath, riverLabelPositions, riverPaths };

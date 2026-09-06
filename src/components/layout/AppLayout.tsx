@@ -4,7 +4,7 @@ import GlobalScoreDisplay from '@/components/common/GlobalScoreDisplay';
 import AccountMenu from '@/components/common/AccountMenu';
 import { AccountProvider } from '@/components/common/AccountProvider';
 import { GovernanceProgressProvider } from '@/components/common/GovernanceProgressProvider';
-import { LanFootingHost, LanMascotHost, LanMascotProvider } from '@/components/lan-mascot';
+import { LanMascotHost, LanMascotProvider } from '@/components/lan-mascot';
 
 import './AppLayout.css';
 
@@ -25,7 +25,6 @@ function AppLayout({ children }: AppLayoutProps) {
               <AccountMenu />
               <GlobalScoreDisplay />
             </div>
-            <LanFootingHost />
             <LanMascotHost />
           </div>
         </LanMascotProvider>

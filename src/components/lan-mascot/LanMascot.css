@@ -97,7 +97,21 @@
 .lan-mascot__handle:active { cursor: grabbing; }
 .lan-mascot__handle:focus-visible { outline: 2px solid #ffe291; outline-offset: .25rem; }
 
+.lan-mascot__visual {
+  display: block;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  transform: perspective(44rem)
+    rotateX(calc(var(--lan-mascot-look-y, 0) * -3.6deg))
+    rotateY(calc(var(--lan-mascot-look-x, 0) * 5.2deg));
+  transform-origin: 50% 66%;
+  transition: transform 220ms cubic-bezier(.2, .72, .25, 1);
+  will-change: transform;
+}
+
 .lan-mascot__sprite {
+  display: block;
   width: 100%;
   height: 100%;
   object-fit: contain;
@@ -105,6 +119,40 @@
   user-select: none;
   animation: lan-mascot-float 3.6s ease-in-out infinite;
   transform-origin: 50% 86%;
+}
+
+.lan-mascot__layered-model {
+  position: relative;
+  display: block;
+  width: 100%;
+  height: 100%;
+  animation: lan-mascot-happy 3.8s ease-in-out infinite;
+  transform-origin: 50% 86%;
+}
+
+.lan-mascot__face-base,
+.lan-mascot__face-layer {
+  position: absolute;
+  inset: 0;
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: fill;
+  pointer-events: none;
+  user-select: none;
+}
+
+/* 以完整形象为遮罩源重建五官；后续 Cubism 模型导出后替换为真正的 ArtMesh。 */
+.lan-mascot__face-layer--eye-left {
+  clip-path: ellipse(6.5% 9% at 54.3% 43%);
+}
+
+.lan-mascot__face-layer--eye-right {
+  clip-path: ellipse(6.5% 9% at 71.8% 38.8%);
+}
+
+.lan-mascot__face-layer--mouth {
+  clip-path: ellipse(5.8% 5.2% at 64.3% 49.2%);
 }
 
 .lan-mascot--turbid .lan-mascot__sprite {
@@ -118,6 +166,11 @@
 }
 
 .lan-mascot--happy .lan-mascot__sprite {
+  animation-name: lan-mascot-happy;
+  animation-duration: 3.8s;
+}
+
+.lan-mascot--happy .lan-mascot__layered-model {
   animation-name: lan-mascot-happy;
   animation-duration: 3.8s;
 }
@@ -154,5 +207,7 @@
 @media (prefers-reduced-motion: reduce) {
   .lan-mascot { transition: none; }
   .lan-footing { transition: none; }
+  .lan-mascot__visual { transition: none; }
   .lan-mascot__sprite { animation: none; }
+  .lan-mascot__layered-model { animation: none; }
 }

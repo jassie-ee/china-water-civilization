@@ -31,8 +31,8 @@ function ScoreCard({ title, stars, scope, clearLabel, pendingScope, onRequestCle
         <div className="score-popover__confirmation" aria-live="polite">
           <span>确认清空？</span>
           <div className="score-popover__confirm-actions">
-            <button type="button" aria-label={`确认清空${title}积分`} title="确认清空" onClick={onConfirmClear}>√</button>
-            <button type="button" aria-label={`取消清空${title}积分`} title="取消" onClick={onCancelClear}>×</button>
+            <button type="button" aria-label={`确认清空${title}治理星级`} title="确认清空" onClick={onConfirmClear}>√</button>
+            <button type="button" aria-label={`取消清空${title}治理星级`} title="取消" onClick={onCancelClear}>×</button>
           </div>
         </div>
       ) : (
@@ -74,24 +74,25 @@ function GlobalScoreDisplay() {
     setPendingClearScope(null);
   };
 
-  if (location.pathname === '/') return null;
+  if (!location.pathname.startsWith('/basins')) return null;
 
   return (
     <>
       <button ref={triggerRef} className="global-score-display" type="button" aria-haspopup="dialog" aria-expanded={isOpen} aria-controls="score-popover" onClick={() => (isOpen ? handleClose() : setIsOpen(true))}>
-        <span>积分</span><span className="global-score-display__star" aria-hidden="true">★</span><span>：{totalStars}</span>
+        <span>治理星级</span><span className="global-score-display__star" aria-hidden="true">★</span><span>：{totalStars}</span>
       </button>
       {isOpen && (
         <div className="score-popover__backdrop" role="presentation" onClick={handleClose}>
           <section id="score-popover" className="score-popover" role="dialog" aria-modal="true" aria-labelledby="score-popover-title" onClick={(event) => event.stopPropagation()}>
             <header className="score-popover__header">
-              <div><p>STAR ARCHIVE</p><h2 id="score-popover-title">我的积分</h2></div>
-              <button ref={closeButtonRef} className="score-popover__close" type="button" aria-label="关闭积分面板" onClick={handleClose}>×</button>
+              <div><p>GOVERNANCE ARCHIVE</p><h2 id="score-popover-title">我的治理星级</h2></div>
+              <button ref={closeButtonRef} className="score-popover__close" type="button" aria-label="关闭治理星级面板" onClick={handleClose}>×</button>
             </header>
             <div className="score-popover__cards">
-              <ScoreCard title="总积分" stars={totalStars} scope="all" clearLabel="清空全部" pendingScope={pendingClearScope} onRequestClear={setPendingClearScope} onCancelClear={() => setPendingClearScope(null)} onConfirmClear={handleConfirmClear} />
-              <ScoreCard title="黄河流域" stars={getBasinStars('yellow-river')} scope="yellow-river" clearLabel="清空黄河积分" pendingScope={pendingClearScope} onRequestClear={setPendingClearScope} onCancelClear={() => setPendingClearScope(null)} onConfirmClear={handleConfirmClear} />
-              <ScoreCard title="长江流域" stars={getBasinStars('yangtze-river')} scope="yangtze-river" clearLabel="清空长江积分" pendingScope={pendingClearScope} onRequestClear={setPendingClearScope} onCancelClear={() => setPendingClearScope(null)} onConfirmClear={handleConfirmClear} />
+              <ScoreCard title="总治理星级" stars={totalStars} scope="all" clearLabel="清空全部治理星级" pendingScope={pendingClearScope} onRequestClear={setPendingClearScope} onCancelClear={() => setPendingClearScope(null)} onConfirmClear={handleConfirmClear} />
+              <ScoreCard title="黄河治理星级" stars={getBasinStars('yellow-river')} scope="yellow-river" clearLabel="清空黄河治理星级" pendingScope={pendingClearScope} onRequestClear={setPendingClearScope} onCancelClear={() => setPendingClearScope(null)} onConfirmClear={handleConfirmClear} />
+              <ScoreCard title="长江治理星级" stars={getBasinStars('yangtze-river')} scope="yangtze-river" clearLabel="清空长江治理星级" pendingScope={pendingClearScope} onRequestClear={setPendingClearScope} onCancelClear={() => setPendingClearScope(null)} onConfirmClear={handleConfirmClear} />
+              <ScoreCard title="珠江治理星级" stars={getBasinStars('pearl-river')} scope="pearl-river" clearLabel="清空珠江治理星级" pendingScope={pendingClearScope} onRequestClear={setPendingClearScope} onCancelClear={() => setPendingClearScope(null)} onConfirmClear={handleConfirmClear} />
             </div>
           </section>
         </div>

@@ -165,7 +165,7 @@ function AccountMenu() {
                 )}
                 {isDeleteConfirming ? (
                   <div className="account-menu__danger-zone" role="alert">
-                    <p>确认永久注销此账户？云端积分与答题记录将无法恢复。</p>
+                    <p>确认永久注销此账户？云端治理星级与答题记录将无法恢复。</p>
                     <div className="account-menu__confirm-actions">
                       <button className="account-menu__confirm-icon account-menu__confirm-icon--danger" type="button" aria-label="确认永久注销账户" title="确认永久注销" disabled={isDeleting} onClick={() => void handleDeleteAccount()}>{isDeleting ? '…' : '√'}</button>
                       <button className="account-menu__confirm-icon" type="button" aria-label="取消注销账户" title="取消" disabled={isDeleting} onClick={() => setIsDeleteConfirming(false)}>×</button>

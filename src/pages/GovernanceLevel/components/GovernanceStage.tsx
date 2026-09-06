@@ -37,7 +37,7 @@ interface GovernanceQuestion {
   options: Array<{ id: string; text: string; stars: 1 | 2 | 3 }>;
 }
 
-/** 临时题库采用正式题库的答题与复盘界面，但不会写入正式积分。 */
+/** 临时题库采用正式题库的答题与复盘界面，但不会写入正式治理星级。 */
 function DemoFormalGovernanceStage({ level, onCurrentStarsChange }: GovernanceStageProps) {
   const [phase, setPhase] = useState<GovernanceStagePhase>('question');
   const [questionIndex, setQuestionIndex] = useState(0);

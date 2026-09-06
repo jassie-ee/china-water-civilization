@@ -1,4 +1,4 @@
-import happy from '@/assets/images/lan/mascots/happy.png';
+import happy from '@/assets/images/lan/mascots/happy-live2d-source.png';
 import thinking from '@/assets/images/lan/mascots/thinking.png';
 import turbid from '@/assets/images/lan/mascots/turbid.png';
 
