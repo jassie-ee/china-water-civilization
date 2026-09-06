@@ -26,6 +26,31 @@
   text-shadow: 0 0 .55rem rgb(230 189 105 / 40%);
 }
 
+.chapter-insight-display {
+  display: inline-flex;
+  align-items: baseline;
+  gap: .42rem;
+  min-height: 2rem;
+  margin: 0;
+  padding: .35rem .65rem;
+  border: 1px solid rgb(159 225 208 / 42%);
+  border-radius: 999px;
+  color: #e9f4e5;
+  background: rgb(4 29 39 / 78%);
+  box-shadow: 0 0 .9rem rgb(131 218 201 / 12%);
+  font-size: .78rem;
+  letter-spacing: .04em;
+  line-height: 1;
+  white-space: nowrap;
+}
+
+.chapter-insight-display strong {
+  color: #e8cd7d;
+  font-family: "STKaiti", "KaiTi", serif;
+  font-size: .95rem;
+  font-weight: 400;
+}
+
 .score-popover__backdrop { position: fixed; z-index: 50; inset: 0; display: grid; place-items: start end; padding: clamp(3.6rem, 8vh, 5.5rem) clamp(.9rem, 3vw, 2.5rem) 1rem; background: rgb(2 19 27 / 18%); }
 .score-popover { position: relative; width: min(22rem, calc(100vw - 1.8rem)); overflow: hidden; border: 1px solid rgb(227 206 140 / 38%); border-radius: 1.4rem; color: #edf7ee; background: radial-gradient(circle at 12% 4%, rgb(113 214 201 / 17%), transparent 35%), linear-gradient(155deg, rgb(11 51 63 / 97%), rgb(5 28 39 / 98%)); box-shadow: 0 1rem 3rem rgb(0 0 0 / 38%), inset 0 0 2.5rem rgb(235 198 101 / 8%); }
 .score-popover::after { position: absolute; top: -2.5rem; right: 1.1rem; width: 7rem; height: 7rem; border: 1px solid rgb(167 231 219 / 14%); border-radius: 50%; box-shadow: 0 0 0 1rem rgb(167 231 219 / 4%), 0 0 0 2rem rgb(167 231 219 / 2%); content: ''; pointer-events: none; }
@@ -49,6 +74,12 @@
 
 @media (max-width: 640px) {
   .global-score-display {
+    min-height: 1.85rem;
+    padding-inline: .55rem;
+    font-size: .72rem;
+  }
+
+  .chapter-insight-display {
     min-height: 1.85rem;
     padding-inline: .55rem;
     font-size: .72rem;
