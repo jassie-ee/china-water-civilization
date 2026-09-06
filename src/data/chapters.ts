@@ -13,9 +13,9 @@ const chapterOverviewItems: ChapterOverviewItem[] = [
       '我记得流过高山、田野和村庄，却忘记了，人们最初怎样与我相处。',
       '你愿意陪我找回失落的水脉记忆吗？',
     ],
-    ctaLabel: '开始探索',
-    unavailableNotice: '这段水脉仍在修复中，第一章很快会与您相见。',
-    status: 'preview',
+    ctaLabel: '进入第一章',
+    status: 'available',
+    route: '/chapters/chapter-1',
   },
   {
     id: 'chapter-2',
