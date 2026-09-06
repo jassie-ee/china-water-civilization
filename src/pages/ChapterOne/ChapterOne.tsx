@@ -1,8 +1,8 @@
-import { useState } from 'react';
+import { useCallback, useEffect, useMemo, useState } from 'react';
 import { Link } from 'react-router-dom';
 
-import LanConversation from '@/components/lan/LanConversation';
 import { useChapterInsight } from '@/components/common/chapterInsightContext';
+import { useLanMascot, type LanMascotConfig } from '@/components/lan-mascot';
 import { introPosterSource, introVideoSource } from '@/pages/Home/introMedia';
 
 import './ChapterOne.css';
@@ -77,31 +77,112 @@ const memoryStories: MemoryStory[] = [
 function ChapterOne() {
   const [scene, setScene] = useState<ChapterScene>('launch');
   const [activeMemoryId, setActiveMemoryId] = useState<MemoryId>(1);
-  const [isEntryDialogueVisible, setIsEntryDialogueVisible] = useState(true);
   const [isQuestionChoiceVisible, setIsQuestionChoiceVisible] = useState(false);
   const [isWrongChoiceSelected, setIsWrongChoiceSelected] = useState(false);
   const { awakenedMemories, completeMemory, insight } = useChapterInsight();
   const activeStory = memoryStories.find((story) => story.id === activeMemoryId) ?? memoryStories[0];
   const allMemoriesAwakened = awakenedMemories.length === memoryStories.length;
+  const nextMemory = memoryStories.find((memory) => !awakenedMemories.includes(memory.id)) ?? memoryStories[0];
 
-  const enterMemory = (memoryId: MemoryId): void => {
+  const enterMemory = useCallback((memoryId: MemoryId): void => {
     setActiveMemoryId(memoryId);
     setIsQuestionChoiceVisible(false);
     setIsWrongChoiceSelected(false);
     setScene('video');
-  };
+  }, []);
 
-  const returnToMemoryEntry = (): void => {
-    setIsEntryDialogueVisible(true);
+  const returnToMemoryEntry = useCallback((): void => {
     setIsQuestionChoiceVisible(false);
     setIsWrongChoiceSelected(false);
     setScene('memory-entry');
-  };
+  }, []);
 
-  const finishMemory = (): void => {
+  const finishMemory = useCallback((): void => {
     completeMemory(activeStory.id);
     setScene('awakened');
-  };
+  }, [activeStory.id, completeMemory]);
+
+  const mascotDialogue = useMemo(() => {
+    if (scene === 'launch') {
+      return {
+        conversationId: 'chapter-one-launch',
+        messages: ['那些关于山川、洪水与家园的记忆，正在水滴深处等待苏醒。'],
+        actionLabel: '唤醒水滴记忆',
+        onAction: () => setScene('memory-entry'),
+      };
+    }
+
+    if (scene === 'memory-entry') {
+      return {
+        conversationId: `chapter-one-memory-entry-${awakenedMemories.length}`,
+        messages: [allMemoriesAwakened
+          ? '三层记忆已经苏醒，顺势之纹重新连成完整的水脉。'
+          : '我从华夏的江河中醒来，却遗失了关于治水的记忆。请陪我找回它们。'],
+        actionLabel: allMemoriesAwakened ? '重温第一层记忆' : `进入第 ${nextMemory.id} 层记忆`,
+        onAction: () => enterMemory(allMemoriesAwakened ? 1 : nextMemory.id),
+      };
+    }
+
+    if (scene === 'question' && isWrongChoiceSelected) {
+      return {
+        conversationId: `chapter-one-memory-${activeStory.id}-wrong`,
+        messages: [activeStory.wrongFeedback],
+        actionLabel: '重新选择',
+        onAction: () => setIsWrongChoiceSelected(false),
+      };
+    }
+
+    if (scene === 'question') {
+      return {
+        conversationId: `chapter-one-memory-${activeStory.id}-question`,
+        messages: [activeStory.question],
+        actionLabel: '做出选择',
+        onAction: () => setIsQuestionChoiceVisible(true),
+      };
+    }
+
+    if (scene === 'awakened') {
+      return {
+        conversationId: `chapter-one-memory-${activeStory.id}-awakened`,
+        messages: [`“${activeStory.insight}”已经苏醒，水脉感悟值增加 10 点。`],
+        actionLabel: '回到水滴记忆',
+        onAction: returnToMemoryEntry,
+      };
+    }
+
+    return {
+      conversationId: `chapter-one-memory-${activeStory.id}-${scene}`,
+      messages: [activeStory.observationCopy],
+      actionLabel: '继续探索',
+      onAction: () => undefined,
+    };
+  }, [activeStory, allMemoriesAwakened, awakenedMemories.length, enterMemory, isWrongChoiceSelected, nextMemory.id, returnToMemoryEntry, scene]);
+
+  const mascotConfig = useMemo<LanMascotConfig>(() => ({
+    pageId: 'chapter-one-guide',
+    routePath: '/chapters/chapter-1',
+    dialogue: {
+      ...mascotDialogue,
+      dialogLabel: '水脉精灵小澜的引导',
+    },
+    dialogueId: 'lan-dialogue-chapter-one',
+    expressionId: scene === 'question' ? 'thinking' : scene === 'launch' ? 'turbid' : 'happy',
+    initialPosition: { x: 82, y: 82 },
+    spriteAlt: '水脉精灵小澜，点击打开或关闭引导，也可以拖动',
+  }), [mascotDialogue, scene]);
+  const { closeDialogue, openDialogue } = useLanMascot(mascotConfig);
+  const shouldOpenMascotDialogue = scene === 'launch'
+    || scene === 'memory-entry'
+    || scene === 'awakened'
+    || (scene === 'question' && (!isQuestionChoiceVisible || isWrongChoiceSelected));
+
+  useEffect(() => {
+    if (shouldOpenMascotDialogue) {
+      openDialogue();
+    } else {
+      closeDialogue();
+    }
+  }, [closeDialogue, mascotDialogue.conversationId, openDialogue, shouldOpenMascotDialogue]);
 
   return (
     <main className={`chapter-one chapter-one--${scene} chapter-one--memory-${activeStory.id}`}>
@@ -115,7 +196,7 @@ function ChapterOne() {
           <p className="chapter-one__theme">顺势而为</p>
           <h1 id="chapter-one-title">水有去处，人有家园</h1>
           <p className="chapter-one__description">水脉精灵正在苏醒。那些关于山川、洪水与家园的记忆，也将在水波重新荡开时归来。</p>
-          <button className="chapter-one__primary-action" type="button" onClick={() => { setIsEntryDialogueVisible(true); setScene('memory-entry'); }}>
+          <button className="chapter-one__primary-action" type="button" onClick={() => setScene('memory-entry')}>
             唤醒水滴记忆<span aria-hidden="true">→</span>
           </button>
         </section>
@@ -148,17 +229,6 @@ function ChapterOne() {
               })}
             </ol>
           </div>
-          {isEntryDialogueVisible && (
-            <LanConversation
-              actionLabel="从第一层开始"
-              anchor={{ x: 82, y: 88, dialogueSide: 'left', dialogueVertical: 'above' }}
-              conversationId="chapter-one-memory-entry"
-              dialogLabel="水脉精灵的记忆请求"
-              messages={['我从华夏的江河中醒来，却遗失了关于治水的记忆。请陪我找回它们。']}
-              onAction={() => enterMemory(1)}
-              onClose={() => setIsEntryDialogueVisible(false)}
-            />
-          )}
           <p className="chapter-one__memory-progress">已唤醒 {awakenedMemories.length}/3 段记忆 · 水脉感悟值 {insight}/30</p>
           {allMemoriesAwakened && <p className="chapter-one__memory-complete">三道纹路已连成“顺势之纹”，第二章的水路已经亮起。</p>}
           <button className="chapter-one__return-action" type="button" onClick={() => setScene('launch')}>返回第一章序页</button>
@@ -189,17 +259,6 @@ function ChapterOne() {
               <button className="chapter-one__primary-action" type="button" onClick={() => setScene('question')}>跳过影像，进入互动<span aria-hidden="true">→</span></button>
             </div>
           )}
-          {scene === 'question' && !isQuestionChoiceVisible && (
-            <LanConversation
-              actionLabel="做出选择"
-              anchor={{ x: 50, y: 55, dialogueSide: 'left', dialogueVertical: 'below' }}
-              conversationId={`chapter-one-memory-${activeStory.id}-question`}
-              dialogLabel="水脉精灵的提问"
-              messages={[activeStory.question]}
-              onAction={() => setIsQuestionChoiceVisible(true)}
-              onClose={() => setIsQuestionChoiceVisible(true)}
-            />
-          )}
           {scene === 'question' && isQuestionChoiceVisible && (
             <div className={`chapter-one__story-card chapter-one__story-card--choice${isWrongChoiceSelected ? ' chapter-one__story-card--flooded' : ''}`}>
               <p className="chapter-one__story-kicker">{activeStory.question}</p>
@@ -208,7 +267,6 @@ function ChapterOne() {
                 <button className="chapter-one__choice" type="button" onClick={() => setIsWrongChoiceSelected(true)}>{activeStory.wrongChoice}</button>
                 <button className="chapter-one__choice chapter-one__choice--correct" type="button" onClick={() => setScene('observation')}>{activeStory.correctChoice}</button>
               </div>
-              {isWrongChoiceSelected && <p className="chapter-one__choice-feedback" role="status">{activeStory.wrongFeedback}</p>}
             </div>
           )}
           {scene === 'observation' && (
