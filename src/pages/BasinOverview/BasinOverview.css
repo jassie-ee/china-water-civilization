@@ -1,0 +1,140 @@
+.basin-overview-page {
+  min-height: 100vh;
+  overflow: hidden;
+  color: #eee7d3;
+  background: #10202b;
+}
+
+.basin-overview-page--leaving {
+  opacity: 0;
+  transition: opacity 180ms ease;
+}
+
+.basin-overview-header {
+  position: fixed;
+  z-index: 5;
+  top: clamp(1rem, 3vw, 2rem);
+  left: clamp(1rem, 4vw, 3.2rem);
+}
+
+.basin-overview-header__home-link {
+  display: inline-flex;
+  align-items: center;
+  min-height: 2rem;
+  color: rgb(242 235 212 / 78%);
+  font-family: var(--font-calligraphy);
+  font-size: .82rem;
+  letter-spacing: .13em;
+  text-decoration: none;
+  text-shadow: 0 .1rem .35rem rgb(1 14 19 / 65%);
+}
+
+.basin-overview-header__home-link:hover { color: #f6d889; }
+.basin-overview-header__home-link:focus-visible,
+.basin-atlas__marker:focus-visible { outline: 2px solid #ffe291; outline-offset: .28rem; }
+
+.basin-atlas {
+  position: relative;
+  min-height: 100vh;
+  overflow: hidden;
+  isolation: isolate;
+  background: #10202b;
+}
+
+.basin-atlas__art,
+.basin-atlas__shade,
+.basin-atlas__markers {
+  position: absolute;
+  inset: 0;
+}
+
+.basin-atlas__art {
+  z-index: 0;
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center center;
+}
+
+.basin-atlas__shade {
+  z-index: 1;
+  pointer-events: none;
+  background:
+    linear-gradient(90deg, rgb(4 16 24 / 20%), transparent 28%, transparent 72%, rgb(3 14 24 / 24%)),
+    linear-gradient(0deg, rgb(2 13 20 / 22%), transparent 46%);
+}
+
+.basin-atlas__markers {
+  z-index: 2;
+  padding: 0;
+  margin: 0;
+}
+
+.basin-atlas__marker {
+  position: absolute;
+  left: var(--marker-x);
+  top: var(--marker-y);
+  display: grid;
+  width: max-content;
+  min-width: 3.25rem;
+  min-height: 3.25rem;
+  padding: .45rem;
+  place-items: center;
+  border: 0;
+  background: transparent;
+  color: transparent;
+  cursor: pointer;
+  font-family: var(--font-calligraphy);
+  font-size: clamp(2rem, 3.2vw, 3.25rem);
+  font-weight: 600;
+  letter-spacing: .04em;
+  line-height: 1;
+  text-align: center;
+  text-shadow: 0 .12rem .5rem rgb(8 24 31 / 88%);
+  transform: translate(-50%, -50%);
+  -webkit-text-stroke: .8px #d9b65d;
+  transition: -webkit-text-stroke-color 180ms ease, filter 180ms ease, opacity 180ms ease, transform 180ms ease;
+}
+
+.basin-atlas__marker:hover,
+.basin-atlas__marker:focus-visible,
+.basin-atlas__marker.is-selected {
+  filter: drop-shadow(0 .1rem .38rem rgb(246 208 111 / 42%));
+  -webkit-text-stroke-color: #f6d683;
+  transform: translate(-50%, -50%) scale(1.08);
+}
+
+.basin-atlas__marker.is-unavailable {
+  cursor: default;
+  opacity: .42;
+  -webkit-text-stroke-color: #b49b64;
+}
+
+.basin-atlas--has-selection .basin-atlas__marker:not(.is-selected) { opacity: .32; }
+
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+@media (max-width: 720px) {
+  .basin-atlas__art { object-position: 52% center; }
+  .basin-atlas__marker {
+    left: var(--marker-mobile-x);
+    top: var(--marker-mobile-y);
+    font-size: clamp(1.85rem, 10vw, 2.65rem);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .basin-overview-page--leaving,
+  .basin-atlas__marker { transition: none; }
+}

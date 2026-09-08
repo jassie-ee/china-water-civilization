@@ -1,0 +1,68 @@
+.water-cursor,
+.water-cursor__ripple-layer {
+  position: fixed;
+  z-index: 10000;
+  inset: 0;
+  pointer-events: none;
+}
+
+.water-cursor__drop {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 1.6rem;
+  opacity: 0;
+  filter: drop-shadow(0 .15rem .42rem rgb(88 206 226 / 38%));
+  transform: translate3d(-10rem, -10rem, 0) translate(-50%, -50%);
+  transition: opacity 120ms ease;
+  will-change: transform, opacity;
+}
+
+.water-cursor__drop svg { display: block; width: 100%; height: auto; }
+
+.water-cursor__ripple {
+  position: absolute;
+  display: block;
+  width: 1px;
+  height: 1px;
+  animation: water-ripple-lifetime 1.55s linear forwards;
+  will-change: opacity;
+}
+
+.water-cursor__ripple i {
+  position: absolute;
+  border: 1px solid rgb(112 219 238 / 70%);
+  border-radius: 50%;
+  opacity: 0;
+  transform: translate(-50%, -50%) scale(.12);
+  animation: water-ripple-expand 1.2s cubic-bezier(.16, .72, .3, 1) forwards;
+}
+
+.water-cursor__ripple i:nth-child(1) { width: 1.8rem; height: .78rem; }
+.water-cursor__ripple i:nth-child(2) { width: 1.8rem; height: .78rem; animation-delay: 130ms; }
+.water-cursor__ripple i:nth-child(3) { width: 1.8rem; height: .78rem; animation-delay: 260ms; }
+
+@keyframes water-ripple-lifetime {
+  from { opacity: 1; }
+  to { opacity: .999; }
+}
+
+@keyframes water-ripple-expand {
+  0% { opacity: .74; transform: translate(-50%, -50%) scale(.12); }
+  100% { opacity: 0; transform: translate(-50%, -50%) scale(10); }
+}
+
+@media (hover: hover) and (pointer: fine) {
+  body,
+  body * { cursor: none !important; }
+
+  body.chapter-one-intro-active,
+  body.chapter-one-intro-active * { cursor: auto !important; }
+
+  body.chapter-one-intro-active .water-cursor { display: none; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .water-cursor__ripple { display: none; }
+  .water-cursor__drop { transition: none; }
+}

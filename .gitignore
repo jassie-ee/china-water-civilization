@@ -1,0 +1,34 @@
+# Dependencies and build output
+node_modules/
+dist/
+.vite/
+
+# Local environment files
+.env
+.env.local
+.env.*.local
+!.env.example
+
+# Local answer-key exports: import them in Supabase SQL Editor, never publish them with the frontend.
+supabase/seeds/*-question-bank.sql
+
+# Editor files
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# System files and caches
+.DS_Store
+Thumbs.db
+__pycache__/
+*.log
+coverage/
+
+# Local source-map conversion workspace; original files and raw conversions stay out of Git.
+work/map-processing/
+
+# 原始视频由 GitHub Release 托管，保留在本机供上传与预览，不写入 Git 历史。
+src/assets/videos/**/*.mp4
+src/assets/videos/**/*.webm

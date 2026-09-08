@@ -1,0 +1,17 @@
+:root {
+  --color-background: #f4f8f8;
+  --color-text-primary: #18323a;
+  --color-text-secondary: #5f7278;
+  --color-water-blue: #217ca3;
+  --color-ecology-green: #3d8b66;
+  --color-yellow-river: #b98538;
+  --color-yangtze-river: #276eb0;
+  --color-pearl-river: #329b77;
+  --font-calligraphy: "STKaiti", "KaiTi", serif;
+  --page-max-width: 1200px;
+  --radius-sm: 0.25rem;
+  --radius-md: 0.5rem;
+  --radius-lg: 0.75rem;
+  --shadow-sm: 0 2px 8px rgb(24 50 58 / 8%);
+  --transition-base: 180ms ease;
+}

@@ -1,0 +1,30 @@
+.basin-detail {
+  display: grid;
+  min-height: 100vh;
+  padding: clamp(1.5rem, 5vw, 5rem);
+  color: #e8f6f4;
+  background: linear-gradient(135deg, #071d2b, #0b3041 64%, #071d2b);
+}
+
+.basin-detail--yellow-river { --basin-accent: #d8a94c; --basin-glow: rgb(218 169 76 / 24%); }
+.basin-detail--yangtze-river { --basin-accent: #76c7df; --basin-glow: rgb(118 199 223 / 24%); }
+.basin-detail--pearl-river { --basin-accent: #80cfa2; --basin-glow: rgb(128 207 162 / 24%); }
+
+.basin-detail__content {
+  align-self: center;
+  width: min(100%, 52rem);
+  padding: clamp(2rem, 7vw, 5rem);
+  border: 1px solid color-mix(in srgb, var(--basin-accent) 42%, transparent);
+  border-radius: var(--radius-lg);
+  background: radial-gradient(circle at 18% 80%, var(--basin-glow), transparent 42%), rgb(5 31 44 / 68%);
+  box-shadow: inset 0 0 4rem var(--basin-glow);
+}
+
+.basin-detail__back { display: inline-block; margin-bottom: clamp(2rem, 7vh, 5rem); color: #d5f0ec; }
+.basin-detail__eyebrow { margin: 0 0 .8rem; color: var(--basin-accent); font-size: .75rem; letter-spacing: .16em; }
+.basin-detail h1 { margin: 0; font-family: "STKaiti", "KaiTi", serif; font-size: clamp(2.5rem, 6vw, 5.25rem); font-weight: 400; }
+.basin-detail h1:focus-visible { outline: 2px solid #d0fffb; outline-offset: .25rem; }
+.basin-detail__description { width: min(100%, 38rem); margin: 1.5rem 0 2.5rem; color: rgb(232 246 244 / 82%); font-size: 1.06rem; line-height: 1.9; }
+.basin-detail__future-slot { min-height: 10rem; padding: 1.25rem; border: 1px dashed color-mix(in srgb, var(--basin-accent) 45%, transparent); border-radius: var(--radius-md); color: rgb(222 244 240 / 74%); }
+.basin-detail__future-slot span { color: var(--basin-accent); font-family: "STKaiti", "KaiTi", serif; font-size: 1.35rem; }
+.basin-detail__future-slot p { margin-bottom: 0; }
