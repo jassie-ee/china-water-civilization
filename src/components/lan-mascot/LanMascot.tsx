@@ -207,6 +207,7 @@ function LanMascot({ record, onCloseDialogue, onOpenDialogue, onPositionChange }
         <LanConversation
           actionLabel={config.dialogue.actionLabel}
           choices={config.dialogue.choices}
+          media={config.dialogue.media}
           anchor={{ x: position.x, y: position.y, dialogueSide: 'right', dialogueVertical: 'above' }}
           conversationId={config.dialogue.conversationId}
           dialogLabel={config.dialogue.dialogLabel}

@@ -14,6 +14,10 @@ export interface LanMascotDialogue {
     label: string;
     onSelect: () => void;
   }>;
+  media?: {
+    src: string;
+    title: string;
+  };
   closeOnBackdrop?: boolean;
   closeOnEscape?: boolean;
   showClose?: boolean;

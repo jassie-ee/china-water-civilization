@@ -1,6 +1,6 @@
 import { useCallback, useEffect, useMemo, useState } from 'react';
 
-import { useLanMascot, type LanMascotConfig } from '@/components/lan-mascot';
+import { useLanMascot, type LanMascotConfig, type LanMascotDialogue, type LanMascotExpressionId } from '@/components/lan-mascot';
 import type { RiverNode, RiverRegion } from '@/types/basin';
 
 interface RiverSpiritGuideProps {
@@ -8,6 +8,9 @@ interface RiverSpiritGuideProps {
   riverName: string;
   region: RiverRegion;
   node: RiverNode | null;
+  dialogueOverride?: LanMascotDialogue;
+  expressionOverride?: LanMascotExpressionId;
+  onDialogueClose?: () => void;
 }
 
 const riverRoutePaths: Record<string, string> = {
@@ -21,7 +24,7 @@ function shorten(text: string | undefined, maxLength = 74): string {
   return text.length > maxLength ? `${text.slice(0, maxLength)}…` : text;
 }
 
-function RiverSpiritGuide({ isOpen, riverName, region, node }: RiverSpiritGuideProps) {
+function RiverSpiritGuide({ isOpen, riverName, region, node, dialogueOverride, expressionOverride, onDialogueClose }: RiverSpiritGuideProps) {
   const [replayKey, setReplayKey] = useState(0);
   const sceneKey = `${riverName}-${node?.id ?? 'region'}-${region.id}`;
   const messages = useMemo(() => {
@@ -47,7 +50,7 @@ function RiverSpiritGuide({ isOpen, riverName, region, node }: RiverSpiritGuideP
   const mascotConfig = useMemo<LanMascotConfig>(() => ({
     pageId: `chapter-two-${riverName}`,
     routePath: riverRoutePaths[riverName],
-    dialogue: {
+    dialogue: dialogueOverride ?? {
       conversationId: `${sceneKey}-${replayKey}`,
       dialogLabel: `${riverName}水脉导览`,
       messages,
@@ -55,10 +58,12 @@ function RiverSpiritGuide({ isOpen, riverName, region, node }: RiverSpiritGuideP
       onAction: replayDialogue,
     },
     dialogueId: `lan-dialogue-${riverName}`,
-    expressionId: node ? 'thinking' : 'happy',
+    expressionId: expressionOverride ?? (node ? 'thinking' : 'happy'),
     initialPosition: { x: 16, y: 82 },
     spriteAlt: `${riverName}水脉精灵小澜，点击打开或关闭导览，也可以拖动`,
-  }), [messages, node, replayDialogue, replayKey, riverName, sceneKey]);
+    dialoguePresentation: dialogueOverride ? 'modal' : 'floating',
+    onDialogueClose,
+  }), [dialogueOverride, expressionOverride, messages, node, onDialogueClose, replayDialogue, replayKey, riverName, sceneKey]);
   const { closeDialogue, openDialogue } = useLanMascot(mascotConfig);
 
   useEffect(() => {

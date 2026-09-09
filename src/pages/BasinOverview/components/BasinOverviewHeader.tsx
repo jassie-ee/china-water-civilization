@@ -17,7 +17,11 @@ function BasinOverviewHeader({ shouldFocus }: BasinOverviewHeaderProps) {
   return (
     <header className="basin-overview-header">
       <Link className="basin-overview-header__home-link" to="/chapters">返回章节总览</Link>
-      <h1 ref={headingRef} className="sr-only" tabIndex={-1}>黄河、长江与珠江流域总览</h1>
+      <div className="basin-overview-header__title">
+        <p>第二章 · 治</p>
+        <h1 ref={headingRef} tabIndex={-1}>现代江河治理</h1>
+        <span>因地制宜</span>
+      </div>
     </header>
   );
 }

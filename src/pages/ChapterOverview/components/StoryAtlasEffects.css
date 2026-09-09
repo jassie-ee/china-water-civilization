@@ -1,4 +1,3 @@
-/* Waterway effects: the route layer follows the chapter marker coordinates. */
 .story-atlas-effects {
   position: absolute;
   z-index: 1;
@@ -6,10 +5,9 @@
   overflow: hidden;
   pointer-events: none;
   transform: translate3d(var(--atlas-effects-x, 0px), var(--atlas-effects-y, 0px), 0);
-  transition: transform 650ms ease-out;
+  transition: transform 600ms cubic-bezier(.2, .7, .2, 1);
 }
 
-/* Waterway: one reusable animated route generated from chapter marker coordinates. */
 .story-atlas-effects__route {
   position: absolute;
   inset: 0;
@@ -27,63 +25,27 @@
 }
 
 .story-atlas-effects__route-base {
-  stroke: rgb(194 241 228 / 42%);
+  stroke: rgb(194 241 228 / 25%);
   stroke-width: .7;
 }
 
 .story-atlas-effects__route-flow {
-  stroke: rgb(255 231 147 / 96%);
-  stroke-width: 1.25;
-  stroke-dasharray: 1.8 4.2;
-  filter: drop-shadow(0 0 .25rem rgb(255 222 117 / 74%));
-  animation: story-atlas-route-flow 9s linear infinite;
+  stroke: rgb(215 184 106 / 90%);
+  stroke-width: 1.1;
+  stroke-dasharray: 1.7 5.4;
+  filter: drop-shadow(0 0 .22rem rgb(215 184 106 / 55%));
 }
 
-.story-atlas-effects__boat {
-  pointer-events: none;
-  opacity: .94;
+.story-atlas-effects__route-flow--ambient {
+  opacity: .34;
+  animation: story-atlas-route-flow 17s linear infinite;
 }
 
-.story-atlas-effects__boat--mobile { display: none; }
-
-.story-atlas-effects__boat-motion {
-  transform-box: fill-box;
-  transform-origin: center;
-  animation: story-atlas-boat-bob 4.8s ease-in-out infinite;
-}
-
-.story-atlas-effects__boat--2 .story-atlas-effects__boat-motion {
-  animation-delay: -1.6s;
-}
-
-.story-atlas-effects__boat--3 .story-atlas-effects__boat-motion {
-  animation-delay: -3.2s;
-}
-
-.story-atlas-effects__boat-hull {
-  fill: rgb(18 57 66 / 88%);
-  stroke: rgb(255 226 143 / 92%);
-  stroke-width: .26;
-  vector-effect: non-scaling-stroke;
-}
-
-.story-atlas-effects__boat-mast {
-  fill: none;
-  stroke: rgb(255 238 183 / 92%);
-  stroke-width: .28;
-  stroke-linecap: round;
-  vector-effect: non-scaling-stroke;
-}
-
-.story-atlas-effects__boat-sail {
-  fill: rgb(237 248 232 / 88%);
-  stroke: rgb(255 226 143 / 82%);
-  stroke-width: .2;
-  vector-effect: non-scaling-stroke;
-}
-
-.story-atlas-effects__boat-sail--small {
-  fill: rgb(169 220 215 / 78%);
+.story-atlas-effects__route-flow--active {
+  opacity: 0;
+  stroke: rgb(244 215 139 / 98%);
+  stroke-width: 1.45;
+  animation: story-atlas-active-route 1.8s ease-out both;
 }
 
 .story-atlas-effects__route-base--mobile,
@@ -91,45 +53,41 @@
 .story-atlas-effects__active-glow--mobile { display: none; }
 
 .story-atlas-effects__active-glow {
-  fill: rgb(255 232 151 / 76%);
-  filter: drop-shadow(0 0 .5rem rgb(255 222 117 / 94%));
-  animation: story-atlas-active-glow 2.8s ease-in-out infinite;
+  fill: rgb(244 215 139 / 38%);
+  filter: drop-shadow(0 0 .55rem rgb(215 184 106 / 78%));
+  animation: story-atlas-active-glow 1.35s ease-out both;
 }
 
 @keyframes story-atlas-route-flow {
-  to { stroke-dashoffset: -72; }
+  to { stroke-dashoffset: -96; }
+}
+
+@keyframes story-atlas-active-route {
+  0% { opacity: 0; stroke-dashoffset: 42; }
+  22% { opacity: 1; }
+  100% { opacity: .72; stroke-dashoffset: -18; }
 }
 
 @keyframes story-atlas-active-glow {
-  0%, 100% { opacity: .28; transform: scale(.78); transform-origin: center; }
-  50% { opacity: .86; transform: scale(1.24); transform-origin: center; }
-}
-
-@keyframes story-atlas-boat-bob {
-  0%, 100% {
-    opacity: .72;
-    transform: translateY(0);
-  }
-  50% {
-    opacity: 1;
-    transform: translateY(-.7px);
-  }
+  0% { opacity: 0; transform: scale(.48); transform-origin: center; }
+  55% { opacity: .95; transform: scale(1.16); transform-origin: center; }
+  100% { opacity: .58; transform: scale(1); transform-origin: center; }
 }
 
 @media (max-width: 720px) {
   .story-atlas-effects__route-base:not(.story-atlas-effects__route-base--mobile),
   .story-atlas-effects__route-flow:not(.story-atlas-effects__route-flow--mobile),
-  .story-atlas-effects__active-glow:not(.story-atlas-effects__active-glow--mobile),
-  .story-atlas-effects__boat--desktop { display: none; }
+  .story-atlas-effects__active-glow:not(.story-atlas-effects__active-glow--mobile) { display: none; }
   .story-atlas-effects__route-base--mobile,
   .story-atlas-effects__route-flow--mobile,
-  .story-atlas-effects__active-glow--mobile,
-  .story-atlas-effects__boat--mobile { display: initial; }
+  .story-atlas-effects__active-glow--mobile { display: initial; }
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .story-atlas-effects__route-flow,
-  .story-atlas-effects__active-glow,
-  .story-atlas-effects__boat-motion { animation: none; }
   .story-atlas-effects { transition: none; }
+  .story-atlas-effects__route-flow--ambient,
+  .story-atlas-effects__route-flow--active,
+  .story-atlas-effects__active-glow { animation: none; }
+  .story-atlas-effects__route-flow--active { opacity: .72; }
+  .story-atlas-effects__active-glow { opacity: .58; }
 }

@@ -11,6 +11,7 @@ export const lanFootingScenes = {
   harbor: { kind: 'image' as const, src: harbor, alt: '灯塔海港' },
   'starry-sky': { kind: 'image' as const, src: starrySky, alt: '星空水域' },
   'water-bloom': { kind: 'water-bloom' as const, alt: '水灵脚底的水波与花瓣' },
+  'loess-bloom': { kind: 'loess-bloom' as const, alt: '水灵脚底的水纹与泥沙粒子' },
 } as const;
 
 export type LanFootingSceneId = keyof typeof lanFootingScenes;

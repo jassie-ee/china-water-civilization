@@ -1,29 +1,44 @@
 .global-score-display {
   display: inline-flex;
   align-items: center;
-  gap: .25rem;
-  min-height: 2rem;
-  padding: .35rem .65rem;
-  border: 1px solid rgb(235 199 115 / 42%);
+  gap: .38rem;
+  min-height: 2.2rem;
+  padding: .28rem .36rem .28rem .7rem;
+  border: 1px solid rgb(188 231 219 / 36%);
   border-radius: 999px;
-  color: #f5f1dc;
-  background: rgb(4 29 39 / 78%);
-  box-shadow: 0 0 .9rem rgb(225 179 78 / 12%);
+  color: #e8f2e7;
+  background: linear-gradient(110deg, rgb(7 36 47 / 82%), rgb(24 72 76 / 71%));
+  box-shadow: inset 0 1px 0 rgb(255 255 255 / 16%), 0 .32rem 1.1rem rgb(2 18 24 / 22%);
   font-size: .78rem;
-  letter-spacing: .04em;
+  letter-spacing: .07em;
   line-height: 1;
   white-space: nowrap;
   cursor: pointer;
-  transition: border-color 180ms ease, background 180ms ease, transform 180ms ease;
+  transition: border-color 180ms ease, background 180ms ease, box-shadow 180ms ease, transform 180ms ease;
 }
 
-.global-score-display:hover { border-color: rgb(247 221 151 / 78%); background: rgb(26 64 72 / 88%); transform: translateY(-1px); }
+.global-score-display:hover { border-color: rgb(236 215 157 / 72%); background: linear-gradient(110deg, rgb(13 55 65 / 90%), rgb(29 86 87 / 78%)); box-shadow: inset 0 1px 0 rgb(255 255 255 / 23%), 0 .4rem 1.25rem rgb(2 18 24 / 30%); transform: translateY(-1px); }
 .global-score-display:focus-visible, .score-popover button:focus-visible { outline: 2px solid #eafff3; outline-offset: 3px; }
 
+.global-score-display__label { color: rgb(231 244 237 / 86%); }
 .global-score-display__star {
   color: #e6bd69;
   font-size: .95rem;
   text-shadow: 0 0 .55rem rgb(230 189 105 / 40%);
+}
+.global-score-display__value {
+  display: grid;
+  min-width: 1.55rem;
+  min-height: 1.55rem;
+  place-items: center;
+  padding: 0 .24rem;
+  border-radius: 999px;
+  color: #0d3139;
+  background: #d9c076;
+  font-family: "Noto Serif SC", var(--font-calligraphy);
+  font-size: .9rem;
+  font-weight: 600;
+  letter-spacing: 0;
 }
 
 .chapter-insight-display {
@@ -51,20 +66,26 @@
   font-weight: 400;
 }
 
-.score-popover__backdrop { position: fixed; z-index: 50; inset: 0; display: grid; place-items: start end; padding: clamp(3.6rem, 8vh, 5.5rem) clamp(.9rem, 3vw, 2.5rem) 1rem; background: rgb(2 19 27 / 18%); }
-.score-popover { position: relative; width: min(22rem, calc(100vw - 1.8rem)); overflow: hidden; border: 1px solid rgb(227 206 140 / 38%); border-radius: 1.4rem; color: #edf7ee; background: radial-gradient(circle at 12% 4%, rgb(113 214 201 / 17%), transparent 35%), linear-gradient(155deg, rgb(11 51 63 / 97%), rgb(5 28 39 / 98%)); box-shadow: 0 1rem 3rem rgb(0 0 0 / 38%), inset 0 0 2.5rem rgb(235 198 101 / 8%); }
-.score-popover::after { position: absolute; top: -2.5rem; right: 1.1rem; width: 7rem; height: 7rem; border: 1px solid rgb(167 231 219 / 14%); border-radius: 50%; box-shadow: 0 0 0 1rem rgb(167 231 219 / 4%), 0 0 0 2rem rgb(167 231 219 / 2%); content: ''; pointer-events: none; }
-.score-popover__header { position: relative; z-index: 1; display: flex; align-items: flex-start; justify-content: space-between; gap: 1rem; padding: 1.15rem 1.2rem .85rem; }
-.score-popover__header p { margin: 0; color: rgb(190 234 223 / 62%); font-size: .64rem; letter-spacing: .18em; }
-.score-popover__header h2 { margin: .3rem 0 0; font-family: "STKaiti", "KaiTi", serif; font-size: 1.55rem; font-weight: 400; }
-.score-popover__close { display: grid; flex: 0 0 auto; width: 2rem; height: 2rem; place-items: center; border: 1px solid rgb(235 217 166 / 52%); border-radius: 50%; color: #f3f6e8; background: rgb(255 255 255 / 6%); font-size: 1.25rem; line-height: 1; cursor: pointer; transition: border-color 180ms ease, background 180ms ease, transform 180ms ease; }
-.score-popover__close:hover { border-color: #f3da91; background: rgb(240 198 104 / 16%); transform: rotate(8deg); }
-.score-popover__cards { display: grid; gap: .65rem; padding: 0 1rem 1rem; }
-.score-popover__card { display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: .75rem; align-items: center; padding: .85rem .9rem; border: 1px solid rgb(190 231 219 / 16%); border-radius: 1rem; background: rgb(3 24 33 / 42%); }
-.score-popover__card p { margin: 0; color: rgb(219 241 234 / 64%); font-size: .75rem; }
-.score-popover__card strong { display: inline-flex; align-items: baseline; gap: .28rem; margin-top: .18rem; color: #f5f3dc; font-family: "STKaiti", "KaiTi", serif; font-size: 1.45rem; font-weight: 400; }
-.score-popover__card strong span { color: #e7bf6c; font-size: .92rem; }
-.score-popover__clear, .score-popover__confirmation button { border: 1px solid rgb(232 211 158 / 36%); border-radius: 999px; color: rgb(240 246 232 / 82%); background: rgb(255 255 255 / 5%); font-size: .7rem; cursor: pointer; }
+.score-popover__backdrop { position: fixed; z-index: 50; inset: 0; display: grid; place-items: start end; padding: clamp(3.6rem, 8vh, 5.5rem) clamp(.9rem, 3vw, 2.5rem) 1rem; background: rgb(2 19 27 / 24%); backdrop-filter: blur(2px); }
+.score-popover { position: relative; width: min(23rem, calc(100vw - 1.8rem)); overflow: hidden; border: 1px solid rgb(185 228 216 / 34%); border-radius: 1rem; color: #edf7ee; background: linear-gradient(155deg, rgb(11 51 63 / 98%), rgb(5 28 39 / 99%)); box-shadow: 0 1rem 3rem rgb(0 0 0 / 42%), inset 0 1px 0 rgb(255 255 255 / 13%); }
+.score-popover::after { position: absolute; top: 0; right: 0; left: 0; height: 5rem; background: linear-gradient(110deg, rgb(172 228 217 / 13%), transparent 65%); content: ''; pointer-events: none; }
+.score-popover__header { position: relative; z-index: 1; display: flex; align-items: flex-start; justify-content: space-between; gap: 1rem; padding: 1.15rem 1.2rem .9rem; border-bottom: 1px solid rgb(188 231 219 / 13%); }
+.score-popover__header p { margin: 0; color: rgb(190 234 223 / 66%); font-size: .66rem; letter-spacing: .15em; }
+.score-popover__header h2 { margin: .3rem 0 0; font-family: "Noto Serif SC", var(--font-calligraphy); font-size: 1.55rem; font-weight: 500; }
+.score-popover__close { display: grid; flex: 0 0 auto; width: 2rem; height: 2rem; place-items: center; border: 1px solid rgb(190 231 219 / 32%); border-radius: .5rem; color: #cde8de; background: rgb(255 255 255 / 5%); font-size: 1.15rem; line-height: 1; cursor: pointer; transition: border-color 180ms ease, background 180ms ease, transform 180ms ease; }
+.score-popover__close:hover { border-color: #f3da91; background: rgb(240 198 104 / 12%); transform: translateY(-1px); }
+.score-popover__cards { display: grid; gap: .48rem; padding: .85rem 1rem 1rem; }
+.score-popover__card { display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: .75rem; align-items: center; min-height: 4.15rem; padding: .72rem .82rem; border-left: 2px solid rgb(190 231 219 / 44%); background: rgb(3 24 33 / 36%); }
+.score-popover__card--all { min-height: 5.8rem; padding: .85rem .95rem; border: 1px solid rgb(225 194 117 / 42%); border-left: 3px solid #e1c275; background: linear-gradient(100deg, rgb(225 194 117 / 13%), rgb(3 24 33 / 42%)); }
+.score-popover__card--yellow-river { border-left-color: #d9b26b; }
+.score-popover__card--yangtze-river { border-left-color: #80b9d0; }
+.score-popover__card--pearl-river { border-left-color: #77b9a2; }
+.score-popover__card p { margin: 0; color: rgb(219 241 234 / 67%); font-size: .75rem; }
+.score-popover__card strong { display: inline-flex; align-items: baseline; gap: .28rem; margin-top: .18rem; color: #f5f3dc; font-family: "Noto Serif SC", var(--font-calligraphy); font-size: 1.36rem; font-weight: 500; }
+.score-popover__card--all strong { color: #f2d78c; font-size: 2.35rem; line-height: 1; }
+.score-popover__card strong span { color: #e7bf6c; font-size: .86rem; }
+.score-popover__basin-heading { margin: .48rem 0 .12rem; color: rgb(190 234 223 / 62%); font-size: .66rem; letter-spacing: .14em; }
+.score-popover__clear, .score-popover__confirmation button { border: 1px solid rgb(188 231 219 / 28%); border-radius: .38rem; color: rgb(224 242 235 / 84%); background: rgb(255 255 255 / 5%); font-size: .7rem; cursor: pointer; }
 .score-popover__clear { padding: .42rem .58rem; }
 .score-popover__clear:hover, .score-popover__confirmation button:hover { border-color: #eed08a; background: rgb(224 179 80 / 14%); }
 .score-popover__confirmation { display: flex; flex-wrap: wrap; justify-content: flex-end; gap: .32rem; color: #f2d68f; font-size: .68rem; text-align: right; }

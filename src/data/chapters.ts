@@ -9,9 +9,9 @@ const chapterOverviewItems: ChapterOverviewItem[] = [
     theme: '顺势而为',
     marker: { x: 20, y: 58, mobileX: 22, mobileY: 64, dialogueSide: 'right', dialogueVertical: 'above' },
     dialogue: [
-      '我是一滴从九州江河中醒来的水。',
-      '我记得流过高山、田野和村庄，却忘记了，人们最初怎样与我相处。',
-      '你愿意陪我找回失落的水脉记忆吗？',
+      '岁月带我穿过群山与原野，也带走了我最初的故事。',
+      '曾有人筑起高墙，想把我困住；有人循着山势，为我引路；也有人让我分流入田，润泽人间。',
+      '三段记忆仍沉在时光深处，你愿意循着水声，陪我将它们一一找寻吗？',
     ],
     ctaLabel: '进入第一章',
     status: 'available',

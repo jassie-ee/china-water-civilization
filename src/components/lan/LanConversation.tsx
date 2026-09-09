@@ -25,6 +25,10 @@ interface LanConversationProps {
     label: string;
     onSelect: () => void;
   }>;
+  media?: {
+    src: string;
+    title: string;
+  };
   heading?: string;
   placement?: LanConversationPlacement;
   closeOnBackdrop?: boolean;
@@ -43,6 +47,7 @@ function LanConversation({
   dialogLabel,
   dialogueId = 'lan-dialogue',
   heading,
+  media,
   messages,
   placement = 'free',
   closeOnBackdrop = false,
@@ -169,6 +174,12 @@ function LanConversation({
         </button>}
         <div className="lan-conversation__content">
           {heading !== undefined && <h2 className="lan-conversation__heading">{heading}</h2>}
+          {media !== undefined && (
+            <video className="lan-conversation__media" controls autoPlay playsInline preload="metadata" aria-label={media.title}>
+              <source src={media.src} />
+              您的浏览器暂不支持视频播放。
+            </video>
+          )}
           <p className="lan-conversation__message" aria-live="polite">{messages[messageIndex]}</p>
           {isRepairNoticeVisible && unavailableNotice !== undefined && (
             <p className="lan-conversation__notice" role="status">{unavailableNotice}</p>

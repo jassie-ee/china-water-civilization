@@ -1,8 +1,11 @@
-import { useEffect, useMemo, useState } from 'react';
+import { useCallback, useEffect, useMemo, useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 
+import { useGovernanceProgress } from '@/components/common/governanceProgressContext';
+import { useLanFooting, type LanMascotDialogue } from '@/components/lan-mascot';
 import { yellowRiverRegions } from '@/data/yellowRiverRegions';
 import { yellowRiverGovernanceNodeIds, yellowRiverNodes } from '@/data/yellowRiverNodes';
+import { getReleaseMediaUrl } from '@/lib/media';
 import { governanceDataSource } from '@/services/governanceDataSource';
 import type { YellowRiverNode, YellowRiverNodeId, YellowRiverRegionId } from '@/types/basin';
 import RiverSpiritGuide from '@/components/lan/RiverSpiritGuide';
@@ -33,6 +36,29 @@ const governanceNodes = yellowRiverGovernanceNodeIds
   .filter((node): node is YellowRiverNode => node !== undefined);
 
 type YellowRiverModalMode = 'detail' | 'governance';
+type LoessInteractionStep = 'idle' | 'question' | 'correct' | 'downstream-dam' | 'check-dam';
+
+const loessInteractionQuestion = '你看黄河这浑乎乎的样子，一河的泥沙往下冲，下游河床都快比房顶高了。你说要从根上解决泥沙，得从哪儿下手呀？';
+const loessInteractionOptions = {
+  correct: '在上游山坡种树种草，先把土稳住',
+  downstreamDam: '在下游多修大坝，把泥沙全拦住',
+  checkDam: '在山沟里一道道筑矮坝，把泥沙一层层拦住',
+} as const;
+
+const loessFeedback = {
+  correct: {
+    video: 'loess-plateau-a.mp4',
+    copy: '哈哈果然被你说中了！把山上的土守住，泥沙就进不了河啦～原来治河的答案，居然在岸上！',
+  },
+  downstreamDam: {
+    video: 'loess-plateau-b.mp4',
+    copy: '光在下游拦沙可不行，上游源源不断往下冲，大坝迟早会被淤满的，再想想？',
+  },
+  checkDam: {
+    video: 'loess-plateau-c.mp4',
+    copy: '在山沟里筑坝确实能拦住不少沙，可如果上游山坡还在往下冲土，这些坝也会很快被填满，最根本的，还得从山上治起。',
+  },
+} as const;
 
 interface RestoredModalState {
   nodeId: YellowRiverNodeId | null;
@@ -66,6 +92,10 @@ function YellowRiver() {
   const [previewNodeId, setPreviewNodeId] = useState<YellowRiverNodeId | null>(null);
   const [modalMode, setModalMode] = useState<YellowRiverModalMode>(restoredModalState.modalMode);
   const [isDialogueOpen, setIsDialogueOpen] = useState(false);
+  const [loessInteractionStep, setLoessInteractionStep] = useState<LoessInteractionStep>('idle');
+  const [hasDismissedLoessInteraction, setHasDismissedLoessInteraction] = useState(false);
+  const [loessRewardCopy, setLoessRewardCopy] = useState('');
+  const { recordLevelResult } = useGovernanceProgress();
   const selectedDetailNode = useMemo(
     () => detailNodes.find((node) => node.id === selectedNodeId) ?? null,
     [selectedNodeId],
@@ -102,6 +132,8 @@ function YellowRiver() {
     setSelectedNodeId(null);
     setPreviewNodeId(null);
     setModalMode('detail');
+    setLoessInteractionStep('idle');
+    setHasDismissedLoessInteraction(false);
     setIsDialogueOpen(true);
   };
 
@@ -114,8 +146,100 @@ function YellowRiver() {
     setPreviewRegionId(null);
     setSelectedRegionId(node.regionId);
     setModalMode('detail');
+    setLoessInteractionStep('idle');
+    setHasDismissedLoessInteraction(false);
+    setLoessRewardCopy('');
     setIsDialogueOpen(false);
   };
+
+  const startLoessInteraction = useCallback((): void => {
+    setLoessInteractionStep((currentStep) => currentStep === 'idle' ? 'question' : currentStep);
+    setHasDismissedLoessInteraction(false);
+    setIsDialogueOpen(true);
+  }, []);
+
+  const selectLoessOption = useCallback((option: keyof typeof loessInteractionOptions): void => {
+    setHasDismissedLoessInteraction(false);
+    setIsDialogueOpen(true);
+
+    if (option === 'correct') {
+      setLoessInteractionStep('correct');
+      setLoessRewardCopy('正在记录治理星级…');
+      void recordLevelResult('loess-plateau', 3).then((update) => {
+        setLoessRewardCopy(update.didImprove
+          ? '你获得了 3 点黄河治理星级。'
+          : '这段治理星级已经记录过了，本次重温不再重复增加。');
+      }).catch(() => setLoessRewardCopy('本地互动已完成，治理星级暂未能写入。'));
+      return;
+    }
+
+    setLoessInteractionStep(option === 'downstreamDam' ? 'downstream-dam' : 'check-dam');
+  }, [recordLevelResult]);
+
+  const loessDialogue = useMemo<LanMascotDialogue | undefined>(() => {
+    if (selectedDetailNode?.id !== 'loess-plateau' || loessInteractionStep === 'idle') return undefined;
+
+    if (loessInteractionStep === 'question') {
+      return {
+        conversationId: 'loess-plateau-question',
+        dialogLabel: '小澜的黄土高原互动',
+        messages: [loessInteractionQuestion],
+        actionLabel: '做出选择',
+        onAction: () => undefined,
+        choices: [
+          { id: 'loess-option-a', label: `A. ${loessInteractionOptions.correct}`, onSelect: () => selectLoessOption('correct') },
+          { id: 'loess-option-b', label: `B. ${loessInteractionOptions.downstreamDam}`, onSelect: () => selectLoessOption('downstreamDam') },
+          { id: 'loess-option-c', label: `C. ${loessInteractionOptions.checkDam}`, onSelect: () => selectLoessOption('checkDam') },
+        ],
+        closeOnBackdrop: true,
+        closeOnEscape: true,
+        showClose: true,
+      };
+    }
+
+    const feedbackKey = loessInteractionStep === 'correct'
+      ? 'correct'
+      : loessInteractionStep === 'downstream-dam'
+        ? 'downstreamDam'
+        : 'checkDam';
+    const feedback = loessFeedback[feedbackKey];
+    const isCorrect = feedbackKey === 'correct';
+
+    return {
+      conversationId: `loess-plateau-${feedbackKey}-feedback`,
+      dialogLabel: '小澜的黄土高原互动',
+      messages: [isCorrect ? `${feedback.copy}${loessRewardCopy ? ` ${loessRewardCopy}` : ''}` : feedback.copy],
+      actionLabel: isCorrect ? '完成互动' : '重新选择',
+      onAction: () => {
+        if (isCorrect) {
+          setHasDismissedLoessInteraction(true);
+          setIsDialogueOpen(false);
+        }
+        else setLoessInteractionStep('question');
+      },
+      media: {
+        src: getReleaseMediaUrl(feedback.video),
+        title: `黄土高原互动反馈：${feedback.video}`,
+      },
+      closeOnBackdrop: true,
+      closeOnEscape: true,
+      showClose: true,
+    };
+  }, [loessInteractionStep, loessRewardCopy, selectLoessOption, selectedDetailNode?.id]);
+  const loessFootingConfig = useMemo(() => ({
+    pageId: 'chapter-two-黄河',
+    routePath: '/basins/yellow-river',
+    sceneId: 'loess-bloom' as const,
+    visible: loessDialogue !== undefined,
+  }), [loessDialogue]);
+  useLanFooting(loessFootingConfig);
+
+  const handleLoessDialogueClose = useCallback((): void => {
+    setIsDialogueOpen(false);
+    if (selectedDetailNode?.id === 'loess-plateau' && loessInteractionStep !== 'idle') {
+      setHasDismissedLoessInteraction(true);
+    }
+  }, [loessInteractionStep, selectedDetailNode?.id]);
 
   const handleDetailClose = (): void => {
     const triggerNodeId = selectedNodeId;
@@ -172,6 +296,9 @@ function YellowRiver() {
               riverName="黄河"
               region={selectedRegion}
               node={selectedDetailNode}
+              dialogueOverride={loessDialogue}
+              expressionOverride={loessInteractionStep === 'correct' ? 'happy' : loessDialogue ? 'thinking' : undefined}
+              onDialogueClose={handleLoessDialogueClose}
             />
           </div>
         </section>
@@ -195,6 +322,8 @@ function YellowRiver() {
                 nextNode={nextDetailNode}
                 onClose={handleDetailClose}
                 onStartGovernance={() => setModalMode('governance')}
+                onStartEcologicalInteraction={startLoessInteraction}
+                showContinueInteraction={selectedDetailNode.id === 'loess-plateau' && loessInteractionStep !== 'idle' && hasDismissedLoessInteraction}
                 onSelectPrevious={previousDetailNode ? () => handleNodeSelect(previousDetailNode.id) : undefined}
                 onSelectNext={nextDetailNode ? () => handleNodeSelect(nextDetailNode.id) : undefined}
               />

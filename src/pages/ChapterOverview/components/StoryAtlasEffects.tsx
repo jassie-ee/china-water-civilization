@@ -14,12 +14,6 @@ interface AtlasPoint {
 
 interface RouteSegment {
   path: string;
-  boat: AtlasPoint & { rotation: number };
-}
-
-interface RouteGeometry {
-  boats: Array<AtlasPoint & { rotation: number }>;
-  path: string;
 }
 
 function getDesktopPoint(chapter: ChapterOverviewItem): AtlasPoint {
@@ -51,92 +45,30 @@ function getRouteSegment(previousPoint: AtlasPoint, point: AtlasPoint, index: nu
       x: previousPoint.x + deltaX * .82 + normalX * firstBend * .72,
       y: previousPoint.y + deltaY * .82 + normalY * firstBend * .72,
     };
-    const boatT = .55;
-    const boatPosition = cubicPoint(previousPoint, firstControl, secondControl, thirdControl, boatT);
-    const boatTangent = cubicTangent(previousPoint, firstControl, secondControl, thirdControl, boatT);
-
     return {
       path: `C ${firstControl.x} ${firstControl.y}, ${secondControl.x} ${secondControl.y}, ${thirdControl.x} ${thirdControl.y} S ${point.x} ${point.y}, ${point.x} ${point.y}`,
-      boat: {
-        ...boatPosition,
-        rotation: Math.atan2(boatTangent.y, boatTangent.x) * (180 / Math.PI),
-      },
     };
 }
 
-function cubicPoint(start: AtlasPoint, firstControl: AtlasPoint, secondControl: AtlasPoint, end: AtlasPoint, t: number): AtlasPoint {
-  const inverseT = 1 - t;
-  return {
-    x: inverseT ** 3 * start.x
-      + 3 * inverseT ** 2 * t * firstControl.x
-      + 3 * inverseT * t ** 2 * secondControl.x
-      + t ** 3 * end.x,
-    y: inverseT ** 3 * start.y
-      + 3 * inverseT ** 2 * t * firstControl.y
-      + 3 * inverseT * t ** 2 * secondControl.y
-      + t ** 3 * end.y,
-  };
-}
-
-function cubicTangent(start: AtlasPoint, firstControl: AtlasPoint, secondControl: AtlasPoint, end: AtlasPoint, t: number): AtlasPoint {
-  const inverseT = 1 - t;
-  return {
-    x: 3 * inverseT ** 2 * (firstControl.x - start.x)
-      + 6 * inverseT * t * (secondControl.x - firstControl.x)
-      + 3 * t ** 2 * (end.x - secondControl.x),
-    y: 3 * inverseT ** 2 * (firstControl.y - start.y)
-      + 6 * inverseT * t * (secondControl.y - firstControl.y)
-      + 3 * t ** 2 * (end.y - secondControl.y),
-  };
-}
-
-function createRouteGeometry(points: AtlasPoint[]): RouteGeometry {
-  const segments = points.slice(1).map((point, index) => getRouteSegment(points[index], point, index + 1));
-
-  return {
-    boats: segments.map((segment) => segment.boat),
-    path: points.length === 0
-      ? ''
-      : [`M ${points[0].x} ${points[0].y}`, ...segments.map((segment) => segment.path)].join(' '),
-  };
-}
-
-interface StoryAtlasBoatProps {
-  boat: AtlasPoint & { rotation: number };
-  index: number;
-  mobile?: boolean;
-}
-
-function StoryAtlasBoat({ boat, index, mobile = false }: StoryAtlasBoatProps) {
-  return (
-    <g
-      className={`story-atlas-effects__boat story-atlas-effects__boat--${mobile ? 'mobile' : 'desktop'} story-atlas-effects__boat--${index + 1}`}
-      transform={`translate(${boat.x} ${boat.y}) rotate(${boat.rotation})`}
-    >
-      <g className="story-atlas-effects__boat-motion">
-        <path className="story-atlas-effects__boat-hull" d="M -2.5 .35 Q 0 1.7 2.5 .35 L 1.8 1.2 Q 0 2.15 -1.8 1.2 Z" />
-        <path className="story-atlas-effects__boat-mast" d="M -.15 -2.4 L -.15 .75" />
-        <path className="story-atlas-effects__boat-sail" d="M .05 -2.15 L 1.8 .38 L .05 .38 Z" />
-        <path className="story-atlas-effects__boat-sail story-atlas-effects__boat-sail--small" d="M -.25 -1.55 L -1.45 .28 L -.25 .28 Z" />
-      </g>
-    </g>
-  );
-}
-
 function StoryAtlasEffects({ chapters, activeChapterId }: StoryAtlasEffectsProps) {
-  const desktopRoute = createRouteGeometry(chapters.map(getDesktopPoint));
-  const mobileRoute = createRouteGeometry(chapters.map(getMobilePoint));
+  const desktopPoints = chapters.map(getDesktopPoint);
+  const mobilePoints = chapters.map(getMobilePoint);
+  const desktopSegments = desktopPoints.slice(1).map((point, index) => getRouteSegment(desktopPoints[index], point, index + 1));
+  const mobileSegments = mobilePoints.slice(1).map((point, index) => getRouteSegment(mobilePoints[index], point, index + 1));
+  const desktopPath = desktopPoints.length === 0 ? '' : [`M ${desktopPoints[0].x} ${desktopPoints[0].y}`, ...desktopSegments.map((segment) => segment.path)].join(' ');
+  const mobilePath = mobilePoints.length === 0 ? '' : [`M ${mobilePoints[0].x} ${mobilePoints[0].y}`, ...mobileSegments.map((segment) => segment.path)].join(' ');
   const activeChapter = chapters.find((chapter) => chapter.id === activeChapterId) ?? null;
+  const activeIndex = activeChapter === null ? -1 : chapters.findIndex((chapter) => chapter.id === activeChapter.id);
 
   return (
     <div className="story-atlas-effects" aria-hidden="true">
       <svg className="story-atlas-effects__route" viewBox="0 0 100 100" preserveAspectRatio="none">
-        <path className="story-atlas-effects__route-base" d={desktopRoute.path} />
-        <path className="story-atlas-effects__route-flow" d={desktopRoute.path} />
-        <path className="story-atlas-effects__route-base story-atlas-effects__route-base--mobile" d={mobileRoute.path} />
-        <path className="story-atlas-effects__route-flow story-atlas-effects__route-flow--mobile" d={mobileRoute.path} />
-        {desktopRoute.boats.map((boat, index) => <StoryAtlasBoat key={`desktop-boat-${index}`} boat={boat} index={index} />)}
-        {mobileRoute.boats.map((boat, index) => <StoryAtlasBoat key={`mobile-boat-${index}`} boat={boat} index={index} mobile />)}
+        <path className="story-atlas-effects__route-base" d={desktopPath} />
+        <path className="story-atlas-effects__route-flow story-atlas-effects__route-flow--ambient" d={desktopPath} />
+        <path className="story-atlas-effects__route-base story-atlas-effects__route-base--mobile" d={mobilePath} />
+        <path className="story-atlas-effects__route-flow story-atlas-effects__route-flow--ambient story-atlas-effects__route-flow--mobile" d={mobilePath} />
+        {activeIndex > 0 && <path className="story-atlas-effects__route-flow story-atlas-effects__route-flow--active" d={`M ${desktopPoints[activeIndex - 1].x} ${desktopPoints[activeIndex - 1].y} ${desktopSegments[activeIndex - 1].path}`} />}
+        {activeIndex > 0 && <path className="story-atlas-effects__route-flow story-atlas-effects__route-flow--active story-atlas-effects__route-flow--mobile" d={`M ${mobilePoints[activeIndex - 1].x} ${mobilePoints[activeIndex - 1].y} ${mobileSegments[activeIndex - 1].path}`} />}
         {activeChapter !== null && (
           <>
             <circle className="story-atlas-effects__active-glow" cx={activeChapter.marker.x} cy={activeChapter.marker.y} r="3.4" />

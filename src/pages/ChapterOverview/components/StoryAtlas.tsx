@@ -8,14 +8,15 @@ import StoryAtlasEffects from './StoryAtlasEffects';
 interface StoryAtlasProps {
   chapters: ChapterOverviewItem[];
   activeChapterId: ChapterId | null;
+  highlightedChapterId?: ChapterId | null;
   children?: ReactNode;
   dialogueId?: string;
   markerRefs: RefObject<Record<ChapterId, HTMLButtonElement | null>>;
   onDismiss: () => void;
-  onOpenChapter: (chapterId: ChapterId) => void;
+  onOpenChapter: (chapterId: ChapterId, trigger: HTMLButtonElement) => void;
 }
 
-function StoryAtlas({ chapters, activeChapterId, children, dialogueId = 'lan-dialogue', markerRefs, onDismiss, onOpenChapter }: StoryAtlasProps) {
+function StoryAtlas({ chapters, activeChapterId, highlightedChapterId = null, children, dialogueId = 'lan-dialogue', markerRefs, onDismiss, onOpenChapter }: StoryAtlasProps) {
   const activeChapter = chapters.find((chapter) => chapter.id === activeChapterId) ?? null;
   const atlasStyle = activeChapter === null
     ? {
@@ -77,7 +78,7 @@ function StoryAtlas({ chapters, activeChapterId, children, dialogueId = 'lan-dia
 
           return (
             <li
-              className={`story-atlas__marker story-atlas__marker--${chapter.id}${activeChapterId === chapter.id ? ' is-active' : ''}`}
+              className={`story-atlas__marker story-atlas__marker--${chapter.id}${activeChapterId === chapter.id ? ' is-active' : ''}${highlightedChapterId === chapter.id ? ' is-highlighted' : ''}`}
               key={chapter.id}
               style={markerStyle}
             >
@@ -88,7 +89,7 @@ function StoryAtlas({ chapters, activeChapterId, children, dialogueId = 'lan-dia
                 aria-expanded={activeChapterId === chapter.id}
                 aria-controls={activeChapterId === chapter.id ? dialogueId : undefined}
                 onPointerDown={(event) => event.stopPropagation()}
-                onClick={() => onOpenChapter(chapter.id)}
+                onClick={(event) => onOpenChapter(chapter.id, event.currentTarget)}
               >
                 <span className="story-atlas__seal" aria-hidden="true">{chapter.markerGlyph}</span>
               </button>

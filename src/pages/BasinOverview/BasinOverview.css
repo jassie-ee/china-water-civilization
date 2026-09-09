@@ -1,140 +1,226 @@
 .basin-overview-page {
-  min-height: 100vh;
+  --basin-deep: #0b2731;
+  --basin-mist: #eff2e6;
+  --basin-muted: #abc4bd;
+  --basin-accent: #d9bf73;
+  min-height: 100dvh;
   overflow: hidden;
-  color: #eee7d3;
-  background: #10202b;
+  color: var(--basin-mist);
+  background: var(--basin-deep);
+  font-family: "Noto Sans SC", "Microsoft YaHei UI", "Microsoft YaHei", sans-serif;
 }
 
-.basin-overview-page--leaving {
-  opacity: 0;
-  transition: opacity 180ms ease;
-}
+.basin-overview-page--leaving { opacity: 0; transition: opacity 180ms ease; }
 
 .basin-overview-header {
   position: fixed;
-  z-index: 5;
-  top: clamp(1rem, 3vw, 2rem);
-  left: clamp(1rem, 4vw, 3.2rem);
+  z-index: 8;
+  top: clamp(.85rem, 2vw, 1.5rem);
+  right: 0;
+  left: 0;
+  display: grid;
+  min-height: 3.2rem;
+  grid-template-columns: 1fr auto 1fr;
+  align-items: start;
+  pointer-events: none;
 }
 
 .basin-overview-header__home-link {
-  display: inline-flex;
-  align-items: center;
+  grid-column: 1;
+  justify-self: start;
   min-height: 2rem;
-  color: rgb(242 235 212 / 78%);
-  font-family: var(--font-calligraphy);
-  font-size: .82rem;
+  margin-left: clamp(1rem, 3vw, 2.65rem);
+  color: rgb(242 239 228 / 84%);
+  font-family: "Noto Serif SC", var(--font-calligraphy);
+  font-size: .78rem;
   letter-spacing: .13em;
+  line-height: 2rem;
   text-decoration: none;
   text-shadow: 0 .1rem .35rem rgb(1 14 19 / 65%);
+  pointer-events: auto;
 }
 
-.basin-overview-header__home-link:hover { color: #f6d889; }
+.basin-overview-header__home-link:hover { color: var(--basin-accent); }
+.basin-overview-header__title { grid-column: 2; display: grid; justify-items: center; min-width: 14rem; text-align: center; }
+.basin-overview-header__title p,
+.basin-overview-header__title span { margin: 0; color: rgb(218 231 222 / 72%); font-size: .65rem; letter-spacing: .18em; }
+.basin-overview-header__title h1 { margin: .1rem 0 .2rem; color: var(--basin-mist); font-family: "Noto Serif SC", var(--font-calligraphy); font-size: clamp(1.22rem, 1.9vw, 1.55rem); font-weight: 500; letter-spacing: .13em; line-height: 1.2; }
 .basin-overview-header__home-link:focus-visible,
-.basin-atlas__marker:focus-visible { outline: 2px solid #ffe291; outline-offset: .28rem; }
+.basin-overview-header__title h1:focus-visible,
+.basin-atlas__marker:focus-visible,
+.basin-atlas__index button:focus-visible { outline: 2px solid #f0d78d; outline-offset: .28rem; }
 
 .basin-atlas {
   position: relative;
-  min-height: 100vh;
-  overflow: hidden;
   isolation: isolate;
-  background: #10202b;
+  min-height: 100dvh;
+  overflow: hidden;
+  background: var(--basin-deep);
 }
 
 .basin-atlas__art,
 .basin-atlas__shade,
-.basin-atlas__markers {
-  position: absolute;
-  inset: 0;
-}
-
-.basin-atlas__art {
-  z-index: 0;
-  display: block;
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  object-position: center center;
-}
-
+.basin-atlas__markers { position: absolute; inset: 0; }
+.basin-atlas__art { z-index: 0; display: block; width: 100%; height: 100%; object-fit: cover; object-position: center; filter: saturate(.84) contrast(1.03) brightness(.8); }
 .basin-atlas__shade {
   z-index: 1;
   pointer-events: none;
   background:
-    linear-gradient(90deg, rgb(4 16 24 / 20%), transparent 28%, transparent 72%, rgb(3 14 24 / 24%)),
-    linear-gradient(0deg, rgb(2 13 20 / 22%), transparent 46%);
+    linear-gradient(90deg, rgb(4 20 27 / 78%) 0%, rgb(4 20 27 / 40%) 19%, transparent 43%, transparent 74%, rgb(3 16 24 / 48%) 100%),
+    linear-gradient(0deg, rgb(2 13 20 / 45%) 0%, transparent 35%, rgb(2 15 22 / 25%) 100%);
 }
 
-.basin-atlas__markers {
-  z-index: 2;
-  padding: 0;
-  margin: 0;
+.basin-atlas__index {
+  position: absolute;
+  z-index: 4;
+  top: clamp(6.5rem, 15vh, 8.75rem);
+  left: clamp(1rem, 3vw, 2.65rem);
+  width: min(16.5rem, 22vw);
 }
+.basin-atlas__index-heading { margin: 0 0 .85rem; color: var(--basin-accent); font-family: "Noto Serif SC", var(--font-calligraphy); font-size: .74rem; letter-spacing: .25em; }
+.basin-atlas__index ol { display: grid; gap: .42rem; padding: 0; margin: 0; list-style: none; }
+.basin-atlas__index button {
+  display: grid;
+  width: 100%;
+  grid-template-columns: 1.55rem minmax(0, 1fr);
+  gap: .55rem;
+  padding: .62rem .35rem .62rem .06rem;
+  border: 0;
+  border-left: 1px solid rgb(239 242 230 / 16%);
+  background: transparent;
+  color: var(--basin-mist);
+  font: inherit;
+  text-align: left;
+  cursor: pointer;
+  transition: border-color 240ms ease, background 240ms ease, padding 240ms ease, transform 240ms ease;
+}
+.basin-atlas__index button:hover,
+.basin-atlas__index button:focus-visible,
+.basin-atlas__index button.is-highlighted,
+.basin-atlas__index button.is-selected { padding-left: .45rem; border-left-color: var(--basin-accent); background: linear-gradient(90deg, rgb(217 191 115 / 13%), transparent 90%); transform: translateX(.08rem); }
+.basin-atlas__index-order { color: rgb(171 196 189 / 66%); font-size: .62rem; letter-spacing: .08em; line-height: 1.8; }
+.basin-atlas__index-copy { display: grid; gap: .16rem; }
+.basin-atlas__index-copy strong { color: var(--basin-mist); font-family: "Noto Serif SC", var(--font-calligraphy); font-size: .94rem; font-weight: 500; letter-spacing: .06em; }
+.basin-atlas__index-copy small { color: var(--basin-muted); font-size: .62rem; letter-spacing: .1em; }
 
+.basin-atlas__markers { z-index: 3; padding: 0; margin: 0; }
 .basin-atlas__marker {
   position: absolute;
   left: var(--marker-x);
   top: var(--marker-y);
+  isolation: isolate;
   display: grid;
-  width: max-content;
   min-width: 3.25rem;
-  min-height: 3.25rem;
-  padding: .45rem;
+  min-height: 2.65rem;
   place-items: center;
+  padding: .35rem .5rem;
   border: 0;
+  border-bottom: 1px solid transparent;
   background: transparent;
-  color: transparent;
+  color: var(--basin-accent);
   cursor: pointer;
-  font-family: var(--font-calligraphy);
-  font-size: clamp(2rem, 3.2vw, 3.25rem);
-  font-weight: 600;
-  letter-spacing: .04em;
+  font-family: "Noto Serif SC", var(--font-calligraphy);
+  font-size: clamp(1.75rem, 2.8vw, 2.7rem);
+  font-weight: 500;
+  letter-spacing: .08em;
   line-height: 1;
   text-align: center;
-  text-shadow: 0 .12rem .5rem rgb(8 24 31 / 88%);
+  text-shadow: 0 .1rem .35rem rgb(2 18 24 / 84%);
   transform: translate(-50%, -50%);
-  -webkit-text-stroke: .8px #d9b65d;
-  transition: -webkit-text-stroke-color 180ms ease, filter 180ms ease, opacity 180ms ease, transform 180ms ease;
+  transition: border-color 220ms ease, color 220ms ease, filter 220ms ease, opacity 220ms ease, transform 220ms ease;
 }
-
+.basin-atlas__marker::before {
+  position: absolute;
+  z-index: -1;
+  bottom: 42%;
+  left: 50%;
+  width: clamp(10rem, 16vw, 15rem);
+  height: clamp(12rem, 25vh, 18rem);
+  background: radial-gradient(ellipse at 50% 100%, rgb(217 191 115 / 25%), rgb(217 191 115 / 8%) 43%, transparent 75%);
+  clip-path: polygon(46% 0%, 54% 0%, 100% 100%, 0% 100%);
+  content: "";
+  opacity: 0;
+  pointer-events: none;
+  transform: translateX(-50%) scaleY(.82);
+}
 .basin-atlas__marker:hover,
 .basin-atlas__marker:focus-visible,
-.basin-atlas__marker.is-selected {
-  filter: drop-shadow(0 .1rem .38rem rgb(246 208 111 / 42%));
-  -webkit-text-stroke-color: #f6d683;
-  transform: translate(-50%, -50%) scale(1.08);
-}
+.basin-atlas__marker.is-highlighted,
+.basin-atlas__marker.is-selected { border-bottom-color: rgb(240 215 141 / 72%); color: #f1d78d; filter: drop-shadow(0 .1rem .38rem rgb(246 208 111 / 34%)); transform: translate(-50%, calc(-50% - .16rem)); }
+.basin-atlas__marker:hover::before,
+.basin-atlas__marker:focus-visible::before,
+.basin-atlas__marker.is-highlighted::before { animation: basin-atlas-spotlight 360ms cubic-bezier(.2, .8, .2, 1) both; }
+.basin-atlas--has-selection .basin-atlas__marker:not(.is-selected) { opacity: .38; }
+.basin-atlas--has-selection .basin-atlas__marker.is-highlighted { opacity: 1; }
 
-.basin-atlas__marker.is-unavailable {
-  cursor: default;
-  opacity: .42;
-  -webkit-text-stroke-color: #b49b64;
-}
-
-.basin-atlas--has-selection .basin-atlas__marker:not(.is-selected) { opacity: .32; }
-
-.sr-only {
+.basin-atlas__info {
   position: absolute;
-  width: 1px;
-  height: 1px;
-  padding: 0;
-  margin: -1px;
-  overflow: hidden;
-  clip: rect(0, 0, 0, 0);
-  white-space: nowrap;
-  border: 0;
+  z-index: 4;
+  right: clamp(2rem, 6vw, 7rem);
+  bottom: clamp(3rem, 9vh, 6rem);
+  width: min(19rem, 28vw);
+  padding: 1rem 0 0 1.08rem;
+  border-left: 1px solid rgb(217 191 115 / 72%);
+  animation: basin-atlas-info-in 280ms cubic-bezier(.2, .8, .2, 1) both;
+}
+.basin-atlas__info p { margin: 0; color: rgb(194 224 216 / 68%); font-size: .62rem; letter-spacing: .14em; }
+.basin-atlas__info h2 { margin: .36rem 0 0; color: var(--basin-mist); font-family: "Noto Serif SC", var(--font-calligraphy); font-size: clamp(1.35rem, 2vw, 1.65rem); font-weight: 500; }
+.basin-atlas__info-rule { display: block; width: 2.5rem; height: 1px; margin: .72rem 0; background: rgb(217 191 115 / 72%); }
+.basin-atlas__info small { display: block; max-width: 25em; color: rgb(239 242 230 / 78%); font-size: .76rem; line-height: 1.7; }
+.basin-atlas__info--yellow-river { border-left-color: #d9b26b; }
+.basin-atlas__info--yellow-river .basin-atlas__info-rule { background: #d9b26b; }
+.basin-atlas__info--yangtze-river { border-left-color: #80b9d0; }
+.basin-atlas__info--yangtze-river .basin-atlas__info-rule { background: #80b9d0; }
+.basin-atlas__info--pearl-river { border-left-color: #77b9a2; }
+.basin-atlas__info--pearl-river .basin-atlas__info-rule { background: #77b9a2; }
+
+@keyframes basin-atlas-spotlight {
+  from { opacity: 0; transform: translateX(-50%) scaleY(.82); }
+  to { opacity: 1; transform: translateX(-50%) scaleY(1); }
+}
+@keyframes basin-atlas-info-in {
+  from { opacity: 0; transform: translate3d(.55rem, .25rem, 0); }
+  to { opacity: 1; transform: translate3d(0, 0, 0); }
+}
+
+@media (max-width: 840px) {
+  .basin-atlas__index { width: min(14rem, 28vw); }
+  .basin-atlas__info { right: 1.5rem; width: min(16rem, 29vw); }
 }
 
 @media (max-width: 720px) {
-  .basin-atlas__art { object-position: 52% center; }
-  .basin-atlas__marker {
-    left: var(--marker-mobile-x);
-    top: var(--marker-mobile-y);
-    font-size: clamp(1.85rem, 10vw, 2.65rem);
-  }
+  .basin-overview-page { overflow: auto; }
+  .basin-overview-header { top: .72rem; min-height: 4.9rem; grid-template-columns: 1fr; }
+  .basin-overview-header__home-link { grid-column: 1; margin-left: .9rem; font-size: .72rem; }
+  .basin-overview-header__title { grid-column: 1; grid-row: 2; min-width: 0; margin-top: .05rem; }
+  .basin-overview-header__title p,
+  .basin-overview-header__title span { font-size: .58rem; }
+  .basin-overview-header__title h1 { font-size: 1.08rem; }
+  .basin-atlas { min-height: 100dvh; padding-bottom: 12.5rem; }
+  .basin-atlas__art { object-position: 53% center; }
+  .basin-atlas__shade { background: linear-gradient(0deg, rgb(2 13 20 / 72%) 0%, transparent 48%, rgb(2 15 22 / 55%) 100%); }
+  .basin-atlas__marker { left: var(--marker-mobile-x); top: var(--marker-mobile-y); min-width: 2.8rem; min-height: 2.25rem; font-size: clamp(1.5rem, 8vw, 2.1rem); }
+  .basin-atlas__index { top: auto; right: 0; bottom: 0; left: 0; width: auto; padding: .82rem .9rem calc(.9rem + env(safe-area-inset-bottom)); border-top: 1px solid rgb(185 228 216 / 21%); background: linear-gradient(180deg, rgb(7 29 38 / 86%), rgb(7 29 38 / 97%)); }
+  .basin-atlas__index-heading { margin-bottom: .54rem; font-size: .65rem; }
+  .basin-atlas__index ol { grid-template-columns: repeat(3, minmax(0, 1fr)); gap: .28rem; }
+  .basin-atlas__index button { grid-template-columns: 1fr; gap: .1rem; min-height: 3.55rem; padding: .42rem .2rem .42rem .4rem; }
+  .basin-atlas__index-order { display: none; }
+  .basin-atlas__index-copy strong { font-size: .8rem; }
+  .basin-atlas__index-copy small { overflow: hidden; font-size: .49rem; text-overflow: ellipsis; white-space: nowrap; }
+  .basin-atlas__info { right: 1rem; bottom: 13rem; width: min(15rem, calc(100% - 2rem)); padding-top: .72rem; background: linear-gradient(90deg, rgb(7 29 38 / 82%), transparent); }
+  .basin-atlas__info h2 { font-size: 1.22rem; }
+  .basin-atlas__info small { font-size: .7rem; }
 }
 
 @media (prefers-reduced-motion: reduce) {
   .basin-overview-page--leaving,
-  .basin-atlas__marker { transition: none; }
+  .basin-atlas__marker,
+  .basin-atlas__index button { transition: none; }
+  .basin-atlas__info,
+  .basin-atlas__marker:hover::before,
+  .basin-atlas__marker:focus-visible::before,
+  .basin-atlas__marker.is-highlighted::before { animation: none; }
+  .basin-atlas__marker.is-highlighted::before,
+  .basin-atlas__marker:hover::before,
+  .basin-atlas__marker:focus-visible::before { opacity: 1; transform: translateX(-50%) scaleY(1); }
 }

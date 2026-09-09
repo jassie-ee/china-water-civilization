@@ -8,43 +8,118 @@ import { useLanMascot } from '@/components/lan-mascot';
 import StoryAtlas from './components/StoryAtlas';
 import './ChapterOverview.css';
 
+interface ChapterAtlasIndexProps {
+  activeChapterId: ChapterId | null;
+  hoveredChapterId: ChapterId | null;
+  onHighlightChapter: (chapterId: ChapterId | null) => void;
+  onOpenChapter: (chapterId: ChapterId, trigger: HTMLButtonElement) => void;
+}
+
+function ChapterAtlasIndex({ activeChapterId, hoveredChapterId, onHighlightChapter, onOpenChapter }: ChapterAtlasIndexProps) {
+  return (
+    <aside className="chapter-atlas-index" aria-label="水脉记忆章节索引" onPointerDown={(event) => event.stopPropagation()}>
+      <div className="chapter-atlas-index__heading">
+        <p>水脉图册</p>
+        <span aria-hidden="true" />
+      </div>
+      <ol className="chapter-atlas-index__list">
+        {chapterOverviewItems.map((chapter) => {
+          const isActive = activeChapterId === chapter.id;
+          const isHighlighted = hoveredChapterId === chapter.id;
+          return (
+            <li key={chapter.id}>
+              <button
+                className={`chapter-atlas-index__item${isActive ? ' is-active' : ''}${isHighlighted ? ' is-highlighted' : ''}`}
+                type="button"
+                aria-pressed={isActive}
+                onPointerEnter={() => onHighlightChapter(chapter.id)}
+                onPointerLeave={() => onHighlightChapter(null)}
+                onFocus={() => onHighlightChapter(chapter.id)}
+                onBlur={() => onHighlightChapter(null)}
+                onClick={(event) => onOpenChapter(chapter.id, event.currentTarget)}
+              >
+                <span className="chapter-atlas-index__order" aria-hidden="true">0{chapter.order}</span>
+                <span className="chapter-atlas-index__glyph" aria-hidden="true">{chapter.markerGlyph}</span>
+                <span className="chapter-atlas-index__copy">
+                  <strong>{chapter.title}</strong>
+                  <small>{chapter.theme}</small>
+                </span>
+                {chapter.status === 'preview' && <span className="chapter-atlas-index__status">筹备中</span>}
+              </button>
+            </li>
+          );
+        })}
+      </ol>
+    </aside>
+  );
+}
+
+interface ChapterSelectionProps {
+  chapterId: ChapterId;
+  onOpenDialogue: () => void;
+}
+
+function ChapterSelection({ chapterId, onOpenDialogue }: ChapterSelectionProps) {
+  const chapter = chapterOverviewItems.find((item) => item.id === chapterId);
+  if (chapter === undefined) return null;
+
+  return (
+    <section className="chapter-atlas-selection" aria-live="polite" onPointerDown={(event) => event.stopPropagation()}>
+      <p className="chapter-atlas-selection__eyebrow">第 {chapter.order} 章</p>
+      <h2>{chapter.title}</h2>
+      <p className="chapter-atlas-selection__theme">{chapter.theme}</p>
+      <div className="chapter-atlas-selection__rule" aria-hidden="true" />
+      <p className="chapter-atlas-selection__status">
+        {chapter.status === 'available' ? '小澜正在这里等你' : '这段水脉仍在修复中'}
+      </p>
+      <button className="chapter-atlas-selection__action" type="button" onClick={onOpenDialogue}>
+        {chapter.status === 'available' ? '打开导览' : '查看筹备提示'}
+      </button>
+    </section>
+  );
+}
+
 function ChapterOverview() {
   const navigate = useNavigate();
   const [openChapterId, setOpenChapterId] = useState<ChapterId | null>(null);
+  const [hoveredChapterId, setHoveredChapterId] = useState<ChapterId | null>(null);
   const markerRefs = useRef<Record<ChapterId, HTMLButtonElement | null>>({
     'chapter-1': null,
     'chapter-2': null,
     'chapter-3': null,
     'chapter-4': null,
   });
-  const lastTriggerIdRef = useRef<ChapterId | null>(null);
+  const lastTriggerRef = useRef<HTMLButtonElement | null>(null);
   const closeMascotDialogueRef = useRef<() => void>(() => undefined);
   const openChapter = chapterOverviewItems.find((chapter) => chapter.id === openChapterId) ?? null;
   const dialogueId = 'lan-dialogue-chapter-overview';
 
-  const handleOpen = useCallback((chapterId: ChapterId): void => {
-    if (chapterId === 'chapter-1') {
-      navigate('/chapters/chapter-1/intro');
-      return;
-    }
-
-    lastTriggerIdRef.current = chapterId;
+  const handleOpen = useCallback((chapterId: ChapterId, trigger: HTMLButtonElement): void => {
+    lastTriggerRef.current = trigger;
     setOpenChapterId(chapterId);
-  }, [navigate]);
+  }, []);
 
   const handleClose = useCallback((): void => {
-    const triggerId = lastTriggerIdRef.current;
+    const trigger = lastTriggerRef.current;
+    lastTriggerRef.current = null;
     closeMascotDialogueRef.current();
     setOpenChapterId(null);
 
-    if (triggerId !== null) {
-      window.requestAnimationFrame(() => markerRefs.current[triggerId]?.focus());
+    if (trigger !== null) {
+      window.requestAnimationFrame(() => trigger.focus());
     }
   }, []);
 
   const handleAction = useCallback((): void => {
-    if (openChapter?.route !== undefined) {
-      navigate(openChapter.route, { state: { basinOverviewEntry: 'chapter-overview' } });
+    if (openChapter === null || openChapter.status !== 'available') return;
+
+    if (openChapter.id === 'chapter-1') {
+      navigate('/chapters/chapter-1/intro');
+      return;
+    }
+
+    if (openChapter.id === 'chapter-2') {
+      navigate('/chapters/chapter-2/intro');
     }
   }, [navigate, openChapter]);
 
@@ -102,6 +177,7 @@ function ChapterOverview() {
       <StoryAtlas
         chapters={chapterOverviewItems}
         activeChapterId={openChapterId}
+        highlightedChapterId={hoveredChapterId}
         dialogueId={dialogueId}
         markerRefs={markerRefs}
         onDismiss={() => {
@@ -110,7 +186,15 @@ function ChapterOverview() {
           }
         }}
         onOpenChapter={handleOpen}
-      />
+      >
+        <ChapterAtlasIndex
+          activeChapterId={openChapterId}
+          hoveredChapterId={hoveredChapterId}
+          onHighlightChapter={setHoveredChapterId}
+          onOpenChapter={handleOpen}
+        />
+        {openChapterId !== null && <ChapterSelection chapterId={openChapterId} onOpenDialogue={openDialogue} />}
+      </StoryAtlas>
     </main>
   );
 }

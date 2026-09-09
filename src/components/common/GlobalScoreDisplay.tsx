@@ -22,7 +22,7 @@ function ScoreCard({ title, stars, scope, clearLabel, pendingScope, onRequestCle
   const isConfirming = pendingScope === scope;
 
   return (
-    <section className="score-popover__card">
+    <section className={`score-popover__card score-popover__card--${scope}`}>
       <div>
         <p>{title}</p>
         <strong>{stars}<span aria-hidden="true">★</span></strong>
@@ -79,17 +79,20 @@ function GlobalScoreDisplay() {
   return (
     <>
       <button ref={triggerRef} className="global-score-display" type="button" aria-haspopup="dialog" aria-expanded={isOpen} aria-controls="score-popover" onClick={() => (isOpen ? handleClose() : setIsOpen(true))}>
-        <span>治理星级</span><span className="global-score-display__star" aria-hidden="true">★</span><span>：{totalStars}</span>
+        <span className="global-score-display__label">治理星级</span>
+        <span className="global-score-display__star" aria-hidden="true">★</span>
+        <strong className="global-score-display__value">{totalStars}</strong>
       </button>
       {isOpen && (
         <div className="score-popover__backdrop" role="presentation" onClick={handleClose}>
           <section id="score-popover" className="score-popover" role="dialog" aria-modal="true" aria-labelledby="score-popover-title" onClick={(event) => event.stopPropagation()}>
             <header className="score-popover__header">
-              <div><p>GOVERNANCE ARCHIVE</p><h2 id="score-popover-title">我的治理星级</h2></div>
+              <div><p>水脉治理档案</p><h2 id="score-popover-title">我的治理星级</h2></div>
               <button ref={closeButtonRef} className="score-popover__close" type="button" aria-label="关闭治理星级面板" onClick={handleClose}>×</button>
             </header>
             <div className="score-popover__cards">
               <ScoreCard title="总治理星级" stars={totalStars} scope="all" clearLabel="清空全部治理星级" pendingScope={pendingClearScope} onRequestClear={setPendingClearScope} onCancelClear={() => setPendingClearScope(null)} onConfirmClear={handleConfirmClear} />
+              <p className="score-popover__basin-heading">三大流域治理星级</p>
               <ScoreCard title="黄河治理星级" stars={getBasinStars('yellow-river')} scope="yellow-river" clearLabel="清空黄河治理星级" pendingScope={pendingClearScope} onRequestClear={setPendingClearScope} onCancelClear={() => setPendingClearScope(null)} onConfirmClear={handleConfirmClear} />
               <ScoreCard title="长江治理星级" stars={getBasinStars('yangtze-river')} scope="yangtze-river" clearLabel="清空长江治理星级" pendingScope={pendingClearScope} onRequestClear={setPendingClearScope} onCancelClear={() => setPendingClearScope(null)} onConfirmClear={handleConfirmClear} />
               <ScoreCard title="珠江治理星级" stars={getBasinStars('pearl-river')} scope="pearl-river" clearLabel="清空珠江治理星级" pendingScope={pendingClearScope} onRequestClear={setPendingClearScope} onCancelClear={() => setPendingClearScope(null)} onConfirmClear={handleConfirmClear} />

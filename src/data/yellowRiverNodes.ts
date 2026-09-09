@@ -1,4 +1,5 @@
 import type { YellowRiverNode, YellowRiverNodeId } from '@/types/basin';
+import { getReleaseMediaUrl } from '@/lib/media';
 
 // 节点 ID 将在后续关卡路由和完成状态中复用，修改时需保持兼容。
 const yellowRiverNodes: YellowRiverNode[] = [
@@ -49,6 +50,13 @@ const yellowRiverNodes: YellowRiverNode[] = [
     summary: '松散黄土、集中降雨、坡地利用和植被变化造成强烈侵蚀，大量泥沙由坡面和沟壑进入黄河。',
     keywords: ['水土流失', '坡面侵蚀', '沟壑侵蚀', '泥沙来源', '退耕还林还草'],
     significance: '这是塑造黄河高含沙特征的核心生态节点。',
+    media: {
+      video: {
+        title: '黄土高原水土流失生态影像',
+        description: '影像结束后，小澜会邀请你一起寻找治理泥沙的根本方法。',
+        src: getReleaseMediaUrl('loess-plateau-intro.mp4'),
+      },
+    },
     position: { x: 652, y: 339, labelOffsetX: -66, labelOffsetY: -28 },
     isAvailable: true,
   },

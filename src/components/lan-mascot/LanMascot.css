@@ -10,6 +10,7 @@
 
 .lan-mascot {
   position: absolute;
+  z-index: 40;
   width: clamp(15rem, 30vw, 22rem);
   height: clamp(17rem, 34vw, 24rem);
   pointer-events: none;
@@ -48,8 +49,10 @@
   opacity: .92;
   pointer-events: none;
 }
+.lan-loess-footing { position: absolute; right: -1.9rem; bottom: 18%; width: 17rem; height: 7.6rem; opacity: .86; pointer-events: none; }
 
 .lan-water-bloom canvas { display: block; width: 100% !important; height: 100% !important; }
+.lan-loess-footing canvas { display: block; width: 100% !important; height: 100% !important; }
 
 /* 脚底承托层：与精灵下半身重叠，避免场景像一张独立图片悬在下方。 */
 .lan-footing__trigger {
@@ -215,6 +218,7 @@
   .lan-footing { width: 11.6rem; height: 16rem; }
   .lan-mascot__handle { width: 11.6rem; }
   .lan-water-bloom { right: -1.6rem; width: 14.5rem; height: 6.5rem; }
+  .lan-loess-footing { right: -1.6rem; width: 14.5rem; height: 6.5rem; }
 }
 
 @media (prefers-reduced-motion: reduce) {

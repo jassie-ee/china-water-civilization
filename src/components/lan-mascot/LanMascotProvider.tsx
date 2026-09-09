@@ -25,6 +25,8 @@ function sameDialogue(first: LanMascotConfig['dialogue'], second: LanMascotConfi
     && first.closeOnBackdrop === second.closeOnBackdrop
     && first.closeOnEscape === second.closeOnEscape
     && first.showClose === second.showClose
+    && first.media?.src === second.media?.src
+    && first.media?.title === second.media?.title
     && first.onAction === second.onAction
     && (first.choices?.length ?? 0) === (second.choices?.length ?? 0)
     && (first.choices ?? []).every((choice, index) => choice.id === second.choices?.[index]?.id

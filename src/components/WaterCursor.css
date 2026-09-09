@@ -56,10 +56,10 @@
   body,
   body * { cursor: none !important; }
 
-  body.chapter-one-intro-active,
-  body.chapter-one-intro-active * { cursor: auto !important; }
+body.chapter-intro-active,
+body.chapter-intro-active * { cursor: auto !important; }
 
-  body.chapter-one-intro-active .water-cursor { display: none; }
+body.chapter-intro-active .water-cursor { display: none; }
 }
 
 @media (prefers-reduced-motion: reduce) {

@@ -1,26 +1,44 @@
+import { useEffect, useState } from 'react';
+
 import type { RiverNodeVideo } from '@/types/basin';
 
 interface NodeVideoPanelProps {
   video?: RiverNodeVideo;
+  onComplete?: () => void;
+  skipLabel?: string;
 }
 
 /** 生态节点共用的视频容器；未配置素材时保持安静的导入占位。 */
-function NodeVideoPanel({ video }: NodeVideoPanelProps) {
+function NodeVideoPanel({ video, onComplete, skipLabel }: NodeVideoPanelProps) {
   const title = video?.title ?? '生态影像';
+  const [hasVideoError, setHasVideoError] = useState(false);
+
+  useEffect(() => {
+    setHasVideoError(false);
+  }, [video?.src]);
+
+  const videoSource = video?.src;
+  const canPlayVideo = videoSource !== undefined && !hasVideoError;
 
   return (
     <section className="node-video-panel" aria-label={title}>
-      {video?.src ? (
-        <video className="node-video-panel__media" controls preload="metadata" poster={video.poster}>
-          <source src={video.src} />
-          您的浏览器暂不支持视频播放。
-        </video>
+      {canPlayVideo ? (
+        <>
+          <video className="node-video-panel__media" controls preload="metadata" poster={video?.poster} onEnded={onComplete} onError={() => setHasVideoError(true)}>
+            <source src={videoSource} />
+            您的浏览器暂不支持视频播放。
+          </video>
+          {onComplete !== undefined && skipLabel !== undefined && <button className="node-video-panel__skip" type="button" onClick={onComplete}>{skipLabel}</button>}
+        </>
       ) : (
-        <div className="node-video-panel__placeholder" aria-hidden="true">
-          <span>VIDEO</span>
-          <strong>{title}</strong>
-          <small>{video?.description ?? '视频素材后续导入'}</small>
-        </div>
+        <>
+          <div className="node-video-panel__placeholder" aria-hidden="true">
+            <span>VIDEO</span>
+            <strong>{title}</strong>
+            <small>{video?.description ?? '视频素材后续导入'}</small>
+          </div>
+          {onComplete !== undefined && skipLabel !== undefined && <button className="node-video-panel__skip" type="button" onClick={onComplete}>{skipLabel}</button>}
+        </>
       )}
     </section>
   );

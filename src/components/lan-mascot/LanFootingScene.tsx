@@ -4,6 +4,7 @@ import { createPortal } from 'react-dom';
 import LanFootingOriginalPreview from './LanFootingOriginalPreview';
 import { lanFootingScenes, type LanFootingSceneId } from './lanMascotScenes';
 import LanWaterBloomFooting from './LanWaterBloomFooting';
+import LanLoessFooting from './LanLoessFooting';
 
 interface LanFootingSceneProps {
   sceneId: LanFootingSceneId;
@@ -20,6 +21,10 @@ function LanFootingScene({ sceneId }: LanFootingSceneProps) {
 
   if (scene.kind === 'water-bloom') {
     return <LanWaterBloomFooting />;
+  }
+
+  if (scene.kind === 'loess-bloom') {
+    return <LanLoessFooting />;
   }
 
   return (

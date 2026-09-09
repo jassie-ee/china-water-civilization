@@ -9,7 +9,7 @@ function isEditableTarget(target: Element): boolean {
 }
 
 function isNativeMediaPage(): boolean {
-  return document.body.classList.contains('chapter-one-intro-active');
+  return document.body.classList.contains('chapter-intro-active');
 }
 
 /** 全局微交互：点击立刻出现涟漪，再短暂延后原本的鼠标或触摸点击。 */
