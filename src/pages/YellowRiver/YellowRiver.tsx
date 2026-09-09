@@ -94,11 +94,6 @@ function YellowRiver() {
     setSceneRipple({ id: Date.now(), x: event.clientX || bounds.left + bounds.width / 2, y: event.clientY || bounds.top + bounds.height / 2 });
     selectNarrative(id);
   }, [selectNarrative]);
-  const handleContinue = useCallback((): void => {
-    const currentIndex = narratives.findIndex((item) => item.id === activeNarrativeId);
-    const next = narratives[currentIndex + 1];
-    if (next) selectNarrative(next.id);
-  }, [activeNarrativeId, selectNarrative]);
   const startLoessInteraction = useCallback((): void => {
     setLoessStep((current) => current === 'idle' ? 'question' : current);
     setIsLoessDialogueDismissed(false);
@@ -172,7 +167,6 @@ function YellowRiver() {
           <div className="yellow-river-chronicle__delta-mark" aria-hidden="true">河海之间</div>
           <div className="yellow-river-chronicle__delta-copy"><h3>{deltaNode.name}</h3><p>{deltaNode.summary}</p><p>{deltaNode.problemDescription}</p><ul>{deltaNode.governanceMeasures?.map((measure) => <li key={measure}>{measure}</li>)}</ul><blockquote>当黄河带着被妥善安放的水与沙抵达海岸，湿地便有机会继续生长，候鸟也能在这里停歇。</blockquote></div>
         </article>}
-        {activeNarrativeId !== 'delta' && <button className="yellow-river-chronicle__next" type="button" onClick={handleContinue}>继续下一站</button>}
       </main>
       <RiverSpiritGuide isOpen={isDialogueOpen} riverName="黄河" region={yellowRiverRegions[1]} node={activeNarrativeId === 'sediment' ? loessNode ?? null : null} dialogueOverride={loessDialogue} expressionOverride={loessStep === 'correct' ? 'happy' : loessDialogue ? 'thinking' : undefined} onDialogueClose={handleDialogueClose} />
     </section>
