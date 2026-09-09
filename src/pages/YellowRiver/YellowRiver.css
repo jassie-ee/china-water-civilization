@@ -153,6 +153,13 @@
 .yellow-river-detail-panel__section p, .yellow-river-detail-panel__section li { color: rgb(229 241 234 / 78%); font-size: .88rem; line-height: 1.7; }
 .yellow-river-detail-panel__section p { margin: 0; }
 .yellow-river-detail-panel__section ul { margin: 0; padding-left: 1.1rem; }
+.yellow-river-detail-panel__loess-narrative .yellow-river-detail-panel__section:first-child { padding-top: 1.15rem; }
+.yellow-river-detail-panel__loess-narrative strong { color: #f1d493; font-weight: 600; }
+.yellow-river-detail-panel__process-lead { margin-top: .72rem !important; color: rgb(238 224 179 / 86%) !important; }
+.yellow-river-detail-panel__process { display: flex; flex-wrap: wrap; gap: .35rem .44rem; align-items: center; margin-top: .56rem !important; padding: .7rem .78rem; border: 1px solid rgb(232 190 98 / 24%); border-radius: .72rem; color: #f3e0a7 !important; background: rgb(123 89 35 / 13%); font-family: var(--font-calligraphy); line-height: 1.55 !important; }
+.yellow-river-detail-panel__process b { color: #dfb85e; font-weight: 400; }
+.yellow-river-detail-panel__loess-reflection { margin: .68rem 0 0; padding: .82rem .92rem; border-left: 3px solid #d9b26b; color: rgb(239 246 230 / 88%); background: rgb(255 255 255 / 5%); font-family: var(--font-calligraphy); font-size: .93rem; line-height: 1.8; }
+.yellow-river-detail-panel__loess-wisdom { margin-top: .72rem !important; color: rgb(235 242 224 / 88%) !important; }
 .yellow-river-detail-panel__culture { padding: .8rem .9rem; border-left: 3px solid currentColor; background: rgb(255 255 255 / 5%); }
 .yellow-river-detail-panel__keywords { display: flex; flex-wrap: wrap; gap: .45rem; margin: 0 !important; padding: 0 !important; list-style: none; }
 .yellow-river-detail-panel__keywords li { padding: .28rem .5rem; border: 1px solid color-mix(in srgb, currentColor 44%, transparent); border-radius: 999px; font-size: .75rem; line-height: 1.3; }
@@ -205,6 +212,107 @@
 
 @media (prefers-reduced-motion: reduce) {
   .yellow-river-map__region, .yellow-river-map__region-shape, .yellow-river-map__region-mainstream, .yellow-river-map__region-label, .yellow-river-node-marker, .yellow-river-node-marker__glow, .yellow-river-node-marker__shape, .yellow-river-map__node-label, .yellow-river-detail-panel, .yellow-river-detail-panel__close, .yellow-river-detail-panel__start, .yellow-river-detail-panel__navigation button { transition: none; animation: none; }
+}
+
+/* 黄河独立长卷：按水沙因果组织，不再按上中下游或节点清单阅读。 */
+.yellow-river-chronicle {
+  --chronicle-accent: #b88c50;
+  position: relative;
+  min-height: 100svh;
+  overflow: hidden auto;
+  isolation: isolate;
+  padding: clamp(1.2rem, 3vw, 2.8rem) clamp(1rem, 5vw, 5.2rem) 3rem;
+  color: #edf2df;
+  background: radial-gradient(circle at 82% 8%, rgb(86 137 132 / 16%), transparent 28%), linear-gradient(135deg, #081f28 0%, #112c30 48%, #142d2c 100%);
+}
+.yellow-river-chronicle--system { --chronicle-accent: #67bcc5; background: radial-gradient(circle at 62% 25%, rgb(83 183 196 / 17%), transparent 31%), linear-gradient(135deg, #08212b, #10353c 52%, #112b31); }
+.yellow-river-chronicle--delta { --chronicle-accent: #8fc8a5; background: radial-gradient(circle at 76% 19%, rgb(112 190 150 / 17%), transparent 30%), linear-gradient(135deg, #0a252b, #153b39 55%, #1e3e32); }
+.yellow-river-chronicle__scene-background { position: absolute; z-index: 0; inset: 0; height: 100svh; overflow: hidden; pointer-events: none; }
+.yellow-river-chronicle__scene-background img { display: block; width: 100%; height: 100%; object-fit: cover; opacity: 1; transform: scale(1); animation: yellow-river-scene-enter 760ms cubic-bezier(.2, .75, .25, 1) both; }
+.yellow-river-chronicle::before { position: absolute; z-index: 1; inset: 0; min-height: 100svh; background: linear-gradient(112deg, rgb(4 24 29 / 56%), rgb(7 29 34 / 72%) 46%, rgb(7 26 30 / 62%)), linear-gradient(112deg, rgb(255 239 192 / 4%), transparent 32% 68%, rgb(109 199 191 / 6%)); content: ''; pointer-events: none; }
+.yellow-river-chronicle::after { position: absolute; z-index: 1; top: 17%; right: -12vw; width: min(72vw, 68rem); height: min(72vw, 68rem); border: 1px solid color-mix(in srgb, var(--chronicle-accent) 19%, transparent); border-radius: 48% 52% 44% 56% / 55% 43% 57% 45%; content: ''; opacity: .5; pointer-events: none; transform: rotate(-13deg); }
+.yellow-river-chronicle__route { position: absolute; z-index: 1; inset: 0; width: 100%; height: 100svh; overflow: visible; pointer-events: none; }
+.yellow-river-chronicle__route-path { fill: none; stroke: color-mix(in srgb, var(--chronicle-accent) 76%, #f5e7aa); stroke-width: .22; stroke-linecap: round; stroke-dasharray: 140; stroke-dashoffset: 140; filter: drop-shadow(0 0 .55rem color-mix(in srgb, var(--chronicle-accent) 58%, transparent)); animation: yellow-river-route-draw 760ms cubic-bezier(.2, .75, .25, 1) both; }
+.yellow-river-chronicle__ripple { position: fixed; z-index: 2; width: 0; height: 0; pointer-events: none; }
+.yellow-river-chronicle__ripple i { position: absolute; left: 50%; top: 50%; width: clamp(4.5rem, 11vw, 9.5rem); height: clamp(1.5rem, 3.5vw, 3rem); border: 1px solid color-mix(in srgb, var(--chronicle-accent) 76%, #f3e6b1); border-radius: 50%; box-shadow: 0 0 .7rem color-mix(in srgb, var(--chronicle-accent) 44%, transparent); opacity: 0; transform: translate(-50%, -50%) scale(.12); animation: yellow-river-station-ripple 860ms cubic-bezier(.2, .75, .25, 1) both; }
+.yellow-river-chronicle__ripple i:nth-child(2) { animation-delay: 90ms; }
+.yellow-river-chronicle__ripple i:nth-child(3) { animation-delay: 180ms; }
+.yellow-river-chronicle__atmosphere { position: fixed; z-index: 1; inset: 0; pointer-events: none; }
+.yellow-river-chronicle__atmosphere canvas { width: 100% !important; height: 100% !important; }
+.yellow-river-chronicle__header { position: relative; z-index: 3; display: flex; align-items: flex-start; justify-content: space-between; gap: 1rem; max-width: 90rem; margin: 0 auto; }
+.yellow-river-chronicle__back { display: inline-flex; min-height: 2rem; align-items: center; padding: .38rem .68rem; border: 1px solid rgb(233 216 166 / 25%); border-radius: 999px; color: rgb(238 237 215 / 76%); background: rgb(2 23 29 / 36%); font-family: var(--font-calligraphy); font-size: .78rem; letter-spacing: .08em; }
+.yellow-river-chronicle__back:hover { border-color: var(--chronicle-accent); color: #fff2c3; text-decoration: none; }
+.yellow-river-chronicle__title { margin-left: auto; text-align: right; }
+.yellow-river-chronicle__title p, .yellow-river-chronicle__heading > p { margin: 0; color: color-mix(in srgb, var(--chronicle-accent) 85%, #f3e8c3); font-family: var(--font-calligraphy); font-size: .76rem; letter-spacing: .16em; }
+.yellow-river-chronicle__title h1 { margin: .12rem 0 0; color: #f6f1dc; font-family: "Noto Serif SC", var(--font-calligraphy); font-size: clamp(1.45rem, 3vw, 2.35rem); font-weight: 500; letter-spacing: .12em; }
+.yellow-river-chronicle__anchors { position: relative; z-index: 3; display: flex; width: min(100%, 42rem); margin: clamp(2rem, 6vh, 4.8rem) auto 0; border-bottom: 1px solid rgb(220 213 178 / 20%); }
+.yellow-river-chronicle__anchors button { position: relative; isolation: isolate; flex: 1; min-height: 2.8rem; overflow: hidden; border: 1px solid transparent; border-radius: .72rem .72rem 0 0; color: rgb(225 231 211 / 58%); background: transparent; cursor: pointer; font-family: var(--font-calligraphy); font-size: clamp(.78rem, 1.3vw, .94rem); letter-spacing: .08em; transition: color 240ms ease, transform 280ms cubic-bezier(.2, .78, .25, 1), border-color 240ms ease, box-shadow 280ms ease; }
+.yellow-river-chronicle__anchors button span { position: relative; z-index: 2; display: inline-block; transition: transform 280ms cubic-bezier(.2, .78, .25, 1), text-shadow 240ms ease; }
+/* 轻量化 Fluid Glass：不用额外 GLB 或全屏 Canvas，仅在当前题签局部产生折射、水光和液面边缘。 */
+.yellow-river-chronicle__anchors button::before { position: absolute; z-index: 0; inset: .2rem .24rem .12rem; border: 1px solid rgb(222 239 222 / 18%); border-radius: .54rem .54rem .26rem .26rem; background: radial-gradient(circle at 20% 12%, rgb(255 255 246 / 30%), transparent 24%), radial-gradient(ellipse at 86% 106%, color-mix(in srgb, var(--chronicle-accent) 46%, transparent), transparent 58%), linear-gradient(112deg, rgb(232 247 232 / 15%), rgb(107 184 187 / 8%) 48%, rgb(12 39 45 / 18%)); box-shadow: inset 0 .06rem 0 rgb(255 255 255 / 28%), inset 0 -1rem 1.4rem rgb(7 33 41 / 10%), 0 .35rem 1.25rem rgb(0 12 19 / 8%); content: ''; opacity: 0; backdrop-filter: blur(2px) saturate(125%); transform: translateY(.7rem) scale(.86); transition: opacity 240ms ease, transform 320ms cubic-bezier(.2, .78, .25, 1); }
+.yellow-river-chronicle__anchors button::after { position: absolute; z-index: 1; top: 58%; left: -36%; width: 172%; height: 70%; border-top: 1px solid rgb(245 242 207 / 42%); border-radius: 50%; background: linear-gradient(90deg, transparent 6%, color-mix(in srgb, var(--chronicle-accent) 22%, transparent) 44%, rgb(236 250 236 / 26%) 52%, transparent 74%); content: ''; opacity: 0; transform: translateX(-12%) rotate(-3deg); transition: opacity 200ms ease, transform 620ms cubic-bezier(.18, .78, .18, 1); }
+.yellow-river-chronicle__anchors button:hover, .yellow-river-chronicle__anchors button:focus-visible, .yellow-river-chronicle__anchors button.is-active { border-color: color-mix(in srgb, var(--chronicle-accent) 58%, rgb(239 238 206 / 45%)); color: #fbf4d9; box-shadow: 0 .45rem 1.5rem rgb(0 17 24 / 16%); transform: translateY(-.18rem); }
+.yellow-river-chronicle__anchors button:hover span, .yellow-river-chronicle__anchors button:focus-visible span, .yellow-river-chronicle__anchors button.is-active span { transform: translateY(-.04rem); text-shadow: 0 0 .7rem color-mix(in srgb, var(--chronicle-accent) 70%, transparent); }
+.yellow-river-chronicle__anchors button:hover::before, .yellow-river-chronicle__anchors button:focus-visible::before, .yellow-river-chronicle__anchors button.is-active::before { opacity: 1; transform: translateY(0) scale(1); }
+.yellow-river-chronicle__anchors button:hover::after, .yellow-river-chronicle__anchors button:focus-visible::after, .yellow-river-chronicle__anchors button.is-active::after { opacity: 1; transform: translateX(38%) rotate(-3deg); }
+.yellow-river-chronicle__stage { position: relative; z-index: 3; width: min(100%, 75rem); margin: clamp(1.8rem, 5vh, 4rem) auto 0; }
+.yellow-river-chronicle__heading { max-width: 42rem; margin: 0 auto clamp(1.5rem, 4vh, 3rem); text-align: center; animation: yellow-river-chronicle-reveal 320ms cubic-bezier(.2, .75, .25, 1) both; }
+.yellow-river-chronicle__heading h2 { margin: .52rem 0 .56rem; color: #f7f1d8; font-family: "Noto Serif SC", var(--font-calligraphy); font-size: clamp(2rem, 5vw, 4.25rem); font-weight: 500; letter-spacing: .08em; line-height: 1.12; }
+.yellow-river-chronicle__heading span { color: rgb(229 238 220 / 75%); font-size: clamp(.86rem, 1.3vw, 1rem); line-height: 1.7; }
+.yellow-river-chronicle__scene { animation: yellow-river-chronicle-reveal 320ms cubic-bezier(.2, .75, .25, 1) both; }
+.yellow-river-chronicle__scene--sediment { display: grid; grid-template-columns: minmax(0, .86fr) minmax(19rem, 1.14fr); gap: clamp(1.2rem, 3vw, 3.4rem); align-items: start; }
+.yellow-river-chronicle__media { position: sticky; top: 1rem; }
+.yellow-river-chronicle__media .node-video-panel { margin: 0; border-color: rgb(214 184 108 / 43%); box-shadow: 0 1.5rem 4rem rgb(0 0 0 / 28%), inset 0 0 4rem rgb(177 125 58 / 12%); }
+.yellow-river-chronicle__interaction { display: inline-flex; margin-top: .85rem; padding: .55rem .95rem; border: 1px solid rgb(224 191 108 / 65%); border-radius: 999px; color: #fff3cb; background: linear-gradient(135deg, rgb(32 123 143 / 86%), rgb(173 122 45 / 80%)); box-shadow: 0 .4rem 1.2rem rgb(0 26 35 / 26%); cursor: pointer; font-family: var(--font-calligraphy); letter-spacing: .08em; }
+.yellow-river-chronicle__reading { max-height: min(63vh, 45rem); padding: 0 clamp(.2rem, 1vw, .75rem) .5rem; overflow: auto; scrollbar-color: rgb(220 182 91 / 48%) transparent; }
+.yellow-river-chronicle__reading .yellow-river-detail-panel__loess-narrative { max-width: 43rem; }
+.yellow-river-detail-panel__loess-narrative--compact .yellow-river-detail-panel__section:first-child { padding-top: 0; }
+.yellow-river-chronicle__scene--system { display: grid; grid-template-columns: minmax(18rem, .95fr) minmax(22rem, 1.05fr); align-items: center; min-height: min(45rem, 58vh); gap: clamp(1.5rem, 7vw, 7rem); padding: clamp(1.2rem, 4vw, 4rem) clamp(.2rem, 2vw, 1.5rem); }
+.yellow-river-chronicle__chain { position: relative; display: grid; gap: clamp(1.1rem, 3vh, 2.2rem); }
+.yellow-river-chronicle__chain::before { position: absolute; top: 1.3rem; bottom: 1.3rem; left: 1.25rem; width: 1px; background: linear-gradient(180deg, rgb(214 184 109 / 45%), rgb(81 179 192 / 78%), rgb(114 191 170 / 42%)); content: ''; }
+.yellow-river-chronicle__chain button { position: relative; display: grid; grid-template-columns: 2.6rem 1fr; column-gap: .8rem; width: 100%; padding: .15rem 0 .15rem 0; border: 0; color: rgb(229 237 216 / 64%); background: transparent; cursor: pointer; text-align: left; }
+.yellow-river-chronicle__chain em { display: grid; z-index: 1; width: 2.5rem; height: 2.5rem; place-items: center; border: 1px solid rgb(218 190 113 / 42%); border-radius: 50%; color: #efd98d; background: #0c2a31; font-family: "Noto Serif SC", var(--font-calligraphy); font-style: normal; }
+.yellow-river-chronicle__chain strong { align-self: end; color: inherit; font-family: var(--font-calligraphy); font-size: clamp(1rem, 1.7vw, 1.35rem); font-weight: 500; letter-spacing: .08em; transition: color 180ms ease; }
+.yellow-river-chronicle__chain span { grid-column: 2; color: rgb(180 211 202 / 62%); font-size: .76rem; line-height: 1.4; }
+.yellow-river-chronicle__chain button:hover strong, .yellow-river-chronicle__chain button:focus-visible strong, .yellow-river-chronicle__chain button.is-active strong { color: #fff1be; }
+.yellow-river-chronicle__chain button.is-active em { border-color: #f0d58b; color: #10323a; background: #d9bb6b; box-shadow: 0 0 1.4rem rgb(217 187 107 / 38%); }
+.yellow-river-chronicle__engineering-copy { padding: clamp(1.35rem, 3vw, 2.5rem); border-left: 1px solid rgb(104 193 201 / 35%); background: linear-gradient(100deg, rgb(71 163 170 / 10%), transparent 74%); }
+.yellow-river-chronicle__engineering-copy > p { margin: 0; color: #86cdd1; font-size: .78rem; letter-spacing: .15em; }
+.yellow-river-chronicle__engineering-copy h3 { margin: .55rem 0 .78rem; color: #f3efd9; font-family: "Noto Serif SC", var(--font-calligraphy); font-size: clamp(1.55rem, 3vw, 2.6rem); font-weight: 500; }
+.yellow-river-chronicle__engineering-copy > span { display: block; max-width: 35rem; color: rgb(229 238 220 / 78%); line-height: 1.9; }
+.yellow-river-chronicle__engineering-copy blockquote, .yellow-river-chronicle__delta-copy blockquote { margin: 1.15rem 0 0; padding-left: 1rem; border-left: 2px solid var(--chronicle-accent); color: rgb(214 234 220 / 84%); font-family: var(--font-calligraphy); line-height: 1.8; }
+.yellow-river-chronicle__scene--delta { display: grid; grid-template-columns: minmax(13rem, .65fr) minmax(22rem, 1.35fr); gap: clamp(1.4rem, 5vw, 6rem); align-items: center; min-height: min(42rem, 53vh); padding: clamp(1rem, 3vw, 3rem); }
+.yellow-river-chronicle__delta-mark { color: rgb(176 229 190 / 72%); font-family: "Noto Serif SC", var(--font-calligraphy); font-size: clamp(2.4rem, 7vw, 6.5rem); letter-spacing: .16em; line-height: 1.15; writing-mode: vertical-rl; text-shadow: 0 0 2rem rgb(112 199 157 / 24%); }
+.yellow-river-chronicle__delta-copy { max-width: 43rem; }
+.yellow-river-chronicle__delta-copy h3 { margin: 0 0 1rem; color: #f1f1da; font-family: "Noto Serif SC", var(--font-calligraphy); font-size: clamp(1.65rem, 3vw, 2.7rem); font-weight: 500; }
+.yellow-river-chronicle__delta-copy p, .yellow-river-chronicle__delta-copy li { color: rgb(227 240 223 / 78%); line-height: 1.85; }
+.yellow-river-chronicle__delta-copy ul { margin: 1rem 0 0; padding-left: 1.2rem; }
+.yellow-river-chronicle__next { display: flex; margin: clamp(1.5rem, 5vh, 3rem) auto 0; padding: .58rem 1.15rem; border: 1px solid color-mix(in srgb, var(--chronicle-accent) 66%, #f1dda0); border-radius: 999px; color: #fff2ca; background: linear-gradient(135deg, rgb(8 55 65 / 72%), color-mix(in srgb, var(--chronicle-accent) 45%, rgb(74 62 32 / 64%))); box-shadow: 0 .4rem 1.25rem rgb(0 18 23 / 26%); cursor: pointer; font-family: var(--font-calligraphy); letter-spacing: .1em; }
+.yellow-river-chronicle__next:hover { filter: brightness(1.12); transform: translateY(-.1rem); }
+.yellow-river-chronicle button:focus-visible, .yellow-river-chronicle a:focus-visible { outline: 2px solid #f3df9f; outline-offset: 3px; }
+@keyframes yellow-river-chronicle-reveal { from { opacity: 0; transform: translateY(.7rem); } to { opacity: 1; transform: translateY(0); } }
+@keyframes yellow-river-scene-enter { from { opacity: 0; transform: scale(1.018); } to { opacity: 1; transform: scale(1); } }
+@keyframes yellow-river-route-draw { to { stroke-dashoffset: 0; } }
+@keyframes yellow-river-station-ripple { 0% { opacity: 0; transform: translate(-50%, -50%) scale(.12); } 16% { opacity: .82; } 100% { opacity: 0; transform: translate(-50%, -50%) scale(1.18); } }
+@media (max-width: 760px) {
+  .yellow-river-chronicle { padding: 1rem 1rem 2rem; }
+  .yellow-river-chronicle__header { align-items: center; }
+  .yellow-river-chronicle__title p { display: none; }
+  .yellow-river-chronicle__title h1 { font-size: 1.22rem; }
+  .yellow-river-chronicle__anchors { margin-top: 2rem; }
+  .yellow-river-chronicle__anchors button { min-height: 2.55rem; font-size: .73rem; }
+  .yellow-river-chronicle__heading h2 { font-size: clamp(1.9rem, 10vw, 3rem); }
+  .yellow-river-chronicle__scene--sediment, .yellow-river-chronicle__scene--system, .yellow-river-chronicle__scene--delta { grid-template-columns: 1fr; min-height: 0; }
+  .yellow-river-chronicle__media { position: relative; top: auto; }
+  .yellow-river-chronicle__reading { max-height: none; overflow: visible; }
+  .yellow-river-chronicle__scene--system { gap: 2rem; padding: .5rem 0; }
+  .yellow-river-chronicle__engineering-copy { padding: 1.15rem 0 0; border-top: 1px solid rgb(104 193 201 / 35%); border-left: 0; }
+  .yellow-river-chronicle__scene--delta { gap: 1.2rem; }
+  .yellow-river-chronicle__delta-mark { font-size: 2rem; writing-mode: horizontal-tb; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .yellow-river-chronicle *, .yellow-river-chronicle *::before, .yellow-river-chronicle *::after { animation: none !important; transition: none !important; }
+  .yellow-river-chronicle__route-path { stroke-dashoffset: 0; }
 }
 
 /* 黄河图册舞台：保留共用详情与长江样式，仅覆盖黄河子页。 */

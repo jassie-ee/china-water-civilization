@@ -155,6 +155,15 @@ function LanMascotProvider({ children }: LanMascotProviderProps) {
     });
   }, []);
 
+  // 对话开关必须保持引用稳定。部分页面会在进入时通过 effect 自动打开导览；
+  // 若此处每次状态变化都新建函数，关闭后 effect 会再次执行并立刻重开对话。
+  const closeDialogue = useCallback((pageId: string): void => {
+    setDialogueOpen(pageId, false);
+  }, [setDialogueOpen]);
+  const openDialogue = useCallback((pageId: string): void => {
+    setDialogueOpen(pageId, true);
+  }, [setDialogueOpen]);
+
   const activeMascot = Object.values(state.records).find((record) => record.config.routePath === location.pathname)
     ?? state.records[defaultLanMascotConfig.pageId]
     ?? null;
@@ -163,13 +172,13 @@ function LanMascotProvider({ children }: LanMascotProviderProps) {
   const contextValue = useMemo<LanMascotContextValue>(() => ({
     activeMascot,
     activeFooting,
-    closeDialogue: (pageId) => setDialogueOpen(pageId, false),
-    openDialogue: (pageId) => setDialogueOpen(pageId, true),
+    closeDialogue,
+    openDialogue,
     registerFooting,
     registerMascot,
     setExpression,
     setPosition,
-  }), [activeFooting, activeMascot, registerFooting, registerMascot, setDialogueOpen, setExpression, setPosition]);
+  }), [activeFooting, activeMascot, closeDialogue, openDialogue, registerFooting, registerMascot, setExpression, setPosition]);
 
   return <LanMascotContext.Provider value={contextValue}>{children}</LanMascotContext.Provider>;
 }

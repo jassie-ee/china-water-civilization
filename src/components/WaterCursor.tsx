@@ -30,6 +30,7 @@ function WaterCursor() {
       ripple.className = 'water-cursor__ripple';
       ripple.style.left = `${x}px`;
       ripple.style.top = `${y}px`;
+      ripple.append(document.createElement('b'));
       for (let index = 0; index < 3; index += 1) {
         ripple.append(document.createElement('i'));
       }

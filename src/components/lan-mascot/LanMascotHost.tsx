@@ -13,12 +13,7 @@ function LanMascotHost() {
   };
 
   return (
-    <div className="lan-mascot-host" onKeyDown={(event) => {
-      if (event.key === 'Escape' && activeMascot.isDialogueOpen) {
-        event.preventDefault();
-        handleCloseDialogue();
-      }
-    }}>
+    <div className="lan-mascot-host">
       <LanMascot
         record={activeMascot}
         onCloseDialogue={handleCloseDialogue}

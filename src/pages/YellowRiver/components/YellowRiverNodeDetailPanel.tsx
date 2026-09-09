@@ -5,6 +5,7 @@ import type { RiverNode, RiverRegion } from '@/types/basin';
 import RiverNarrativeSurface from '@/components/layout/RiverNarrativeSurface';
 
 import NodeVideoPanel from './NodeVideoPanel';
+import LoessPlateauNarrative from './LoessPlateauNarrative';
 
 interface YellowRiverNodeDetailPanelProps {
   node: RiverNode;
@@ -97,27 +98,28 @@ function YellowRiverNodeDetailPanel({
           onComplete={node.id === 'loess-plateau' ? onStartEcologicalInteraction : undefined}
           skipLabel={node.id === 'loess-plateau' ? '跳过影像，开始互动' : undefined}
         />}
+        {node.id === 'loess-plateau' && <LoessPlateauNarrative />}
         {node.id === 'loess-plateau' && showContinueInteraction && onStartEcologicalInteraction && (
           <button className="yellow-river-detail-panel__continue-interaction" type="button" onClick={onStartEcologicalInteraction}>继续互动</button>
         )}
-        {node.summary && <p className="yellow-river-detail-panel__introduction">{node.summary}</p>}
-        {node.problemDescription && <DetailSection title="这里发生了什么？"><p>{node.problemDescription}</p></DetailSection>}
-        {node.causes && node.causes.length > 0 && (
+        {node.id !== 'loess-plateau' && node.summary && <p className="yellow-river-detail-panel__introduction">{node.summary}</p>}
+        {node.id !== 'loess-plateau' && node.problemDescription && <DetailSection title="这里发生了什么？"><p>{node.problemDescription}</p></DetailSection>}
+        {node.id !== 'loess-plateau' && node.causes && node.causes.length > 0 && (
           <DetailSection title="问题如何形成？"><ul>{node.causes.map((cause) => <li key={cause}>{cause}</li>)}</ul></DetailSection>
         )}
-        {node.governanceMeasures && node.governanceMeasures.length > 0 && (
+        {node.id !== 'loess-plateau' && node.governanceMeasures && node.governanceMeasures.length > 0 && (
           <DetailSection title="治理与工程措施"><ul>{node.governanceMeasures.map((measure) => <li key={measure}>{measure}</li>)}</ul></DetailSection>
         )}
-        {node.ecologicalImpacts && node.ecologicalImpacts.length > 0 && (
+        {node.id !== 'loess-plateau' && node.ecologicalImpacts && node.ecologicalImpacts.length > 0 && (
           <DetailSection title="治理带来了什么变化？"><ul>{node.ecologicalImpacts.map((impact) => <li key={impact}>{impact}</li>)}</ul></DetailSection>
         )}
-        {node.culturalMeaning && <DetailSection title="这体现了怎样的治水智慧？"><p className="yellow-river-detail-panel__culture">{node.culturalMeaning}</p></DetailSection>}
+        {node.id !== 'loess-plateau' && node.culturalMeaning && <DetailSection title="这体现了怎样的治水智慧？"><p className="yellow-river-detail-panel__culture">{node.culturalMeaning}</p></DetailSection>}
         {node.keywords && node.keywords.length > 0 && (
           <DetailSection title="核心关键词">
             <ul className="yellow-river-detail-panel__keywords">{node.keywords.map((keyword) => <li key={keyword}>{keyword}</li>)}</ul>
           </DetailSection>
         )}
-        {node.significance && <p className="yellow-river-detail-panel__summary">{node.significance}</p>}
+        {node.id !== 'loess-plateau' && node.significance && <p className="yellow-river-detail-panel__summary">{node.significance}</p>}
       </div>
 
       <footer className="yellow-river-detail-panel__navigation">

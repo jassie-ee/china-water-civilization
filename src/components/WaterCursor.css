@@ -38,9 +38,24 @@
   animation: water-ripple-expand 1.2s cubic-bezier(.16, .72, .3, 1) forwards;
 }
 
-.water-cursor__ripple i:nth-child(1) { width: 1.8rem; height: .78rem; }
-.water-cursor__ripple i:nth-child(2) { width: 1.8rem; height: .78rem; animation-delay: 130ms; }
-.water-cursor__ripple i:nth-child(3) { width: 1.8rem; height: .78rem; animation-delay: 260ms; }
+/* 保留三层水纹，并补充水滴落点的一次明亮水花。 */
+.water-cursor__ripple b {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: .52rem;
+  height: .52rem;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgb(245 255 255 / 96%) 0 16%, rgb(110 224 240 / 74%) 32%, rgb(74 187 219 / 16%) 65%, transparent 72%);
+  box-shadow: 0 0 .95rem rgb(102 224 242 / 68%);
+  opacity: 0;
+  transform: translate(-50%, -50%) scale(.4);
+  animation: water-ripple-impact 620ms cubic-bezier(.16, .72, .3, 1) forwards;
+}
+
+.water-cursor__ripple i:nth-of-type(1) { width: 1.8rem; height: .78rem; }
+.water-cursor__ripple i:nth-of-type(2) { width: 1.8rem; height: .78rem; animation-delay: 130ms; }
+.water-cursor__ripple i:nth-of-type(3) { width: 1.8rem; height: .78rem; animation-delay: 260ms; }
 
 @keyframes water-ripple-lifetime {
   from { opacity: 1; }
@@ -50,6 +65,12 @@
 @keyframes water-ripple-expand {
   0% { opacity: .74; transform: translate(-50%, -50%) scale(.12); }
   100% { opacity: 0; transform: translate(-50%, -50%) scale(10); }
+}
+
+@keyframes water-ripple-impact {
+  0% { opacity: 0; transform: translate(-50%, -50%) scale(.35); }
+  18% { opacity: 1; transform: translate(-50%, -50%) scale(1.15); }
+  100% { opacity: 0; transform: translate(-50%, -50%) scale(3.4); }
 }
 
 @media (hover: hover) and (pointer: fine) {

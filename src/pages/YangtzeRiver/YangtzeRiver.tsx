@@ -126,7 +126,13 @@ function YangtzeRiver() {
               onNodePreview={previewNode}
               onBlankClick={() => setIsDialogueOpen(false)}
             />
-            <RiverSpiritGuide isOpen={isDialogueOpen} riverName="长江" region={selectedRegion} node={selectedDetailNode} />
+            <RiverSpiritGuide
+              isOpen={isDialogueOpen}
+              riverName="长江"
+              region={selectedRegion}
+              node={selectedDetailNode}
+              onDialogueClose={() => setIsDialogueOpen(false)}
+            />
           </div>
         </section>
       </main>
