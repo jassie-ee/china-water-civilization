@@ -25,14 +25,36 @@
   --spirit-tilt: 2deg;
 }
 
-.chapter-spirit__image {
+.chapter-spirit__picture {
   position: relative;
   z-index: 2;
   display: block;
   width: 100%;
   height: 100%;
+}
+
+.chapter-spirit__image {
+  display: block;
+  width: 100%;
+  height: 100%;
   object-fit: contain;
   filter: drop-shadow(0 .8rem .75rem rgb(0 11 15 / 24%));
+}
+
+/*
+ * The loop is exported on a 16:9 transparent canvas. Keep the chapter
+ * mascot's square footprint, then crop the empty side margins so the animated
+ * character remains as legible as the former square illustration.
+ */
+.chapter-spirit__image--animated {
+  object-fit: cover;
+  transform: scale(1.34);
+  transform-origin: center;
+}
+
+.chapter-spirit__image--custom {
+  object-fit: contain;
+  transform: scale(1.04);
 }
 
 .chapter-spirit__waterlight {

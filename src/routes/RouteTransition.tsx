@@ -6,6 +6,7 @@ import ChapterOverview from '@/pages/ChapterOverview/ChapterOverview';
 import CosmicFuture from '@/pages/CosmicFuture/CosmicFuture';
 import GovernanceLevel from '@/pages/GovernanceLevel/GovernanceLevel';
 import Home from '@/pages/Home/Home';
+import ModelDemo from '@/pages/ModelDemo/ModelDemo';
 import NotFound from '@/pages/NotFound/NotFound';
 import WorldWater from '@/pages/WorldWater/WorldWater';
 
@@ -27,6 +28,7 @@ function RouteTransition() {
         <Route path="/basins/yellow-river/nodes/:nodeId" element={<GovernanceLevel />} />
         <Route path="/basins/yangtze-river" element={<BasinDetail basinId="yangtze-river" />} />
         <Route path="/map" element={<Navigate to="/basins" replace />} />
+        <Route path="/demos/3d-pipeline" element={<ModelDemo />} />
         <Route path="*" element={<NotFound />} />
       </Routes>
     </div>

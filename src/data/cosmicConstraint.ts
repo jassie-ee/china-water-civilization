@@ -9,8 +9,9 @@ const cosmicActs: CosmicAct[] = [
     title: '碎片拼合',
     subtitle: 'EARTH → HEAVEN / MEMORY ASSEMBLY',
     story: '三块散落的水脉记忆，分别来自九州大地、同舟之路和一路同行的你。把它们拼回一起，才看得见完整的水脉。',
-    x: 18,
-    y: 24,
+    // Keep the first act below the "源" shard so its label has a clean reading zone.
+    x: 22,
+    y: 34,
   },
   {
     id: 'galaxy-voyage',

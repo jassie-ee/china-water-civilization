@@ -1,16 +1,15 @@
-import { useMemo, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 
 import { yellowRiverRegions } from '@/data/yellowRiverRegions';
 import { yellowRiverGovernanceNodeIds, yellowRiverNodes } from '@/data/yellowRiverNodes';
 import { governanceDataSource } from '@/services/governanceDataSource';
 import type { YellowRiverNode, YellowRiverNodeId, YellowRiverRegionId } from '@/types/basin';
+import RiverSpiritDialogue from '@/components/lan/RiverSpiritDialogue';
 
 import YellowRiverMap from './components/YellowRiverMap';
-import YellowRiverInfoPanel from './components/YellowRiverInfoPanel';
 import YellowRiverNodeDetailPanel from './components/YellowRiverNodeDetailPanel';
 import YellowRiverGovernancePanel from './components/YellowRiverGovernancePanel';
-
 import './YellowRiver.css';
 
 function hasDetailContent(node: YellowRiverNode): boolean {
@@ -27,7 +26,7 @@ function hasDetailContent(node: YellowRiverNode): boolean {
 const detailNodes = yellowRiverNodes
   .filter(hasDetailContent)
   .slice()
-  .sort((firstNode, secondNode) => firstNode.position.x - secondNode.position.x);
+  .sort((firstNode, secondNode) => firstNode.sequence - secondNode.sequence);
 
 const governanceNodes = yellowRiverGovernanceNodeIds
   .map((nodeId) => detailNodes.find((node) => node.id === nodeId))
@@ -61,11 +60,12 @@ function YellowRiver() {
   const restoredModalState = getRestoredModalState(location.state);
   const restoredNodeId = restoredModalState.nodeId;
   const restoredNode = yellowRiverNodes.find((node) => node.id === restoredNodeId) ?? null;
-  const [selectedRegionId, setSelectedRegionId] = useState<YellowRiverRegionId>(restoredNode?.regionId ?? 'upper');
+  const [selectedRegionId, setSelectedRegionId] = useState<YellowRiverRegionId | null>(restoredNode?.regionId ?? null);
   const [previewRegionId, setPreviewRegionId] = useState<YellowRiverRegionId | null>(null);
   const [selectedNodeId, setSelectedNodeId] = useState<YellowRiverNodeId | null>(restoredNodeId);
   const [previewNodeId, setPreviewNodeId] = useState<YellowRiverNodeId | null>(null);
   const [modalMode, setModalMode] = useState<YellowRiverModalMode>(restoredModalState.modalMode);
+  const [isDialogueOpen, setIsDialogueOpen] = useState(false);
   const selectedDetailNode = useMemo(
     () => detailNodes.find((node) => node.id === selectedNodeId) ?? null,
     [selectedNodeId],
@@ -78,6 +78,15 @@ function YellowRiver() {
   const handleRegionPreview = (regionId: YellowRiverRegionId | null): void => {
     setPreviewRegionId(regionId);
   };
+
+  useEffect(() => {
+    const handleKeyDown = (event: KeyboardEvent): void => {
+      if (event.key === 'Escape') setIsDialogueOpen(false);
+    };
+
+    window.addEventListener('keydown', handleKeyDown);
+    return () => window.removeEventListener('keydown', handleKeyDown);
+  }, []);
 
   /** 节点预览只改变地图高亮，不改变右侧已选河段的说明内容。 */
   const handleNodePreview = (nodeId: YellowRiverNodeId | null): void => {
@@ -93,6 +102,7 @@ function YellowRiver() {
     setSelectedNodeId(null);
     setPreviewNodeId(null);
     setModalMode('detail');
+    setIsDialogueOpen(true);
   };
 
   const handleNodeSelect = (nodeId: YellowRiverNodeId): void => {
@@ -104,6 +114,7 @@ function YellowRiver() {
     setPreviewRegionId(null);
     setSelectedRegionId(node.regionId);
     setModalMode('detail');
+    setIsDialogueOpen(false);
   };
 
   const handleDetailClose = (): void => {
@@ -134,40 +145,36 @@ function YellowRiver() {
   const governanceLevel = selectedDetailNode
     ? governanceDataSource.getQuestionLevelConfig(selectedDetailNode.id)
     : null;
-
   return (
-    <section className="yellow-river-page">
+    <section className="yellow-river-page yellow-river-page--atlas" onClick={() => setIsDialogueOpen(false)}>
       <header className="yellow-river-page__header">
         <Link className="yellow-river-page__back" to="/basins" state={{ basinOverviewEntry: 'returning' }}>
           返回中国流域总览
         </Link>
-        <p className="yellow-river-page__breadcrumb">中国流域总览 / 黄河流域</p>
-        <h1>黄河流域治理系统</h1>
-        <p>上中下游是对黄河水循环全过程的空间拆解，分别对应水源形成、水沙迁移与风险承载。</p>
       </header>
 
       <main className="yellow-river-page__content">
-        <section className="yellow-river-page__map-section" aria-labelledby="yellow-river-map-title">
-          <div className="yellow-river-page__map-heading">
-            <p className="yellow-river-page__eyebrow">YELLOW RIVER SYSTEM</p>
-            <h2 id="yellow-river-map-title">黄河流域示意图</h2>
-            <p>选择河段或节点，查看不同区域的生态功能与治理重点。</p>
+        <section className="yellow-river-page__map-section" aria-label="黄河上中下游互动水脉地图">
+          <div className="yellow-river-page__map-stage">
+            <YellowRiverMap
+              selectedRegionId={selectedRegionId}
+              previewRegionId={previewRegionId}
+              selectedNodeId={selectedNodeId}
+              previewNodeId={previewNodeId}
+              onRegionSelect={handleRegionSelect}
+              onRegionPreview={handleRegionPreview}
+              onNodeSelect={handleNodeSelect}
+              onNodePreview={handleNodePreview}
+              onBlankClick={() => setIsDialogueOpen(false)}
+            />
+            <RiverSpiritDialogue
+              isOpen={isDialogueOpen}
+              riverName="黄河"
+              region={selectedRegion}
+              node={selectedDetailNode}
+            />
           </div>
-          <YellowRiverMap
-            selectedRegionId={selectedRegionId}
-            previewRegionId={previewRegionId}
-            selectedNodeId={selectedNodeId}
-            previewNodeId={previewNodeId}
-            onRegionSelect={handleRegionSelect}
-            onRegionPreview={handleRegionPreview}
-            onNodeSelect={handleNodeSelect}
-            onNodePreview={handleNodePreview}
-          />
         </section>
-
-        <aside className="yellow-river-page__reference-panel" aria-label="黄河流域查阅栏">
-          <YellowRiverInfoPanel region={selectedRegion} />
-        </aside>
       </main>
       {selectedDetailNode && selectedDetailRegion && (
         <div className="yellow-river-detail-modal" role="presentation" onClick={handleDetailClose}>

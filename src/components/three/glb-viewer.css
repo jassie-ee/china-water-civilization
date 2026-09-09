@@ -1,0 +1,97 @@
+.glb-viewer {
+  position: relative;
+  min-height: 20rem;
+  overflow: hidden;
+  isolation: isolate;
+  border: 1px solid rgb(188 174 119 / 38%);
+  background:
+    radial-gradient(circle at 50% 42%, rgb(104 166 160 / 18%), transparent 44%),
+    linear-gradient(145deg, rgb(9 37 43 / 96%), rgb(11 53 57 / 88%));
+  color: #e9efd8;
+}
+
+.glb-viewer__canvas {
+  position: relative;
+  z-index: 1;
+  display: block;
+  width: 100%;
+  height: 100%;
+  cursor: grab;
+  outline: none;
+}
+
+.glb-viewer__canvas:active {
+  cursor: grabbing;
+}
+
+.glb-viewer__wash {
+  position: absolute;
+  z-index: 2;
+  inset: 8% 12%;
+  pointer-events: none;
+  border-radius: 50%;
+  background: radial-gradient(ellipse, rgb(206 232 202 / 10%), transparent 68%);
+  box-shadow: 0 0 5rem rgb(61 146 150 / 14%);
+}
+
+.glb-viewer__message,
+.glb-viewer__hint {
+  position: absolute;
+  z-index: 3;
+  pointer-events: none;
+  margin: 0;
+  color: rgb(235 239 216 / 86%);
+  font-family: var(--font-calligraphy, "STKaiti", "KaiTi", serif);
+  letter-spacing: .08em;
+  text-align: center;
+}
+
+.glb-viewer__message {
+  top: 50%;
+  left: 50%;
+  display: grid;
+  gap: .3rem;
+  transform: translate(-50%, -50%);
+  font-size: 1.15rem;
+}
+
+.glb-viewer__message span {
+  color: rgb(235 239 216 / 58%);
+  font-family: "Microsoft YaHei", "PingFang SC", sans-serif;
+  font-size: .72rem;
+  letter-spacing: .04em;
+  white-space: nowrap;
+}
+
+.glb-viewer__hint {
+  right: 1rem;
+  bottom: .85rem;
+  color: rgb(235 239 216 / 58%);
+  font-family: "Microsoft YaHei", "PingFang SC", sans-serif;
+  font-size: .7rem;
+  letter-spacing: .06em;
+}
+
+.glb-viewer[data-status="loading"]::after {
+  position: absolute;
+  z-index: 3;
+  top: calc(50% + 2.3rem);
+  left: 50%;
+  width: 3rem;
+  height: 1px;
+  background: rgb(225 191 108 / 76%);
+  content: "";
+  transform: translateX(-50%);
+  animation: glb-viewer-loading-line 1.4s ease-in-out infinite;
+}
+
+@keyframes glb-viewer-loading-line {
+  0%, 100% { opacity: .3; transform: translateX(-50%) scaleX(.45); }
+  50% { opacity: 1; transform: translateX(-50%) scaleX(1); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .glb-viewer[data-status="loading"]::after {
+    animation: none;
+  }
+}

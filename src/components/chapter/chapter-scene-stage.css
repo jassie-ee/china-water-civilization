@@ -1,0 +1,115 @@
+.chapter-scene-stage {
+  position: absolute;
+  z-index: 0;
+  inset: 0;
+  overflow: hidden;
+  margin: 0;
+  pointer-events: none;
+  background: transparent;
+}
+
+.chapter-scene-stage__canvas {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+}
+
+.chapter-scene-stage__media {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  filter: saturate(.72) contrast(1.04) brightness(.62);
+  opacity: .86;
+}
+
+.chapter-scene-stage__wash {
+  position: absolute;
+  z-index: 1;
+  inset: 0;
+  background:
+    linear-gradient(90deg, rgb(6 29 36 / 10%) 0%, transparent 48%, rgb(5 24 31 / 12%) 100%),
+    linear-gradient(0deg, rgb(4 22 28 / 14%) 0%, transparent 48%, rgb(4 19 25 / 8%) 100%);
+}
+
+.chapter-scene-stage__meta {
+  position: absolute;
+  z-index: 2;
+  top: .9rem;
+  right: 1rem;
+  display: grid;
+  gap: .2rem;
+  color: rgb(245 228 171 / 74%);
+  text-align: right;
+  pointer-events: none;
+}
+
+.chapter-scene-stage__meta span {
+  font-size: .62rem;
+  letter-spacing: .16em;
+}
+
+.chapter-scene-stage__meta small {
+  color: rgb(220 229 207 / 58%);
+  font-size: .58rem;
+  letter-spacing: .08em;
+}
+
+.chapter-scene-stage__play {
+  position: absolute;
+  z-index: 4;
+  right: 1rem;
+  bottom: 1rem;
+  display: inline-flex;
+  gap: .45rem;
+  align-items: center;
+  min-height: 2.5rem;
+  padding: .45rem .7rem;
+  border: 1px solid rgb(235 205 133 / 68%);
+  color: rgb(247 232 187 / 92%);
+  background: rgb(6 28 34 / 58%);
+  cursor: pointer;
+  font: inherit;
+  font-family: var(--font-calligraphy, "STKaiti", "KaiTi", serif);
+  font-size: .75rem;
+  letter-spacing: .08em;
+  pointer-events: auto;
+  transition: background 180ms ease, color 180ms ease, transform 180ms ease;
+}
+
+.chapter-scene-stage__play span {
+  color: #efd083;
+  font-family: Georgia, serif;
+  font-size: .72rem;
+}
+
+.chapter-scene-stage__play:hover {
+  color: #fff3c9;
+  background: rgb(18 59 61 / 76%);
+  transform: translateY(-1px);
+}
+
+.chapter-scene-stage__play:focus-visible {
+  outline: 2px solid #ffe291;
+  outline-offset: .25rem;
+}
+
+.chapter-scene-stage__fallback {
+  position: absolute;
+  z-index: 3;
+  right: 1rem;
+  bottom: 1rem;
+  margin: 0;
+  color: rgb(247 232 187 / 78%);
+  font-size: .7rem;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .chapter-scene-stage__play {
+    transition: none;
+  }
+
+  .chapter-scene-stage__play:hover {
+    transform: none;
+  }
+}

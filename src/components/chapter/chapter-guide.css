@@ -1,0 +1,71 @@
+.chapter-guide {
+  position: absolute;
+  z-index: 8;
+  top: var(--guide-y);
+  left: var(--guide-x);
+  width: clamp(5.6rem, 9vw, 7.4rem);
+  height: clamp(6.6rem, 11vw, 8.8rem);
+  pointer-events: auto;
+  transform: translate(-8%, -50%);
+}
+
+.chapter-guide__trigger {
+  position: relative;
+  display: block;
+  width: 100%;
+  height: 100%;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  cursor: pointer;
+}
+
+.chapter-guide__trigger:focus-visible {
+  outline: 2px solid #ffe291;
+  outline-offset: .25rem;
+}
+
+.chapter-guide .chapter-spirit,
+.chapter-guide .chapter-spirit.chapter-spirit--voyage,
+.chapter-guide .chapter-spirit.chapter-spirit--horizon {
+  position: relative;
+  inset: auto;
+  width: 100%;
+  height: 100%;
+}
+
+.chapter-guide .chapter-spirit__image--animated {
+  transform: scale(1.08);
+}
+
+.chapter-guide .chapter-spirit__waterlight,
+.chapter-guide .chapter-spirit__ripple {
+  display: none;
+}
+
+.chapter-guide .lan-conversation {
+  z-index: 12;
+  width: min(22rem, calc(100vw - 2rem));
+}
+
+.chapter-guide .lan-conversation--attached {
+  width: min(22rem, var(--lan-dialogue-width, 22rem), calc(100vw - 1rem));
+}
+
+@media (max-width: 900px) {
+  .chapter-guide {
+    width: 6.4rem;
+    height: 7.6rem;
+  }
+}
+
+@media (max-width: 680px) {
+  .chapter-guide {
+    width: 5.9rem;
+    height: 7rem;
+  }
+
+  .chapter-guide .lan-conversation--attached {
+    width: min(18rem, calc(100vw - 9rem));
+  }
+}

@@ -16,10 +16,8 @@ function BasinOverviewHeader({ shouldFocus }: BasinOverviewHeaderProps) {
 
   return (
     <header className="basin-overview-header">
-      <Link className="basin-overview-header__home-link" to="/">返回主页</Link>
-      <p className="basin-overview-header__eyebrow">中华水生态文明 · 首批开放流域</p>
-      <h1 ref={headingRef} tabIndex={-1}>黄河与长江流域总览</h1>
-      <p>水从世界屋脊出发，穿越高原、峡谷、平原与城市，孕育不同的流域文明。</p>
+      <Link className="basin-overview-header__home-link" to="/chapters">返回章节总览</Link>
+      <h1 ref={headingRef} className="sr-only" tabIndex={-1}>黄河、长江与珠江流域总览</h1>
     </header>
   );
 }

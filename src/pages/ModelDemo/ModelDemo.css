@@ -1,0 +1,73 @@
+.model-demo {
+  max-width: 960px;
+  margin: 0 auto;
+  padding: 2.4rem 1.6rem 4rem;
+  color: #e9efd8;
+  font-family: "Microsoft YaHei", "PingFang SC", sans-serif;
+}
+
+.model-demo__header {
+  margin-bottom: 1.6rem;
+}
+
+.model-demo__header h1 {
+  margin: 0 0 0.4rem;
+  font-family: var(--font-calligraphy, "STKaiti", "KaiTi", serif);
+  font-size: 1.8rem;
+  font-weight: 500;
+  letter-spacing: 0.06em;
+  color: #f3e8c2;
+}
+
+.model-demo__header p {
+  margin: 0;
+  font-size: 0.92rem;
+  line-height: 1.6;
+  color: rgb(235 239 216 / 70%);
+}
+
+.model-demo__viewer {
+  height: 540px;
+  margin-bottom: 1.6rem;
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+.model-demo__viewer .glb-viewer {
+  width: 100%;
+  height: 100%;
+  border-radius: 8px;
+}
+
+.model-demo__meta dl {
+  display: grid;
+  grid-template-columns: max-content 1fr;
+  gap: 0.5rem 1.2rem;
+  margin: 0;
+  padding: 1.1rem 1.3rem;
+  background: rgb(9 37 43 / 50%);
+  border: 1px solid rgb(188 174 119 / 24%);
+  border-radius: 8px;
+  font-size: 0.85rem;
+  line-height: 1.55;
+}
+
+.model-demo__meta dt {
+  color: #f3e8c2;
+  font-weight: 500;
+  letter-spacing: 0.05em;
+}
+
+.model-demo__meta dd {
+  margin: 0;
+  color: rgb(235 239 216 / 78%);
+}
+
+.model-demo__meta code {
+  font-family: ui-monospace, SFMono-Regular, "Cascadia Code", Menlo, monospace;
+  font-size: 0.78rem;
+  padding: 0.05rem 0.4rem;
+  background: rgb(0 0 0 / 30%);
+  border-radius: 4px;
+  color: #f3e8c2;
+}

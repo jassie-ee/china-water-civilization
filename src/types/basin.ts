@@ -7,7 +7,7 @@ export type BasinOverviewPhase =
   | 'rivers-awakening'
   | 'interactive';
 
-export type BasinOverviewEntry = 'intro' | 'skipped' | 'direct' | 'returning';
+export type BasinOverviewEntry = 'intro' | 'skipped' | 'direct' | 'returning' | 'chapter-overview';
 
 export type BasinInteractionState = 'idle' | 'hovered' | 'focused' | 'selected';
 
@@ -69,9 +69,16 @@ export interface RiverNode {
   isAvailable: boolean;
 }
 
-export type YellowRiverNode = RiverNode & { id: YellowRiverNodeId };
+export type YellowRiverNode = RiverNode & {
+  id: YellowRiverNodeId;
+  /** 沿河叙事顺序；详情切换与无障碍阅读不依赖画布横向坐标。 */
+  sequence: number;
+};
 
-export type YangtzeRiverNode = RiverNode;
+export type YangtzeRiverNode = RiverNode & {
+  /** 沿江叙事顺序；详情切换与阅读顺序不依赖画布横向坐标。 */
+  sequence: number;
+};
 
 export interface BasinOverviewItem {
   id: BasinId;
