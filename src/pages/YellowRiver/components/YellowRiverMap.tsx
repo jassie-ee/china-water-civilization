@@ -1,7 +1,6 @@
 import {
   mainstreamSegmentPaths,
   regionLabelPositions,
-  yellowRiverMainstreamPath,
 } from '@/data/yellowRiverMapPaths';
 import { yellowRiverNodes } from '@/data/yellowRiverNodes';
 import { yellowRiverRegions } from '@/data/yellowRiverRegions';
@@ -9,6 +8,7 @@ import type { YellowRiverNodeId, YellowRiverRegionId } from '@/types/basin';
 import yellowRiverBackground from '@/assets/images/basins/yellow-river-background.webp';
 
 import YellowRiverNodeLayer from './YellowRiverNodeLayer';
+import YellowRiverMapLegend from './YellowRiverMapLegend';
 
 interface YellowRiverMapProps {
   selectedRegionId: YellowRiverRegionId | null;
@@ -70,11 +70,6 @@ function YellowRiverMap({
           aria-hidden="true"
         />
         <rect className="yellow-river-map__background-shade" x="0" y="0" width="1672" height="941" aria-hidden="true" />
-        <g className="yellow-river-map__waterway" aria-hidden="true">
-          <path className="yellow-river-map__waterway-bed" d={yellowRiverMainstreamPath} />
-          <path className="yellow-river-map__waterway-body" d={yellowRiverMainstreamPath} />
-          <path className="yellow-river-map__waterway-glint" d={yellowRiverMainstreamPath} />
-        </g>
         <g className="yellow-river-map__atlas-region-layer">
           {yellowRiverRegions.map((region) => {
             const isVisible = region.id === visibleRegionId;
@@ -95,7 +90,6 @@ function YellowRiverMap({
                 onClick={() => onRegionSelect(region.id)}
               >
                 <path className="yellow-river-map__atlas-region-hit-area" d={mainstreamSegmentPaths[region.id]} />
-                <path className="yellow-river-map__atlas-region-water" d={mainstreamSegmentPaths[region.id]} />
                 <text className="yellow-river-map__region-label" x={labelPosition.x} y={labelPosition.y}>{region.shortName}</text>
               </g>
             );
@@ -111,6 +105,7 @@ function YellowRiverMap({
           />
         </g>
       </svg>
+      <YellowRiverMapLegend />
     </div>
   );
 }

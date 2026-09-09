@@ -220,6 +220,8 @@
   left: clamp(1rem, 4vw, 3.2rem);
   width: auto;
   margin: 0;
+  display: grid;
+  gap: .38rem;
 }
 
 .yellow-river-page--atlas .yellow-river-page__back {
@@ -229,6 +231,31 @@
   font-size: .84rem;
   letter-spacing: .12em;
   text-shadow: 0 .1rem .35rem rgb(0 12 18 / 76%);
+}
+
+.river-atlas-heading {
+  width: max-content;
+  max-width: min(18rem, 58vw);
+  padding-left: .72rem;
+  border-left: 1px solid rgb(242 220 162 / 48%);
+  text-shadow: 0 .12rem .45rem rgb(0 12 18 / 78%);
+}
+
+.river-atlas-heading h1 {
+  margin: 0;
+  color: rgb(247 242 223 / 96%);
+  font-family: var(--font-calligraphy);
+  font-size: clamp(1.55rem, 2.35vw, 2.35rem);
+  font-weight: 400;
+  line-height: 1.05;
+  letter-spacing: .1em;
+}
+
+.river-atlas-heading p {
+  margin: .34rem 0 0;
+  color: rgb(225 237 226 / 78%);
+  font-size: .76rem;
+  letter-spacing: .09em;
 }
 
 .yellow-river-page--atlas .yellow-river-page__content {
@@ -247,7 +274,7 @@
   padding: clamp(4.5rem, 9vh, 6rem) 0 clamp(1.5rem, 5vh, 3.5rem);
 }
 
-.yellow-river-page--atlas .yellow-river-page__map-stage { position: relative; }
+.yellow-river-page--atlas .yellow-river-page__map-stage { position: relative; isolation: isolate; }
 
 .yellow-river-page--atlas .yellow-river-map--atlas {
   width: 100%;
@@ -260,28 +287,46 @@
   box-shadow: none;
 }
 
-.yellow-river-map--atlas svg { overflow: hidden; filter: drop-shadow(0 .8rem 1.3rem rgb(20 12 3 / 18%)); }
+.yellow-river-map--atlas svg { position: relative; z-index: 1; overflow: hidden; filter: drop-shadow(0 .8rem 1.3rem rgb(20 12 3 / 18%)); }
 .yellow-river-map--atlas .yellow-river-map__background { pointer-events: none; }
 .yellow-river-map--atlas .yellow-river-map__background-shade {
   pointer-events: none;
   fill: url(#yellow-river-atlas-shade);
 }
-.yellow-river-map--atlas .yellow-river-map__waterway path,
-.yellow-river-map--atlas .yellow-river-map__atlas-region-water { fill: none; stroke-linecap: round; stroke-linejoin: round; }
-.yellow-river-map--atlas .yellow-river-map__waterway-bed { stroke: rgb(95 59 22 / 10%); stroke-width: 12; }
-.yellow-river-map--atlas .yellow-river-map__waterway-body { stroke: rgb(209 159 75 / 27%); stroke-width: 6; }
-.yellow-river-map--atlas .yellow-river-map__waterway-glint { stroke: rgb(255 239 194 / 36%); stroke-width: 1; }
 .yellow-river-map__atlas-region { cursor: pointer; outline: none; color: #efc76f; }
 .yellow-river-map__atlas-region-hit-area { fill: none; stroke: transparent; stroke-width: 52; }
-.yellow-river-map__atlas-region-water { stroke: transparent; stroke-width: 11; opacity: 0; transition: opacity 180ms ease, stroke 180ms ease; }
-.yellow-river-map__atlas-region.is-visible .yellow-river-map__atlas-region-water { stroke: currentColor; opacity: .34; }
-.yellow-river-map__atlas-region.is-selected .yellow-river-map__atlas-region-water { opacity: .48; }
-.yellow-river-map__atlas-region:focus-visible .yellow-river-map__atlas-region-water { stroke: #fff0b7; opacity: 1; }
-.yellow-river-map__atlas-region .yellow-river-map__region-label { fill: rgb(249 232 182 / 84%); stroke: rgb(48 28 8 / 72%); stroke-width: 4px; font-size: 44px; transition: fill 180ms ease, font-size 180ms ease, filter 180ms ease; }
+.yellow-river-map__atlas-region .yellow-river-map__region-label { fill: rgb(249 232 182 / 78%); stroke: rgb(30 25 14 / 72%); stroke-width: 4px; font-size: 38px; transition: fill 180ms ease, font-size 180ms ease, filter 180ms ease; }
 .yellow-river-map__atlas-region .yellow-river-map__region-label { pointer-events: all; cursor: pointer; }
+.yellow-river-map__atlas-region.is-visible .yellow-river-map__region-label { fill: #f9e8b6; filter: drop-shadow(0 0 4px rgb(255 221 133 / 36%)); }
 .yellow-river-map__atlas-region:hover .yellow-river-map__region-label,
-.yellow-river-map__atlas-region.is-selected .yellow-river-map__region-label { fill: #fff0bf; font-size: 48px; filter: drop-shadow(0 0 5px rgb(255 221 133 / 72%)); }
-.yellow-river-map__atlas-region:focus-visible .yellow-river-map__region-label { fill: #fff7d7; font-size: 48px; filter: drop-shadow(0 0 5px rgb(255 239 183 / 72%)); }
+.yellow-river-map__atlas-region.is-selected .yellow-river-map__region-label { fill: #fff0bf; font-size: 41px; filter: drop-shadow(0 0 5px rgb(255 221 133 / 52%)); }
+.yellow-river-map__atlas-region:focus-visible .yellow-river-map__region-label { fill: #fff7d7; font-size: 41px; filter: drop-shadow(0 0 5px rgb(255 239 183 / 62%)); }
+
+.yellow-river-map--atlas .yellow-river-node-marker__glow { opacity: .2; }
+.yellow-river-map--atlas .yellow-river-node-marker__shape { filter: drop-shadow(0 .08rem .2rem rgb(0 15 20 / 45%)); }
+.yellow-river-map--atlas .yellow-river-node-marker.is-selected .yellow-river-node-marker__glow,
+.yellow-river-map--atlas .yellow-river-node-marker.is-previewed .yellow-river-node-marker__glow { opacity: .76; transform: scale(1.12); }
+.yellow-river-map--atlas .yellow-river-node-marker.is-selected .yellow-river-node-marker__shape,
+.yellow-river-map--atlas .yellow-river-node-marker.is-previewed .yellow-river-node-marker__shape { stroke-width: 2.6; filter: drop-shadow(0 0 5px currentColor); }
+.yellow-river-map--atlas .yellow-river-map__node-label { fill: rgb(242 246 225 / 68%); font-family: var(--font-sans); font-size: 17px; letter-spacing: .03em; paint-order: stroke; stroke: rgb(4 23 29 / 76%); stroke-width: 3px; stroke-linejoin: round; }
+.yellow-river-map--atlas .yellow-river-map__node-label.is-active { fill: #fffdf1; font-weight: 600; }
+
+.yellow-river-map--atlas .yellow-river-map__legend {
+  z-index: 4;
+  top: 1rem;
+  right: 1rem;
+  bottom: auto;
+  left: auto;
+  max-width: 13rem;
+  padding: .42rem .58rem;
+  border: 1px solid rgb(240 235 210 / 20%);
+  border-radius: .35rem;
+  color: rgb(242 246 234 / 76%);
+  background: rgb(4 28 34 / 32%);
+  backdrop-filter: blur(5px);
+}
+
+.yellow-river-map--atlas .yellow-river-map__legend-symbol { width: .58rem; height: .58rem; }
 
 @media (max-width: 720px) {
   .yellow-river-page--atlas { overflow: auto; background-attachment: scroll; }
@@ -294,6 +339,5 @@
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .yellow-river-map--atlas .yellow-river-map__atlas-region-water,
   .yellow-river-map--atlas .yellow-river-map__region-label { transition: none; }
 }

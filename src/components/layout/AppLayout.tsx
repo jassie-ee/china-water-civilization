@@ -2,8 +2,6 @@ import type { ReactNode } from 'react';
 
 import GlobalScoreDisplay from '@/components/common/GlobalScoreDisplay';
 import ChapterInsightDisplay from '@/components/common/ChapterInsightDisplay';
-import AccountMenu from '@/components/common/AccountMenu';
-import { AccountProvider } from '@/components/common/AccountProvider';
 import ChapterInsightProvider from '@/components/common/ChapterInsightProvider';
 import { GovernanceProgressProvider } from '@/components/common/GovernanceProgressProvider';
 import { LanMascotHost, LanMascotProvider } from '@/components/lan-mascot';
@@ -16,25 +14,22 @@ interface AppLayoutProps {
 
 function AppLayout({ children }: AppLayoutProps) {
   return (
-    <AccountProvider>
-      <GovernanceProgressProvider>
-        <ChapterInsightProvider>
-          <LanMascotProvider>
-            <div className="app-layout">
-              <div className="app-layout__navigation-slot" aria-hidden="true" />
-              <main className="app-layout__content">{children}</main>
-              <div className="app-layout__tools-slot" aria-hidden="true" />
-              <div className="app-layout__utility-cluster">
-                <AccountMenu />
-                <ChapterInsightDisplay />
-                <GlobalScoreDisplay />
-              </div>
-              <LanMascotHost />
+    <GovernanceProgressProvider>
+      <ChapterInsightProvider>
+        <LanMascotProvider>
+          <div className="app-layout">
+            <div className="app-layout__navigation-slot" aria-hidden="true" />
+            <main className="app-layout__content">{children}</main>
+            <div className="app-layout__tools-slot" aria-hidden="true" />
+            <div className="app-layout__utility-cluster">
+              <ChapterInsightDisplay />
+              <GlobalScoreDisplay />
             </div>
-          </LanMascotProvider>
-        </ChapterInsightProvider>
-      </GovernanceProgressProvider>
-    </AccountProvider>
+            <LanMascotHost />
+          </div>
+        </LanMascotProvider>
+      </ChapterInsightProvider>
+    </GovernanceProgressProvider>
   );
 }
 

@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 
 import type { RiverNodeVideo } from '@/types/basin';
 
@@ -12,6 +12,7 @@ interface NodeVideoPanelProps {
 function NodeVideoPanel({ video, onComplete, skipLabel }: NodeVideoPanelProps) {
   const title = video?.title ?? '生态影像';
   const [hasVideoError, setHasVideoError] = useState(false);
+  const videoRef = useRef<HTMLVideoElement>(null);
 
   useEffect(() => {
     setHasVideoError(false);
@@ -20,11 +21,29 @@ function NodeVideoPanel({ video, onComplete, skipLabel }: NodeVideoPanelProps) {
   const videoSource = video?.src;
   const canPlayVideo = videoSource !== undefined && !hasVideoError;
 
+  const enableAudio = (): void => {
+    const media = videoRef.current;
+    if (!media) return;
+    media.muted = false;
+    media.defaultMuted = false;
+    if (media.volume === 0) media.volume = 1;
+  };
+
   return (
     <section className="node-video-panel" aria-label={title}>
       {canPlayVideo ? (
         <>
-          <video className="node-video-panel__media" controls preload="metadata" poster={video?.poster} onEnded={onComplete} onError={() => setHasVideoError(true)}>
+          <video
+            ref={videoRef}
+            className="node-video-panel__media"
+            controls
+            muted={false}
+            preload="metadata"
+            poster={video?.poster}
+            onLoadedMetadata={enableAudio}
+            onEnded={onComplete}
+            onError={() => setHasVideoError(true)}
+          >
             <source src={videoSource} />
             您的浏览器暂不支持视频播放。
           </video>

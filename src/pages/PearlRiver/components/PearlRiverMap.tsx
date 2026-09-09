@@ -1,8 +1,6 @@
 import {
   mainstreamSegmentPaths,
-  pearlRiverMainstreamPath,
   regionLabelPositions,
-  supportWaterwayPaths,
 } from '@/data/pearlRiverMapPaths';
 import { pearlRiverNodes } from '@/data/pearlRiverNodes';
 import { pearlRiverRegions } from '@/data/pearlRiverRegions';
@@ -10,6 +8,7 @@ import type { PearlRiverRegionId } from '@/types/basin';
 import pearlRiverBackground from '@/assets/images/basins/pearl-river-background-v3.webp';
 
 import YellowRiverNodeLayer from '@/pages/YellowRiver/components/YellowRiverNodeLayer';
+import YellowRiverMapLegend from '@/pages/YellowRiver/components/YellowRiverMapLegend';
 
 interface PearlRiverMapProps {
   selectedRegionId: PearlRiverRegionId | null;
@@ -71,23 +70,6 @@ function PearlRiverMap({
           aria-hidden="true"
         />
         <rect className="pearl-river-map__background-shade" x="0" y="0" width="1672" height="941" aria-hidden="true" />
-        <g className="yellow-river-map__waterway pearl-river-map__waterway" aria-hidden="true">
-          <path className="yellow-river-map__waterway-bed" d={pearlRiverMainstreamPath} />
-          <path className="yellow-river-map__waterway-body" d={pearlRiverMainstreamPath} />
-          <path className="yellow-river-map__waterway-glint" d={pearlRiverMainstreamPath} />
-        </g>
-        <g className="pearl-river-map__support-waterway" aria-hidden="true">
-          {supportWaterwayPaths.map(({ regionId, path }) => (
-            <g
-              key={path}
-              className={`pearl-river-map__support-waterway-branch${regionId === visibleRegionId ? ' is-visible' : ''}${regionId === selectedRegionId ? ' is-selected' : ''}`}
-            >
-              <path className="pearl-river-map__support-waterway-bed" d={path} />
-              <path className="pearl-river-map__support-waterway-body" d={path} />
-              <path className="pearl-river-map__support-waterway-glint" d={path} />
-            </g>
-          ))}
-        </g>
         <g className="yellow-river-map__atlas-region-layer">
           {pearlRiverRegions.map((region) => {
             const isVisible = region.id === visibleRegionId;
@@ -108,7 +90,6 @@ function PearlRiverMap({
                 onClick={() => onRegionSelect(region.id)}
               >
                 <path className="yellow-river-map__atlas-region-hit-area" d={mainstreamSegmentPaths[region.id]} />
-                <path className="yellow-river-map__atlas-region-water" d={mainstreamSegmentPaths[region.id]} />
                 <text className="yellow-river-map__region-label" x={labelPosition.x} y={labelPosition.y}>{region.shortName}</text>
               </g>
             );
@@ -125,6 +106,7 @@ function PearlRiverMap({
           />
         </g>
       </svg>
+      <YellowRiverMapLegend />
     </div>
   );
 }

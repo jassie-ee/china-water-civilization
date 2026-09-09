@@ -82,7 +82,7 @@ function YellowRiverNodeDetailPanel({
           {node.locationDescription && <p className="yellow-river-detail-panel__location">{node.locationDescription}</p>}
         </div>
         <div className="yellow-river-detail-panel__header-actions">
-          {governanceLevel && (
+          {governanceLevel && node.id !== 'loess-plateau' && (
             <button className="yellow-river-detail-panel__start" type="button" onClick={onStartGovernance}>
               开始闯关
             </button>

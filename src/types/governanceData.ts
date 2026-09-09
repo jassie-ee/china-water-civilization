@@ -4,9 +4,8 @@ import type { BasinId } from './basin';
 
 export type GovernanceProgressScope = 'all' | BasinId;
 
-/** 后端接入时使用的账户关卡结果写入载荷。 */
+/** 浏览器本地治理关卡结果写入载荷。 */
 export interface GovernanceLevelResultInput {
-  accountId: string;
   currentProgress: GovernanceProgressState;
   levelId: string;
   completedStars: number;
@@ -17,7 +16,7 @@ export interface GovernanceLevelResult {
   update: GovernanceProgressUpdate;
 }
 
-/** Supabase 抽题接口返回的公开题面；正确答案不会进入浏览器。 */
+/** 答题结果页复用的公开题面；正确答案不会进入答题过程。 */
 export interface RemoteGovernanceQuestion {
   id: string;
   scenario: string;
@@ -62,11 +61,7 @@ export interface RemoteGovernanceChallengeReview {
 export interface GovernanceDataSource {
   getQuestionLevelConfig: (levelId: string) => GovernanceQuestionLevelConfig | null;
   getQuestionLevelConfigs: () => readonly GovernanceQuestionLevelConfig[];
-  loadProgress: (accountId: string) => Promise<GovernanceProgressState>;
+  loadProgress: () => Promise<GovernanceProgressState>;
   recordLevelResult: (input: GovernanceLevelResultInput) => Promise<GovernanceLevelResult>;
-  clearProgress: (accountId: string, currentProgress: GovernanceProgressState, scope: GovernanceProgressScope) => Promise<GovernanceProgressState>;
-  isRemoteQuestionLevel: (levelId: string) => boolean;
-  startRemoteChallenge: (levelId: string) => Promise<RemoteGovernanceChallenge>;
-  submitRemoteAnswer: (attemptId: string, questionId: string, optionId: string) => Promise<RemoteGovernanceAnswerResult>;
-  loadRemoteChallengeReview: (attemptId: string) => Promise<RemoteGovernanceChallengeReview>;
+  clearProgress: (currentProgress: GovernanceProgressState, scope: GovernanceProgressScope) => Promise<GovernanceProgressState>;
 }

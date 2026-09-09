@@ -1,6 +1,7 @@
-import type { CSSProperties, ReactNode, RefObject } from 'react';
+import { useState, type CSSProperties, type ReactNode, type RefObject } from 'react';
 
 import shanhaiWaterChronicle from '@/assets/images/shanhai-water-chronicle.webp';
+import shanhaiWaterChronicleFallback from '@/assets/images/shanhai-water-chronicle.png';
 import type { ChapterId, ChapterOverviewItem } from '@/types/chapter';
 
 import StoryAtlasEffects from './StoryAtlasEffects';
@@ -17,6 +18,7 @@ interface StoryAtlasProps {
 }
 
 function StoryAtlas({ chapters, activeChapterId, highlightedChapterId = null, children, dialogueId = 'lan-dialogue', markerRefs, onDismiss, onOpenChapter }: StoryAtlasProps) {
+  const [atlasImageSource, setAtlasImageSource] = useState(shanhaiWaterChronicle);
   const activeChapter = chapters.find((chapter) => chapter.id === activeChapterId) ?? null;
   const atlasStyle = activeChapter === null
     ? {
@@ -63,7 +65,15 @@ function StoryAtlas({ chapters, activeChapterId, highlightedChapterId = null, ch
       onPointerLeave={handlePointerLeave}
     >
       <div className="story-atlas__art" aria-hidden="true">
-        <img src={shanhaiWaterChronicle} alt="" />
+        <img
+          src={atlasImageSource}
+          alt=""
+          onError={() => {
+            if (atlasImageSource !== shanhaiWaterChronicleFallback) {
+              setAtlasImageSource(shanhaiWaterChronicleFallback);
+            }
+          }}
+        />
       </div>
       <StoryAtlasEffects chapters={chapters} activeChapterId={activeChapterId} />
       <p className="story-atlas__caption" aria-hidden="true">山川 · 江河 · 海洋 · 家园</p>

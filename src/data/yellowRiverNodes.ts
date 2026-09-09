@@ -54,7 +54,8 @@ const yellowRiverNodes: YellowRiverNode[] = [
       video: {
         title: '黄土高原水土流失生态影像',
         description: '影像结束后，小澜会邀请你一起寻找治理泥沙的根本方法。',
-        src: getReleaseMediaUrl('loess-plateau-intro.mp4'),
+        // Release 同名资源替换后，使用版本参数避开浏览器对旧影像的缓存。
+        src: `${getReleaseMediaUrl('loess-plateau-intro.mp4')}?v=20260909-2`,
       },
     },
     position: { x: 652, y: 339, labelOffsetX: -66, labelOffsetY: -28 },

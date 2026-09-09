@@ -99,6 +99,10 @@ function PearlRiver() {
         <Link className="yellow-river-page__back" to="/basins" state={{ basinOverviewEntry: 'returning' }}>
           返回中国流域总览
         </Link>
+        <div className="river-atlas-heading">
+          <h1>珠江流域</h1>
+          <p>河海相遇的南方水脉</p>
+        </div>
       </header>
 
       <main className="yellow-river-page__content">

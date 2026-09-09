@@ -2,6 +2,10 @@
 
 .pearl-river-page--atlas { background: #1b2b2c; }
 
+.pearl-river-page--atlas .river-atlas-heading { border-left-color: rgb(202 235 211 / 54%); }
+.pearl-river-page--atlas .river-atlas-heading h1 { color: rgb(244 247 229 / 96%); }
+.pearl-river-page--atlas .river-atlas-heading p { color: rgb(201 231 210 / 82%); }
+
 .pearl-river-page--atlas .yellow-river-page__back {
   color: rgb(242 229 195 / 92%);
 }
@@ -19,46 +23,13 @@
   fill: url(#pearl-river-atlas-shade);
 }
 
-.pearl-river-map--atlas .yellow-river-map__waterway-bed {
-  stroke: rgb(29 76 84 / 15%);
-  stroke-width: 13;
-}
-
-.pearl-river-map--atlas .yellow-river-map__waterway-body {
-  stroke: rgb(104 184 185 / 29%);
-  stroke-width: 6.5;
-}
-
-.pearl-river-map--atlas .yellow-river-map__waterway-glint {
-  stroke: rgb(229 245 218 / 38%);
-  stroke-width: 1;
-}
-
-.pearl-river-map__support-waterway path {
-  fill: none;
-  stroke-linecap: round;
-  stroke-linejoin: round;
-}
-
-.pearl-river-map__support-waterway-bed { stroke: rgb(32 73 83 / 12%); stroke-width: 10; }
-.pearl-river-map__support-waterway-body { stroke: rgb(90 173 181 / 20%); stroke-width: 4.5; }
-.pearl-river-map__support-waterway-glint { stroke: rgb(220 242 223 / 28%); stroke-width: .8; }
-.pearl-river-map__support-waterway-branch path { transition: stroke 180ms ease, opacity 180ms ease, filter 180ms ease; }
-.pearl-river-map__support-waterway-branch.is-visible .pearl-river-map__support-waterway-body { stroke: rgb(135 213 204 / 56%); filter: drop-shadow(0 0 3px rgb(151 224 210 / 36%)); }
-.pearl-river-map__support-waterway-branch.is-selected .pearl-river-map__support-waterway-body { stroke: rgb(161 227 215 / 66%); }
-
 .pearl-river-map--atlas .pearl-river-region--upper { color: #a5d7c0; }
 .pearl-river-map--atlas .pearl-river-region--middle { color: #d8c477; }
 .pearl-river-map--atlas .pearl-river-region--lower { color: #a8d4d2; }
 
-.pearl-river-map--atlas .yellow-river-map__atlas-region.is-visible .yellow-river-map__atlas-region-water { opacity: .34; }
-.pearl-river-map--atlas .yellow-river-map__atlas-region.is-selected .yellow-river-map__atlas-region-water { opacity: .5; }
-.pearl-river-map--atlas .yellow-river-map__atlas-region:focus-visible .yellow-river-map__atlas-region-water { stroke: #fff6cf; }
 .pearl-river-map--atlas .yellow-river-map__atlas-region .yellow-river-map__region-label { fill: rgb(247 239 208 / 86%); stroke: rgb(24 40 42 / 78%); }
 .pearl-river-map--atlas .yellow-river-map__atlas-region.is-selected .yellow-river-map__region-label { fill: #fff9dd; filter: drop-shadow(0 0 5px rgb(240 212 128 / 56%)); }
 
 @media (prefers-reduced-motion: reduce) {
-  .pearl-river-map--atlas .yellow-river-map__atlas-region-water,
-  .pearl-river-map--atlas .yellow-river-map__region-label,
-  .pearl-river-map__support-waterway-branch path { transition: none; }
+  .pearl-river-map--atlas .yellow-river-map__region-label { transition: none; }
 }

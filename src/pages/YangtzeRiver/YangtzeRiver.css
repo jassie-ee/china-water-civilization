@@ -2,6 +2,10 @@
 
 .yangtze-river-page--atlas { background: #102a34; }
 
+.yangtze-river-page--atlas .river-atlas-heading { border-left-color: rgb(159 222 216 / 56%); }
+.yangtze-river-page--atlas .river-atlas-heading h1 { color: rgb(225 247 239 / 96%); }
+.yangtze-river-page--atlas .river-atlas-heading p { color: rgb(177 221 214 / 82%); }
+
 .yangtze-river-page--atlas .yellow-river-page__back {
   color: rgb(218 244 238 / 91%);
 }
@@ -19,78 +23,9 @@
   fill: url(#yangtze-river-atlas-shade);
 }
 
-.yangtze-river-map--atlas .yellow-river-map__waterway-bed {
-  stroke: rgb(18 75 91 / 13%);
-  stroke-width: 13;
-}
-
-.yangtze-river-map--atlas .yellow-river-map__waterway-body {
-  stroke: rgb(75 177 192 / 31%);
-  stroke-width: 6.5;
-}
-
-.yangtze-river-map--atlas .yellow-river-map__waterway-glint {
-  stroke: rgb(210 244 234 / 41%);
-  stroke-width: 1;
-}
-
-.yangtze-river-map__support-waterway path {
-  fill: none;
-  stroke-linecap: round;
-  stroke-linejoin: round;
-}
-
-.yangtze-river-map__support-waterway-bed {
-  stroke: rgb(16 73 87 / 10%);
-  stroke-width: 10;
-}
-
-.yangtze-river-map__support-waterway-body {
-  stroke: rgb(61 168 185 / 22%);
-  stroke-width: 4.5;
-}
-
-.yangtze-river-map__support-waterway-glint {
-  stroke: rgb(203 245 235 / 29%);
-  stroke-width: .8;
-}
-
-.yangtze-river-map__support-waterway-branch path {
-  transition: stroke 180ms ease, opacity 180ms ease, filter 180ms ease;
-}
-
-.yangtze-river-map__support-waterway-branch.is-visible .yangtze-river-map__support-waterway-bed {
-  stroke: rgb(20 91 105 / 22%);
-}
-
-.yangtze-river-map__support-waterway-branch.is-visible .yangtze-river-map__support-waterway-body {
-  stroke: rgb(102 207 211 / 51%);
-  filter: drop-shadow(0 0 3px rgb(114 220 214 / 36%));
-}
-
-.yangtze-river-map__support-waterway-branch.is-visible .yangtze-river-map__support-waterway-glint {
-  stroke: rgb(226 255 244 / 62%);
-}
-
-.yangtze-river-map__support-waterway-branch.is-selected .yangtze-river-map__support-waterway-body {
-  stroke: rgb(126 221 221 / 64%);
-}
-
 .yangtze-river-map--atlas .yangtze-river-region--upper { color: #9bdbe2; }
 .yangtze-river-map--atlas .yangtze-river-region--middle { color: #8ed7bd; }
 .yangtze-river-map--atlas .yangtze-river-region--lower { color: #b6d7ea; }
-
-.yangtze-river-map--atlas .yellow-river-map__atlas-region.is-visible .yellow-river-map__atlas-region-water {
-  opacity: .34;
-}
-
-.yangtze-river-map--atlas .yellow-river-map__atlas-region.is-selected .yellow-river-map__atlas-region-water {
-  opacity: .5;
-}
-
-.yangtze-river-map--atlas .yellow-river-map__atlas-region:focus-visible .yellow-river-map__atlas-region-water {
-  stroke: #e3fff1;
-}
 
 .yangtze-river-map--atlas .yellow-river-map__atlas-region .yellow-river-map__region-label {
   fill: rgb(225 246 232 / 87%);
@@ -103,7 +38,5 @@
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .yangtze-river-map--atlas .yellow-river-map__atlas-region-water,
-  .yangtze-river-map--atlas .yellow-river-map__region-label,
-  .yangtze-river-map__support-waterway-branch path { transition: none; }
+  .yangtze-river-map--atlas .yellow-river-map__region-label { transition: none; }
 }

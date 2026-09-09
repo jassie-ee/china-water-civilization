@@ -106,6 +106,10 @@ function YangtzeRiver() {
         <Link className="yellow-river-page__back" to="/basins" state={{ basinOverviewEntry: 'returning' }}>
           返回中国流域总览
         </Link>
+        <div className="river-atlas-heading">
+          <h1>长江流域</h1>
+          <p>江湖相依的水网长卷</p>
+        </div>
       </header>
 
       <main className="yellow-river-page__content">

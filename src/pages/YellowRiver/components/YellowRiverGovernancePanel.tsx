@@ -1,7 +1,6 @@
 import { useEffect, useRef, useState } from 'react';
 
 import GovernanceStage from '@/pages/GovernanceLevel/components/GovernanceStage';
-import { governanceDataSource } from '@/services/governanceDataSource';
 import type { GovernanceQuestionLevelConfig } from '@/types/governanceLevel';
 import type { RiverNode, RiverRegion } from '@/types/basin';
 import RiverNarrativeSurface from '@/components/layout/RiverNarrativeSurface';
@@ -24,7 +23,6 @@ function YellowRiverGovernancePanel({
   const closeButtonRef = useRef<HTMLButtonElement>(null);
   const [currentStars, setCurrentStars] = useState(0);
   const typeLabel = node.type === 'ecological' ? '生态问题节点' : '关键工程节点';
-  const isOfficialQuestionLevel = governanceDataSource.isRemoteQuestionLevel(level.levelId);
 
   useEffect(() => {
     closeButtonRef.current?.focus();
@@ -59,7 +57,7 @@ function YellowRiverGovernancePanel({
         </div>
         <div className="yellow-river-detail-panel__header-actions">
           <span className="yellow-river-governance-panel__score" aria-live="polite">
-            {isOfficialQuestionLevel ? '本关治理星级' : '演示得分'} <span aria-hidden="true">★</span>：{currentStars}
+            本关治理星级 <span aria-hidden="true">★</span>：{currentStars}
           </span>
           <button className="yellow-river-governance-panel__back" type="button" onClick={onBackToDetail}>返回节点介绍</button>
           <button ref={closeButtonRef} className="yellow-river-detail-panel__close" type="button" aria-label="关闭治理关卡" onClick={onClose}>关闭</button>

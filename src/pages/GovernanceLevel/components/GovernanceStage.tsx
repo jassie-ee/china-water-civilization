@@ -2,11 +2,9 @@ import { useEffect, useMemo, useState } from 'react';
 
 import type { GovernanceQuestionLevelConfig, GovernanceQuestionOption } from '@/types/governanceLevel';
 import type { RemoteGovernanceChallengeReview, RemoteGovernanceQuestion } from '@/types/governanceData';
-import { governanceDataSource } from '@/services/governanceDataSource';
 
 import FormalChallengeResult, { type FormalChallengeAnswer } from './FormalChallengeResult';
 import QuestionCard from './QuestionCard';
-import RemoteGovernanceStage from './RemoteGovernanceStage';
 
 import './GovernanceQuestionSystem.css';
 
@@ -115,7 +113,6 @@ function DemoFormalGovernanceStage({ level, onCurrentStarsChange }: GovernanceSt
 }
 
 function GovernanceStage(props: GovernanceStageProps) {
-  if (governanceDataSource.isRemoteQuestionLevel(props.level.levelId)) return <RemoteGovernanceStage {...props} />;
   return <DemoFormalGovernanceStage {...props} />;
 }
 
