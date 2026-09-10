@@ -1,5 +1,7 @@
-import { useState, type CSSProperties } from 'react';
+import { useRef, useState, type CSSProperties } from 'react';
 import { Link } from 'react-router-dom';
+import { useGSAP } from '@gsap/react';
+import { gsap } from 'gsap';
 
 import chapter3EquatorialMangrove from '@/assets/images/scenes/chapter-3/equatorial-mangrove.webp';
 import chapter3GuineaWaterpower from '@/assets/images/scenes/chapter-3/guinea-waterpower.webp';
@@ -21,6 +23,8 @@ import { worldWaterStations, worldWaterSteps } from '@/data/worldWater';
 import type { WorldWaterChoice, WorldWaterStation, WorldWaterStationId, WorldWaterStep } from '@/types/worldWater';
 
 import './WorldWater.css';
+
+gsap.registerPlugin(useGSAP);
 
 interface WorldWaterResponse {
   stars: 1 | 2 | 3;
@@ -143,6 +147,7 @@ function evaluateStep(step: WorldWaterStep, selectedChoiceIds: readonly string[]
 
 function WorldWater() {
   const { recordLevelResult } = useGovernanceProgress();
+  const pageRef = useRef<HTMLElement | null>(null);
   const [activeStationId, setActiveStationId] = useState<WorldWaterStationId | null>(null);
   const [activeStepId, setActiveStepId] = useState<WorldWaterStep['id'] | null>(null);
   const [selectedChoiceIdsByStep, setSelectedChoiceIdsByStep] = useState<Record<string, string[]>>({});
@@ -177,6 +182,42 @@ function WorldWater() {
       ? 'guide'
       : `${activeStep.id}-${activeResponse === null ? 'open' : 'answered'}`;
   const pagePanelState = isFinished ? 'finish' : activeStep === null ? 'guide' : 'question';
+
+  useGSAP(() => {
+    const media = gsap.matchMedia();
+    media.add('(prefers-reduced-motion: no-preference)', () => {
+      const page = pageRef.current;
+      if (page === null) return;
+
+      const panel = page.querySelector<HTMLElement>('.world-water-page__panel-content');
+      const routeNodes = Array.from(page.querySelectorAll<HTMLElement>('.world-water-route__node'));
+      const activeDot = page.querySelector<HTMLElement>('.world-water-route__node.is-active .world-water-route__node-dot');
+      const progressBar = page.querySelector<HTMLElement>('.world-water-page__progress i');
+      const timeline = gsap.timeline({ defaults: { ease: 'power3.out' } });
+
+      timeline.addLabel('panel');
+      if (panel !== null) {
+        timeline.fromTo(panel, { x: 12 }, { x: 0, duration: 0.42 }, 'panel');
+      }
+      if (routeNodes.length > 0) {
+        timeline.fromTo(
+          routeNodes,
+          { y: 8 },
+          { y: 0, duration: 0.28, stagger: { each: 0.035, from: 'edges' } },
+          'panel+=0.04',
+        );
+      }
+      if (activeDot !== null) {
+        timeline.fromTo(activeDot, { scale: 0.82 }, { scale: 1.08, duration: 0.32, ease: 'back.out(1.4)' }, 'panel+=0.16');
+        timeline.to(activeDot, { scale: 1, duration: 0.24, ease: 'power2.out' });
+      }
+      if (progressBar !== null) {
+        timeline.fromTo(progressBar, { scaleX: 0 }, { scaleX: progressPercent / 100, duration: 0.58 }, 'panel+=0.08');
+      }
+    });
+
+    return () => media.revert();
+  }, { scope: pageRef, dependencies: [panelKey, activeWorldWaterScene.id, progressPercent], revertOnUpdate: true });
 
   const triggerRipple = (x: number, y: number): void => {
     setRipple((current) => ({
@@ -304,7 +345,7 @@ function WorldWater() {
   };
 
   return (
-    <main className={`world-water-page world-water-page--scene-${activeWorldWaterScene.id} world-water-page--${pagePanelState}`}>
+    <main ref={pageRef} className={`world-water-page world-water-page--scene-${activeWorldWaterScene.id} world-water-page--${pagePanelState}`}>
       <ChapterSceneStage
         key={activeWorldWaterScene.id}
         className="world-water-page__scene"

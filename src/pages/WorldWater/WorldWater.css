@@ -30,6 +30,22 @@
   background: #102d35;
 }
 
+.world-water-page__panel-content,
+.world-water-route__node,
+.world-water-route__node-dot,
+.world-water-page__progress i {
+  will-change: transform, opacity;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .world-water-page__panel-content,
+  .world-water-route__node,
+  .world-water-route__node-dot,
+  .world-water-page__progress i {
+    will-change: auto;
+  }
+}
+
 .world-water-page__scene {
   z-index: 0;
   border: 0;
@@ -923,10 +939,6 @@
 .world-water-route__node.is-active .world-water-route__node-dot::after {
   opacity: .72;
   transform: scale(1);
-}
-
-.world-water-page__panel-content {
-  animation: world-water-panel-in var(--chapter-dur-panel) var(--chapter-ease-out) both;
 }
 
 .world-water-page .chapter-choice-panel {

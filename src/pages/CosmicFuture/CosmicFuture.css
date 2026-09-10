@@ -38,6 +38,28 @@
   pointer-events: none;
 }
 
+.cosmic-future-page__backdrop,
+.cosmic-future-page__panel-content,
+.cosmic-future-orbit__surface,
+.cosmic-future-orbit__signal,
+.cosmic-future-orbit__core,
+.cosmic-future-orbit__shard,
+.cosmic-future-page__progress i {
+  will-change: transform, opacity;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .cosmic-future-page__backdrop,
+  .cosmic-future-page__panel-content,
+  .cosmic-future-orbit__surface,
+  .cosmic-future-orbit__signal,
+  .cosmic-future-orbit__core,
+  .cosmic-future-orbit__shard,
+  .cosmic-future-page__progress i {
+    will-change: auto;
+  }
+}
+
 .cosmic-future-page__backdrop img {
   width: 100%;
   height: 100%;
@@ -966,10 +988,6 @@
 .cosmic-future-orbit__signal:focus-within .cosmic-future-orbit__signal-dot::after {
   opacity: .58;
   transform: scale(1);
-}
-
-.cosmic-future-page__panel-content {
-  animation: cosmic-future-panel-in var(--chapter-dur-panel) var(--chapter-ease-out) both;
 }
 
 .cosmic-future-page .chapter-choice-panel {

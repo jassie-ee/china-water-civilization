@@ -1,5 +1,7 @@
-import { Fragment, useState, type CSSProperties } from 'react';
+import { Fragment, useRef, useState, type CSSProperties } from 'react';
 import { Link } from 'react-router-dom';
+import { useGSAP } from '@gsap/react';
+import { gsap } from 'gsap';
 
 import chapter4Awakening from '@/assets/images/scenes/chapter-4/awakening.webp';
 import chapter4CosmicVoyage from '@/assets/images/scenes/chapter-4/cosmic-voyage.webp';
@@ -20,6 +22,8 @@ import type { CosmicAct, CosmicActId, CosmicChoice } from '@/types/cosmicConstra
 import { loadChapterCompletion, markChapterComplete } from '@/utils/chapterCompletion';
 
 import './CosmicFuture.css';
+
+gsap.registerPlugin(useGSAP);
 
 type CosmicPhase = 'assembly' | 'reflection' | 'voyage' | 'awakening' | 'complete';
 type CosmicSceneId = 'assembly' | 'reflection' | 'voyage' | 'awakening';
@@ -65,6 +69,7 @@ function isActRecorded(act: CosmicAct, phase: CosmicPhase, assembledShardIds: re
 
 function CosmicFuture() {
   const { recordLevelResult } = useGovernanceProgress();
+  const pageRef = useRef<HTMLElement | null>(null);
   const [initialChapter4Complete] = useState(() => loadChapterCompletion().chapter4);
   const [isChapter4Complete, setIsChapter4Complete] = useState(initialChapter4Complete);
   const [phase, setPhase] = useState<CosmicPhase>(initialChapter4Complete ? 'complete' : 'assembly');
@@ -183,6 +188,74 @@ function CosmicFuture() {
           ? '完成觉醒'
           : '重新体验';
 
+  useGSAP(() => {
+    const media = gsap.matchMedia();
+    media.add('(prefers-reduced-motion: no-preference)', () => {
+      const page = pageRef.current;
+      if (page === null) return;
+
+      const backdrop = page.querySelector<HTMLElement>('.cosmic-future-page__backdrop');
+      const orbitSurface = page.querySelector<HTMLElement>('.cosmic-future-orbit__surface');
+      const panel = page.querySelector<HTMLElement>('.cosmic-future-page__panel-content');
+      const signals = Array.from(page.querySelectorAll<HTMLElement>('.cosmic-future-orbit__signal'));
+      const activeSignal = page.querySelector<HTMLElement>('.cosmic-future-orbit__signal.is-active');
+      const core = page.querySelector<HTMLElement>('.cosmic-future-orbit__core');
+      const progressBar = page.querySelector<HTMLElement>('.cosmic-future-page__progress i');
+      const timeline = gsap.timeline({ defaults: { ease: 'power3.out' } });
+
+      timeline.addLabel('scene');
+      if (backdrop !== null) {
+        timeline.fromTo(backdrop, { scale: 1.018 }, { scale: 1, duration: 0.72 }, 'scene');
+      }
+      if (orbitSurface !== null) {
+        timeline.fromTo(orbitSurface, { y: 8 }, { y: 0, duration: 0.46 }, 'scene+=0.08');
+      }
+      if (signals.length > 0) {
+        timeline.fromTo(
+          signals,
+          { y: 6 },
+          { y: 0, duration: 0.26, stagger: { each: 0.05, from: 'edges' } },
+          'scene+=0.12',
+        );
+      }
+      if (core !== null) {
+        timeline.fromTo(core, { scale: 0.94 }, { scale: 1.035, duration: 0.4, ease: 'back.out(1.2)' }, 'scene+=0.12');
+        timeline.to(core, { scale: 1, duration: 0.28, ease: 'power2.out' });
+      }
+      if (activeSignal !== null) {
+        timeline.fromTo(activeSignal, { scale: 0.96 }, { scale: 1.035, duration: 0.3, ease: 'back.out(1.35)' }, 'scene+=0.18');
+        timeline.to(activeSignal, { scale: 1, duration: 0.22, ease: 'power2.out' });
+      }
+      if (panel !== null) {
+        timeline.fromTo(panel, { x: 12 }, { x: 0, duration: 0.42 }, 'scene+=0.1');
+      }
+      if (progressBar !== null) {
+        timeline.fromTo(progressBar, { scaleX: 0 }, { scaleX: progressPercent / 100, duration: 0.62 }, 'scene+=0.16');
+      }
+    });
+
+    return () => media.revert();
+  }, { scope: pageRef, dependencies: [panelKey, activeCosmicScene.id, progressPercent], revertOnUpdate: true });
+
+  useGSAP(() => {
+    const media = gsap.matchMedia();
+    media.add('(prefers-reduced-motion: no-preference)', () => {
+      const page = pageRef.current;
+      if (page === null) return;
+
+      const assembledShards = Array.from(page.querySelectorAll<HTMLElement>('.cosmic-future-orbit__shard.is-assembled'));
+      if (assembledShards.length === 0) return;
+
+      gsap.fromTo(
+        assembledShards,
+        { scale: 0.82, rotation: 40 },
+        { scale: 1, rotation: 45, duration: 0.56, stagger: 0.08, ease: 'back.out(1.45)' },
+      );
+    });
+
+    return () => media.revert();
+  }, { scope: pageRef, dependencies: [assembledShardIds.length], revertOnUpdate: true });
+
   const handleGuideAction = (): void => {
     if (phase === 'assembly') {
       if (isAssemblyComplete) handleEnterReflection();
@@ -208,7 +281,7 @@ function CosmicFuture() {
   };
 
   return (
-    <main className={`cosmic-future-page cosmic-future-page--${phase} cosmic-future-page--scene-${activeCosmicScene.id}`}>
+    <main ref={pageRef} className={`cosmic-future-page cosmic-future-page--${phase} cosmic-future-page--scene-${activeCosmicScene.id}`}>
       <div className="cosmic-future-page__backdrop" aria-hidden="true">
         <img key={activeCosmicScene.id} src={activeCosmicScene.poster} alt="" style={{ objectPosition: activeCosmicScene.objectPosition }} />
       </div>
