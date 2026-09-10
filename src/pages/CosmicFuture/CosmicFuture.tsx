@@ -1,4 +1,4 @@
-import { useState, type CSSProperties } from 'react';
+import { Fragment, useState, type CSSProperties } from 'react';
 import { Link } from 'react-router-dom';
 
 import chapter4Awakening from '@/assets/images/scenes/chapter-4/awakening.webp';
@@ -17,6 +17,7 @@ import StatefulActionButton from '@/components/chapter/StatefulActionButton';
 import WaterMist from '@/components/chapter/WaterMist';
 import { cosmicActs, cosmicReflectionChoices } from '@/data/cosmicConstraint';
 import type { CosmicAct, CosmicActId, CosmicChoice } from '@/types/cosmicConstraint';
+import { loadChapterCompletion, markChapterComplete } from '@/utils/chapterCompletion';
 
 import './CosmicFuture.css';
 
@@ -64,14 +65,19 @@ function isActRecorded(act: CosmicAct, phase: CosmicPhase, assembledShardIds: re
 
 function CosmicFuture() {
   const { recordLevelResult } = useGovernanceProgress();
-  const [phase, setPhase] = useState<CosmicPhase>('assembly');
-  const [assembledShardIds, setAssembledShardIds] = useState<number[]>([]);
+  const [initialChapter4Complete] = useState(() => loadChapterCompletion().chapter4);
+  const [isChapter4Complete, setIsChapter4Complete] = useState(initialChapter4Complete);
+  const [phase, setPhase] = useState<CosmicPhase>(initialChapter4Complete ? 'complete' : 'assembly');
+  const [assembledShardIds, setAssembledShardIds] = useState<number[]>(
+    initialChapter4Complete ? [0, 1, 2] : [],
+  );
   const [reflectionChoiceId, setReflectionChoiceId] = useState<string | null>(null);
   const [reflectionStars, setReflectionStars] = useState<1 | 2 | 3>(3);
   const [ripple, setRipple] = useState<InkRippleTrigger | null>(null);
 
   const activeActId = getActForPhase(phase);
   const activeAct = cosmicActs.find((act) => act.id === activeActId) ?? cosmicActs[0];
+  const routeStops = activeAct.routeStops ?? [];
   const activeCosmicScene = getCosmicScene(phase);
   const isAssemblyComplete = assembledShardIds.length === shardNames.length;
   const waterFeel = phase === 'assembly' ? 0 : phase === 'reflection' ? 10 : phase === 'voyage' ? 20 : 30;
@@ -130,6 +136,8 @@ function CosmicFuture() {
 
   const handleComplete = (): void => {
     if (phase !== 'awakening') return;
+    markChapterComplete('chapter4');
+    setIsChapter4Complete(true);
     setPhase('complete');
     void recordLevelResult('chapter-4-final-awakening', reflectionStars).catch(() => undefined);
   };
@@ -396,9 +404,20 @@ function CosmicFuture() {
             <section className="cosmic-future-page__finish" aria-live="polite">
               <p className="cosmic-future-page__eyebrow">终极觉醒已完成 / AWAKENING COMPLETE</p>
               <h2>所有散落的记忆，<br />都回到水脉里了。</h2>
-              <p>从九州大地到漫天星河，三块碎片已经组成完整的宇宙水脉图。</p>
-              <p className="cosmic-future-page__quote">人法地，地法天，天法道，道法自然。</p>
-              <p className="cosmic-future-page__reward">水滴精灵最终觉醒：天地人和</p>
+               <p>从九州大地到漫天星河，三块碎片已经组成完整的宇宙水脉图。</p>
+               <div className="cosmic-future-page__spirit-lines" aria-live="polite">
+                 {activeAct.narrative?.spiritLines.map((line, index) => (
+                   <p key={line} style={{ '--line-index': index } as CSSProperties}>{line}</p>
+                 ))}
+               </div>
+               <div className="cosmic-future-page__philosophy" aria-label="终章哲理">
+                 {activeAct.narrative?.philosophyLines.map((line, index) => (
+                   <span key={line} style={{ '--line-index': index } as CSSProperties}>{line}</span>
+                 ))}
+               </div>
+               <p className="cosmic-future-page__reward">
+                 水滴精灵最终觉醒：天地人和 · {isChapter4Complete ? '完整星河拼图已保存' : '完整星河拼图待保存'}
+               </p>
               <div className="cosmic-future-page__finish-actions">
                 <button type="button" onClick={handleReplay}>重新体验</button>
                 <Link to="/chapters">返回章节图册<span aria-hidden="true">→</span></Link>
@@ -433,9 +452,9 @@ function CosmicFuture() {
               story="水真的把人和天连在了一起。走到宇宙边缘，你愿意怎样理解这段从地球出发的经验？"
               question="地球上的水治理智慧，能成为宇宙治理的起点吗？"
               choices={cosmicReflectionChoices}
-              selectedChoiceId={reflectionChoiceId}
-              completedCount={reflectionChoiceId === null ? 0 : 1}
-              totalCount={3}
+               selectedChoiceId={reflectionChoiceId}
+               completedCount={reflectionChoiceId === null ? 0 : 1}
+               totalCount={1}
               score={reflectionChoiceId === null ? 0 : reflectionStars}
               onChoice={handleReflectionChoice}
               onContinue={handleReflectionContinue}
@@ -445,10 +464,15 @@ function CosmicFuture() {
             <section className="cosmic-future-page__voyage-panel">
               <p className="cosmic-future-page__eyebrow">02 · 水脉贯星河 / LONG SHOT</p>
               <h2>准备好了吗？<br />沿着水脉，飞向星河。</h2>
-              <p>镜头将从地球出发，经过月球、火星和更远的星辰。水在宇宙中不再只是河流，而是连接生命的脉络。</p>
-              <div className="cosmic-future-page__voyage-route" aria-label="飞行路线">
-                <span>地球</span><i /><span>月球</span><i /><span>火星</span><i /><span>银河</span>
-              </div>
+               <p>{activeAct.story}</p>
+               <div className="cosmic-future-page__voyage-route" aria-label="飞行路线">
+                 {routeStops.map((stop, index) => (
+                   <Fragment key={stop}>
+                     <span>{stop}</span>
+                     {index < routeStops.length - 1 && <i aria-hidden="true" />}
+                   </Fragment>
+                 ))}
+               </div>
               <Magnet wrapperClassName="cosmic-future-page__magnet" padding={18} magnetStrength={6}>
                 <WaterMist className="cosmic-future-page__cta-mist" mistColor="#d7bd72" rippleColor="#d7bd72" rippleRadius={20}>
                   <StatefulActionButton className="cosmic-future-page__primary-button" onCommit={handleLaunch} completeLabel="已进入星河">
