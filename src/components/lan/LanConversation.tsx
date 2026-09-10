@@ -23,8 +23,11 @@ interface LanConversationProps {
   choices?: Array<{
     id: string;
     label: string;
+    description?: string;
+    imageSrc?: string;
     onSelect: () => void;
   }>;
+  choicePresentation?: 'list' | 'species' | 'dispatch';
   media?: {
     src: string;
     title: string;
@@ -42,6 +45,7 @@ interface LanConversationProps {
 function LanConversation({
   actionLabel,
   choices,
+  choicePresentation = 'list',
   anchor,
   conversationId,
   dialogLabel,
@@ -185,13 +189,15 @@ function LanConversation({
             <p className="lan-conversation__notice" role="status">{unavailableNotice}</p>
           )}
           {isFinalMessage && choices !== undefined && choices.length > 0 ? (
-            <div ref={choicesRef} className="lan-conversation__choices" role="group" aria-label="选择回答">
+            <div ref={choicesRef} className={`lan-conversation__choices lan-conversation__choices--${choicePresentation}`} role="group" aria-label="选择回答">
               {choices.map((choice) => (
                 <button key={choice.id} className="lan-conversation__choice" type="button" onClick={choice.onSelect} onPointerMove={handleChoicePointerMove} onPointerLeave={(event) => {
                   event.currentTarget.style.setProperty('--lan-choice-tilt-x', '0deg');
                   event.currentTarget.style.setProperty('--lan-choice-tilt-y', '0deg');
                 }}>
-                  {choice.label}
+                  {choice.imageSrc ? <img src={choice.imageSrc} alt="" /> : choicePresentation === 'species' ? <span className="lan-conversation__choice-placeholder" aria-hidden="true">物种图像</span> : null}
+                  <strong>{choice.label}</strong>
+                  {choice.description && <small>{choice.description}</small>}
                 </button>
               ))}
             </div>

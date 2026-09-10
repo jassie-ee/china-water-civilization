@@ -8,6 +8,7 @@ import type { BasinId, BasinOverviewEntry } from '@/types/basin';
 
 import BasinAtlas from './components/BasinAtlas';
 import BasinOverviewHeader from './components/BasinOverviewHeader';
+import HydropowerKnowledgeAtlas from './components/HydropowerKnowledgeAtlas';
 
 import './BasinOverview.css';
 
@@ -20,6 +21,7 @@ function BasinOverview() {
   const [selectedBasinId, setSelectedBasinId] = useState<BasinId | null>(null);
   const [highlightedBasinId, setHighlightedBasinId] = useState<BasinId | null>(null);
   const [isLeaving, setIsLeaving] = useState(false);
+  const [isKnowledgeOpen, setIsKnowledgeOpen] = useState(false);
   const navigationTimerRef = useRef<number | null>(null);
   const mascotConfig = useMemo(() => ({
     pageId: 'basin-overview',
@@ -75,6 +77,8 @@ function BasinOverview() {
         onBasinActivate={handleBasinActivate}
         onBasinHighlight={setHighlightedBasinId}
       />
+      <button className="basin-overview__knowledge-trigger" type="button" onClick={() => setIsKnowledgeOpen(true)}>水电与储能知识册</button>
+      <HydropowerKnowledgeAtlas isOpen={isKnowledgeOpen} onClose={() => setIsKnowledgeOpen(false)} />
     </section>
   );
 }

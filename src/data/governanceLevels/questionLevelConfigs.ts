@@ -8,6 +8,7 @@ import { dujiangyanQuestionLevel } from './dujiangyanQuestionLevel';
 import { taihuGovernanceQuestionLevel } from './taihuGovernanceQuestionLevel';
 import { threeGorgesQuestionLevel } from './threeGorgesQuestionLevel';
 import { xiaolangdiQuestionLevel } from './xiaolangdiQuestionLevel';
+import { basinStoryQuestionLevels } from './basinStoryQuestionLevels';
 
 const governanceQuestionLevelConfigs: GovernanceQuestionLevelConfig[] = [
   longyangxiaQuestionLevel,
@@ -18,6 +19,7 @@ const governanceQuestionLevelConfigs: GovernanceQuestionLevelConfig[] = [
   threeGorgesQuestionLevel,
   danjiangkouQuestionLevel,
   taihuGovernanceQuestionLevel,
+  ...basinStoryQuestionLevels,
 ];
 
 export { governanceQuestionLevelConfigs };

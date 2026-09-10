@@ -11,6 +11,8 @@
 }
 
 .basin-overview-page--leaving { opacity: 0; transition: opacity 180ms ease; }
+.basin-overview__knowledge-trigger { position: fixed; z-index: 7; bottom: clamp(1rem, 3vh, 2rem); left: 50%; min-height: 2.15rem; padding: .36rem .8rem; border: 1px solid rgb(219 202 142 / 54%); border-radius: 999px; color: #f7eac1; background: rgb(5 30 37 / 55%); box-shadow: 0 .5rem 1.5rem rgb(1 14 20 / 22%); backdrop-filter: blur(6px); cursor: pointer; font-family: var(--font-calligraphy); font-size: .76rem; letter-spacing: .08em; transform: translateX(-50%); }
+.basin-overview__knowledge-trigger:hover, .basin-overview__knowledge-trigger:focus-visible { border-color: #f0d78d; background: rgb(20 62 67 / 72%); }
 
 .basin-overview-header {
   position: fixed;
@@ -210,7 +212,34 @@
   .basin-atlas__info { right: 1rem; bottom: 13rem; width: min(15rem, calc(100% - 2rem)); padding-top: .72rem; background: linear-gradient(90deg, rgb(7 29 38 / 82%), transparent); }
   .basin-atlas__info h2 { font-size: 1.22rem; }
   .basin-atlas__info small { font-size: .7rem; }
+  .basin-overview__knowledge-trigger { z-index: 8; bottom: 10.8rem; font-size: .68rem; }
 }
+
+.hydropower-atlas__backdrop { position: fixed; z-index: 50; inset: 0; display: grid; place-items: center; padding: 1rem; background: rgb(1 17 24 / 72%); backdrop-filter: blur(5px); }
+.hydropower-atlas { width: min(68rem, 100%); max-height: min(42rem, calc(100dvh - 2rem)); overflow: auto; border: 1px solid rgb(232 221 175 / 28%); background: linear-gradient(135deg, rgb(9 38 45 / 98%), rgb(15 62 63 / 96%)); box-shadow: 0 1.4rem 5rem rgb(0 0 0 / 45%); color: #ebf0df; }
+.hydropower-atlas header { display: flex; align-items: flex-start; justify-content: space-between; padding: 1.1rem clamp(1rem, 2.5vw, 1.8rem); border-bottom: 1px solid rgb(232 221 175 / 18%); }
+.hydropower-atlas header p, .hydropower-atlas__eyebrow { margin: 0; color: #d7bd77; font-family: var(--font-calligraphy); font-size: .72rem; letter-spacing: .12em; }
+.hydropower-atlas h2 { margin: .24rem 0 0; font-family: "Noto Serif SC", var(--font-calligraphy); font-size: clamp(1.3rem, 2.2vw, 1.8rem); font-weight: 500; letter-spacing: .08em; }
+.hydropower-atlas header button { width: 2rem; height: 2rem; border: 1px solid rgb(230 224 194 / 30%); border-radius: 50%; color: #f7e9bd; background: transparent; cursor: pointer; font-size: 1.2rem; }
+.hydropower-atlas__body { display: grid; grid-template-columns: minmax(10rem, .27fr) minmax(0, .73fr); min-height: 25rem; }
+.hydropower-atlas__body > nav { display: grid; align-content: center; gap: .25rem; padding: 1rem; border-right: 1px solid rgb(232 221 175 / 18%); }
+.hydropower-atlas__body > nav button { min-height: 2.5rem; border: 1px solid transparent; color: rgb(229 239 222 / 68%); background: transparent; cursor: pointer; font-family: var(--font-calligraphy); text-align: left; }
+.hydropower-atlas__body > nav button:hover, .hydropower-atlas__body > nav button.is-active { border-color: rgb(215 189 119 / 58%); color: #fff0bb; background: rgb(215 189 119 / 12%); }
+.hydropower-atlas__content { padding: clamp(1.2rem, 3vw, 2.5rem); animation: basin-atlas-info-in 240ms ease both; }
+.hydropower-atlas__content h3 { margin: .38rem 0 .7rem; color: #f8f0d5; font-family: "Noto Serif SC", var(--font-calligraphy); font-size: clamp(1.35rem, 2.3vw, 2rem); font-weight: 500; }
+.hydropower-atlas__content > p { max-width: 50rem; margin: 0; color: rgb(229 241 226 / 86%); font-size: .92rem; line-height: 1.72; }
+.hydropower-atlas__diagram, .hydropower-atlas__basins { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: .8rem; margin-top: 1.35rem; }
+.hydropower-atlas__diagram article, .hydropower-atlas__basins article { min-height: 11rem; padding: 1rem; border-top: 1px solid rgb(209 228 207 / 38%); background: linear-gradient(145deg, rgb(114 192 192 / 12%), transparent); }
+.hydropower-atlas__diagram strong, .hydropower-atlas__basins strong { display: block; color: #f4dda0; font-family: var(--font-calligraphy); font-size: 1.04rem; }
+.hydropower-atlas__diagram span, .hydropower-atlas__basins span { display: block; margin-top: .42rem; color: #8fd2d1; font-size: .78rem; letter-spacing: .08em; }
+.hydropower-atlas__diagram small, .hydropower-atlas__basins small { display: block; margin-top: .7rem; color: rgb(226 239 223 / 78%); font-size: .78rem; line-height: 1.6; }
+.hydropower-atlas__storage { display: grid; grid-template-columns: 1fr auto 1fr; gap: 1rem; align-items: center; margin-top: 1.5rem; padding: 1.2rem; border: 1px solid rgb(158 219 214 / 30%); background: radial-gradient(circle at 50% 50%, rgb(91 189 199 / 16%), transparent 60%); }
+.hydropower-atlas__storage div { min-height: 7.5rem; padding: 1rem; border: 1px solid rgb(220 235 219 / 18%); }
+.hydropower-atlas__storage strong { display: block; color: #f3d891; font-family: var(--font-calligraphy); font-size: 1.05rem; }
+.hydropower-atlas__storage span { display: block; margin-top: .5rem; color: #bce1d6; }
+.hydropower-atlas__storage b { color: #8ee1e5; font-size: 2rem; }
+.hydropower-atlas__storage p { grid-column: 1 / -1; margin: 0; color: rgb(228 241 225 / 78%); line-height: 1.65; }
+@media (max-width: 720px) { .hydropower-atlas__body { grid-template-columns: 1fr; } .hydropower-atlas__body > nav { grid-template-columns: repeat(3, 1fr); border-right: 0; border-bottom: 1px solid rgb(232 221 175 / 18%); } .hydropower-atlas__body > nav button { font-size: .72rem; text-align: center; } .hydropower-atlas__diagram, .hydropower-atlas__basins { grid-template-columns: 1fr; } .hydropower-atlas__storage { grid-template-columns: 1fr; } .hydropower-atlas__storage b { transform: rotate(90deg); text-align: center; } }
 
 @media (prefers-reduced-motion: reduce) {
   .basin-overview-page--leaving,

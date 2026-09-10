@@ -12,8 +12,12 @@ export interface LanMascotDialogue {
   choices?: Array<{
     id: string;
     label: string;
+    description?: string;
+    imageSrc?: string;
     onSelect: () => void;
   }>;
+  choicePresentation?: 'list' | 'species' | 'dispatch';
+  heading?: string;
   media?: {
     src: string;
     title: string;
