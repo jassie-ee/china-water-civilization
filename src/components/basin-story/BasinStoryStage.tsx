@@ -16,6 +16,7 @@ function BasinStoryStage({ scene, onStartInteraction, layout = 'stacked' }: Basi
     description: '影像素材从项目 Release 按需读取；暂未上传时仍可直接进入互动。',
     src: getReleaseMediaUrl(scene.videoFilename),
     poster: scene.poster,
+    sourceLabel: scene.videoSourceLabel,
   } : undefined;
 
   const mediaAfterSectionId = scene.mediaAfterSectionId ?? 'problem';

@@ -3,23 +3,15 @@ import yangtzeGoldenWaterwayBackground from '@/assets/images/basins/yangtze-gold
 import yangtzeJointRegulationBackground from '@/assets/images/basins/yangtze-joint-regulation.webp';
 import yangtzeLifeBackground from '@/assets/images/basins/yangtze-life.webp';
 import pearlBackground from '@/assets/images/basins/pearl-river-background-v3.webp';
+import pearlCityRiverBackground from '@/assets/images/basins/pearl-city-river.webp';
+import pearlEstuaryLifeBackground from '@/assets/images/basins/pearl-estuary-life.webp';
+import pearlSaltTideBackground from '@/assets/images/basins/pearl-salt-tide.webp';
 import dolphinPoster from '@/assets/images/interactions/chinese-white-dolphin-home-1920x1080.jpg';
 import { yangtzeRiverNodes } from '@/data/yangtzeRiverNodes';
 import { yangtzeRiverRegions } from '@/data/yangtzeRiverRegions';
 import { pearlRiverNodes } from '@/data/pearlRiverNodes';
 import { pearlRiverRegions } from '@/data/pearlRiverRegions';
-import type { BasinNarrativeConfig, BasinStorySection } from '@/types/basinStory';
-
-function nodeSections(nodeId: string, reflection: string): BasinStorySection[] {
-  const node = [...yangtzeRiverNodes, ...pearlRiverNodes].find((candidate) => candidate.id === nodeId);
-  return [
-    { id: 'background', label: '背景介绍', paragraphs: [node?.locationDescription ?? '这段流域资料正在整理。', node?.summary ?? '从一处生态变化，观察整条河流的响应。'] },
-    { id: 'problem', label: '问题剖析', paragraphs: [node?.problemDescription ?? '河流中的变化会沿水系传递，不能只看单一地点。'], points: node?.causes },
-    { id: 'governance', label: '怎样治理', paragraphs: ['治理从识别真实生态需求开始，再把监测结果放进流域协同决策。'], points: node?.governanceMeasures },
-    { id: 'change', label: '治理变化', paragraphs: [node?.significance ?? '治理效果需要由水文过程和生命状态共同检验。'], points: node?.ecologicalImpacts },
-    { id: 'reflection', label: '水滴感悟', paragraphs: [reflection, node?.culturalMeaning ?? '把水还给河流，也是在为生命留下空间。'] },
-  ];
-}
+import type { BasinNarrativeConfig } from '@/types/basinStory';
 
 const yangtzeNarrative: BasinNarrativeConfig = {
   basinId: 'yangtze-river',
@@ -58,7 +50,7 @@ const yangtzeNarrative: BasinNarrativeConfig = {
     },
     {
       id: 'yangtze-golden-waterway', label: '黄金水道', title: '让发展取之有度', summary: '利用大江的力量，也让河流继续保有照顾生命的节律。',
-      nodeId: 'three-gorges', videoFilename: 'yangtze-ecological-dispatch.mp4', videoTitle: '三峡也“催生”？揭秘生态调度的“流量密码”', mediaAfterSectionId: 'governance',
+      nodeId: 'three-gorges', videoFilename: 'sanxia.mp4', videoTitle: '三峡也“催生”？揭秘生态调度的“流量密码”', videoSourceLabel: '来源：水利部长江水利委员会', mediaAfterSectionId: 'governance',
       sections: [
         { id: 'background', label: '背景介绍', paragraphs: ['长江不只是自然界的一条大河，也是一条连接中国东中西部的重要通道。', '千百年来，人们沿着长江航行、贸易、耕作、建城。今天，巨大的船队依然沿江而行，把粮食、矿产、集装箱和各地的产品运往远方。长江像一条天然的大走廊，把高山、平原、城市和港口连接在一起，因此被称为“黄金水道”。', '同时，长江上游峡谷落差大，水流蕴藏着巨大的能量。三峡、葛洲坝等水利枢纽把水位落差转化为清洁电力，再通过输电线路送往远方城市。', '如果把长江比作一位慷慨的朋友，它既能为城市点亮灯火，也能托起万吨船队的远行。'] },
         { id: 'problem', label: '问题剖析', paragraphs: ['可是，大江的力量并不是取之不尽、用之不竭的。发电希望水流稳定、落差充足；船舶通航希望航道水深合适；防洪需要水库留出库容；下游农田和城市需要供水；鱼类繁殖则需要特定的水温、水位和流速。', '这些需求有时会像坐在同一张桌子上的人：每个人都希望多分一点水，却不能只顾自己。', '如果只追求发电，水库下泄的节奏可能与鱼类繁殖需要的水流节奏不同；如果只追求航运，也不能忽视河流生态；如果工程建设只考虑人类便利，江中的生命可能失去原本熟悉的家园。', '人类怎样使用长江的力量，又怎样不把长江变成只为人类服务的“机器”？', '三峡让我的力量变成了电，也让大船跨过了高高的水位差。可江里的鱼儿会不会想念从前的水流节奏呢？原来，水库还能用一种特别的方式，为生命送去信号。'] },
@@ -97,13 +89,24 @@ const pearlNarrative: BasinNarrativeConfig = {
   pageSubtitle: '淡水抵达城市与海洋',
   theme: 'pearl',
   background: pearlBackground,
+  sceneBackgrounds: {
+    'pearl-salt': pearlSaltTideBackground,
+    'pearl-city': pearlCityRiverBackground,
+    'pearl-estuary': pearlEstuaryLifeBackground,
+  },
   nodes: pearlRiverNodes,
   regions: pearlRiverRegions,
   scenes: [
     {
-      id: 'pearl-salt', label: '枯水期的咸潮', title: '淡水如何抵住海潮', summary: '枯水期，水库、泵站与取水口需要共同守住城市的淡水窗口。',
-      nodeId: 'greater-bay-water-network', videoFilename: 'pearl-salt-tide.mp4', videoTitle: '珠江压咸补淡影像',
-      sections: nodeSections('greater-bay-water-network', '海水逆流而上时，一滴淡水的抵达，需要上游与城市共同安排。'),
+      id: 'pearl-salt', label: '与潮争水', title: '让淡水安全抵达城市', summary: '读懂潮汐的节奏，让有限的淡水在最需要的时候抵达城市。',
+      nodeId: 'greater-bay-water-network', videoFilename: 'pearl-salt-tide.mp4', videoTitle: '淡水安全抵达城市的平衡影像', mediaAfterSectionId: 'problem',
+      sections: [
+        { id: 'background', label: '背景介绍', paragraphs: ['珠江在入海前分成许多水道，从不同口门汇入南海。珠海、澳门、中山等城市靠近河口，城市取水不仅受到上游来水影响，也会受到海洋潮汐影响。', '汛期雨水充足，奔向海洋的淡水力量较强，能够把海水挡在河口附近。到了冬春枯水期，上游来水减少，海水便可能趁着涨潮进入河道，形成咸潮。', '咸潮看起来和普通河水没有太大区别，却会悄悄提高水中的盐度。一旦盐度超过取水标准，自来水厂就不能正常抽取这些河水，城市供水安全也会受到影响。'] },
+        { id: 'problem', label: '问题剖析', paragraphs: ['咸潮就像海水沿着河道进行的一场“逆向旅行”。淡水从上游向海洋流，海潮则从河口向内陆推进。当淡水力量充足时，咸潮会被压在河口；当枯水期淡水流量减小时，海水就可能沿水道不断上溯，靠近城市取水口。', '面对咸潮，不能简单地在河口修一道大坝。珠江口承担着航运、排洪和鱼类洄游等功能，彻底封住河口，可能造成新的生态和交通问题。', '同样，也不能只靠某一座水库一直放水。淡水资源有限，还要同时兼顾城市供水、农业、航运、发电和生态用水。真正的难题是：怎样用有限的淡水，在最合适的时间把咸潮推回去？', '海水正在沿着河道悄悄靠近取水口。上游水库、下游泵站和城市水库，要怎样配合，才能把安全的淡水送进千家万户呢？'] },
+        { id: 'governance', label: '怎样治理', paragraphs: ['珠江建立了由当地水库、近地水利枢纽和上游骨干水库组成的多层供水防线。最靠近城市的是竹银水库、平岗泵站、竹洲头泵站等取水和蓄水设施。它们像城市门口的“淡水储蓄罐”，根据潮汐和盐度变化，在河水符合标准时及时抽取淡水并存入水库。', '大藤峡水利枢纽位于珠江中下游，能够较快地调节下泄流量，是压咸补淡的重要力量。更远处的龙滩、天生桥、百色等上游水库，则像远方的淡水后备队，在需要时共同向下游补水。', '“避涨压退”是一种顺着潮汐节奏用水的方法。涨潮较强、咸潮难以压制时，尽量保存宝贵的淡水；退潮或咸潮力量减弱时，再适当增加下泄流量，让每一份淡水发挥更大的压咸作用。', '珠三角水资源配置工程则通过地下输水线路，从西江中上游引取较稳定的水源，向深圳、东莞等城市供水。它像在地下修建了一条“淡水专线”，绕开容易受到咸潮影响的河口取水区域。海水淡化也可以在特殊情况下补充水源，但更适合作为补充，而不是替代整个城市群的常规淡水来源。'] },
+        { id: 'change', label: '治理变化', paragraphs: ['经过水库群联合补水、潮汐窗口取水和多水源配置，符合标准的淡水能够更稳定地进入城市水库和供水系统。', '过去，人们常常等咸潮靠近后再紧急应对；现在则可以提前监测盐度、预测咸潮移动，并根据潮汐变化安排水库和泵站行动。', '珠江的供水安全也由依赖一个取水口，逐渐转向“上游有补水、中游有调节、下游有储备、地下有通道”的多重保障。大藤峡投入运行后，压咸补淡的响应速度和调度精度得到提升。'] },
+        { id: 'reflection', label: '水滴感悟', paragraphs: ['“海潮并不是我的敌人，它也有属于自己的涨落节奏。人们没有粗暴地把海水挡在外面，而是读懂潮汐、珍惜淡水，让我在最合适的时候抵达城市。原来，真正的平衡不是一方战胜另一方，而是让河流、海洋与人各得其所。”', '这一段体现的天人合一，是顺潮而调、因时用水：尊重海潮的规律，也运用智慧守住城市的一杯淡水。'] },
+      ],
       interaction: {
         id: 'pearl-salt-tide-response', mode: 'dispatch', rewardStars: 3,
         question: '枯水期咸潮逼近取水口，你会怎样保障城市供水，同时避免一次性过量放水？',
@@ -115,14 +118,14 @@ const pearlNarrative: BasinNarrativeConfig = {
       },
     },
     {
-      id: 'pearl-city', label: '城市里的河流', title: '让茅洲河真正变清', summary: '河面变清只是开始，治河更要追到排水系统和污染源头。',
-      videoFilename: 'maozhou-river-governance.mp4', videoTitle: '茅洲河流域治理影像',
+      id: 'pearl-city', label: '城市河流', title: '让城市河流重新呼吸', summary: '河面变清只是开始，治河更要追到地下管网与污染源头。',
+      videoFilename: 'maozhou-river-governance.mp4', videoTitle: '茅洲河黑臭水体治理影像', mediaAfterSectionId: 'problem',
       sections: [
-        { id: 'background', label: '背景介绍', paragraphs: ['茅洲河流经高密度城市与产业区域。人口、厂区、道路和支流密集，让每一处排水变化都可能汇入同一条河。'] },
-        { id: 'problem', label: '问题剖析', paragraphs: ['污染并不只在河面。雨污混流、管网缺口、沿岸排放和内源污染相互叠加，单纯清淤或换水难以长期解决。'] },
-        { id: 'governance', label: '怎样治理', paragraphs: ['治理沿着污染物的路径反向追踪。'], points: ['排查并控制工业与生活污染源', '完善雨污分流和污水收集管网', '清理内源污染并修复河岸生态', '以跨区域监测持续检验水质'] },
-        { id: 'change', label: '治理变化', paragraphs: ['当进入河道的污染持续减少，水质改善才不再依赖临时补水，城市也重新获得可亲近的滨水空间。'] },
-        { id: 'reflection', label: '水滴感悟', paragraphs: ['让我变清的不是一场河面美容，而是城市地下管网、岸上生产生活与河流空间一起改变。'] },
+        { id: 'background', label: '背景介绍', paragraphs: ['茅洲河流经深圳和东莞，是一条典型的跨城市河流。随着城市快速发展，流域内人口、工厂、道路和建筑不断增加，城市需要排放和处理的污水也越来越多。', '河流原本像城市的“毛细血管”，负责输送水分、连接生态空间。但如果地下污水管网不完整，生活污水和工业废水便可能进入雨水管或直接排入河道。久而久之，河水就会变黑、发臭，鱼虾也难以生存。'] },
+        { id: 'problem', label: '问题剖析', paragraphs: ['黑臭水体表面上看是“河水脏了”，真正的病根却往往藏在岸上和地下。有的污水管道破损或连接错误，有的老旧社区没有完成雨污分流，还有一些企业违法排污。即使清淤船把河底污泥挖走，只要岸上的污水仍不断进入，河流很快又会重新变黑。', '此外，高密度城市中的河道往往被建筑和硬质河岸挤压，水流速度慢，自净能力不足。枯水期如果缺少基本水量，河流就像一条很久没有换水的鱼缸，污染物更容易积累。', '治好茅洲河不能只在河里施工，而要沿着污水的来路倒着寻找：河水为什么黑？污水从哪里来？地下管道有没有接错？净化厂能不能及时处理？', '河水变黑以后，只把河底的污泥挖走够不够呢？跟着我沿着排水口向岸上寻找，也许真正的答案藏在看不见的地下管网里。'] },
+        { id: 'governance', label: '怎样治理', paragraphs: ['茅洲河治理首先从岸上截污开始。工作人员逐个社区、逐栋建筑排查管道，把原本流入河道的生活污水接入污水收集管网，再送进水质净化厂处理。对于工业污染，则通过排查排污口、整治“散乱污”企业和加强监管，从源头减少污染物进入河流。', '深圳、东莞还需要打破行政边界，共同制定标准、共享监测信息，因为河水不会在城市交界处自动停下来。当岸上的污染源基本被控制后，再对河道进行科学清淤，处理多年积累的黑臭底泥。这个顺序很重要：先关掉不断漏水的“脏水龙头”，再清洗已经被弄脏的“水槽”。', '净化后的再生水还能补充河道基础流量，让枯水期的河水保持流动；沿岸人工湿地利用植物、土壤和微生物继续净化水质，生态碧道则为鸟类、昆虫和市民提供新的活动空间。'] },
+        { id: 'change', label: '治理变化', paragraphs: ['经过系统治理，茅洲河逐渐从重度黑臭走向水清岸绿。曾经难以生存的本土鱼虾、水草、蜻蜓和鸟类重新出现，河边也从人们避开的地方，变成可以散步、休息和亲近自然的公共空间。', '这种变化说明，城市治水不只是把水“洗干净”，还要修好地下管网、管理污染企业、补充河道水量，并让河岸重新拥有生态功能。', '茅洲河的经验可以概括为：先截住污水，再清理河道；让水重新流动，也让城市重新亲近河流。'] },
+        { id: 'reflection', label: '水滴感悟', paragraphs: ['“河水变黑时，最脏的地方不一定在河里。人们沿着我的流向寻找，修好地下管道、截住岸上污水，再让我重新流动。原来，治一条河也要像治病一样：找到病根，才能真正恢复呼吸。”', '这一段体现的生态文明，是治水、治城与治产一起推进。城市不应把河流当作排走污水的通道，而应把它看作与居民共同生活的生命空间。'] },
       ],
       interaction: {
         id: 'pearl-maozhou-governance', mode: 'choice', rewardStars: 3,
@@ -135,9 +138,15 @@ const pearlNarrative: BasinNarrativeConfig = {
       },
     },
     {
-      id: 'pearl-estuary', label: '淡水抵达河口', title: '给白海豚留下安静的家', summary: '淡水、潮汐、红树林和近海浅滩，共同托住珠江口的生命网络。',
-      nodeId: 'pearl-river-estuary', poster: dolphinPoster, videoFilename: 'chinese-white-dolphin.mp4', videoTitle: '珠江口中华白海豚保护影像',
-      sections: nodeSections('pearl-river-estuary', '当我抵达海洋，治水并没有结束。这里的每一次航行、施工和水质变化，都会被海豚听见。'),
+      id: 'pearl-estuary', label: '河海共生', title: '给海湾生命留下家园', summary: '让净水继续流向海洋，也让红树林与白海豚拥有安稳的栖息地。',
+      nodeId: 'pearl-river-estuary', poster: dolphinPoster, videoFilename: 'chinese-white-dolphin.mp4', videoTitle: '河口淡水、红树林与白海豚保护影像', mediaAfterSectionId: 'problem',
+      sections: [
+        { id: 'background', label: '背景介绍', paragraphs: ['珠江走到尽头，并不是简单地“流进大海”，而是与海潮共同形成一片复杂的河口世界。这里一会儿涨潮、一会儿退潮，淡水与海水不断交汇，形成从淡到咸的盐度变化。', '红树林、滩涂、浅水区和潮沟，为小鱼、小虾、贝类和鸟类提供食物与藏身空间。中华白海豚也会在珠江口附近的浅海活动和觅食。', '河口就像一间连接河流与海洋的“育儿室”。许多幼小生物先在红树林和浅滩中成长，再游向更广阔的海洋。'] },
+        { id: 'problem', label: '问题剖析', paragraphs: ['河口生命需要淡水，也需要海水，关键在于二者保持适宜的比例和自然节奏。如果枯水期进入河口的淡水太少，盐度可能持续升高，一些不适应高盐环境的植物和动物会受到影响；但如果短时间下泄的淡水过猛，也可能让盐度、流速和泥沙浓度突然变化，打乱河口生物熟悉的生活节奏。', '城市内河中的污水如果没有被处理，就会顺着水道进入海湾。港口、桥梁和航道工程如果选址不当，也可能占用红树林、阻断潮沟，或以施工噪声干扰中华白海豚。废弃刺网尤其危险；它们在水下看起来几乎透明，却可能像一面隐形的墙，缠住鱼类、海龟和其他海洋动物。', '珠江口治理不能只关注“给城市供多少水”，还要继续追问：当河水离开城市、奔向海洋时，我们留给河口的是清水，还是污染？是完整的湿地，还是被切碎的生命空间？', '我的旅程快到大海了。但抵达海洋并不意味着故事结束——这里还有红树林、小鱼小虾和白海豚，在等待一份刚刚好的淡水，也等待一片不被打扰的家园。'] },
+        { id: 'governance', label: '怎样治理', paragraphs: ['首先，通过流域水库联合调度，尽量保障河口必要的淡水输入。这里的“稳定”不是每天保持完全相同的水量，而是在尊重季节变化的同时，避免河口长期缺少淡水，也减少突然、剧烈的人为流量变化。', '其次，城市内河的生活污水和工业废水要在入海前得到收集、处理和监管。治理好茅洲河等城市河流，其实也是在保护珠江口和南海，因为河流上游排入的每一份污染物，最终都可能来到海湾。', '在滩涂和适宜岸线上，人们保护并补种本土红树植物。红树林密集的根系像一张立体的网，能够减缓海浪、稳定滩涂，也为幼鱼、幼虾和贝类提供隐蔽空间。', '建设桥梁、港口、航道等大型工程时，则要提前调查中华白海豚的核心活动区和迁移路线，主动调整线路或施工时间，并采取水下降噪、限速和监测等措施，降低工程对它们的干扰。近海区域还需要加强禁渔管理、清理废弃刺网和持续监测，让白海豚不仅“偶尔出现”，更能长期获得足够的食物和安全水域。'] },
+        { id: 'change', label: '治理变化', paragraphs: ['当河口获得较适宜的淡水补给，城市污水不再直接流入海湾，红树林和潮沟逐步恢复，河口就能重新形成较完整的食物链。', '红树林根部藏着幼小鱼虾，鱼虾又为更大型的鱼类、鸟类和白海豚提供食物。看似只种下了一片树，实际上是在修复一整座河口生命家园。', '工程主动避开重要栖息地，也意味着人类开始从“建成以后再补救”，转向“建设之前先为自然留路”。这不仅是在保护中华白海豚，也是在保护整个珠江口生态系统抵御污染、风暴潮和环境变化的能力。'] },
+        { id: 'reflection', label: '水滴感悟', paragraphs: ['“我从城市穿过，最后来到河海交汇的地方。这里既不能只有淡水，也不能只有海水；既需要桥梁和港口，也需要红树林与白海豚。真正的和谐，不是谁占据全部空间，而是每一种生命都拥有适合自己的位置。”', '珠江口最能体现天人合一的地方，就在这个“刚刚好”：淡水不过少，也不过猛；城市需要发展，也主动避让生命家园；人类治理河流，也为海洋承担责任。', '让清水安全抵达城市，让净水继续流向海洋，让红树林扎根滩涂，让白海豚仍能自由游过——这就是珠江生态文明的完整答案。'] },
+      ],
       interaction: {
         id: 'pearl-dolphin-protection', mode: 'choice', rewardStars: 3,
         question: '施工与航运无法完全停止时，怎样更有效地保护中华白海豚？',

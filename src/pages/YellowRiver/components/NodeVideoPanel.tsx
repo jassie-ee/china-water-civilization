@@ -3,7 +3,7 @@ import { useEffect, useRef, useState } from 'react';
 import type { RiverNodeVideo } from '@/types/basin';
 
 interface NodeVideoPanelProps {
-  video?: RiverNodeVideo;
+  video?: RiverNodeVideo & { sourceLabel?: string };
   onComplete?: () => void;
   skipLabel?: string;
 }
@@ -59,6 +59,7 @@ function NodeVideoPanel({ video, onComplete, skipLabel }: NodeVideoPanelProps) {
           {onComplete !== undefined && skipLabel !== undefined && <button className="node-video-panel__skip" type="button" onClick={onComplete}>{skipLabel}</button>}
         </>
       )}
+      {video?.sourceLabel && <small className="node-video-panel__source">{video.sourceLabel}</small>}
     </section>
   );
 }

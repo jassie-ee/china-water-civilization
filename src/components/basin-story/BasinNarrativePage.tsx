@@ -115,7 +115,7 @@ function BasinNarrativePage({ config }: { config: BasinNarrativeConfig }) {
       <div className="basin-narrative__background" aria-hidden="true"><img key={activeScene.id} src={activeBackground} alt="" /></div>
       <header className="basin-narrative__header">
         <Link to="/basins" state={{ basinOverviewEntry: 'returning' }}>返回中国流域总览</Link>
-        <div><p>{config.pageSubtitle}</p><h1>{config.pageTitle}</h1></div>
+        <div><h1>{config.pageTitle}</h1><p>{config.pageSubtitle}</p></div>
       </header>
       <nav className="basin-narrative__nav" aria-label={`${config.riverName}叙事章节`}>
         {config.scenes.map((scene) => (
@@ -127,7 +127,7 @@ function BasinNarrativePage({ config }: { config: BasinNarrativeConfig }) {
           <div className="basin-narrative__heading">
             <p>{activeScene.label}</p><h2>{activeScene.title}</h2><span>{activeScene.summary}</span>
           </div>
-          <BasinStoryStage scene={activeScene} layout={config.theme === 'yangtze' ? 'split' : 'stacked'} onStartInteraction={() => openInteraction(activeScene)} />
+          <BasinStoryStage scene={activeScene} layout={config.theme === 'yangtze' || config.theme === 'pearl' ? 'split' : 'stacked'} onStartInteraction={() => openInteraction(activeScene)} />
         </div>
       </main>
       {interaction && !isDialogueOpen && interactionSceneId === activeScene.id && (

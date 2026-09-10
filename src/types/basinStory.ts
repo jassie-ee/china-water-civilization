@@ -33,6 +33,7 @@ export interface BasinStoryScene {
   nodeId?: string;
   videoFilename?: string;
   videoTitle?: string;
+  videoSourceLabel?: string;
   poster?: string;
   /** 媒体不是独立章节，而是嵌入叙事阅读中的理解入口。 */
   mediaAfterSectionId?: BasinStorySection['id'];
