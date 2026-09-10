@@ -362,13 +362,16 @@ function WorldWater() {
       </div>
 
       <header className="world-water-page__topbar">
-        <Link className="world-water-page__back-link" to="/chapters">← 水脉图册</Link>
+        <Link className="world-water-page__back-link" to="/chapters">
+          <span className="world-water-page__back-glyph" aria-hidden="true">←</span>
+          <span className="world-water-page__back-label">水脉图册</span>
+        </Link>
         <div className="world-water-page__chapter-mark">
           <span>CHAPTER 03</span>
           <strong>航 · 同舟共济</strong>
         </div>
         <div className="world-water-page__score" aria-label={`水脉感悟 ${waterFeel} / ${waterFeelTotal}`}>
-          <span>水脉感悟</span>
+          <span className="world-water-page__score-label">水脉感悟</span>
           <strong>{waterFeel.toString().padStart(2, '0')}<small> / 30</small></strong>
         </div>
       </header>

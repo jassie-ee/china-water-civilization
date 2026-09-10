@@ -288,13 +288,16 @@ function CosmicFuture() {
       <div className="cosmic-future-page__wash" aria-hidden="true" />
 
       <header className="cosmic-future-page__topbar">
-        <Link className="cosmic-future-page__back-link" to="/chapters">← 水脉图册</Link>
+        <Link className="cosmic-future-page__back-link" to="/chapters">
+          <span className="cosmic-future-page__back-glyph" aria-hidden="true">←</span>
+          <span className="cosmic-future-page__back-label">水脉图册</span>
+        </Link>
         <div className="cosmic-future-page__chapter-mark">
           <span>CHAPTER 04</span>
           <strong>望 · 天地人和</strong>
         </div>
         <div className="cosmic-future-page__score" aria-label={`水脉感悟 ${waterFeel} / 30`}>
-          <span>水脉感悟</span>
+          <span className="cosmic-future-page__score-label">水脉感悟</span>
           <strong>{waterFeel.toString().padStart(2, '0')}<small> / 30</small></strong>
         </div>
       </header>
