@@ -29,6 +29,12 @@ export interface WorldWaterStation {
   stepIds: readonly WorldWaterStepId[];
 }
 
+export interface WorldWaterNarrative {
+  spiritLine: string;
+  fieldEcho: string;
+  transition: string;
+}
+
 export interface WorldWaterStep {
   id: WorldWaterStepId;
   order: number;
@@ -45,4 +51,5 @@ export interface WorldWaterStep {
   partialFeedback: string;
   waterGain: number;
   choices: WorldWaterChoice[];
+  narrative: WorldWaterNarrative;
 }
