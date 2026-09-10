@@ -2309,3 +2309,140 @@
     transform: translateY(-50%) rotate(45deg);
   }
 }
+
+/* Semantic chapter controls: the third chapter reads as a field log, not a generic form. */
+.world-water-page {
+  --chapter-display-font: "Noto Serif SC", "Source Han Serif SC", "Songti SC", "STKaiti", "KaiTi", serif;
+  --chapter-ui-font: "Noto Sans SC", "Source Han Sans SC", "Microsoft YaHei", sans-serif;
+  --chapter-number-font: "Avenir Next", "Segoe UI", sans-serif;
+  font-family: var(--chapter-ui-font);
+}
+
+.world-water-page__intro h1,
+.world-water-page__guide h2,
+.world-water-page__finish h2,
+.world-water-page .chapter-choice-panel h2,
+.world-water-page .chapter-choice-panel h3,
+.world-water-page__quote,
+.world-water-page__narrative p:first-child,
+.world-water-route__node-copy strong {
+  font-family: var(--chapter-display-font);
+}
+
+.world-water-page__back-link,
+.world-water-page__score,
+.world-water-page__chapter-mark span,
+.world-water-page__chapter-mark strong,
+.world-water-route__heading,
+.world-water-route__instruction,
+.world-water-route__node-copy small,
+.world-water-route__node-copy em,
+.world-water-page__eyebrow,
+.world-water-page__lede,
+.world-water-page__narrative-echo,
+.world-water-page__footer {
+  font-family: var(--chapter-ui-font);
+}
+
+.world-water-page__score strong,
+.world-water-page__footer span:last-child {
+  font-family: var(--chapter-number-font);
+  font-variant-numeric: tabular-nums;
+}
+
+.world-water-page .chapter-action-button {
+  --action-accent: var(--chapter-accent);
+  min-height: 3.25rem;
+  min-width: 12.25rem;
+  border-color: rgb(232 194 108 / 76%);
+  background: linear-gradient(105deg, rgb(5 29 36 / 78%), rgb(5 29 36 / 45%));
+  box-shadow: 0 .7rem 1.6rem rgb(0 10 14 / 20%), inset 0 0 1.3rem rgb(238 205 129 / 5%);
+  font-size: clamp(.9rem, .82vw, 1.02rem);
+}
+
+.world-water-page .chapter-action-button:hover:not(:disabled) {
+  border-color: var(--chapter-focus);
+  background: linear-gradient(105deg, rgb(15 53 57 / 88%), rgb(123 91 37 / 22%));
+  box-shadow: 0 .95rem 1.9rem rgb(0 10 14 / 28%), 0 0 0 .18rem rgb(255 233 157 / 11%);
+}
+
+.world-water-page .chapter-action-button__label {
+  font-family: var(--chapter-ui-font);
+  font-weight: 600;
+}
+
+.world-water-page .chapter-choice-panel__choice {
+  position: relative;
+  min-height: 3rem;
+  border: 0;
+  border-block: 1px solid var(--chapter-choice-line);
+  background: linear-gradient(90deg, rgb(4 24 29 / 42%), transparent 92%);
+  font-family: var(--chapter-ui-font);
+}
+
+.world-water-page .chapter-choice-panel__choice::before {
+  position: absolute;
+  inset: .35rem auto .35rem 0;
+  width: 2px;
+  background: transparent;
+  content: "";
+  transition: background 180ms ease;
+}
+
+.world-water-page .chapter-choice-panel__choice:hover:not(:disabled),
+.world-water-page .chapter-choice-panel__choice.is-selected {
+  background: linear-gradient(90deg, rgb(123 96 43 / 28%), rgb(7 29 35 / 24%) 88%, transparent);
+  transform: translateX(4px);
+}
+
+.world-water-page .chapter-choice-panel__choice:hover:not(:disabled)::before,
+.world-water-page .chapter-choice-panel__choice.is-selected::before {
+  background: var(--chapter-accent);
+}
+
+.world-water-page .chapter-choice-panel__choice-label {
+  font-family: var(--chapter-number-font);
+  font-weight: 600;
+}
+
+.world-water-page .chapter-choice-panel__choice-text,
+.world-water-page .chapter-choice-panel__choice-action,
+.world-water-page .chapter-choice-panel__hint,
+.world-water-page .chapter-choice-panel__footer {
+  font-family: var(--chapter-ui-font);
+}
+
+.world-water-page .chapter-choice-panel__choice-text {
+  font-size: clamp(.88rem, .82vw, .98rem);
+  line-height: 1.55;
+}
+
+.world-water-page .chapter-choice-panel__choice-action {
+  font-weight: 600;
+}
+
+.world-water-page__progress {
+  height: .42rem;
+  border: 1px solid rgb(215 189 114 / 38%);
+  border-radius: 0;
+  background: rgb(3 22 29 / 58%);
+  box-shadow: 0 0 0 .15rem rgb(5 25 32 / 25%);
+}
+
+.world-water-page__progress i {
+  box-shadow: 0 0 .85rem rgb(232 194 108 / 58%);
+}
+
+@media (min-width: 901px) {
+  .world-water-page__intro h1 { font-size: clamp(3rem, 4.2vw, 5rem); }
+
+  .world-water-page .chapter-choice-panel h2 { font-size: clamp(1.62rem, 1.85vw, 2.15rem); }
+
+  .world-water-page .chapter-choice-panel h3 { font-size: clamp(1.08rem, 1.15vw, 1.28rem); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .world-water-page .chapter-choice-panel__choice::before {
+    transition: none;
+  }
+}

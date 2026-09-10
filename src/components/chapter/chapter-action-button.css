@@ -1,0 +1,147 @@
+.chapter-action-button {
+  --action-accent: var(--chapter-accent, #edc879);
+  position: relative;
+  display: inline-grid;
+  grid-template-columns: 1.55rem minmax(0, 1fr) auto;
+  gap: .72rem;
+  align-items: center;
+  min-height: 3.1rem;
+  min-width: 11.5rem;
+  padding: .68rem 1rem;
+  overflow: hidden;
+  border: 1px solid color-mix(in srgb, var(--action-accent) 76%, transparent);
+  border-radius: 0;
+  color: var(--chapter-ink, #f7edd0);
+  background: linear-gradient(105deg, rgb(7 31 37 / 78%), rgb(7 31 37 / 40%));
+  box-shadow: 0 .65rem 1.55rem rgb(0 11 15 / 18%), inset 0 0 1.2rem rgb(236 205 135 / 4%);
+  cursor: pointer;
+  font-family: var(--chapter-ui-font, "Noto Sans SC", "Microsoft YaHei", sans-serif);
+  font-size: clamp(.86rem, .82vw, 1rem);
+  font-weight: 600;
+  letter-spacing: .1em;
+  line-height: 1.2;
+  text-align: left;
+  transition: border-color 180ms ease, background 180ms ease, box-shadow 180ms ease, color 180ms ease, transform 180ms ease;
+}
+
+.chapter-action-button::after {
+  position: absolute;
+  right: 1rem;
+  bottom: -.06rem;
+  left: 1rem;
+  height: 1px;
+  background: linear-gradient(90deg, var(--action-accent), transparent 78%);
+  content: "";
+  opacity: .72;
+  transform: scaleX(.26);
+  transform-origin: left;
+  transition: transform 220ms ease;
+}
+
+.chapter-action-button:hover:not(:disabled) {
+  border-color: var(--action-accent);
+  color: var(--chapter-focus, #fff1b2);
+  background: linear-gradient(105deg, rgb(17 53 57 / 88%), rgb(115 90 40 / 20%));
+  box-shadow: 0 .9rem 1.8rem rgb(0 11 15 / 27%), 0 0 0 .18rem color-mix(in srgb, var(--action-accent) 12%, transparent);
+  transform: translateY(-2px);
+}
+
+.chapter-action-button:hover:not(:disabled)::after,
+.chapter-action-button:focus-visible::after {
+  transform: scaleX(1);
+}
+
+.chapter-action-button:focus-visible {
+  outline: 2px solid var(--chapter-focus, #fff1b2);
+  outline-offset: .3rem;
+}
+
+.chapter-action-button:disabled {
+  cursor: default;
+}
+
+.chapter-action-button[data-state="recording"] {
+  cursor: progress;
+  opacity: .84;
+}
+
+.chapter-action-button[data-state="complete"] {
+  border-color: color-mix(in srgb, var(--action-accent) 90%, transparent);
+  color: var(--action-accent);
+}
+
+.chapter-action-button[data-state="complete"]::after {
+  transform: scaleX(1);
+}
+
+.chapter-action-button__sigil {
+  display: grid;
+  width: 1.35rem;
+  height: 1.35rem;
+  place-items: center;
+  border: 1px solid color-mix(in srgb, var(--action-accent) 90%, transparent);
+  color: var(--action-accent);
+  transform: rotate(45deg);
+  transition: background 180ms ease, border-color 180ms ease, color 180ms ease, transform 180ms ease;
+}
+
+.chapter-action-button__sigil > span {
+  font-family: var(--chapter-display-font, "Noto Serif SC", "STKaiti", serif);
+  font-size: .72rem;
+  font-weight: 500;
+  line-height: 1;
+  transform: rotate(-45deg);
+}
+
+.chapter-action-button__label {
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.chapter-action-button__trail {
+  display: grid;
+  min-width: 1rem;
+  place-items: center;
+  color: var(--action-accent);
+  font-family: var(--chapter-number-font, "Avenir Next", "Segoe UI", sans-serif);
+  font-size: 1.05rem;
+  font-weight: 400;
+  line-height: 1;
+  transition: opacity 180ms ease, transform 180ms ease;
+}
+
+.chapter-action-button[data-state="recording"] .chapter-action-button__trail {
+  animation: chapter-action-button-breathe 780ms ease-in-out infinite;
+}
+
+.chapter-action-button[data-state="complete"] .chapter-action-button__sigil {
+  background: color-mix(in srgb, var(--action-accent) 16%, transparent);
+  transform: rotate(45deg) scale(1.06);
+}
+
+.chapter-action-button[data-intent="voyage"] { --action-accent: #a5d0c5; }
+.chapter-action-button[data-intent="complete"] { --action-accent: #ecd18a; }
+
+@keyframes chapter-action-button-breathe {
+  0%, 100% { opacity: .42; transform: translateX(0); }
+  50% { opacity: 1; transform: translateX(.12rem); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .chapter-action-button,
+  .chapter-action-button::after,
+  .chapter-action-button__sigil,
+  .chapter-action-button__trail {
+    transition: none;
+  }
+
+  .chapter-action-button:hover:not(:disabled) {
+    transform: none;
+  }
+
+  .chapter-action-button[data-state="recording"] .chapter-action-button__trail {
+    animation: none;
+  }
+}

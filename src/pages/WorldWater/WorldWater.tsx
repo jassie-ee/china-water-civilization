@@ -438,7 +438,9 @@ function WorldWater() {
                       <button
                         type="button"
                         aria-current={isActive ? 'step' : undefined}
+                        aria-pressed={isActive}
                         aria-label={`${station.order} ${station.region}：${station.title}`}
+                        data-status={isRecorded ? 'recorded' : isNext ? 'next' : 'idle'}
                         onClick={() => openStation(station)}
                       >
                         <span className="world-water-route__node-dot" aria-hidden="true" />
@@ -510,8 +512,10 @@ function WorldWater() {
                 onToggleChoice={handleToggleChoice}
                 onSubmit={handleSubmit}
                 onContinue={handleContinue}
+                submitIntent="record"
                 submitLabel="确认这组判断"
                 continueLabel={nextStepLabel}
+                continueIntent="continue"
               />
               <div className="world-water-page__narrative" aria-live="polite">
                 <p><span>澜澜：</span>{activeStep.narrative.spiritLine}</p>
@@ -529,7 +533,13 @@ function WorldWater() {
               <span className="world-water-page__guide-line" aria-hidden="true" />
               <Magnet wrapperClassName="world-water-page__magnet" padding={18} magnetStrength={6}>
                 <WaterMist className="world-water-page__cta-mist" mistColor="#e7bf6c" rippleColor="#e7bf6c" rippleRadius={20}>
-                  <StatefulActionButton className="world-water-page__text-button" onCommit={handleStartSurvey} completeLabel="已进入航路">
+                  <StatefulActionButton
+                    aria-label="开始勘察世界水脉"
+                    className="world-water-page__text-button"
+                    intent="survey"
+                    onCommit={handleStartSurvey}
+                    completeLabel="已进入航路"
+                  >
                     开始勘察
                   </StatefulActionButton>
                 </WaterMist>
@@ -543,7 +553,15 @@ function WorldWater() {
 
       <footer className="world-water-page__footer">
         <span>第三章 · 同舟共济</span>
-        <div className="world-water-page__progress" aria-label={`水脉感悟 ${waterFeel} / ${waterFeelTotal}`}>
+        <div
+          className="world-water-page__progress"
+          role="progressbar"
+          aria-label="第三章水脉感悟进度"
+          aria-valuemin={0}
+          aria-valuemax={waterFeelTotal}
+          aria-valuenow={waterFeel}
+          aria-valuetext={`${waterFeel} / ${waterFeelTotal}`}
+        >
           <i style={{ '--progress': `${progressPercent / 100}` } as CSSProperties} />
         </div>
         <span>{waterFeel.toString().padStart(2, '0')} / {waterFeelTotal}</span>

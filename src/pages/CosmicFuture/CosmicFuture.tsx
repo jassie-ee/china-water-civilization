@@ -406,6 +406,7 @@ function CosmicFuture() {
                       type="button"
                       disabled={phase !== 'assembly'}
                       aria-pressed={isAssembled}
+                      data-status={isAssembled ? 'assembled' : phase === 'assembly' ? 'available' : 'locked'}
                       aria-label={`${shardName}之纹${isAssembled ? '，已拼合' : '，点击拼合'}`}
                       onClick={() => handleAssembleShard(shardIndex)}
                     >
@@ -432,7 +433,9 @@ function CosmicFuture() {
                         type="button"
                         aria-current={isActive ? 'step' : undefined}
                         disabled={!isUnlocked}
+                        aria-pressed={isActive}
                         aria-label={`${act.order} ${act.signal}：${act.title}`}
+                        data-status={isRecorded ? 'recorded' : isUnlocked ? 'available' : 'locked'}
                         onClick={() => handleStageClick(act)}
                       >
                         <span className="cosmic-future-orbit__signal-dot" aria-hidden="true" />
@@ -507,7 +510,13 @@ function CosmicFuture() {
               {isAssemblyComplete ? (
                 <Magnet wrapperClassName="cosmic-future-page__magnet" padding={18} magnetStrength={6}>
                   <WaterMist className="cosmic-future-page__cta-mist" mistColor="#d7bd72" rippleColor="#d7bd72" rippleRadius={20}>
-                    <StatefulActionButton className="cosmic-future-page__primary-button" onCommit={handleEnterReflection} completeLabel="已打开共生之问">
+                    <StatefulActionButton
+                      aria-label="进入宇宙共生之问"
+                      className="cosmic-future-page__primary-button"
+                      intent="assemble"
+                      onCommit={handleEnterReflection}
+                      completeLabel="已打开共生之问"
+                    >
                       进入宇宙共生之问
                     </StatefulActionButton>
                   </WaterMist>
@@ -532,6 +541,7 @@ function CosmicFuture() {
               onChoice={handleReflectionChoice}
               onContinue={handleReflectionContinue}
               continueLabel="沿水脉飞向星河"
+              continueIntent="voyage"
             />
             ) : phase === 'voyage' ? (
             <section className="cosmic-future-page__voyage-panel">
@@ -548,7 +558,13 @@ function CosmicFuture() {
                </div>
               <Magnet wrapperClassName="cosmic-future-page__magnet" padding={18} magnetStrength={6}>
                 <WaterMist className="cosmic-future-page__cta-mist" mistColor="#d7bd72" rippleColor="#d7bd72" rippleRadius={20}>
-                  <StatefulActionButton className="cosmic-future-page__primary-button" onCommit={handleLaunch} completeLabel="已进入星河">
+                  <StatefulActionButton
+                    aria-label="开始飞向宇宙"
+                    className="cosmic-future-page__primary-button"
+                    intent="voyage"
+                    onCommit={handleLaunch}
+                    completeLabel="已进入星河"
+                  >
                     开始飞向宇宙
                   </StatefulActionButton>
                 </WaterMist>
@@ -562,7 +578,13 @@ function CosmicFuture() {
               <p className="cosmic-future-page__quote">治水治到最后，治的不是水，是学会和天地万物好好相处。</p>
               <Magnet wrapperClassName="cosmic-future-page__magnet" padding={18} magnetStrength={6}>
                 <WaterMist className="cosmic-future-page__cta-mist" mistColor="#d7bd72" rippleColor="#d7bd72" rippleRadius={20}>
-                  <StatefulActionButton className="cosmic-future-page__primary-button" onCommit={handleComplete} completeLabel="觉醒已完成">
+                <StatefulActionButton
+                  aria-label="完成天地人和的终极觉醒"
+                  className="cosmic-future-page__primary-button"
+                  intent="complete"
+                  onCommit={handleComplete}
+                  completeLabel="觉醒已完成"
+                >
                     完成终极觉醒
                   </StatefulActionButton>
                 </WaterMist>
@@ -575,7 +597,15 @@ function CosmicFuture() {
 
       <footer className="cosmic-future-page__footer">
         <span>第四章 · 天地人和</span>
-        <div className="cosmic-future-page__progress" aria-label={`水脉感悟 ${waterFeel} / 30`}>
+        <div
+          className="cosmic-future-page__progress"
+          role="progressbar"
+          aria-label="第四章水脉感悟进度"
+          aria-valuemin={0}
+          aria-valuemax={30}
+          aria-valuenow={waterFeel}
+          aria-valuetext={`${waterFeel} / 30`}
+        >
           <i style={{ '--progress': `${progressPercent / 100}` } as CSSProperties} />
         </div>
         <span>{waterFeel.toString().padStart(2, '0')} / 30</span>
