@@ -202,7 +202,17 @@ function YellowRiver() {
             <NodeVideoPanel video={{ title: '小浪底调水调沙影像', description: '视频将从 Release 按需加载。', src: getReleaseMediaUrl('xiaolangdi-water-sediment.mp4') }} onComplete={startXiaolangdiInteraction} skipLabel="跳过影像，开始互动" />
             <button className="yellow-river-chronicle__interaction" type="button" onClick={startXiaolangdiInteraction}>{xiaolangdiStep === 'idle' ? '开始互动' : '继续与小澜互动'}</button>
           </div>
-          <div className="yellow-river-chronicle__engineering-copy" aria-live="polite"><p>水库群联合调度</p><h3>让水与沙在同一次行动中抵达下游</h3><span>小浪底不是单独工作的“拦水墙”。它与上游水库共享预报、库情和河道响应，在合适的时机共同组织来水与泄流。</span><div className="yellow-river-chronicle__system-process"><strong>来水研判</strong><b>→</b><strong>库群协同</strong><b>→</b><strong>排沙塑槽</strong></div><blockquote>工程的角色不是把黄河困住，而是在尊重水沙规律的前提下，为洪水、泥沙、供水与生态补水安排合适的节奏。</blockquote></div>
+          <div className="yellow-river-chronicle__engineering-copy" aria-live="polite">
+            <p className="yellow-river-chronicle__engineering-eyebrow">水库群联合调度</p>
+            <h3>让水与沙在同一次行动中抵达下游</h3>
+            <div className="yellow-river-chronicle__engineering-body">
+              <p>小浪底不是单独工作的“拦水墙”。黄河的水主要来自上游，泥沙却集中来自中游；如果水少，推不动河床淤沙；如果水急沙多，又会增加下游压力。</p>
+              <p>调水调沙前，工作人员先研判雨情、水情、沙情和河道承受能力；随后，万家寨、三门峡、小浪底等水库分时配合，像接力一样组织水流；最后，小浪底按计划开启闸门，让具有合适流量和含沙量的水流向下游推进，冲刷主河槽、输送泥沙。</p>
+            </div>
+            <div className="yellow-river-chronicle__system-process"><strong>来水研判</strong><b>→</b><strong>库群协同</strong><b>→</b><strong>排沙塑槽</strong></div>
+            <p className="yellow-river-chronicle__engineering-conclusion">治理不是把黄河困在坝后，也不是把泥沙全部赶走，而是让水与沙在合适的时间、以合适的节奏继续向海而行。</p>
+            <blockquote>“原来，最好的治水不是强行改变我，而是读懂我的脾气，让我流得更有力量，也更有方向。”</blockquote>
+          </div>
         </article>}
         {activeNarrativeId === 'delta' && deltaNode && <article className="yellow-river-chronicle__scene yellow-river-chronicle__scene--delta">
           <YellowRiverDeltaAtlas activeSectionId={deltaSectionId} onSectionChange={setDeltaSectionId} />

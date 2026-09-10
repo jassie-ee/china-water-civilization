@@ -35,11 +35,13 @@ function BasinStoryTabs({ sections, storyId, mediaAfterSectionId, mediaSlot }: B
           </button>
         ))}
       </div>
-      <div key={activeSection.id} className="basin-story-tabs__panel" role="tabpanel">
-        <h3>{activeSection.label}</h3>
-        {activeSection.paragraphs.map((paragraph) => <p key={paragraph}>{paragraph}</p>)}
-        {activeSection.points && <ul>{activeSection.points.map((point) => <li key={point}>{point}</li>)}</ul>}
-        {activeSection.id === mediaAfterSectionId && mediaSlot}
+      <div className="basin-story-tabs__panel" role="tabpanel">
+        <div key={activeSection.id} className="basin-story-tabs__copy">
+          <h3>{activeSection.label}</h3>
+          {activeSection.paragraphs.map((paragraph) => <p key={paragraph}>{paragraph}</p>)}
+          {activeSection.points && <ul>{activeSection.points.map((point) => <li key={point}>{point}</li>)}</ul>}
+          {activeSection.id === mediaAfterSectionId && mediaSlot}
+        </div>
       </div>
     </section>
   );

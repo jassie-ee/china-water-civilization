@@ -1,4 +1,7 @@
 import yangtzeBackground from '@/assets/images/basins/yangtze-river-background.webp';
+import yangtzeGoldenWaterwayBackground from '@/assets/images/basins/yangtze-golden-waterway.webp';
+import yangtzeJointRegulationBackground from '@/assets/images/basins/yangtze-joint-regulation.webp';
+import yangtzeLifeBackground from '@/assets/images/basins/yangtze-life.webp';
 import pearlBackground from '@/assets/images/basins/pearl-river-background-v3.webp';
 import dolphinPoster from '@/assets/images/interactions/chinese-white-dolphin-home-1920x1080.jpg';
 import { yangtzeRiverNodes } from '@/data/yangtzeRiverNodes';
@@ -25,6 +28,11 @@ const yangtzeNarrative: BasinNarrativeConfig = {
   pageSubtitle: '生命与水流节律',
   theme: 'yangtze',
   background: yangtzeBackground,
+  sceneBackgrounds: {
+    'yangtze-joint-regulation': yangtzeJointRegulationBackground,
+    'yangtze-golden-waterway': yangtzeGoldenWaterwayBackground,
+    'yangtze-life': yangtzeLifeBackground,
+  },
   nodes: yangtzeRiverNodes,
   regions: yangtzeRiverRegions,
   scenes: [

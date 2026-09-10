@@ -47,6 +47,8 @@ export interface BasinNarrativeConfig {
   pageSubtitle: string;
   theme: 'yellow' | 'yangtze' | 'pearl';
   background: string;
+  /** 可选的场景级底图；未声明的流域继续使用统一底图。 */
+  sceneBackgrounds?: Record<string, string>;
   scenes: BasinStoryScene[];
   nodes: RiverNode[];
   regions: RiverRegion[];

@@ -28,6 +28,7 @@ function BasinNarrativePage({ config }: { config: BasinNarrativeConfig }) {
   const [rewardCopy, setRewardCopy] = useState('');
   const [isDialogueOpen, setIsDialogueOpen] = useState(false);
   const activeScene = config.scenes.find((scene) => scene.id === activeSceneId) ?? config.scenes[0];
+  const activeBackground = config.sceneBackgrounds?.[activeScene.id] ?? config.background;
   const interactionScene = config.scenes.find((scene) => scene.id === interactionSceneId);
   const interaction = interactionScene?.interaction;
   const selectedChoice = interaction?.choices.find((choice) => choice.id === selectedChoiceId);
@@ -111,7 +112,7 @@ function BasinNarrativePage({ config }: { config: BasinNarrativeConfig }) {
 
   return (
     <section className={`basin-narrative basin-narrative--${config.theme}`}>
-      <div className="basin-narrative__background" aria-hidden="true"><img key={activeScene.id} src={config.background} alt="" /></div>
+      <div className="basin-narrative__background" aria-hidden="true"><img key={activeScene.id} src={activeBackground} alt="" /></div>
       <header className="basin-narrative__header">
         <Link to="/basins" state={{ basinOverviewEntry: 'returning' }}>返回中国流域总览</Link>
         <div><p>{config.pageSubtitle}</p><h1>{config.pageTitle}</h1></div>
@@ -126,7 +127,7 @@ function BasinNarrativePage({ config }: { config: BasinNarrativeConfig }) {
           <div className="basin-narrative__heading">
             <p>{activeScene.label}</p><h2>{activeScene.title}</h2><span>{activeScene.summary}</span>
           </div>
-          <BasinStoryStage scene={activeScene} onStartInteraction={() => openInteraction(activeScene)} />
+          <BasinStoryStage scene={activeScene} layout={config.theme === 'yangtze' ? 'split' : 'stacked'} onStartInteraction={() => openInteraction(activeScene)} />
         </div>
       </main>
       {interaction && !isDialogueOpen && interactionSceneId === activeScene.id && (
