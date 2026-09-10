@@ -34,6 +34,8 @@ export interface BasinStoryScene {
   videoFilename?: string;
   videoTitle?: string;
   poster?: string;
+  /** 媒体不是独立章节，而是嵌入叙事阅读中的理解入口。 */
+  mediaAfterSectionId?: BasinStorySection['id'];
   sections: BasinStorySection[];
   interaction?: BasinStoryInteraction;
 }

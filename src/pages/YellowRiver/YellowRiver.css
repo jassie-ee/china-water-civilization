@@ -272,8 +272,13 @@
 .yellow-river-chronicle__reading .yellow-river-detail-panel__loess-narrative { max-width: 43rem; }
 .yellow-river-detail-panel__loess-narrative--compact { display: grid; grid-template-columns: minmax(7rem, .4fr) minmax(0, 1fr); min-height: clamp(13.5rem, 32vh, 19rem); border: 1px solid rgb(231 213 166 / 18%); border-radius: .8rem; background: rgb(3 29 35 / 46%); box-shadow: inset 0 1px 0 rgb(255 245 212 / 8%); overflow: hidden; }
 .yellow-river-detail-panel__compact-tabs { display: grid; align-content: center; gap: .1rem; padding: .48rem; border-right: 1px solid rgb(231 213 166 / 16%); background: rgb(7 39 43 / 40%); }
-.yellow-river-detail-panel__compact-tabs button { min-height: 2rem; padding: .28rem .45rem; border: 1px solid transparent; border-radius: .42rem; color: rgb(220 231 214 / 67%); background: transparent; cursor: pointer; font-family: var(--font-calligraphy); font-size: clamp(.72rem, .92vw, .82rem); letter-spacing: .04em; text-align: left; transition: color 180ms ease, background 180ms ease, border-color 180ms ease, transform 180ms ease; }
-.yellow-river-detail-panel__compact-tabs button:hover, .yellow-river-detail-panel__compact-tabs button:focus-visible, .yellow-river-detail-panel__compact-tabs button.is-active { border-color: color-mix(in srgb, var(--chronicle-accent) 54%, transparent); color: #fff0bc; background: color-mix(in srgb, var(--chronicle-accent) 15%, transparent); transform: translateX(.12rem); }
+.yellow-river-detail-panel__compact-tabs button { position: relative; isolation: isolate; min-height: 2rem; padding: .28rem .45rem; overflow: hidden; border: 1px solid transparent; border-radius: .42rem; color: rgb(220 231 214 / 67%); background: transparent; cursor: pointer; font-family: var(--font-calligraphy); font-size: clamp(.72rem, .92vw, .82rem); letter-spacing: .04em; text-align: left; transition: color 180ms ease, border-color 180ms ease, transform 180ms ease, box-shadow 180ms ease; }
+.yellow-river-detail-panel__compact-tabs button > span { position: relative; z-index: 2; }
+.yellow-river-detail-panel__compact-tabs button::before { position: absolute; z-index: 0; inset: .14rem; border: 1px solid color-mix(in srgb, var(--chronicle-accent) 48%, transparent); border-radius: .28rem; background: linear-gradient(108deg, color-mix(in srgb, var(--chronicle-accent) 18%, transparent), rgb(255 235 174 / 5%)); box-shadow: inset 0 1px 0 rgb(255 250 224 / 12%); content: ''; opacity: 0; transform: translateX(-.25rem) scale(.96); transition: opacity 160ms ease, transform 200ms cubic-bezier(.2, .75, .25, 1); }
+.yellow-river-detail-panel__compact-tabs button::after { position: absolute; z-index: 1; right: .36rem; bottom: .3rem; width: 44%; height: .1rem; border-radius: 999px; background: linear-gradient(90deg, transparent, var(--chronicle-accent), transparent); box-shadow: 0 0 .45rem color-mix(in srgb, var(--chronicle-accent) 72%, transparent); content: ''; opacity: 0; transform: translateX(100%); transition: opacity 140ms ease, transform 260ms cubic-bezier(.2, .75, .25, 1); }
+.yellow-river-detail-panel__compact-tabs button:hover, .yellow-river-detail-panel__compact-tabs button:focus-visible, .yellow-river-detail-panel__compact-tabs button.is-active { border-color: color-mix(in srgb, var(--chronicle-accent) 54%, transparent); color: #fff0bc; transform: translateX(.12rem); box-shadow: 0 .2rem .55rem rgb(0 10 14 / 13%); }
+.yellow-river-detail-panel__compact-tabs button:hover::before, .yellow-river-detail-panel__compact-tabs button:focus-visible::before, .yellow-river-detail-panel__compact-tabs button.is-active::before { opacity: 1; transform: translateX(0) scale(1); }
+.yellow-river-detail-panel__compact-tabs button:hover::after, .yellow-river-detail-panel__compact-tabs button:focus-visible::after, .yellow-river-detail-panel__compact-tabs button.is-active::after { opacity: .9; transform: translateX(-82%); }
 .yellow-river-detail-panel__compact-panel { padding: clamp(.7rem, 1.4vw, 1rem) clamp(.8rem, 1.6vw, 1.2rem); overflow: hidden; animation: yellow-river-chronicle-reveal 220ms cubic-bezier(.2, .75, .25, 1) both; }
 .yellow-river-detail-panel__compact-panel h3 { margin: 0 0 .42rem; color: #f5e7b6; font-family: var(--font-calligraphy); font-size: clamp(1rem, 1.45vw, 1.2rem); font-weight: 500; }
 .yellow-river-detail-panel__compact-panel p, .yellow-river-detail-panel__compact-panel li { margin: 0; color: rgb(232 241 226 / 82%); font-size: clamp(.76rem, .95vw, .86rem); line-height: 1.55; }
@@ -290,17 +295,33 @@
 .yellow-river-chronicle__engineering-copy > p { margin: 0; color: #86cdd1; font-size: .78rem; letter-spacing: .15em; }
 .yellow-river-chronicle__engineering-copy h3 { margin: .38rem 0 .52rem; color: #f3efd9; font-family: "Noto Serif SC", var(--font-calligraphy); font-size: clamp(1.3rem, 2.2vw, 1.9rem); font-weight: 500; }
 .yellow-river-chronicle__engineering-copy > span { display: block; max-width: 35rem; color: rgb(229 238 220 / 78%); font-size: clamp(.8rem, 1.05vw, .92rem); line-height: 1.62; }
-.yellow-river-chronicle__engineering-copy blockquote, .yellow-river-chronicle__delta-copy blockquote { margin: .7rem 0 0; padding-left: .78rem; border-left: 2px solid var(--chronicle-accent); color: rgb(214 234 220 / 84%); font-family: var(--font-calligraphy); font-size: clamp(.8rem, 1.02vw, .9rem); line-height: 1.58; }
+.yellow-river-chronicle__engineering-copy blockquote { margin: .7rem 0 0; padding-left: .78rem; border-left: 2px solid var(--chronicle-accent); color: rgb(214 234 220 / 84%); font-family: var(--font-calligraphy); font-size: clamp(.8rem, 1.02vw, .9rem); line-height: 1.58; }
 .yellow-river-chronicle__system-process { display: flex; flex-wrap: wrap; gap: .35rem .5rem; align-items: center; margin-top: .9rem; color: #e7d18a; font-family: var(--font-calligraphy); font-size: clamp(.78rem, 1vw, .9rem); letter-spacing: .05em; }
 .yellow-river-chronicle__system-process strong { padding: .34rem .52rem; border: 1px solid rgb(127 207 208 / 32%); background: rgb(88 188 194 / 9%); font-weight: 500; }
 .yellow-river-chronicle__system-process b { color: #78cbd0; font-weight: 400; }
-.yellow-river-chronicle__scene--delta { display: grid; grid-template-columns: minmax(10rem, .55fr) minmax(24rem, 1.45fr); gap: clamp(1rem, 4vw, 3.5rem); align-items: center; min-height: clamp(15rem, 34vh, 22rem); padding: clamp(.4rem, 1.2vw, .9rem); }
-.yellow-river-chronicle__delta-mark { color: rgb(176 229 190 / 72%); font-family: "Noto Serif SC", var(--font-calligraphy); font-size: clamp(1.8rem, 4vw, 3.45rem); letter-spacing: .12em; line-height: 1.15; writing-mode: vertical-rl; text-shadow: 0 0 2rem rgb(112 199 157 / 24%); }
-.yellow-river-chronicle__delta-copy { max-width: 43rem; }
-.yellow-river-chronicle__delta-copy h3 { margin: 0 0 .55rem; color: #f1f1da; font-family: "Noto Serif SC", var(--font-calligraphy); font-size: clamp(1.3rem, 2.2vw, 1.9rem); font-weight: 500; }
-.yellow-river-chronicle__delta-copy p, .yellow-river-chronicle__delta-copy li { color: rgb(227 240 223 / 78%); font-size: clamp(.8rem, 1.05vw, .92rem); line-height: 1.58; }
-.yellow-river-chronicle__delta-copy p { margin: 0 0 .45rem; }
-.yellow-river-chronicle__delta-copy ul { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: .35rem .8rem; margin: .55rem 0 0; padding-left: 1rem; }
+.yellow-river-chronicle__scene--delta { min-height: clamp(16rem, 35vh, 22rem); padding: .15rem 0; }
+.yellow-river-delta-atlas { --delta-deep: #0b3b42; --delta-reed: #5f9d7c; --delta-shallow: #7fc6c2; --delta-mist: #edf1e6; --delta-gold: #d8bd76; display: grid; grid-template-columns: minmax(8.6rem, .34fr) minmax(0, 1fr); min-height: clamp(16rem, 35vh, 22rem); overflow: hidden; border: 1px solid rgb(191 224 204 / 28%); border-radius: .85rem; background: linear-gradient(108deg, rgb(5 43 50 / 78%), rgb(8 54 57 / 58%) 45%, rgb(22 79 69 / 42%)); box-shadow: inset 0 1px 0 rgb(237 241 230 / 10%), 0 1.1rem 2.8rem rgb(0 13 18 / 20%); }
+.yellow-river-delta-atlas__tabs { display: grid; align-content: center; gap: .16rem; padding: .52rem; border-right: 1px solid rgb(183 219 198 / 22%); background: linear-gradient(180deg, rgb(6 51 55 / 48%), rgb(9 61 61 / 22%)); }
+.yellow-river-delta-atlas__tabs button { position: relative; isolation: isolate; min-height: 2.16rem; padding: .32rem .54rem .32rem .76rem; overflow: hidden; border: 1px solid transparent; border-radius: .36rem; color: rgb(228 239 226 / 68%); background: transparent; cursor: pointer; font-family: var(--font-calligraphy); font-size: clamp(.72rem, .95vw, .84rem); letter-spacing: .045em; text-align: left; transition: color 180ms ease, border-color 180ms ease, transform 180ms ease, box-shadow 180ms ease; }
+.yellow-river-delta-atlas__tabs button > span { position: relative; z-index: 2; }
+.yellow-river-delta-atlas__tabs button::before { position: absolute; z-index: 1; top: 50%; left: .34rem; width: .18rem; height: 1.25rem; border-radius: 99px; background: linear-gradient(180deg, var(--delta-shallow), var(--delta-reed)); content: ''; opacity: 0; transform: translateY(-50%) scaleY(.5); transition: opacity 180ms ease, transform 180ms ease; }
+.yellow-river-delta-atlas__tabs button::after { position: absolute; z-index: 0; inset: .14rem; border: 1px solid rgb(127 198 194 / 34%); border-radius: .24rem; background: linear-gradient(106deg, rgb(127 198 194 / 18%), rgb(237 241 230 / 5%)); box-shadow: inset 0 1px 0 rgb(255 255 248 / 12%); content: ''; opacity: 0; transform: translateX(-.28rem) scale(.96); transition: opacity 160ms ease, transform 200ms cubic-bezier(.2, .75, .25, 1); }
+.yellow-river-delta-atlas__tabs button:hover, .yellow-river-delta-atlas__tabs button:focus-visible, .yellow-river-delta-atlas__tabs button.is-active { border-color: rgb(216 189 118 / 50%); color: var(--delta-mist); transform: translateX(.1rem); box-shadow: 0 .2rem .55rem rgb(0 23 27 / 14%); }
+.yellow-river-delta-atlas__tabs button:hover::before, .yellow-river-delta-atlas__tabs button:focus-visible::before, .yellow-river-delta-atlas__tabs button.is-active::before { opacity: 1; transform: translateY(-50%) scaleY(1); }
+.yellow-river-delta-atlas__tabs button:hover::after, .yellow-river-delta-atlas__tabs button:focus-visible::after, .yellow-river-delta-atlas__tabs button.is-active::after { opacity: 1; transform: translateX(0) scale(1); }
+.yellow-river-delta-atlas__content { min-width: 0; max-height: clamp(16rem, 35vh, 22rem); padding: clamp(.95rem, 1.8vw, 1.45rem) clamp(1rem, 2vw, 1.75rem); overflow-y: auto; scrollbar-color: rgb(127 198 194 / 64%) transparent; animation: yellow-river-chronicle-reveal 320ms cubic-bezier(.2, .75, .25, 1) both; }
+.yellow-river-delta-atlas__content::-webkit-scrollbar { width: .42rem; }
+.yellow-river-delta-atlas__content::-webkit-scrollbar-thumb { border-radius: 99px; background: rgb(127 198 194 / 48%); }
+.yellow-river-delta-atlas__content h3 { margin: 0 0 .58rem; color: var(--delta-mist); font-family: "Noto Serif SC", var(--font-calligraphy); font-size: clamp(1.08rem, 1.65vw, 1.5rem); font-weight: 500; line-height: 1.35; }
+.yellow-river-delta-atlas__content p, .yellow-river-delta-atlas__content li { color: rgb(233 242 232 / 84%); font-size: clamp(.76rem, .98vw, .88rem); line-height: 1.68; }
+.yellow-river-delta-atlas__content p { margin: 0 0 .56rem; text-indent: 2em; }
+.yellow-river-delta-atlas__content ul { display: grid; gap: .48rem; margin: 0; padding: 0; list-style: none; }
+.yellow-river-delta-atlas__content li { padding-left: .72rem; border-left: 1px solid rgb(127 198 194 / 48%); }
+.yellow-river-delta-atlas__content li strong { color: #e6d49d; font-weight: 600; }
+.yellow-river-delta-atlas__chain { display: flex; flex-wrap: wrap; gap: .3rem .4rem; align-items: center; margin: .82rem 0 .72rem; padding: .62rem .7rem; border-block: 1px solid rgb(127 198 194 / 24%); color: #edf1e6; font-family: var(--font-calligraphy); font-size: clamp(.7rem, .9vw, .8rem); line-height: 1.45; }
+.yellow-river-delta-atlas__chain b { color: var(--delta-gold); font-weight: 400; }
+.yellow-river-delta-atlas__quote { margin: 0 0 .7rem; padding: .1rem 0 .1rem .78rem; border-left: 2px solid var(--delta-gold); color: rgb(239 244 229 / 93%); font-family: var(--font-calligraphy); font-size: clamp(.8rem, 1.02vw, .92rem); line-height: 1.68; }
+.yellow-river-delta-atlas__final { margin-top: .72rem !important; color: #f6e6ad !important; font-family: var(--font-calligraphy); font-size: clamp(.9rem, 1.13vw, 1.02rem) !important; font-weight: 600; text-indent: 0 !important; }
 .yellow-river-chronicle button:focus-visible, .yellow-river-chronicle a:focus-visible { outline: 2px solid #f3df9f; outline-offset: 3px; }
 @keyframes yellow-river-chronicle-reveal { from { opacity: 0; transform: translateY(.7rem); } to { opacity: 1; transform: translateY(0); } }
 @keyframes yellow-river-scene-enter { from { opacity: 0; transform: scale(1.018); } to { opacity: 1; transform: scale(1); } }
@@ -321,11 +342,16 @@
   .yellow-river-detail-panel__compact-tabs { grid-template-columns: repeat(3, minmax(0, 1fr)); border-right: 0; border-bottom: 1px solid rgb(231 213 166 / 16%); }
   .yellow-river-detail-panel__compact-tabs button { min-height: 1.85rem; text-align: center; }
   .yellow-river-detail-panel__compact-panel { overflow: visible; }
-  .yellow-river-detail-panel__compact-panel ul, .yellow-river-chronicle__delta-copy ul { grid-template-columns: 1fr; }
+  .yellow-river-detail-panel__compact-panel ul { grid-template-columns: 1fr; }
   .yellow-river-chronicle__scene--system { gap: 2rem; padding: .5rem 0; }
   .yellow-river-chronicle__engineering-copy { padding: 1.15rem 0 0; border-top: 1px solid rgb(104 193 201 / 35%); border-left: 0; }
-  .yellow-river-chronicle__scene--delta { gap: 1.2rem; }
-  .yellow-river-chronicle__delta-mark { font-size: 2rem; writing-mode: horizontal-tb; }
+  .yellow-river-chronicle__scene--delta { padding: 0; }
+  .yellow-river-delta-atlas { grid-template-columns: 1fr; min-height: 0; overflow: visible; }
+  .yellow-river-delta-atlas__tabs { grid-template-columns: repeat(3, minmax(0, 1fr)); border-right: 0; border-bottom: 1px solid rgb(183 219 198 / 22%); }
+  .yellow-river-delta-atlas__tabs button { min-height: 2rem; padding: .34rem .25rem; text-align: center; }
+  .yellow-river-delta-atlas__tabs button::before { top: auto; bottom: .2rem; left: 50%; width: 1.2rem; height: .14rem; transform: translateX(-50%) scaleX(.5); }
+  .yellow-river-delta-atlas__tabs button:hover::before, .yellow-river-delta-atlas__tabs button:focus-visible::before, .yellow-river-delta-atlas__tabs button.is-active::before { transform: translateX(-50%) scaleX(1); }
+  .yellow-river-delta-atlas__content { max-height: none; overflow: visible; }
 }
 @media (prefers-reduced-motion: reduce) {
   .yellow-river-chronicle *, .yellow-river-chronicle *::before, .yellow-river-chronicle *::after { animation: none !important; transition: none !important; }

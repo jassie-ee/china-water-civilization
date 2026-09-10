@@ -14,6 +14,7 @@ import deltaWetlandBackground from '@/assets/images/basins/yellow-river-delta-we
 
 import LoessPlateauNarrative from './components/LoessPlateauNarrative';
 import NodeVideoPanel from './components/NodeVideoPanel';
+import YellowRiverDeltaAtlas, { type DeltaAtlasSectionId } from './components/YellowRiverDeltaAtlas';
 import type { YellowRiverNarrativeId } from './components/YellowRiverAtmosphere';
 import './YellowRiver.css';
 
@@ -90,6 +91,7 @@ function YellowRiver() {
   const [xiaolangdiStep, setXiaolangdiStep] = useState<XiaolangdiInteractionStep>('idle');
   const [xiaolangdiRewardCopy, setXiaolangdiRewardCopy] = useState('');
   const [sceneRipple, setSceneRipple] = useState<SceneRipple | null>(null);
+  const [deltaSectionId, setDeltaSectionId] = useState<DeltaAtlasSectionId>('estuary');
   const { recordLevelResult } = useGovernanceProgress();
   const loessNode = yellowRiverNodes.find((node) => node.id === 'loess-plateau');
   const deltaNode = yellowRiverNodes.find((node) => node.id === 'yellow-river-delta-wetland');
@@ -178,7 +180,7 @@ function YellowRiver() {
       <YellowRiverSceneBackground activeSceneId={activeNarrativeId} />
       <YellowRiverRoute activeSceneId={activeNarrativeId} />
       {sceneRipple && !prefersReducedMotion && <span key={sceneRipple.id} className="yellow-river-chronicle__ripple" style={{ left: sceneRipple.x, top: sceneRipple.y }} aria-hidden="true"><i /><i /><i /></span>}
-      <Suspense fallback={null}><YellowRiverAtmosphere activeNarrativeId={activeNarrativeId} reducedMotion={prefersReducedMotion} /></Suspense>
+      <Suspense fallback={null}><YellowRiverAtmosphere activeNarrativeId={activeNarrativeId} deltaSectionId={deltaSectionId} reducedMotion={prefersReducedMotion} /></Suspense>
       <header className="yellow-river-chronicle__header">
         <Link className="yellow-river-chronicle__back" to="/basins" state={{ basinOverviewEntry: 'returning' }}>返回中国流域总览</Link>
         <div className="yellow-river-chronicle__title"><p>黄河水沙命运长卷</p><h1>黄河流域</h1></div>
@@ -203,8 +205,7 @@ function YellowRiver() {
           <div className="yellow-river-chronicle__engineering-copy" aria-live="polite"><p>水库群联合调度</p><h3>让水与沙在同一次行动中抵达下游</h3><span>小浪底不是单独工作的“拦水墙”。它与上游水库共享预报、库情和河道响应，在合适的时机共同组织来水与泄流。</span><div className="yellow-river-chronicle__system-process"><strong>来水研判</strong><b>→</b><strong>库群协同</strong><b>→</b><strong>排沙塑槽</strong></div><blockquote>工程的角色不是把黄河困住，而是在尊重水沙规律的前提下，为洪水、泥沙、供水与生态补水安排合适的节奏。</blockquote></div>
         </article>}
         {activeNarrativeId === 'delta' && deltaNode && <article className="yellow-river-chronicle__scene yellow-river-chronicle__scene--delta">
-          <div className="yellow-river-chronicle__delta-mark" aria-hidden="true">河海之间</div>
-          <div className="yellow-river-chronicle__delta-copy"><h3>{deltaNode.name}</h3><p>{deltaNode.summary}</p><p>{deltaNode.problemDescription}</p><ul>{deltaNode.governanceMeasures?.map((measure) => <li key={measure}>{measure}</li>)}</ul><blockquote>当黄河带着被妥善安放的水与沙抵达海岸，湿地便有机会继续生长，候鸟也能在这里停歇。</blockquote></div>
+          <YellowRiverDeltaAtlas activeSectionId={deltaSectionId} onSectionChange={setDeltaSectionId} />
         </article>}
       </main>
       <RiverSpiritGuide isOpen={isDialogueOpen} riverName="黄河" region={yellowRiverRegions[1]} node={activeNarrativeId === 'sediment' ? loessNode ?? null : yellowRiverNodes.find((node) => node.id === 'xiaolangdi') ?? null} dialogueOverride={loessDialogue} expressionOverride={loessStep === 'correct' || xiaolangdiStep === 'correct' ? 'happy' : loessDialogue ? 'thinking' : undefined} onDialogueClose={handleDialogueClose} />

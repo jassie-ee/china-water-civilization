@@ -118,14 +118,16 @@ function BasinNarrativePage({ config }: { config: BasinNarrativeConfig }) {
       </header>
       <nav className="basin-narrative__nav" aria-label={`${config.riverName}叙事章节`}>
         {config.scenes.map((scene) => (
-          <button key={scene.id} type="button" className={scene.id === activeScene.id ? 'is-active' : ''} aria-current={scene.id === activeScene.id ? 'step' : undefined} onClick={() => selectScene(scene)}>{scene.label}</button>
+          <button key={scene.id} type="button" className={scene.id === activeScene.id ? 'is-active' : ''} aria-current={scene.id === activeScene.id ? 'step' : undefined} onClick={() => selectScene(scene)}><span>{scene.label}</span></button>
         ))}
       </nav>
       <main className="basin-narrative__stage">
-        <div key={activeScene.id} className="basin-narrative__heading">
-          <p>{activeScene.label}</p><h2>{activeScene.title}</h2><span>{activeScene.summary}</span>
+        <div key={activeScene.id} className="basin-narrative__scene-frame">
+          <div className="basin-narrative__heading">
+            <p>{activeScene.label}</p><h2>{activeScene.title}</h2><span>{activeScene.summary}</span>
+          </div>
+          <BasinStoryStage scene={activeScene} onStartInteraction={() => openInteraction(activeScene)} />
         </div>
-        <BasinStoryStage scene={activeScene} onStartInteraction={() => openInteraction(activeScene)} />
       </main>
       {interaction && !isDialogueOpen && interactionSceneId === activeScene.id && (
         <button className="basin-narrative__continue" type="button" onClick={() => setIsDialogueOpen(true)}>继续互动</button>

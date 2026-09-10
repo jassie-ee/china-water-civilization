@@ -43,7 +43,7 @@ function LoessPlateauNarrative({ compact = false }: LoessPlateauNarrativeProps) 
     return (
       <div className="yellow-river-detail-panel__loess-narrative yellow-river-detail-panel__loess-narrative--compact">
         <div className="yellow-river-detail-panel__compact-tabs" role="tablist" aria-label="黄土高原说明">
-          {compactSections.map((section) => <button key={section.id} id={`loess-tab-${section.id}`} type="button" role="tab" aria-selected={section.id === activeCompactSection.id} aria-controls="loess-compact-panel" className={section.id === activeCompactSection.id ? 'is-active' : ''} onClick={() => setActiveSectionId(section.id)}>{section.label}</button>)}
+          {compactSections.map((section) => <button key={section.id} id={`loess-tab-${section.id}`} type="button" role="tab" aria-selected={section.id === activeCompactSection.id} aria-controls="loess-compact-panel" className={section.id === activeCompactSection.id ? 'is-active' : ''} onClick={() => setActiveSectionId(section.id)}><span>{section.label}</span></button>)}
         </div>
         <section id="loess-compact-panel" className="yellow-river-detail-panel__compact-panel" role="tabpanel" aria-labelledby={`loess-tab-${activeCompactSection.id}`}>
           <h3>{activeCompactSection.label}</h3>

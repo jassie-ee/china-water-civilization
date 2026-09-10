@@ -25,6 +25,7 @@ export interface LanMascotDialogue {
   closeOnBackdrop?: boolean;
   closeOnEscape?: boolean;
   showClose?: boolean;
+  closeOnAction?: boolean;
 }
 
 export interface LanMascotConfig {

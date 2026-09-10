@@ -1,11 +1,11 @@
 import AppRouter from '@/routes/AppRouter';
-import GlowCursor from '@/components/GlowCursor';
+import WaterCursor from '@/components/WaterCursor';
 
 function App() {
   return (
     <>
       <AppRouter />
-      <GlowCursor />
+      <WaterCursor />
     </>
   );
 }

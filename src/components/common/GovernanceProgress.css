@@ -38,6 +38,7 @@
   font-family: "Noto Serif SC", var(--font-calligraphy);
   font-size: .9rem;
   font-weight: 600;
+  font-variant-numeric: tabular-nums;
   letter-spacing: 0;
 }
 
@@ -81,7 +82,7 @@
 .score-popover__card--yangtze-river { border-left-color: #80b9d0; }
 .score-popover__card--pearl-river { border-left-color: #77b9a2; }
 .score-popover__card p { margin: 0; color: rgb(219 241 234 / 67%); font-size: .75rem; }
-.score-popover__card strong { display: inline-flex; align-items: baseline; gap: .28rem; margin-top: .18rem; color: #f5f3dc; font-family: "Noto Serif SC", var(--font-calligraphy); font-size: 1.36rem; font-weight: 500; }
+.score-popover__card strong { display: inline-flex; align-items: baseline; gap: .28rem; margin-top: .18rem; color: #f5f3dc; font-family: "Noto Serif SC", var(--font-calligraphy); font-size: 1.36rem; font-weight: 500; font-variant-numeric: tabular-nums; }
 .score-popover__card--all strong { color: #f2d78c; font-size: 2.35rem; line-height: 1; }
 .score-popover__card strong span { color: #e7bf6c; font-size: .86rem; }
 .score-popover__basin-heading { margin: .48rem 0 .12rem; color: rgb(190 234 223 / 62%); font-size: .66rem; letter-spacing: .14em; }

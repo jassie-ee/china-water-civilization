@@ -159,6 +159,11 @@ function LanMascot({ record, onCloseDialogue, onOpenDialogue, onPositionChange }
     window.requestAnimationFrame(() => handleRef.current?.focus());
   };
 
+  const handleDialogueAction = (): void => {
+    config.dialogue.onAction();
+    if (config.dialogue.closeOnAction) handleCloseDialogue();
+  };
+
   const handleKeyDown = (event: React.KeyboardEvent<HTMLButtonElement>): void => {
     if (event.key !== 'Enter' && event.key !== ' ') return;
 
@@ -220,7 +225,7 @@ function LanMascot({ record, onCloseDialogue, onOpenDialogue, onPositionChange }
           closeOnEscape={config.dialogue.closeOnEscape}
           showClose={config.dialogue.showClose}
           unavailableNotice={config.dialogue.unavailableNotice}
-          onAction={config.dialogue.onAction}
+          onAction={handleDialogueAction}
           onClose={handleCloseDialogue}
         />,
         document.body,

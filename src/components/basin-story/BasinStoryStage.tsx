@@ -17,23 +17,16 @@ function BasinStoryStage({ scene, onStartInteraction }: BasinStoryStageProps) {
     poster: scene.poster,
   } : undefined;
 
-  return (
-    <article className="basin-story-stage">
-      <div className="basin-story-stage__media">
-        <NodeVideoPanel
-          video={video}
-          onComplete={scene.interaction ? onStartInteraction : undefined}
-          skipLabel={scene.interaction ? '跳过影像，开始互动' : undefined}
-        />
-        {scene.interaction && (
-          <button className="basin-story-stage__interaction" type="button" onClick={onStartInteraction}>
-            开始互动
-          </button>
-        )}
-      </div>
-      <BasinStoryTabs sections={scene.sections} storyId={scene.id} />
-    </article>
-  );
+  const mediaAfterSectionId = scene.mediaAfterSectionId ?? 'problem';
+  const mediaSlot = video !== undefined ? <div className="basin-story-stage__media">
+    <NodeVideoPanel video={video} onComplete={scene.interaction ? onStartInteraction : undefined} skipLabel={scene.interaction ? '跳过影像，开始互动' : undefined} />
+    {scene.interaction && <button className="basin-story-stage__interaction" type="button" onClick={onStartInteraction}>开始互动</button>}
+  </div> : scene.interaction ? <aside className="basin-story-stage__discovery" aria-label="互动探索入口">
+    <span>互动观察</span><strong>{scene.label}</strong><p>先认识生活在这段水脉中的生命，再一起思考该怎样守护它们。</p>
+    <button className="basin-story-stage__interaction" type="button" onClick={onStartInteraction}>开始识图</button>
+  </aside> : undefined;
+
+  return <article className="basin-story-stage"><BasinStoryTabs sections={scene.sections} storyId={scene.id} mediaAfterSectionId={mediaAfterSectionId} mediaSlot={mediaSlot} /></article>;
 }
 
 export default BasinStoryStage;

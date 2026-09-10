@@ -1,13 +1,15 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useState, type ReactNode } from 'react';
 
 import type { BasinStorySection } from '@/types/basinStory';
 
 interface BasinStoryTabsProps {
   sections: BasinStorySection[];
   storyId: string;
+  mediaAfterSectionId?: BasinStorySection['id'];
+  mediaSlot?: ReactNode;
 }
 
-function BasinStoryTabs({ sections, storyId }: BasinStoryTabsProps) {
+function BasinStoryTabs({ sections, storyId, mediaAfterSectionId, mediaSlot }: BasinStoryTabsProps) {
   const [activeSectionId, setActiveSectionId] = useState(sections[0]?.id);
 
   useEffect(() => {
@@ -29,7 +31,7 @@ function BasinStoryTabs({ sections, storyId }: BasinStoryTabsProps) {
             className={section.id === activeSection.id ? 'is-active' : ''}
             onClick={() => setActiveSectionId(section.id)}
           >
-            {section.label}
+            <span>{section.label}</span>
           </button>
         ))}
       </div>
@@ -37,6 +39,7 @@ function BasinStoryTabs({ sections, storyId }: BasinStoryTabsProps) {
         <h3>{activeSection.label}</h3>
         {activeSection.paragraphs.map((paragraph) => <p key={paragraph}>{paragraph}</p>)}
         {activeSection.points && <ul>{activeSection.points.map((point) => <li key={point}>{point}</li>)}</ul>}
+        {activeSection.id === mediaAfterSectionId && mediaSlot}
       </div>
     </section>
   );

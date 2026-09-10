@@ -36,6 +36,7 @@ function BasinOverview() {
       messages: ['前面就是黄河、长江和珠江啦！每一条河都藏着不同的互动记忆，快选一条，陪我去看看吧。'],
       actionLabel: '开始探索',
       onAction: () => undefined,
+      closeOnAction: true,
     },
   }), []);
   const { openDialogue } = useLanMascot(mascotConfig);
