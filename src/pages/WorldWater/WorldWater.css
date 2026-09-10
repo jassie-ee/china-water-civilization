@@ -613,10 +613,61 @@
 .world-water-page__finish h2 { font-size: clamp(1.4rem, 2.2vw, 1.9rem); }
 .world-water-page__finish > p strong { color: var(--chapter-accent); font-weight: 500; }
 
+.world-water-page__narrative {
+  max-width: 34rem;
+  margin-top: .8rem;
+  color: var(--chapter-ink-strong, #f4ecd5);
+  font-size: clamp(.78rem, .72rem + .16vw, .94rem);
+  line-height: 1.65;
+  text-shadow: 0 1px 12px rgb(8 22 24 / 80%);
+}
+
+.world-water-page__narrative p { margin: 0; }
+
+.world-water-page__narrative p + p {
+  margin-top: .18rem;
+  color: rgb(244 236 213 / 72%);
+  font-size: .82em;
+}
+
+.world-water-page__narrative p:first-child span {
+  color: var(--chapter-accent);
+}
+
 .world-water-page__quote {
   color: var(--chapter-accent) !important;
   font-family: var(--font-calligraphy, "STKaiti", "KaiTi", serif);
   font-size: .95rem !important;
+}
+
+.world-water-page__reward {
+  display: flex;
+  gap: .7rem;
+  align-items: center;
+  margin-top: .25rem;
+  padding-top: .75rem;
+  border-top: 1px solid rgb(241 210 124 / 42%);
+  color: #f1d27c;
+}
+
+.world-water-page__reward-mark {
+  display: grid;
+  width: 2rem;
+  height: 2rem;
+  flex: 0 0 auto;
+  place-items: center;
+  border: 1px solid currentColor;
+  border-radius: 50%;
+  font-family: var(--font-mono, monospace);
+}
+
+.world-water-page__reward strong,
+.world-water-page__reward span { display: block; }
+
+.world-water-page__reward span:last-child {
+  margin-top: .16rem;
+  color: rgb(244 236 213 / 68%);
+  font-size: .78rem;
 }
 
 .world-water-page__finish-actions {

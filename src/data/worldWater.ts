@@ -70,6 +70,11 @@ const worldWaterSteps: WorldWaterStep[] = [
       { id: 'ecology', label: 'C', text: '当地特有动植物与生态环境。', stars: 3, feedback: '' },
       { id: 'livelihood', label: 'D', text: '老百姓怎么用水、种地和生活。', stars: 3, feedback: '' },
     ],
+    narrative: {
+      spiritLine: '先看水土，也看人的生活；答案就在当地。',
+      fieldEcho: '因地制宜，从现场开始。',
+      transition: '从一张总图，走进第一处水脉。',
+    },
   },
   {
     id: 'red-sea-desalination',
@@ -109,6 +114,11 @@ const worldWaterSteps: WorldWaterStep[] = [
         feedback: '穿越荒漠的长距离输水成本高、风险大，城市的水命也会掌握在别人的水源里。',
       },
     ],
+    narrative: {
+      spiritLine: '缺水的地方，先把海水变成可以抵达生活的水。',
+      fieldEcho: '沙特 · 红海取水',
+      transition: '从旱地出发，寻找可持续的水源。',
+    },
   },
   {
     id: 'karot-hub',
@@ -131,6 +141,11 @@ const worldWaterSteps: WorldWaterStep[] = [
       { id: 'generate-power', label: 'C', text: '借水位落差发电，给周边村子供电。', stars: 3, feedback: '' },
       { id: 'cage-fish', label: 'D', text: '在库区大面积发展网箱养鱼，增加收入。', stars: 1, feedback: '' },
     ],
+    narrative: {
+      spiritLine: '一座枢纽不只蓄水，也要把旱涝之间的节奏接起来。',
+      fieldEcho: '巴基斯坦 · 调蓄枢纽',
+      transition: '水被留住，也要在需要时回到田野。',
+    },
   },
   {
     id: 'guinea-hydropower',
@@ -143,16 +158,21 @@ const worldWaterSteps: WorldWaterStep[] = [
     story: '几内亚拥有很大的自然落差，却曾让城镇在夜里陷入黑暗。把水的能量用好，也要把河流本身留在方案里。',
     question: '修建水电站时，哪些事需要同时考虑？',
     selectionMode: 'multiple',
-    requiredChoiceIds: ['clean-energy', 'ecological-flow', 'local-benefit', 'long-term-monitor'],
-    correctFeedback: '水电不是只追求发电量：清洁能源、生态流量、当地受益和长期监测，都要一起进入设计。',
-    partialFeedback: '把水能变成电力时，也要让河流继续呼吸，并保证收益回到当地生活与长期维护中。',
+    requiredChoiceIds: ['river-power', 'ecological-flow', 'transmission-grid', 'fish-spawning-release'],
+    correctFeedback: '水能不是只追求发电量：村镇用电、下游生态、输电线路和鱼类繁殖期，都要一起进入设计。',
+    partialFeedback: '把河流变成电力时，也要把电送到当地，并给下游生态和鱼类留下节奏。',
     waterGain: 4,
     choices: [
-      { id: 'clean-energy', label: 'A', text: '提供清洁能源，改善城镇生活与产业。', stars: 3, feedback: '' },
-      { id: 'ecological-flow', label: 'B', text: '保留必要的生态流量，让下游河流继续生长。', stars: 3, feedback: '' },
-      { id: 'local-benefit', label: 'C', text: '让周边社区获得稳定、可持续的公共收益。', stars: 3, feedback: '' },
-      { id: 'long-term-monitor', label: 'D', text: '建立水文与生态监测，持续校准调度。', stars: 3, feedback: '' },
+      { id: 'river-power', label: 'A', text: '利用河流落差为村镇提供稳定电力。', stars: 3, feedback: '' },
+      { id: 'ecological-flow', label: 'B', text: '保留下游必要的生态流量，让河流继续呼吸。', stars: 3, feedback: '' },
+      { id: 'transmission-grid', label: 'C', text: '配套输电线路，让水能真正抵达当地生活。', stars: 3, feedback: '' },
+      { id: 'fish-spawning-release', label: 'D', text: '根据鱼类繁殖期调整放水节奏。', stars: 3, feedback: '' },
     ],
+    narrative: {
+      spiritLine: '水能变成电，也要把河的生命留在河里。',
+      fieldEcho: '几内亚 · 水电与生态',
+      transition: '让水的落差抵达村镇，而不是离开河流。',
+    },
   },
   {
     id: 'equatorial-cleanup',
@@ -175,6 +195,11 @@ const worldWaterSteps: WorldWaterStep[] = [
       { id: 'mangrove-wetland', label: 'C', text: '在河口种红树林、建人工湿地作最后一道净化。', stars: 3, feedback: '' },
       { id: 'dredge-first', label: 'D', text: '先大规模清淤，把河道底泥全部挖干净。', stars: 1, feedback: '' },
     ],
+    narrative: {
+      spiritLine: '净水不是一把铲子挖到底，而是让污染在正确的环节被拦下。',
+      fieldEcho: '赤道几内亚 · 河口净化',
+      transition: '从污染源头，到湿地最后一道净化。',
+    },
   },
   {
     id: 'mekong-sharing',
@@ -197,6 +222,11 @@ const worldWaterSteps: WorldWaterStep[] = [
       { id: 'joint-duty', label: 'C', text: '汛期各国联合值班，一起盯住整条河的水情。', stars: 3, feedback: '' },
       { id: 'private-data', label: 'D', text: '水情数据是各国自己的事，不需要共享。', stars: 1, feedback: '' },
     ],
+    narrative: {
+      spiritLine: '一条跨境的河，先要让信息及时抵达每一段岸。',
+      fieldEcho: '湄澜六国 · 信息共享',
+      transition: '水线上游下游，先连起共同的判断。',
+    },
   },
   {
     id: 'mekong-allocation',
@@ -219,6 +249,11 @@ const worldWaterSteps: WorldWaterStep[] = [
       { id: 'ecological-compensation', label: 'C', text: '建立生态补偿，让守护源头的地区得到回馈。', stars: 3, feedback: '' },
       { id: 'joint-infrastructure', label: 'D', text: '共同建设水利设施，调节枯水期的水量。', stars: 3, feedback: '' },
     ],
+    narrative: {
+      spiritLine: '水量可以协商，责任也要一起承担。',
+      fieldEcho: '湄澜六国 · 共同分配',
+      transition: '五处现场，回到同一张全球水图。',
+    },
   },
 ];
 

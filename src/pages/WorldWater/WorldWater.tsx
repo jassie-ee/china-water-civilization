@@ -430,40 +430,55 @@ function WorldWater() {
           <div key={panelKey} className="world-water-page__panel-content">
             {isFinished ? (
             <section className="world-water-page__finish" aria-live="polite">
-              <p className="world-water-page__eyebrow">同舟之路已连成 / ROUTE COMPLETE</p>
-              <h2>五处水脉连成了<br />一条同舟之路。</h2>
-              <p>七道判断已写入航记，水脉感悟抵达 <strong>{waterFeel} / 30</strong>。你解锁了「同舟共济」的能力。</p>
-              <p className="world-water-page__quote">共同构建人与自然生命共同体。</p>
-              <div className="world-water-page__finish-actions">
+               <p className="world-water-page__eyebrow">同舟之路已连成 / ROUTE COMPLETE</p>
+               <h2>五处水脉连成了<br />一条同舟之路。</h2>
+               <p>七道判断已写入航记，水脉感悟抵达 <strong>{waterFeel} / 30</strong>。</p>
+               <p className="world-water-page__quote">共同构建人与自然生命共同体。</p>
+               <div className="world-water-page__reward" role="status">
+                 <span className="world-water-page__reward-mark" aria-hidden="true">③</span>
+                 <div>
+                   <strong>水脉碎片「同舟共济之纹」</strong>
+                   <span>五处水脉已汇入全球水系图。</span>
+                 </div>
+               </div>
+               <div className="world-water-page__finish-actions">
                 <button type="button" onClick={() => { setIsFinished(false); setActiveStationId(null); setActiveStepId(null); }}>回看航路</button>
                 <Link to="/chapters">返回章节图册<span aria-hidden="true">→</span></Link>
               </div>
             </section>
             ) : activeStep !== null ? (
-            <ChapterChoicePanel
-              idPrefix={`world-water-${activeStep.id}`}
-              sectionLabel={`${activeStep.order.toString().padStart(2, '0')} · ${activeStep.region}`}
-              sectionTitle={activeStep.title}
-              sectionSubtitle={activeStep.subtitle}
-              story={activeStep.story}
-              question={activeStep.question}
-              choices={activeStep.choices}
-              selectedChoiceId={activeStep.selectionMode === 'single' ? activeSelectedChoiceIds[0] ?? null : null}
-              selectedChoiceIds={activeSelectedChoiceIds}
-              isSubmitted={activeResponse !== null}
-              selectionMode={activeStep.selectionMode}
-              completedCount={completedCount}
-              totalCount={worldWaterSteps.length}
-              score={totalScore}
-              feedbackText={activeResponse?.feedback}
-              feedbackStars={activeResponse?.stars}
-              onChoice={handleChoice}
-              onToggleChoice={handleToggleChoice}
-              onSubmit={handleSubmit}
-              onContinue={handleContinue}
-              submitLabel="确认这组判断"
-              continueLabel={nextStepLabel}
-            />
+            <>
+              <ChapterChoicePanel
+                idPrefix={`world-water-${activeStep.id}`}
+                sectionLabel={`${activeStep.order.toString().padStart(2, '0')} · ${activeStep.region}`}
+                sectionTitle={activeStep.title}
+                sectionSubtitle={activeStep.subtitle}
+                story={activeStep.story}
+                question={activeStep.question}
+                choices={activeStep.choices}
+                selectedChoiceId={activeStep.selectionMode === 'single' ? activeSelectedChoiceIds[0] ?? null : null}
+                selectedChoiceIds={activeSelectedChoiceIds}
+                isSubmitted={activeResponse !== null}
+                selectionMode={activeStep.selectionMode}
+                completedCount={completedCount}
+                totalCount={worldWaterSteps.length}
+                score={totalScore}
+                feedbackText={activeResponse?.feedback}
+                feedbackStars={activeResponse?.stars}
+                onChoice={handleChoice}
+                onToggleChoice={handleToggleChoice}
+                onSubmit={handleSubmit}
+                onContinue={handleContinue}
+                submitLabel="确认这组判断"
+                continueLabel={nextStepLabel}
+              />
+              <div className="world-water-page__narrative" aria-live="polite">
+                <p><span>澜澜：</span>{activeStep.narrative.spiritLine}</p>
+                <p className="world-water-page__narrative-echo">
+                  {activeStep.narrative.fieldEcho} · {activeStep.narrative.transition}
+                </p>
+              </div>
+            </>
             ) : (
             <section className="world-water-page__guide">
               <span className="world-water-page__guide-mark" aria-hidden="true">航</span>
