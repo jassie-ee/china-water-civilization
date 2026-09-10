@@ -668,18 +668,18 @@
 
 .cosmic-future-page__voyage-route {
   display: flex;
+  flex-wrap: wrap;
   gap: .45rem;
   align-items: center;
-  max-width: 19rem;
+  max-width: 24rem;
   color: var(--chapter-muted);
-  font-size: .62rem;
+  font-size: .58rem;
   letter-spacing: .08em;
 }
 
 .cosmic-future-page__voyage-route i {
-  flex: 1;
+  flex: 0 0 1rem;
   height: 1px;
-  min-width: .8rem;
   background: var(--chapter-accent);
   opacity: .65;
 }
@@ -688,6 +688,49 @@
   color: var(--chapter-accent) !important;
   font-family: var(--font-calligraphy, "STKaiti", "KaiTi", serif);
   font-size: .95rem !important;
+}
+
+.cosmic-future-page__spirit-lines {
+  display: grid;
+  gap: .45rem;
+  max-width: 23rem;
+}
+
+.cosmic-future-page__spirit-lines p {
+  margin: 0;
+  color: var(--chapter-body);
+  font-size: .78rem;
+  line-height: 1.7;
+  animation: chapter-line-reveal 700ms both;
+  animation-delay: calc(var(--line-index) * 240ms);
+}
+
+.cosmic-future-page__philosophy {
+  display: flex;
+  flex-wrap: wrap;
+  gap: .45rem 1.1rem;
+  max-width: 23rem;
+  margin-top: .2rem;
+  color: var(--chapter-accent);
+  font-family: var(--font-calligraphy, "STKaiti", "KaiTi", serif);
+  font-size: clamp(1.05rem, .9rem + .55vw, 1.65rem);
+}
+
+.cosmic-future-page__philosophy span {
+  animation: chapter-line-reveal 700ms both;
+  animation-delay: calc(var(--line-index) * 240ms + 900ms);
+}
+
+@keyframes chapter-line-reveal {
+  from { opacity: 0; transform: translateY(.35rem); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .cosmic-future-page__spirit-lines p,
+  .cosmic-future-page__philosophy span {
+    animation: none;
+  }
 }
 
 .cosmic-future-page__reward {

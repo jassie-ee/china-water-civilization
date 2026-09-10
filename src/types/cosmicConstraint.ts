@@ -9,6 +9,11 @@ export interface CosmicChoice {
   feedback: string;
 }
 
+export interface CosmicNarrative {
+  spiritLines: readonly string[];
+  philosophyLines: readonly string[];
+}
+
 export interface CosmicAct {
   id: CosmicActId;
   order: number;
@@ -19,4 +24,6 @@ export interface CosmicAct {
   story: string;
   x: number;
   y: number;
+  routeStops?: readonly string[];
+  narrative?: CosmicNarrative;
 }
