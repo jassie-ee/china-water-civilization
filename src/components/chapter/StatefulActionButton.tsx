@@ -2,7 +2,7 @@ import { useEffect, useRef, useState, type ReactNode } from 'react';
 
 import usePrefersReducedMotion from '@/hooks/usePrefersReducedMotion';
 
-import './stateful-action-button.css';
+import ChapterActionButton, { type ChapterActionIntent } from './ChapterActionButton';
 
 type StatefulActionButtonState = 'idle' | 'recording' | 'complete';
 
@@ -11,8 +11,10 @@ interface StatefulActionButtonProps {
   className?: string;
   completeLabel?: string;
   disabled?: boolean;
+  intent?: ChapterActionIntent;
   onCommit: () => void;
   recordingLabel?: string;
+  'aria-label'?: string;
 }
 
 /**
@@ -24,8 +26,10 @@ function StatefulActionButton({
   className,
   completeLabel = '已记录',
   disabled = false,
+  intent = 'record',
   onCommit,
   recordingLabel = '记录中',
+  'aria-label': ariaLabel,
 }: StatefulActionButtonProps) {
   const prefersReducedMotion = usePrefersReducedMotion();
   const [state, setState] = useState<StatefulActionButtonState>('idle');
@@ -55,17 +59,17 @@ function StatefulActionButton({
   const label = state === 'recording' ? recordingLabel : state === 'complete' ? completeLabel : children;
 
   return (
-    <button
+    <ChapterActionButton
+      aria-label={ariaLabel}
       className={`chapter-stateful-button${className === undefined ? '' : ` ${className}`}`}
-      type="button"
-      data-state={state}
       aria-busy={state === 'recording'}
       disabled={disabled || state !== 'idle'}
+      intent={intent}
       onClick={handleClick}
+      state={state}
     >
-      <span className="chapter-stateful-button__label">{label}</span>
-      <span className="chapter-stateful-button__icon" aria-hidden="true">{state === 'complete' ? '✓' : '→'}</span>
-    </button>
+      {label}
+    </ChapterActionButton>
   );
 }
 

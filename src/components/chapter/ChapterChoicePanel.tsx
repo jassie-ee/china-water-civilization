@@ -1,4 +1,5 @@
 import './chapter-choice-panel.css';
+import type { ChapterActionIntent } from './ChapterActionButton';
 import StatefulActionButton from './StatefulActionButton';
 
 export interface ChapterChoice {
@@ -26,12 +27,14 @@ interface ChapterChoicePanelProps {
   onChoice: (choice: ChapterChoice) => void;
   onContinue: () => void;
   continueLabel: string;
+  continueIntent?: ChapterActionIntent;
   selectionMode?: ChapterChoiceSelectionMode;
   selectedChoiceIds?: readonly string[];
   isSubmitted?: boolean;
   onToggleChoice?: (choice: ChapterChoice) => void;
   onSubmit?: () => void;
   submitLabel?: string;
+  submitIntent?: ChapterActionIntent;
   feedbackText?: string;
   feedbackStars?: number;
   feedbackHeading?: string;
@@ -52,12 +55,14 @@ function ChapterChoicePanel({
   onChoice,
   onContinue,
   continueLabel,
+  continueIntent = 'continue',
   selectionMode,
   selectedChoiceIds,
   isSubmitted = false,
   onToggleChoice,
   onSubmit,
   submitLabel = '提交判断',
+  submitIntent = 'record',
   feedbackText,
   feedbackStars,
   feedbackHeading = '水脉回声',
@@ -127,6 +132,7 @@ function ChapterChoicePanel({
           <StatefulActionButton
             className="chapter-choice-panel__continue"
             completeLabel="已记录"
+            intent={continueIntent}
             onCommit={onContinue}
           >
             {continueLabel}
@@ -139,6 +145,7 @@ function ChapterChoicePanel({
             className="chapter-choice-panel__submit"
             disabled={currentSelectedChoiceIds.length === 0}
             completeLabel="已写入航记"
+            intent={submitIntent}
             onCommit={() => onSubmit?.()}
           >
             {submitLabel}
