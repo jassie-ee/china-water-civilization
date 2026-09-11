@@ -7,6 +7,9 @@ import pearlCityRiverBackground from '@/assets/images/basins/pearl-city-river.we
 import pearlEstuaryLifeBackground from '@/assets/images/basins/pearl-estuary-life.webp';
 import pearlSaltTideBackground from '@/assets/images/basins/pearl-salt-tide.webp';
 import dolphinPoster from '@/assets/images/interactions/chinese-white-dolphin-home-1920x1080.jpg';
+import chineseGiantSalamander from '@/assets/images/interactions/yangtze-chinese-giant-salamander.webp';
+import chineseSturgeon from '@/assets/images/interactions/yangtze-chinese-sturgeon.webp';
+import chumSalmon from '@/assets/images/interactions/yangtze-chum-salmon.webp';
 import { yangtzeRiverNodes } from '@/data/yangtzeRiverNodes';
 import { yangtzeRiverRegions } from '@/data/yangtzeRiverRegions';
 import { pearlRiverNodes } from '@/data/pearlRiverNodes';
@@ -71,11 +74,11 @@ const yangtzeNarrative: BasinNarrativeConfig = {
       ],
       interaction: {
         id: 'yangtze-species-recognition', mode: 'species-recognition', rewardStars: 3,
-        question: '观察形态与生活线索，哪一种是需要往返江海、回到长江繁殖的中华鲟？',
+        question: '长江里住着好多水里的小家伙，你来认认看，下面哪个动物不是长江流域的代表性生物？',
         choices: [
-          { id: 'sturgeon', label: 'A. 中华鲟', description: '长吻、骨板明显，具有洄游习性', isCorrect: true, feedback: '认对啦！中华鲟需要相对完整的洄游通道和适宜的繁殖水流；长江江豚需要清洁、安静、食物充足的水域；胭脂鱼需要较完整的河流栖息环境；江豚幼崽则需要安全水域和稳定的食物来源。认出名字，是理解整条生态链的开始。' },
-          { id: 'finless-porpoise', label: 'B. 长江江豚', description: '体形圆润、无背鳍，常在淡水活动', isCorrect: false, feedback: '这是长江江豚，也是重要旗舰物种，但它和中华鲟的形态与生活史并不相同。再观察一次吧。' },
-          { id: 'chinese-sucker', label: 'C. 胭脂鱼', description: '幼鱼体色鲜明，体高随成长变化', isCorrect: false, feedback: '胭脂鱼同样值得保护，但这次要找的是往返江海的中华鲟。' },
+          { id: 'sturgeon', label: 'A. 中华鲟', imageSrc: chineseSturgeon, isCorrect: false, feedback: '再看看，中华鲟也是长江的老住户呀。仔细瞧瞧，哪种鱼的名字听起来就跟寒冷的北方有关系？' },
+          { id: 'giant-salamander', label: 'B. 大鲵（娃娃鱼）', imageSrc: chineseGiantSalamander, isCorrect: false, feedback: '再看看，大鲵也生活在长江流域呢。仔细瞧瞧，哪种鱼的名字听起来就跟寒冷的北方有关系？' },
+          { id: 'chum-salmon', label: 'C. 大马哈鱼', imageSrc: chumSalmon, isCorrect: true, feedback: '答对啦！大马哈鱼生活在东北的江河和大海里，可游不到长江来。白鳍豚、中华鲟和大鲵，才是长江的老住户。' },
         ],
       },
     },

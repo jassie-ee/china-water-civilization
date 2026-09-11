@@ -13,6 +13,7 @@ export interface BasinStoryChoice {
   id: string;
   label: string;
   description?: string;
+  imageSrc?: string;
   isCorrect: boolean;
   feedback: string;
 }

@@ -72,6 +72,7 @@ function BasinNarrativePage({ config }: { config: BasinNarrativeConfig }) {
           id: choice.id,
           label: choice.label,
           description: choice.description,
+          imageSrc: choice.imageSrc,
           onSelect: () => selectChoice(choice.id),
         })),
         closeOnBackdrop: true,

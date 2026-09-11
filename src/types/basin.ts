@@ -45,6 +45,7 @@ export interface RiverNodeVideo {
   description?: string;
   src?: string;
   poster?: string;
+  sourceLabel?: string;
 }
 
 export interface RiverNodeMedia {

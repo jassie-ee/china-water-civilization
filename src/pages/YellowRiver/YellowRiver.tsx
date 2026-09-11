@@ -199,7 +199,7 @@ function YellowRiver() {
         </article>}
         {activeNarrativeId === 'system' && <article className="yellow-river-chronicle__scene yellow-river-chronicle__scene--system">
           <div className="yellow-river-chronicle__media">
-            <NodeVideoPanel video={{ title: '小浪底调水调沙影像', description: '视频将从 Release 按需加载。', src: getReleaseMediaUrl('xiaolangdi-water-sediment.mp4') }} onComplete={startXiaolangdiInteraction} skipLabel="跳过影像，开始互动" />
+            <NodeVideoPanel video={{ title: '小浪底调水调沙影像', description: '视频将从 Release 按需加载。', src: getReleaseMediaUrl('xiaolangdi.mp4') }} onComplete={startXiaolangdiInteraction} skipLabel="跳过影像，开始互动" />
             <button className="yellow-river-chronicle__interaction" type="button" onClick={startXiaolangdiInteraction}>{xiaolangdiStep === 'idle' ? '开始互动' : '继续与小澜互动'}</button>
           </div>
           <div className="yellow-river-chronicle__engineering-copy" aria-live="polite">

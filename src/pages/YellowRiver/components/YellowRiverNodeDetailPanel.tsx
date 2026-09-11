@@ -93,8 +93,8 @@ function YellowRiverNodeDetailPanel({
       </header>
 
       <div ref={contentRef} className="yellow-river-detail-panel__content" aria-live="polite">
-        {node.type === 'ecological' && <NodeVideoPanel
-          video={node.media?.video}
+        {node.media?.video && <NodeVideoPanel
+          video={node.media.video}
           onComplete={node.id === 'loess-plateau' ? onStartEcologicalInteraction : undefined}
           skipLabel={node.id === 'loess-plateau' ? '跳过影像，开始互动' : undefined}
         />}

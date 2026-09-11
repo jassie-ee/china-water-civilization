@@ -243,12 +243,12 @@
 .yellow-river-chronicle__ripple i:nth-child(3) { animation-delay: 180ms; }
 .yellow-river-chronicle__atmosphere { position: fixed; z-index: 1; inset: 0; pointer-events: none; }
 .yellow-river-chronicle__atmosphere canvas { width: 100% !important; height: 100% !important; }
-.yellow-river-chronicle__header { position: relative; z-index: 3; display: flex; align-items: flex-start; justify-content: space-between; gap: .8rem; max-width: 82rem; margin: 0 auto; }
+.yellow-river-chronicle__header { position: relative; z-index: 3; display: flex; align-items: flex-start; justify-content: space-between; gap: 1rem; width: min(100%, 78rem); margin: 0 auto; }
 .yellow-river-chronicle__back { display: inline-flex; min-height: 1.85rem; align-items: center; padding: .3rem .58rem; border: 1px solid rgb(233 216 166 / 25%); border-radius: 999px; color: rgb(238 237 215 / 76%); background: rgb(2 23 29 / 36%); font-family: var(--font-calligraphy); font-size: .72rem; letter-spacing: .07em; }
 .yellow-river-chronicle__back:hover { border-color: var(--chronicle-accent); color: #fff2c3; text-decoration: none; }
-.yellow-river-chronicle__title { margin-left: auto; text-align: right; }
+.yellow-river-chronicle__title { max-width: min(100%, 24rem); margin-top: clamp(2.75rem, 6vh, 4.25rem); margin-left: auto; text-align: right; text-shadow: 0 .16rem .8rem rgb(0 16 21 / 60%); }
 .yellow-river-chronicle__title p, .yellow-river-chronicle__heading > p { margin: 0; color: color-mix(in srgb, var(--chronicle-accent) 85%, #f3e8c3); font-family: var(--font-calligraphy); font-size: .68rem; letter-spacing: .13em; }
-.yellow-river-chronicle__title h1 { margin: .06rem 0 0; color: #f6f1dc; font-family: "Noto Serif SC", var(--font-calligraphy); font-size: clamp(1.25rem, 2.25vw, 1.85rem); font-weight: 500; letter-spacing: .1em; }
+.yellow-river-chronicle__title h1 { margin: .06rem 0 0; color: #f6f3df; font-family: "Noto Serif SC", var(--font-calligraphy); font-size: clamp(1.35rem, 2.4vw, 2rem); font-weight: 500; letter-spacing: .1em; }
 .yellow-river-chronicle__anchors { position: relative; z-index: 3; display: flex; width: min(100%, 38rem); margin: clamp(.65rem, 1.6vh, 1.05rem) auto 0; border-bottom: 1px solid rgb(220 213 178 / 20%); }
 .yellow-river-chronicle__anchors button { position: relative; isolation: isolate; flex: 1; min-height: 2.3rem; overflow: hidden; border: 1px solid transparent; border-radius: .72rem .72rem 0 0; color: rgb(225 231 211 / 58%); background: transparent; cursor: pointer; font-family: var(--font-calligraphy); font-size: clamp(.74rem, 1.08vw, .86rem); letter-spacing: .07em; transition: color 240ms ease, transform 280ms cubic-bezier(.2, .78, .25, 1), border-color 240ms ease, box-shadow 280ms ease; }
 .yellow-river-chronicle__anchors button span { position: relative; z-index: 2; display: inline-block; transition: transform 280ms cubic-bezier(.2, .78, .25, 1), text-shadow 240ms ease; }

@@ -110,6 +110,14 @@ const yellowRiverNodes: YellowRiverNode[] = [
     governanceMeasures: ['采用蓄清排浑与调水调沙，通过水库群联合调度塑造有利的水沙过程。', '利用异重流排沙、泄水冲沙和综合调度，兼顾防洪、减淤、供水、灌溉与生态补水。'],
     ecologicalImpacts: ['下游主河槽冲刷下切、行洪能力提升，河势趋于稳定。', '持续生态补水有助于维持下游不断流，并促进河口湿地修复与生物多样性改善。', '工程调度对水生态存在复杂影响，仍需要持续监测与精细化调度。'],
     culturalMeaning: '小浪底不是单纯拦蓄洪水，而是在理解水沙规律的基础上利用和塑造洪水过程，体现了统筹兼顾、因势利导的人水和谐实践。',
+    media: {
+      video: {
+        title: '小浪底调水调沙影像',
+        description: '观看闸门开启、水沙协同下泄，理解水库群如何为黄河安排合适的节奏。',
+        src: getReleaseMediaUrl('xiaolangdi.mp4'),
+        sourceLabel: '来源：水利部宣传教育中心、水利部水旱灾害防御司、黄河水利委员会、小浪底水利枢纽管理中心',
+      },
+    },
     // 小浪底位于中游末端、进入下游平原前的控制河段。
     position: { x: 1053, y: 735, labelOffsetX: -38, labelOffsetY: -30 },
     isAvailable: true,
