@@ -20,6 +20,7 @@ export interface ChapterOverviewItem {
   markerGlyph: string;
   title: string;
   theme: string;
+  overviewGuide: string;
   marker: ChapterMarkerPosition;
   dialogue: string[];
   ctaLabel: string;

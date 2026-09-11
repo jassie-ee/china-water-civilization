@@ -1,10 +1,9 @@
 import { useCallback, useEffect, useMemo, useState, type ReactNode } from 'react';
 
 import type { GovernanceProgressState, GovernanceProgressUpdate } from '@/types/governanceProgress';
-import type { GovernanceProgressScope } from '@/types/governanceData';
-import type { BasinId } from '@/types/basin';
 import { governanceDataSource } from '@/services/governanceDataSource';
-import { getTotalStars } from '@/utils/governanceProgress';
+import { getChapterStars, getTotalStars } from '@/utils/governanceProgress';
+import type { ChapterScoreGroupId } from '@/data/chapterScoreRegistry';
 import { GovernanceProgressContext } from './governanceProgressContext';
 
 interface GovernanceProgressProviderProps {
@@ -54,19 +53,8 @@ function GovernanceProgressProvider({ children }: GovernanceProgressProviderProp
     [progress],
   );
 
-  const getBasinStars = useCallback(
-    (basinId: BasinId): number => governanceDataSource
-      .getQuestionLevelConfigs()
-      .filter((level) => level.basinId === basinId)
-      .reduce((total, level) => total + (progress.levelBestStars[level.levelId] ?? 0), 0),
-    [progress.levelBestStars],
-  );
-
-  const clearProgress = useCallback(
-    async (scope: GovernanceProgressScope): Promise<void> => {
-      const nextProgress = await governanceDataSource.clearProgress(progress, scope);
-      setProgress(nextProgress);
-    },
+  const getChapterScore = useCallback(
+    (groupId: ChapterScoreGroupId): number => getChapterStars(progress, groupId),
     [progress],
   );
 
@@ -74,12 +62,11 @@ function GovernanceProgressProvider({ children }: GovernanceProgressProviderProp
     () => ({
       totalStars: getTotalStars(progress),
       getLevelBestStars,
-      getBasinStars,
+      getChapterStars: getChapterScore,
       recordLevelResult,
-      clearProgress,
       refreshProgress,
     }),
-    [clearProgress, getBasinStars, getLevelBestStars, progress, recordLevelResult, refreshProgress],
+    [getChapterScore, getLevelBestStars, progress, recordLevelResult, refreshProgress],
   );
 
   return <GovernanceProgressContext.Provider value={value}>{children}</GovernanceProgressContext.Provider>;

@@ -76,23 +76,13 @@
 .score-popover__close { display: grid; flex: 0 0 auto; width: 2rem; height: 2rem; place-items: center; border: 1px solid rgb(190 231 219 / 32%); border-radius: .5rem; color: #cde8de; background: rgb(255 255 255 / 5%); font-size: 1.15rem; line-height: 1; cursor: pointer; transition: border-color 180ms ease, background 180ms ease, transform 180ms ease; }
 .score-popover__close:hover { border-color: #f3da91; background: rgb(240 198 104 / 12%); transform: translateY(-1px); }
 .score-popover__cards { display: grid; gap: .48rem; padding: .85rem 1rem 1rem; }
-.score-popover__card { display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: .75rem; align-items: center; min-height: 4.15rem; padding: .72rem .82rem; border-left: 2px solid rgb(190 231 219 / 44%); background: rgb(3 24 33 / 36%); }
+.score-popover__card { display: grid; grid-template-columns: minmax(0, 1fr); gap: .75rem; align-items: center; min-height: 4.15rem; padding: .72rem .82rem; border-left: 2px solid rgb(190 231 219 / 44%); background: rgb(3 24 33 / 36%); }
 .score-popover__card--all { min-height: 5.8rem; padding: .85rem .95rem; border: 1px solid rgb(225 194 117 / 42%); border-left: 3px solid #e1c275; background: linear-gradient(100deg, rgb(225 194 117 / 13%), rgb(3 24 33 / 42%)); }
-.score-popover__card--yellow-river { border-left-color: #d9b26b; }
-.score-popover__card--yangtze-river { border-left-color: #80b9d0; }
-.score-popover__card--pearl-river { border-left-color: #77b9a2; }
 .score-popover__card p { margin: 0; color: rgb(219 241 234 / 67%); font-size: .75rem; }
 .score-popover__card strong { display: inline-flex; align-items: baseline; gap: .28rem; margin-top: .18rem; color: #f5f3dc; font-family: "Noto Serif SC", var(--font-calligraphy); font-size: 1.36rem; font-weight: 500; font-variant-numeric: tabular-nums; }
 .score-popover__card--all strong { color: #f2d78c; font-size: 2.35rem; line-height: 1; }
 .score-popover__card strong span { color: #e7bf6c; font-size: .86rem; }
 .score-popover__basin-heading { margin: .48rem 0 .12rem; color: rgb(190 234 223 / 62%); font-size: .66rem; letter-spacing: .14em; }
-.score-popover__clear, .score-popover__confirmation button { border: 1px solid rgb(188 231 219 / 28%); border-radius: .38rem; color: rgb(224 242 235 / 84%); background: rgb(255 255 255 / 5%); font-size: .7rem; cursor: pointer; }
-.score-popover__clear { padding: .42rem .58rem; }
-.score-popover__clear:hover, .score-popover__confirmation button:hover { border-color: #eed08a; background: rgb(224 179 80 / 14%); }
-.score-popover__confirmation { display: flex; flex-wrap: wrap; justify-content: flex-end; gap: .32rem; color: #f2d68f; font-size: .68rem; text-align: right; }
-.score-popover__confirmation span { width: 100%; }
-.score-popover__confirm-actions { display: flex; gap: .35rem; }
-.score-popover__confirmation button { display: grid; width: 1.8rem; height: 1.8rem; place-items: center; padding: 0; font-size: .95rem; line-height: 1; }
 
 @media (max-width: 640px) {
   .global-score-display {

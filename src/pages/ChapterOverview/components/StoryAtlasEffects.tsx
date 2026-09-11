@@ -59,6 +59,9 @@ function StoryAtlasEffects({ chapters, activeChapterId }: StoryAtlasEffectsProps
   const mobilePath = mobilePoints.length === 0 ? '' : [`M ${mobilePoints[0].x} ${mobilePoints[0].y}`, ...mobileSegments.map((segment) => segment.path)].join(' ');
   const activeChapter = chapters.find((chapter) => chapter.id === activeChapterId) ?? null;
   const activeIndex = activeChapter === null ? -1 : chapters.findIndex((chapter) => chapter.id === activeChapter.id);
+  // A chapter's immediate waterway is the segment leading into it; for the
+  // first source marker, illuminate the segment flowing away from the source.
+  const highlightedSegmentIndex = activeIndex <= 0 ? 0 : activeIndex - 1;
 
   return (
     <div className="story-atlas-effects" aria-hidden="true">
@@ -67,8 +70,8 @@ function StoryAtlasEffects({ chapters, activeChapterId }: StoryAtlasEffectsProps
         <path className="story-atlas-effects__route-flow story-atlas-effects__route-flow--ambient" d={desktopPath} />
         <path className="story-atlas-effects__route-base story-atlas-effects__route-base--mobile" d={mobilePath} />
         <path className="story-atlas-effects__route-flow story-atlas-effects__route-flow--ambient story-atlas-effects__route-flow--mobile" d={mobilePath} />
-        {activeIndex > 0 && <path className="story-atlas-effects__route-flow story-atlas-effects__route-flow--active" d={`M ${desktopPoints[activeIndex - 1].x} ${desktopPoints[activeIndex - 1].y} ${desktopSegments[activeIndex - 1].path}`} />}
-        {activeIndex > 0 && <path className="story-atlas-effects__route-flow story-atlas-effects__route-flow--active story-atlas-effects__route-flow--mobile" d={`M ${mobilePoints[activeIndex - 1].x} ${mobilePoints[activeIndex - 1].y} ${mobileSegments[activeIndex - 1].path}`} />}
+        {activeIndex >= 0 && desktopSegments[highlightedSegmentIndex] !== undefined && <path className="story-atlas-effects__route-flow story-atlas-effects__route-flow--active" d={`M ${desktopPoints[highlightedSegmentIndex].x} ${desktopPoints[highlightedSegmentIndex].y} ${desktopSegments[highlightedSegmentIndex].path}`} />}
+        {activeIndex >= 0 && mobileSegments[highlightedSegmentIndex] !== undefined && <path className="story-atlas-effects__route-flow story-atlas-effects__route-flow--active story-atlas-effects__route-flow--mobile" d={`M ${mobilePoints[highlightedSegmentIndex].x} ${mobilePoints[highlightedSegmentIndex].y} ${mobileSegments[highlightedSegmentIndex].path}`} />}
         {activeChapter !== null && (
           <>
             <circle className="story-atlas-effects__active-glow" cx={activeChapter.marker.x} cy={activeChapter.marker.y} r="3.4" />

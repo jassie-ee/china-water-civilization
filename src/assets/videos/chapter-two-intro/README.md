@@ -4,4 +4,4 @@
 
 - `chapter-two-intro.mp4`
 
-网页会从 `https://github.com/jassie-ee/china-water-civilization/releases/download/video-assets/chapter-two-intro.mp4` 按需加载。若需更换 Release 标签或 CDN，在 `.env.local` 设置 `VITE_VIDEO_ASSET_BASE`。
+网页会将本目录的压缩视频作为前端静态资源打包并部署；请在 `src/assets/videos/mediaSources.ts` 中注册其文件名。

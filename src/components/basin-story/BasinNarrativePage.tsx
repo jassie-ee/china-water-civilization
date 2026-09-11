@@ -57,11 +57,11 @@ function BasinNarrativePage({ config }: { config: BasinNarrativeConfig }) {
       return;
     }
     setCompletedInteractionIds((current) => [...current, interaction.id]);
-    setRewardCopy('正在记录治理星级…');
+    setRewardCopy('正在记录“治”积分…');
     void recordLevelResult(interaction.id, interaction.rewardStars)
-      .then((result) => setRewardCopy(result.didImprove ? `获得 ${interaction.rewardStars} 点${config.riverName}治理星级。` : '这段治理星级已经记录过了，本次重温不再重复增加。'))
-      .catch(() => setRewardCopy('互动已完成，但本地治理星级暂未能写入。'));
-  }, [completedInteractionIds, config.riverName, interaction, recordLevelResult]);
+      .then((result) => setRewardCopy(result.didImprove ? `获得 ${interaction.rewardStars} 点“治”积分。` : '这道题的“治”积分已经记录过了，本次重温不再重复增加。'))
+      .catch(() => setRewardCopy('互动已完成，但本地积分暂未能写入。'));
+  }, [completedInteractionIds, interaction, recordLevelResult]);
 
   const dialogue = useMemo<ChapterSpiritDialogue | undefined>(() => {
     if (!interaction || interactionPhase === 'idle') return undefined;

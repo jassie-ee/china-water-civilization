@@ -7,7 +7,6 @@ import ChapterOne from '@/pages/ChapterOne/ChapterOne';
 import ChapterOneIntro from '@/pages/ChapterOne/ChapterOneIntro';
 import ChapterTwoIntro from '@/pages/ChapterTwo/ChapterTwoIntro';
 import CosmicFuture from '@/pages/CosmicFuture/CosmicFuture';
-import GovernanceLevel from '@/pages/GovernanceLevel/GovernanceLevel';
 import Home from '@/pages/Home/Home';
 import NotFound from '@/pages/NotFound/NotFound';
 import WorldWater from '@/pages/WorldWater/WorldWater';
@@ -30,7 +29,7 @@ function RouteTransition() {
         <Route path="/chapter-4" element={<CosmicFuture />} />
         <Route path="/basins" element={<BasinOverview />} />
         <Route path="/basins/yellow-river" element={<BasinDetail basinId="yellow-river" />} />
-        <Route path="/basins/yellow-river/nodes/:nodeId" element={<GovernanceLevel />} />
+        <Route path="/basins/yellow-river/nodes/:nodeId" element={<Navigate to="/basins/yellow-river" replace />} />
         <Route path="/basins/yangtze-river" element={<BasinDetail basinId="yangtze-river" />} />
         <Route path="/basins/pearl-river" element={<BasinDetail basinId="pearl-river" />} />
         <Route path="/map" element={<Navigate to="/basins" replace />} />

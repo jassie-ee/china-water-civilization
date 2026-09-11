@@ -29,6 +29,4 @@ coverage/
 # Local source-map conversion workspace; original files and raw conversions stay out of Git.
 work/map-processing/
 
-# 原始视频由 GitHub Release 托管，保留在本机供上传与预览，不写入 Git 历史。
-src/assets/videos/**/*.mp4
-src/assets/videos/**/*.webm
+# 视频随前端代码提交、打包和部署。

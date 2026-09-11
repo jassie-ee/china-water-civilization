@@ -35,6 +35,8 @@ interface ChapterChoicePanelProps {
   feedbackText?: string;
   feedbackStars?: number;
   feedbackHeading?: string;
+  feedbackRewardLabel?: string;
+  feedbackActionLabel?: string;
 }
 
 function ChapterChoicePanel({
@@ -61,6 +63,8 @@ function ChapterChoicePanel({
   feedbackText,
   feedbackStars,
   feedbackHeading = '水脉回声',
+  feedbackRewardLabel,
+  feedbackActionLabel,
 }: ChapterChoicePanelProps) {
   const isMultiple = selectionMode === 'multiple';
   const currentSelectedChoiceIds = selectedChoiceIds ?? [];
@@ -121,7 +125,7 @@ function ChapterChoicePanel({
         <div className="chapter-choice-panel__feedback" role="status" aria-live="polite">
           <div className="chapter-choice-panel__feedback-heading">
             <span>{feedbackHeading}</span>
-            <strong>+{displayedStars} 记忆星</strong>
+            <strong>{feedbackRewardLabel ?? `+${displayedStars} 记忆星`}</strong>
           </div>
           <p>{displayedFeedback}</p>
           <StatefulActionButton
@@ -129,7 +133,7 @@ function ChapterChoicePanel({
             completeLabel="已记录"
             onCommit={onContinue}
           >
-            {continueLabel}
+            {feedbackActionLabel ?? continueLabel}
           </StatefulActionButton>
         </div>
       ) : isMultiple ? (

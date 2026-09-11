@@ -7,6 +7,7 @@ const chapterOverviewItems: ChapterOverviewItem[] = [
     markerGlyph: '源',
     title: '水有去处，人有家园',
     theme: '顺势而为',
+    overviewGuide: '循着水势，寻找人与水相处的最初智慧。',
     marker: { x: 20, y: 58, mobileX: 22, mobileY: 64, dialogueSide: 'right', dialogueVertical: 'above' },
     dialogue: [
       '岁月带我穿过群山与原野，也带走了我最初的故事。',
@@ -23,7 +24,8 @@ const chapterOverviewItems: ChapterOverviewItem[] = [
     markerGlyph: '治',
     title: '现代江河治理',
     theme: '因地制宜',
-    marker: { x: 44, y: 58, mobileX: 44, mobileY: 52, dialogueSide: 'right', dialogueVertical: 'above' },
+    overviewGuide: '走进三大流域，读懂因地制宜的治水答案。',
+    marker: { x: 40, y: 57, mobileX: 42, mobileY: 57, dialogueSide: 'right', dialogueVertical: 'above' },
     dialogue: [
       '我已经想起，人们曾学会顺着我的方向，为我寻找去处。',
       '可当我流过更长的河流、更广的土地和更多的城市时，我发现：每一条江河，都有不同的性格。',
@@ -39,6 +41,7 @@ const chapterOverviewItems: ChapterOverviewItem[] = [
     markerGlyph: '航',
     title: '同舟共济',
     theme: '一带一路全球治水',
+    overviewGuide: '沿水路远航，看见世界携手守护水的故事。',
     marker: { x: 66, y: 56, mobileX: 66, mobileY: 65, dialogueSide: 'left', dialogueVertical: 'above' },
     dialogue: [
       '从红海的荒漠到湄澜六国，我看见了许多不同的水土，也看见了共同面对水的愿望。',
@@ -55,6 +58,7 @@ const chapterOverviewItems: ChapterOverviewItem[] = [
     markerGlyph: '望',
     title: '天地人和',
     theme: '水脉向穹苍',
+    overviewGuide: '从江河到星海，眺望天地人和的共同未来。',
     marker: { x: 86, y: 18, mobileX: 82, mobileY: 22, dialogueSide: 'left', dialogueVertical: 'below' },
     dialogue: [
       '三块水脉碎片终于要拼在一起了。你看，它会把九州大地和漫天星河连成一张图。',

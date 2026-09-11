@@ -59,7 +59,7 @@ function RiverSpiritGuide({ isOpen, riverName, region, node, dialogueOverride, a
     },
     dialogueId: `lan-dialogue-${riverName}`,
     action: actionOverride ?? (node ? 'point-water' : 'happy'),
-    initialPosition: { x: 16, y: 82 },
+    initialPosition: { x: 13, y: 34 },
     spriteAlt: `${riverName}水脉精灵小澜，点击打开或关闭导览，也可以拖动`,
     dialoguePresentation: dialogueOverride ? 'modal' : 'floating',
     onDialogueClose,

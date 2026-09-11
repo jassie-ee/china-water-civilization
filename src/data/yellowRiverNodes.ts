@@ -1,5 +1,5 @@
 import type { YellowRiverNode, YellowRiverNodeId } from '@/types/basin';
-import { getReleaseMediaUrl } from '@/lib/media';
+import { localVideoAssets } from '@/assets/videos/mediaSources';
 
 // 节点 ID 将在后续关卡路由和完成状态中复用，修改时需保持兼容。
 const yellowRiverNodes: YellowRiverNode[] = [
@@ -54,8 +54,7 @@ const yellowRiverNodes: YellowRiverNode[] = [
       video: {
         title: '黄土高原水土流失生态影像',
         description: '影像结束后，小澜会邀请你一起寻找治理泥沙的根本方法。',
-        // Release 同名资源替换后，使用版本参数避开浏览器对旧影像的缓存。
-        src: `${getReleaseMediaUrl('loess-plateau-intro.mp4')}?v=20260909-2`,
+        src: localVideoAssets['loess-plateau-intro.mp4'],
       },
     },
     position: { x: 652, y: 339, labelOffsetX: -66, labelOffsetY: -28 },
@@ -114,7 +113,7 @@ const yellowRiverNodes: YellowRiverNode[] = [
       video: {
         title: '小浪底调水调沙影像',
         description: '观看闸门开启、水沙协同下泄，理解水库群如何为黄河安排合适的节奏。',
-        src: getReleaseMediaUrl('xiaolangdi.mp4'),
+        src: localVideoAssets['xiaolangdi.mp4'],
         sourceLabel: '来源：水利部宣传教育中心、水利部水旱灾害防御司、黄河水利委员会、小浪底水利枢纽管理中心',
       },
     },

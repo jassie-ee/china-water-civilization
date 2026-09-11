@@ -146,6 +146,8 @@ function WorldWater() {
   const [activeStepId, setActiveStepId] = useState<WorldWaterStep['id'] | null>(null);
   const [selectedChoiceIdsByStep, setSelectedChoiceIdsByStep] = useState<Record<string, string[]>>({});
   const [responseByStep, setResponseByStep] = useState<Record<string, WorldWaterResponse>>({});
+  const [feedbackByStep, setFeedbackByStep] = useState<Record<string, WorldWaterResponse>>({});
+  const [insightByStep, setInsightByStep] = useState<Record<string, number>>({});
   const [isFinished, setIsFinished] = useState(false);
   const [ripple, setRipple] = useState<InkRippleTrigger | null>(null);
   const [activeSceneAnnotationId, setActiveSceneAnnotationId] = useState<string | null>(null);
@@ -153,13 +155,15 @@ function WorldWater() {
   const activeStep = worldWaterSteps.find((step) => step.id === activeStepId) ?? null;
   const activeWorldWaterScene = getWorldWaterScene(activeStepId);
   const activeResponse = activeStep === null ? null : responseByStep[activeStep.id] ?? null;
+  const activeFeedback = activeStep === null ? null : feedbackByStep[activeStep.id] ?? activeResponse;
   const activeSelectedChoiceIds = activeStep === null ? [] : selectedChoiceIdsByStep[activeStep.id] ?? [];
   const completedCount = worldWaterSteps.filter((step) => responseByStep[step.id] !== undefined).length;
   const totalScore = Object.values(responseByStep).reduce((total, response) => total + response.stars, 0);
-  const waterFeel = worldWaterSteps
-    .filter((step) => responseByStep[step.id] !== undefined)
-    .reduce((total, step) => total + step.waterGain, 0);
+  const waterFeel = worldWaterSteps.reduce((total, step) => total + (insightByStep[step.id] ?? 0), 0);
   const progressPercent = Math.round((waterFeel / waterFeelTotal) * 100);
+  const activeInsightPercent = activeStep === null
+    ? 0
+    : Math.round(((insightByStep[activeStep.id] ?? 0) / activeStep.waterGain) * 100);
   const activeRouteStation = worldWaterStations.find((station) => station.id === activeStationId) ?? null;
   const routeProgress = isFinished
     ? 1
@@ -205,8 +209,15 @@ function WorldWater() {
   const saveResponse = (step: WorldWaterStep, selectedChoiceIds: readonly string[]): void => {
     const response = evaluateStep(step, selectedChoiceIds);
     setSelectedChoiceIdsByStep((current) => ({ ...current, [step.id]: [...selectedChoiceIds] }));
+    setInsightByStep((current) => ({
+      ...current,
+      [step.id]: Math.max(current[step.id] ?? 0, step.waterGain * response.stars / 3),
+    }));
+    setFeedbackByStep((current) => ({ ...current, [step.id]: response }));
+    if (response.stars !== 3) return;
+
     setResponseByStep((current) => ({ ...current, [step.id]: response }));
-    void recordLevelResult(`chapter-3-${step.id}`, response.stars).catch(() => undefined);
+    void recordLevelResult(`chapter-3-${step.id}`, 3).catch(() => undefined);
   };
 
   const handleChoice = (choice: WorldWaterChoice): void => {
@@ -230,6 +241,16 @@ function WorldWater() {
   const handleSubmit = (): void => {
     if (activeStep === null || activeStep.selectionMode !== 'multiple' || activeResponse !== null) return;
     saveResponse(activeStep, activeSelectedChoiceIds);
+  };
+
+  const handleRetry = (): void => {
+    if (activeStep === null || activeResponse !== null) return;
+    setSelectedChoiceIdsByStep((current) => ({ ...current, [activeStep.id]: [] }));
+    setFeedbackByStep((current) => {
+      const rest = { ...current };
+      delete rest[activeStep.id];
+      return rest;
+    });
   };
 
   const handleContinue = (): void => {
@@ -325,9 +346,9 @@ function WorldWater() {
           <span>CHAPTER 03</span>
           <strong>航 · 同舟共济</strong>
         </div>
-        <div className="world-water-page__score" aria-label={`水脉感悟 ${waterFeel} / ${waterFeelTotal}`}>
+        <div className="world-water-page__score" aria-label={`水脉感悟 ${progressPercent}%`}>
           <span>水脉感悟</span>
-          <strong>{waterFeel.toString().padStart(2, '0')}<small> / 30</small></strong>
+          <strong>{progressPercent}<small> %</small></strong>
         </div>
       </header>
 
@@ -419,7 +440,7 @@ function WorldWater() {
             <section className="world-water-page__finish" aria-live="polite">
               <p className="world-water-page__eyebrow">同舟之路已连成 / ROUTE COMPLETE</p>
               <h2>五处水脉连成了<br />一条同舟之路。</h2>
-              <p>七道判断已写入航记，水脉感悟抵达 <strong>{waterFeel} / 30</strong>。你解锁了「同舟共济」的能力。</p>
+              <p>七道判断已写入航记，水脉感悟抵达 <strong>{progressPercent}%</strong>。你解锁了「同舟共济」的能力。</p>
               <p className="world-water-page__quote">共同构建人与自然生命共同体。</p>
               <div className="world-water-page__finish-actions">
                 <button type="button" onClick={() => { setIsFinished(false); setActiveStationId(null); setActiveStepId(null); }}>回看航路</button>
@@ -437,19 +458,22 @@ function WorldWater() {
               choices={activeStep.choices}
               selectedChoiceId={activeStep.selectionMode === 'single' ? activeSelectedChoiceIds[0] ?? null : null}
               selectedChoiceIds={activeSelectedChoiceIds}
-              isSubmitted={activeResponse !== null}
+               isSubmitted={activeFeedback !== null}
               selectionMode={activeStep.selectionMode}
               completedCount={completedCount}
               totalCount={worldWaterSteps.length}
               score={totalScore}
-              feedbackText={activeResponse?.feedback}
-              feedbackStars={activeResponse?.stars}
+               feedbackText={activeFeedback?.feedback}
+               feedbackStars={activeFeedback?.stars}
+               feedbackHeading={activeResponse !== null ? '航记完成' : '部分感悟'}
+               feedbackRewardLabel={activeResponse !== null ? '+3 航积分' : `本题感悟 ${activeInsightPercent}%`}
               onChoice={handleChoice}
               onToggleChoice={handleToggleChoice}
               onSubmit={handleSubmit}
-              onContinue={handleContinue}
+               onContinue={activeResponse !== null ? handleContinue : handleRetry}
               submitLabel="确认这组判断"
-              continueLabel={nextStepLabel}
+               continueLabel={nextStepLabel}
+               feedbackActionLabel={activeResponse !== null ? undefined : '重新作答'}
             />
             ) : (
             <section className="world-water-page__guide">
@@ -474,10 +498,10 @@ function WorldWater() {
 
       <footer className="world-water-page__footer">
         <span>第三章 · 同舟共济</span>
-        <div className="world-water-page__progress" aria-label={`水脉感悟 ${waterFeel} / ${waterFeelTotal}`}>
+        <div className="world-water-page__progress" aria-label={`水脉感悟 ${progressPercent}%`}>
           <i style={{ '--progress': `${progressPercent / 100}` } as CSSProperties} />
         </div>
-        <span>{waterFeel.toString().padStart(2, '0')} / {waterFeelTotal}</span>
+        <span>{progressPercent} %</span>
       </footer>
     </main>
   );

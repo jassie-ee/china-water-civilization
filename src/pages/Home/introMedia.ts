@@ -1,4 +1,5 @@
-import { getFirstMediaUrl, getReleaseMediaUrl } from '@/lib/media';
+import { getFirstMediaUrl } from '@/lib/media';
+import { localVideoAssets } from '@/assets/videos/mediaSources';
 
 /**
  * 原始视频由 GitHub Release 按需托管，静帧海报仍随网页代码发布。
@@ -9,7 +10,7 @@ const posterFiles = import.meta.glob('/src/assets/videos/intro/intro-poster.{web
   query: '?url',
 });
 
-const introVideoSource = getReleaseMediaUrl('site-intro.mp4');
+const introVideoSource = localVideoAssets['site-intro.mp4'];
 const introPosterSource = getFirstMediaUrl(posterFiles);
 
 export { introPosterSource, introVideoSource };

@@ -1,4 +1,4 @@
-import { useEffect, useState, type ReactNode } from 'react';
+import { useEffect, useState, type CSSProperties, type ReactNode } from 'react';
 
 import type { BasinStorySection } from '@/types/basinStory';
 
@@ -7,9 +7,10 @@ interface BasinStoryTabsProps {
   storyId: string;
   mediaAfterSectionId?: BasinStorySection['id'];
   mediaSlot?: ReactNode;
+  fillHeight?: boolean;
 }
 
-function BasinStoryTabs({ sections, storyId, mediaAfterSectionId, mediaSlot }: BasinStoryTabsProps) {
+function BasinStoryTabs({ sections, storyId, mediaAfterSectionId, mediaSlot, fillHeight = false }: BasinStoryTabsProps) {
   const [activeSectionId, setActiveSectionId] = useState(sections[0]?.id);
 
   useEffect(() => {
@@ -20,7 +21,11 @@ function BasinStoryTabs({ sections, storyId, mediaAfterSectionId, mediaSlot }: B
   if (!activeSection) return null;
 
   return (
-    <section className="basin-story-tabs" aria-label={`${storyId}知识介绍`}>
+    <section
+      className={`basin-story-tabs${fillHeight ? ' basin-story-tabs--fill-height' : ''}`}
+      style={fillHeight ? { '--basin-story-tab-count': sections.length } as CSSProperties : undefined}
+      aria-label={`${storyId}知识介绍`}
+    >
       <div className="basin-story-tabs__list" role="tablist" aria-label="详情章节">
         {sections.map((section) => (
           <button

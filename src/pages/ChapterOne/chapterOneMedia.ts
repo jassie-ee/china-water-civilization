@@ -1,4 +1,5 @@
-import { getFirstMediaUrl, getReleaseMediaUrl } from '@/lib/media';
+import { getFirstMediaUrl } from '@/lib/media';
+import { localVideoAssets } from '@/assets/videos/mediaSources';
 
 const introPosterFiles = import.meta.glob('/src/assets/videos/chapter-one-intro/intro-poster.{webp,png,jpg,jpeg}', {
   eager: true,
@@ -12,10 +13,10 @@ const introStillFiles = import.meta.glob('/src/assets/videos/chapter-one-intro/i
   query: '?url',
 });
 
-export const chapterOneIntroVideoSource = getReleaseMediaUrl('chapter-one-intro.mp4');
+export const chapterOneIntroVideoSource = localVideoAssets['chapter-one-intro.mp4'];
 export const chapterOneIntroPosterSource = getFirstMediaUrl(introPosterFiles);
 export const chapterOneIntroStillSource = getFirstMediaUrl(introStillFiles);
 
 export function getChapterOneStoryVideoSource(memoryId: 1 | 2 | 3): string {
-  return getReleaseMediaUrl(`memory-${memoryId}.mp4`);
+  return localVideoAssets[`memory-${memoryId}.mp4`];
 }

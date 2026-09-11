@@ -8,7 +8,7 @@ interface ChapterIntroPageProps {
   theme: string;
   title: string;
   backgroundImage: string;
-  videoSource: string;
+  videoSource?: string;
   posterSource?: string;
   stillSource?: string;
   mediaFilename: string;
@@ -76,7 +76,7 @@ function ChapterIntroPage({
           ref={mediaFrameRef}
           className={`chapter-intro__media ${showStillFrame ? 'chapter-intro__media--still' : ''}`}
         >
-          {!showStillFrame ? (
+          {!showStillFrame && videoSource ? (
             <video
               ref={videoRef}
               controls
@@ -94,7 +94,7 @@ function ChapterIntroPage({
             <div className="chapter-intro__placeholder">
               <span aria-hidden="true">≈</span>
               <h2>第{chapterNumber}章引导影像准备中</h2>
-              <p>将视频上传到 Release 并命名为 <code>{mediaFilename}</code> 后，这里会自动接入播放。</p>
+              <p>将本地视频资源命名为 <code>{mediaFilename}</code> 并注册到视频资源表后，这里会自动接入播放。</p>
             </div>
           )}
           <button className="chapter-intro__enter" type="button" onClick={() => void navigate(entryRoute, { replace: true })}>

@@ -56,10 +56,9 @@ function ChapterAtlasIndex({ activeChapterId, hoveredChapterId, onHighlightChapt
 
 interface ChapterSelectionProps {
   chapterId: ChapterId;
-  onOpenDialogue: () => void;
 }
 
-function ChapterSelection({ chapterId, onOpenDialogue }: ChapterSelectionProps) {
+function ChapterSelection({ chapterId }: ChapterSelectionProps) {
   const chapter = chapterOverviewItems.find((item) => item.id === chapterId);
   if (chapter === undefined) return null;
 
@@ -70,11 +69,8 @@ function ChapterSelection({ chapterId, onOpenDialogue }: ChapterSelectionProps) 
       <p className="chapter-atlas-selection__theme">{chapter.theme}</p>
       <div className="chapter-atlas-selection__rule" aria-hidden="true" />
       <p className="chapter-atlas-selection__status">
-        {chapter.status === 'available' ? '小澜正在这里等你' : '这段水脉仍在修复中'}
+        {chapter.overviewGuide}
       </p>
-      <button className="chapter-atlas-selection__action" type="button" onClick={onOpenDialogue}>
-        {chapter.status === 'available' ? '打开导览' : '查看筹备提示'}
-      </button>
     </section>
   );
 }
@@ -92,6 +88,7 @@ function ChapterOverview() {
   const lastTriggerRef = useRef<HTMLButtonElement | null>(null);
   const closeMascotDialogueRef = useRef<() => void>(() => undefined);
   const openChapter = chapterOverviewItems.find((chapter) => chapter.id === openChapterId) ?? null;
+  const visibleChapterId = hoveredChapterId ?? openChapterId;
   const dialogueId = 'lan-dialogue-chapter-overview';
 
   const handleOpen = useCallback((chapterId: ChapterId, trigger: HTMLButtonElement): void => {
@@ -178,6 +175,10 @@ function ChapterOverview() {
         <span aria-hidden="true">/</span>
         <p>水脉记忆</p>
       </header>
+      <div className="chapter-overview__atlas-title" aria-hidden="true">
+        <p>WATER MEMORY / CHAPTER ATLAS</p>
+        <strong>一张山海图，四段水脉</strong>
+      </div>
       <h1 className="sr-only">水脉记忆章节总览</h1>
       <StoryAtlas
         chapters={chapterOverviewItems}
@@ -185,6 +186,7 @@ function ChapterOverview() {
         highlightedChapterId={hoveredChapterId}
         dialogueId={dialogueId}
         markerRefs={markerRefs}
+        onHighlightChapter={setHoveredChapterId}
         onDismiss={() => {
           if (openChapterId !== null) {
             handleClose();
@@ -198,7 +200,7 @@ function ChapterOverview() {
           onHighlightChapter={setHoveredChapterId}
           onOpenChapter={handleOpen}
         />
-        {openChapterId !== null && <ChapterSelection chapterId={openChapterId} onOpenDialogue={openDialogue} />}
+        {visibleChapterId !== null && <ChapterSelection chapterId={visibleChapterId} />}
       </StoryAtlas>
     </main>
   );

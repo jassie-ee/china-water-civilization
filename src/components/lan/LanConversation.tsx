@@ -1,6 +1,6 @@
 import { useEffect, useLayoutEffect, useRef, useState, type CSSProperties, type PointerEvent as ReactPointerEvent } from 'react';
 
-import lanConversationPanel from '@/assets/images/lan-conversation-panel-transparent.png';
+import lanConversationPanel from '@/assets/images/lan-conversation-panel-shells.webp';
 
 import './LanConversation.css';
 
