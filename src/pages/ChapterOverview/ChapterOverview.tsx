@@ -1,12 +1,17 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
+import { useGSAP } from '@gsap/react';
+import { gsap } from 'gsap';
 
 import { chapterOverviewItems } from '@/data/chapters';
+import chapterSpiritAnimation from '@/assets/images/lan/animated/sleeve-pingpong.webp';
 import type { ChapterId } from '@/types/chapter';
 import { useLanMascot } from '@/components/lan-mascot';
 
 import StoryAtlas from './components/StoryAtlas';
 import './ChapterOverview.css';
+
+gsap.registerPlugin(useGSAP);
 
 interface ChapterAtlasIndexProps {
   activeChapterId: ChapterId | null;
@@ -22,6 +27,7 @@ function ChapterAtlasIndex({ activeChapterId, hoveredChapterId, onHighlightChapt
         <p>水脉图册</p>
         <span aria-hidden="true" />
       </div>
+      <p className="chapter-atlas-index__hint">选择一枚印记，打开章节导览</p>
       <ol className="chapter-atlas-index__list">
         {chapterOverviewItems.map((chapter) => {
           const isActive = activeChapterId === chapter.id;
@@ -74,6 +80,7 @@ function ChapterSelection({ chapterId, onOpenDialogue }: ChapterSelectionProps) 
       </p>
       <button className="chapter-atlas-selection__action" type="button" onClick={onOpenDialogue}>
         {chapter.status === 'available' ? '打开导览' : '查看筹备提示'}
+        <span aria-hidden="true">→</span>
       </button>
     </section>
   );
@@ -81,6 +88,7 @@ function ChapterSelection({ chapterId, onOpenDialogue }: ChapterSelectionProps) 
 
 function ChapterOverview() {
   const navigate = useNavigate();
+  const pageRef = useRef<HTMLElement | null>(null);
   const [openChapterId, setOpenChapterId] = useState<ChapterId | null>(null);
   const [hoveredChapterId, setHoveredChapterId] = useState<ChapterId | null>(null);
   const markerRefs = useRef<Record<ChapterId, HTMLButtonElement | null>>({
@@ -93,6 +101,71 @@ function ChapterOverview() {
   const closeMascotDialogueRef = useRef<() => void>(() => undefined);
   const openChapter = chapterOverviewItems.find((chapter) => chapter.id === openChapterId) ?? null;
   const dialogueId = 'lan-dialogue-chapter-overview';
+
+  useGSAP(() => {
+    const media = gsap.matchMedia();
+    media.add('(min-width: 721px) and (prefers-reduced-motion: no-preference)', () => {
+      const page = pageRef.current;
+      if (page === null) return;
+
+      const intro = gsap.timeline({ defaults: { ease: 'power3.out' } });
+      const markers = Array.from(page.querySelectorAll<HTMLElement>('.story-atlas__marker'));
+      const markerLabels = Array.from(page.querySelectorAll<HTMLElement>('.story-atlas__marker-label'));
+      const seals = Array.from(page.querySelectorAll<HTMLElement>('.story-atlas__seal'));
+
+      intro
+        .from('.chapter-overview__nav', { autoAlpha: 0, x: -14, duration: .55 }, 0)
+        .from('.chapter-atlas-index', { autoAlpha: 0, x: -18, duration: .7 }, .1)
+        .from('.story-atlas__masthead', { autoAlpha: 0, y: -12, duration: .72 }, .16)
+        // Keep map pins visible throughout the intro so the atlas remains discoverable
+        // while the surrounding copy fades in.
+        .from(markers, { scale: .86, y: 8, duration: .62, stagger: { each: .1, from: 'edges' } }, .28)
+        .from(markerLabels, { x: 8, duration: .42, stagger: .08 }, .44)
+        .from('.story-atlas__caption', { autoAlpha: 0, y: 10, duration: .42 }, .7);
+
+      gsap.to(seals, {
+        y: -2,
+        duration: 2.8,
+        ease: 'sine.inOut',
+        repeat: -1,
+        yoyo: true,
+        stagger: { each: .18, from: 'random' },
+      });
+    });
+
+    return () => media.revert();
+  }, { scope: pageRef });
+
+  useGSAP(() => {
+    const media = gsap.matchMedia();
+    media.add('(min-width: 721px) and (prefers-reduced-motion: no-preference)', () => {
+      const page = pageRef.current;
+      const selection = page?.querySelector<HTMLElement>('.chapter-atlas-selection');
+      const activeSeal = page?.querySelector<HTMLElement>('.story-atlas__marker.is-active .story-atlas__seal');
+      const activeToken = page?.querySelector<HTMLElement>('.story-atlas__marker.is-active .story-atlas__token');
+      if (selection === null || selection === undefined) return;
+
+      const selectionTimeline = gsap.timeline({ defaults: { ease: 'power3.out' } });
+      selectionTimeline.from(selection, { autoAlpha: 0, x: 16, y: 8, duration: .56 });
+
+      if (activeToken !== null && activeToken !== undefined) {
+        selectionTimeline.fromTo(
+          activeToken,
+          { autoAlpha: 0, scale: .76, rotate: -5, y: 6 },
+          { autoAlpha: .94, scale: 1, rotate: 0, y: 0, duration: .48, ease: 'back.out(1.35)' },
+          '-=.34',
+        );
+      }
+
+      if (activeSeal !== null && activeSeal !== undefined) {
+        selectionTimeline
+          .fromTo(activeSeal, { scale: .82 }, { scale: 1.1, duration: .36, ease: 'back.out(1.7)' }, '-=.36')
+          .to(activeSeal, { scale: 1, duration: .26, ease: 'power2.out' });
+      }
+    });
+
+    return () => media.revert();
+  }, { scope: pageRef, dependencies: [openChapterId], revertOnUpdate: true });
 
   const handleOpen = useCallback((chapterId: ChapterId, trigger: HTMLButtonElement): void => {
     lastTriggerRef.current = trigger;
@@ -147,6 +220,8 @@ function ChapterOverview() {
     dialogueId,
     expressionId: 'happy' as const,
     spriteAlt: '水精灵，点击打开或关闭导览对话，也可以拖动',
+    spriteSrc: chapterSpiritAnimation,
+    dialoguePresentation: 'subtitle' as const,
     onDialogueClose: () => {
       if (openChapterId !== null) handleClose();
     },
@@ -162,7 +237,7 @@ function ChapterOverview() {
   }, [openChapterId, openDialogue]);
 
   return (
-    <main className="chapter-overview">
+    <main ref={pageRef} className="chapter-overview">
       <header className="chapter-overview__nav" aria-label="页面导航">
         <Link className="chapter-overview__home-link" to="/">返回首页</Link>
         <span aria-hidden="true">/</span>

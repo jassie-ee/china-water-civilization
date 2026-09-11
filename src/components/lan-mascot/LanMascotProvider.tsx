@@ -44,6 +44,8 @@ function sameConfig(first: LanMascotConfig, second: LanMascotConfig): boolean {
     && firstPosition.x === secondPosition.x
     && firstPosition.y === secondPosition.y
     && first.spriteAlt === second.spriteAlt
+    && first.spriteSrc === second.spriteSrc
+    && first.dialoguePresentation === second.dialoguePresentation
     && first.onDialogueClose === second.onDialogueClose
     && sameDialogue(first.dialogue, second.dialogue);
 }

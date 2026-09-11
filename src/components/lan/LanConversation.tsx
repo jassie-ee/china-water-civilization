@@ -1,6 +1,8 @@
 import { useEffect, useLayoutEffect, useRef, useState, type CSSProperties } from 'react';
+import { createPortal } from 'react-dom';
 
 import lanConversationPanel from '@/assets/images/lan-conversation-panel-transparent.png';
+import lanSubtitleInkWashOverlay from '@/assets/images/lan/lan-subtitle-ink-wash-overlay.png';
 
 import './LanConversation.css';
 
@@ -12,6 +14,7 @@ export interface LanDialogueAnchor {
 }
 
 export type LanConversationPlacement = 'free' | 'attached';
+export type LanConversationPresentation = 'bubble' | 'subtitle';
 
 interface LanConversationProps {
   actionLabel: string;
@@ -20,6 +23,7 @@ interface LanConversationProps {
   dialogLabel: string;
   dialogueId?: string;
   messages: string[];
+  presentation?: LanConversationPresentation;
   placement?: LanConversationPlacement;
   unavailableNotice?: string;
   onAction: () => void;
@@ -33,6 +37,7 @@ function LanConversation({
   dialogLabel,
   dialogueId = 'lan-dialogue',
   messages,
+  presentation = 'bubble',
   placement = 'free',
   unavailableNotice,
   onAction,
@@ -76,6 +81,8 @@ function LanConversation({
   const [dialogueOffset, setDialogueOffset] = useState({ x: 0, y: 0 });
 
   useLayoutEffect(() => {
+    if (presentation === 'subtitle') return undefined;
+
     const conversation = conversationRef.current;
     if (conversation === null) return undefined;
 
@@ -101,12 +108,12 @@ function LanConversation({
     constrainToViewport();
     window.addEventListener('resize', constrainToViewport);
     return () => window.removeEventListener('resize', constrainToViewport);
-  }, [conversationId, currentMessageLength, dialogueOffset.x, dialogueOffset.y, dialogueWidth, isRepairNoticeVisible, placement, resolvedAnchor.x, resolvedAnchor.y]);
+  }, [conversationId, currentMessageLength, dialogueOffset.x, dialogueOffset.y, dialogueWidth, isRepairNoticeVisible, placement, presentation, resolvedAnchor.x, resolvedAnchor.y]);
 
-  return (
+  const conversation = (
     <section
       ref={conversationRef}
-      className={`lan-conversation lan-conversation--${resolvedAnchor.dialogueSide} lan-conversation--${resolvedAnchor.dialogueVertical}${placement === 'attached' ? ' lan-conversation--attached' : ''}`}
+      className={`lan-conversation lan-conversation--${resolvedAnchor.dialogueSide} lan-conversation--${resolvedAnchor.dialogueVertical}${placement === 'attached' ? ' lan-conversation--attached' : ''}${presentation === 'subtitle' ? ' lan-conversation--subtitle' : ''}`}
       id={dialogueId}
       role="dialog"
       aria-label={dialogLabel}
@@ -120,7 +127,7 @@ function LanConversation({
       onPointerDown={(event) => event.stopPropagation()}
     >
       <div className="lan-conversation__bubble">
-        <img className="lan-conversation__art" src={lanConversationPanel} alt="" aria-hidden="true" />
+        <img className="lan-conversation__art" src={presentation === 'subtitle' ? lanSubtitleInkWashOverlay : lanConversationPanel} alt="" aria-hidden="true" />
         <button ref={closeButtonRef} className="lan-conversation__close" type="button" onClick={onClose} aria-label="关闭小澜对话">
           <span aria-hidden="true">×</span>
         </button>
@@ -142,6 +149,12 @@ function LanConversation({
       </div>
     </section>
   );
+
+  if (presentation === 'subtitle' && typeof document !== 'undefined' && document.body !== null) {
+    return createPortal(conversation, document.body);
+  }
+
+  return conversation;
 }
 
 export default LanConversation;

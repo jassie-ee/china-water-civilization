@@ -105,16 +105,17 @@
 .story-atlas__marker::before {
   position: absolute;
   z-index: -1;
-  bottom: 42%;
+  top: 50%;
   left: 50%;
-  width: clamp(10rem, 16vw, 15rem);
-  height: clamp(13rem, 26vh, 18rem);
-  background: radial-gradient(ellipse at 50% 100%, rgb(215 184 106 / 30%), rgb(215 184 106 / 11%) 42%, transparent 74%);
-  clip-path: polygon(46% 0%, 54% 0%, 100% 100%, 0% 100%);
+  width: clamp(7rem, 10vw, 10.5rem);
+  height: clamp(7rem, 10vw, 10.5rem);
+  border: 1px solid rgb(215 184 106 / 18%);
+  border-radius: 50%;
+  background: radial-gradient(circle, rgb(215 184 106 / 17%), rgb(215 184 106 / 7%) 42%, transparent 72%);
   content: "";
   opacity: 0;
   pointer-events: none;
-  transform: translateX(-50%) scaleY(.82);
+  transform: translate(-50%, -50%) scale(.72);
 }
 .story-atlas__marker button {
   position: relative;
@@ -125,8 +126,8 @@
   min-height: clamp(3.15rem, 4.15vw, 3.75rem);
   place-items: center;
   padding: .34rem;
-  border: 1px solid transparent;
-  border-radius: .42rem;
+  border: 0;
+  border-radius: 50%;
   background: transparent;
   box-shadow: none;
   backdrop-filter: none;
@@ -134,7 +135,7 @@
   color: var(--atlas-mist);
   font: inherit;
   cursor: pointer;
-  transition: background-color 240ms ease, border-color 240ms ease, box-shadow 240ms ease, transform 240ms ease;
+  transition: box-shadow 240ms ease, transform 240ms ease;
 }
 .story-atlas__marker button::before,
 .story-atlas__marker button::after {
@@ -144,17 +145,20 @@
   pointer-events: none;
 }
 .story-atlas__marker button::before {
-  inset: .2rem;
-  border: 1px solid transparent;
-  border-radius: .23rem;
+  inset: .12rem .08rem;
+  border: 1px solid rgb(215 184 106 / 22%);
+  border-radius: 48% 52% 44% 56% / 52% 45% 55% 48%;
+  background: radial-gradient(ellipse at 42% 35%, rgb(233 247 241 / 9%), transparent 68%);
+  transform: rotate(-7deg) scale(.94);
+  transition: border-color 240ms ease, background 240ms ease, box-shadow 240ms ease, transform 300ms ease;
 }
 .story-atlas__marker button::after {
-  top: .22rem;
-  right: .24rem;
-  left: .24rem;
-  height: 31%;
-  border-radius: .2rem .2rem 50% 50%;
+  inset: .32rem .28rem;
+  border: 1px solid rgb(215 184 106 / 12%);
+  border-radius: 50%;
   background: transparent;
+  transform: rotate(6deg) scale(.86);
+  transition: border-color 240ms ease, background 240ms ease, transform 300ms ease;
 }
 .story-atlas__seal {
   display: block;
@@ -171,21 +175,28 @@
 .story-atlas__marker button:focus-visible,
 .story-atlas__marker.is-highlighted button,
 .story-atlas__marker.is-active button {
-  border-color: rgb(229 247 240 / 30%);
-  background: linear-gradient(158deg, rgb(233 247 241 / 13%), rgb(93 173 167 / 7%) 50%, rgb(8 49 61 / 12%));
-  box-shadow: 0 0 0 .16rem rgb(215 184 106 / 13%), inset 0 1px 0 rgb(255 255 255 / 25%), inset 0 -1px 0 rgb(4 33 42 / 13%), 0 .3rem .82rem rgb(2 18 24 / 24%);
-  backdrop-filter: blur(.1rem) saturate(110%);
-  -webkit-backdrop-filter: blur(.1rem) saturate(110%);
+  box-shadow: 0 0 0 .22rem rgb(215 184 106 / 8%), 0 .3rem .82rem rgb(2 18 24 / 24%);
+  backdrop-filter: none;
+  -webkit-backdrop-filter: none;
   transform: translateY(-.2rem);
 }
 .story-atlas__marker button:hover::before,
 .story-atlas__marker button:focus-visible::before,
 .story-atlas__marker.is-highlighted button::before,
-.story-atlas__marker.is-active button::before { border-color: rgb(239 252 247 / 15%); }
+.story-atlas__marker.is-active button::before {
+  border-color: rgb(239 252 247 / 72%);
+  background: radial-gradient(ellipse at 42% 35%, rgb(233 247 241 / 16%), rgb(93 173 167 / 7%) 48%, transparent 72%);
+  box-shadow: 0 0 .8rem rgb(215 184 106 / 15%);
+  transform: rotate(-7deg) scale(1.04);
+}
 .story-atlas__marker button:hover::after,
 .story-atlas__marker button:focus-visible::after,
 .story-atlas__marker.is-highlighted button::after,
-.story-atlas__marker.is-active button::after { background: linear-gradient(180deg, rgb(255 255 255 / 10%), transparent); }
+.story-atlas__marker.is-active button::after {
+  border-color: rgb(239 252 247 / 36%);
+  background: radial-gradient(circle, rgb(255 255 255 / 8%), transparent 70%);
+  transform: rotate(6deg) scale(.96);
+}
 .story-atlas__marker button:hover .story-atlas__seal,
 .story-atlas__marker button:focus-visible .story-atlas__seal,
 .story-atlas__marker.is-highlighted .story-atlas__seal,
@@ -200,8 +211,8 @@
 }
 
 @keyframes chapter-atlas-spotlight {
-  from { opacity: 0; transform: translateX(-50%) scaleY(.82); }
-  to { opacity: 1; transform: translateX(-50%) scaleY(1); }
+  from { opacity: 0; transform: translate(-50%, -50%) scale(.72); }
+  to { opacity: 1; transform: translate(-50%, -50%) scale(1); }
 }
 .story-atlas--has-selection .story-atlas__marker:not(.is-active) { opacity: .62; }
 .story-atlas--has-selection .story-atlas__marker.is-highlighted { opacity: 1; }
@@ -342,5 +353,509 @@
   .story-atlas__marker:has(button:focus-visible)::before { animation: none; }
   .story-atlas__marker.is-highlighted::before,
   .story-atlas__marker:has(button:hover)::before,
-  .story-atlas__marker:has(button:focus-visible)::before { opacity: 1; transform: translateX(-50%) scaleY(1); }
+  .story-atlas__marker:has(button:focus-visible)::before { opacity: 1; transform: translate(-50%, -50%) scale(1); }
+}
+
+/* Guide page finish: turn the map into a readable atlas legend without covering its terrain. */
+.chapter-overview__nav {
+  min-height: 2.2rem;
+  padding: .44rem .82rem .48rem .68rem;
+  border-inline-start: 2px solid var(--atlas-gold);
+  border-block: 1px solid rgb(215 184 106 / 38%);
+  background: linear-gradient(90deg, rgb(7 29 36 / 54%), rgb(7 29 36 / 12%));
+  text-shadow: 0 .1rem .4rem rgb(1 14 19 / 76%);
+  transition: border-color 180ms ease, background 180ms ease, color 180ms ease;
+}
+
+.chapter-overview__nav > span {
+  color: var(--atlas-gold);
+  opacity: .72;
+}
+
+.chapter-overview__home-link {
+  font-weight: 600;
+  letter-spacing: .1em;
+  transition: color 180ms ease;
+}
+
+.chapter-overview__home-link:hover,
+.chapter-overview__home-link:focus-visible {
+  color: #fff0b8;
+}
+
+.story-atlas__masthead {
+  position: absolute;
+  z-index: 3;
+  top: clamp(4rem, 7.2vh, 5.4rem);
+  left: 50%;
+  display: grid;
+  justify-items: center;
+  width: min(30rem, 48vw);
+  gap: .28rem;
+  pointer-events: none;
+  text-align: center;
+  transform: translateX(-50%);
+}
+
+.story-atlas__masthead p {
+  margin: 0;
+  color: var(--atlas-gold);
+  font-family: "Avenir Next", "Segoe UI", sans-serif;
+  font-size: clamp(.62rem, .72vw, .76rem);
+  font-weight: 600;
+  letter-spacing: .22em;
+  text-shadow: 0 .1rem .42rem rgb(1 14 19 / 84%);
+}
+
+.story-atlas__masthead h2 {
+  margin: 0;
+  color: var(--atlas-mist);
+  font-family: "Noto Serif SC", var(--font-calligraphy), serif;
+  font-size: clamp(1.35rem, 1.8vw, 1.9rem);
+  font-weight: 500;
+  letter-spacing: .14em;
+  line-height: 1.2;
+  text-shadow: 0 .12rem .5rem rgb(1 14 19 / 92%);
+}
+
+.story-atlas__masthead h2::after {
+  display: block;
+  width: 3.3rem;
+  height: 1px;
+  margin: .52rem auto .32rem;
+  background: linear-gradient(90deg, transparent, var(--atlas-gold), transparent);
+  content: "";
+  opacity: .72;
+}
+
+.story-atlas__masthead span {
+  color: rgb(242 239 228 / 74%);
+  font-size: clamp(.68rem, .76vw, .78rem);
+  letter-spacing: .12em;
+  text-shadow: 0 .1rem .35rem rgb(1 14 19 / 88%);
+}
+
+.chapter-atlas-index {
+  width: min(17rem, 21vw);
+  padding: .62rem .5rem .7rem .72rem;
+  border-inline-start: 1px solid rgb(215 184 106 / 48%);
+  background: linear-gradient(90deg, rgb(7 28 35 / 38%), transparent 94%);
+}
+
+.chapter-atlas-index__heading {
+  margin-bottom: .38rem;
+}
+
+.chapter-atlas-index__heading p {
+  font-size: clamp(.78rem, .86vw, .9rem);
+  font-weight: 600;
+}
+
+.chapter-atlas-index__hint {
+  margin: 0 0 .7rem;
+  color: rgb(242 239 228 / 72%);
+  font-size: clamp(.68rem, .72vw, .76rem);
+  letter-spacing: .08em;
+  line-height: 1.45;
+  text-shadow: 0 .1rem .3rem rgb(1 14 19 / 82%);
+}
+
+.chapter-atlas-index__item {
+  min-height: 3.2rem;
+  padding-top: .42rem;
+  padding-bottom: .42rem;
+}
+
+.chapter-atlas-index__item:hover,
+.chapter-atlas-index__item:focus-visible,
+.chapter-atlas-index__item.is-highlighted,
+.chapter-atlas-index__item.is-active {
+  background: linear-gradient(90deg, rgb(215 184 106 / 18%), transparent 92%);
+}
+
+.chapter-atlas-index__copy strong {
+  font-size: clamp(.9rem, .96vw, 1rem);
+}
+
+.chapter-atlas-index__copy small {
+  color: rgb(183 200 194 / 82%);
+  font-size: clamp(.66rem, .7vw, .74rem);
+}
+
+.story-atlas__marker-label {
+  position: absolute;
+  top: 50%;
+  display: grid;
+  width: min(15rem, 18vw);
+  gap: .12rem;
+  padding: .48rem .66rem .52rem;
+  border-block: 0;
+  background: transparent;
+  color: var(--atlas-mist);
+  opacity: .78;
+  pointer-events: none;
+  text-shadow: 0 .1rem .35rem rgb(1 14 19 / 88%);
+  transform: translateY(-50%);
+  transition: border-color 200ms ease, color 200ms ease, opacity 200ms ease, filter 200ms ease, transform 200ms ease;
+}
+
+.story-atlas__marker-label::before,
+.story-atlas__marker-label::after {
+  position: absolute;
+  content: "";
+  pointer-events: none;
+}
+
+.story-atlas__marker-label::before {
+  z-index: -1;
+  inset: -.56rem -1.18rem;
+  background: radial-gradient(ellipse at 48% 50%, rgb(7 29 36 / 74%) 0%, rgb(7 29 36 / 44%) 48%, transparent 78%);
+  filter: blur(.1rem);
+  opacity: .46;
+  transform: scaleX(.94);
+  transition: opacity 200ms ease, transform 240ms ease;
+}
+
+.story-atlas__marker-label::after {
+  top: 50%;
+  width: .48rem;
+  height: 1px;
+  background: var(--atlas-gold);
+  opacity: .56;
+}
+
+.story-atlas__marker--chapter-1 .story-atlas__marker-label,
+.story-atlas__marker--chapter-2 .story-atlas__marker-label {
+  left: calc(100% + .95rem);
+  border-inline-start: 1px solid rgb(215 184 106 / 58%);
+  text-align: left;
+}
+
+.story-atlas__marker--chapter-3 .story-atlas__marker-label,
+.story-atlas__marker--chapter-4 .story-atlas__marker-label {
+  right: calc(100% + .95rem);
+  border-inline-end: 1px solid rgb(215 184 106 / 58%);
+  text-align: right;
+}
+
+.story-atlas__marker--chapter-1 .story-atlas__marker-label::after,
+.story-atlas__marker--chapter-2 .story-atlas__marker-label::after {
+  left: -.62rem;
+}
+
+.story-atlas__marker--chapter-3 .story-atlas__marker-label::before,
+.story-atlas__marker--chapter-4 .story-atlas__marker-label::before {
+  background: radial-gradient(ellipse at 52% 50%, rgb(7 29 36 / 74%) 0%, rgb(7 29 36 / 44%) 48%, transparent 78%);
+}
+
+.story-atlas__marker--chapter-3 .story-atlas__marker-label::after,
+.story-atlas__marker--chapter-4 .story-atlas__marker-label::after {
+  right: -.62rem;
+}
+
+.story-atlas__marker-label small {
+  color: var(--atlas-gold);
+  font-family: "Avenir Next", "Segoe UI", sans-serif;
+  font-size: clamp(.58rem, .62vw, .66rem);
+  font-weight: 600;
+  letter-spacing: .15em;
+  line-height: 1.1;
+}
+
+.story-atlas__marker-label strong {
+  color: var(--atlas-mist);
+  font-family: "Noto Serif SC", var(--font-calligraphy), serif;
+  font-size: clamp(.94rem, 1.08vw, 1.12rem);
+  font-weight: 500;
+  letter-spacing: .08em;
+  line-height: 1.25;
+}
+
+.story-atlas__marker-label em {
+  color: var(--atlas-muted);
+  font-size: clamp(.64rem, .7vw, .74rem);
+  font-style: normal;
+  letter-spacing: .08em;
+  line-height: 1.35;
+}
+
+.story-atlas__marker button:hover .story-atlas__marker-label,
+.story-atlas__marker button:focus-visible .story-atlas__marker-label,
+.story-atlas__marker.is-highlighted .story-atlas__marker-label,
+.story-atlas__marker.is-active .story-atlas__marker-label,
+.story-atlas__marker:has(> button:hover) .story-atlas__marker-label,
+.story-atlas__marker:has(> button:focus-visible) .story-atlas__marker-label {
+  color: #fff0b8;
+  opacity: 1;
+  filter: drop-shadow(0 .24rem .42rem rgb(1 14 19 / 32%));
+}
+
+.story-atlas__marker button:hover .story-atlas__marker-label::before,
+.story-atlas__marker button:focus-visible .story-atlas__marker-label::before,
+.story-atlas__marker.is-highlighted .story-atlas__marker-label::before,
+.story-atlas__marker.is-active .story-atlas__marker-label::before,
+.story-atlas__marker:has(> button:hover) .story-atlas__marker-label::before,
+.story-atlas__marker:has(> button:focus-visible) .story-atlas__marker-label::before {
+  opacity: .9;
+  transform: scaleX(1.015);
+}
+
+.story-atlas__marker button:hover .story-atlas__marker-label::after,
+.story-atlas__marker button:focus-visible .story-atlas__marker-label::after,
+.story-atlas__marker.is-highlighted .story-atlas__marker-label::after,
+.story-atlas__marker.is-active .story-atlas__marker-label::after,
+.story-atlas__marker:has(> button:hover) .story-atlas__marker-label::after,
+.story-atlas__marker:has(> button:focus-visible) .story-atlas__marker-label::after {
+  width: .78rem;
+  opacity: .96;
+  box-shadow: 0 0 .35rem rgb(215 184 106 / 42%);
+}
+
+.story-atlas__marker button:hover .story-atlas__marker-label strong,
+.story-atlas__marker button:focus-visible .story-atlas__marker-label strong,
+.story-atlas__marker.is-highlighted .story-atlas__marker-label strong,
+.story-atlas__marker.is-active .story-atlas__marker-label strong,
+.story-atlas__marker:has(> button:hover) .story-atlas__marker-label strong,
+.story-atlas__marker:has(> button:focus-visible) .story-atlas__marker-label strong {
+  color: #fff0b8;
+  text-shadow: 0 .1rem .38rem rgb(1 14 19 / 92%);
+}
+
+.story-atlas__marker button:hover .story-atlas__marker-label em,
+.story-atlas__marker button:focus-visible .story-atlas__marker-label em,
+.story-atlas__marker.is-highlighted .story-atlas__marker-label em,
+.story-atlas__marker.is-active .story-atlas__marker-label em,
+.story-atlas__marker:has(> button:hover) .story-atlas__marker-label em,
+.story-atlas__marker:has(> button:focus-visible) .story-atlas__marker-label em {
+  color: rgb(224 231 219 / 90%);
+}
+
+.story-atlas__marker--chapter-1 button:hover .story-atlas__marker-label,
+.story-atlas__marker--chapter-1 button:focus-visible .story-atlas__marker-label,
+.story-atlas__marker--chapter-2 button:hover .story-atlas__marker-label,
+.story-atlas__marker--chapter-2 button:focus-visible .story-atlas__marker-label,
+.story-atlas__marker--chapter-1.is-highlighted .story-atlas__marker-label,
+.story-atlas__marker--chapter-1.is-active .story-atlas__marker-label,
+.story-atlas__marker--chapter-2.is-highlighted .story-atlas__marker-label,
+.story-atlas__marker--chapter-2.is-active .story-atlas__marker-label {
+  border-inline-start-color: #f1d48a;
+}
+
+.story-atlas__marker--chapter-3 button:hover .story-atlas__marker-label,
+.story-atlas__marker--chapter-3 button:focus-visible .story-atlas__marker-label,
+.story-atlas__marker--chapter-4 button:hover .story-atlas__marker-label,
+.story-atlas__marker--chapter-4 button:focus-visible .story-atlas__marker-label,
+.story-atlas__marker--chapter-3.is-highlighted .story-atlas__marker-label,
+.story-atlas__marker--chapter-3.is-active .story-atlas__marker-label,
+.story-atlas__marker--chapter-4.is-highlighted .story-atlas__marker-label,
+.story-atlas__marker--chapter-4.is-active .story-atlas__marker-label {
+  border-inline-end-color: #f1d48a;
+}
+
+.story-atlas__marker--chapter-1 button:hover .story-atlas__marker-label,
+.story-atlas__marker--chapter-1 button:focus-visible .story-atlas__marker-label,
+.story-atlas__marker--chapter-2 button:hover .story-atlas__marker-label,
+.story-atlas__marker--chapter-2 button:focus-visible .story-atlas__marker-label,
+.story-atlas__marker--chapter-1.is-highlighted .story-atlas__marker-label,
+.story-atlas__marker--chapter-1.is-active .story-atlas__marker-label,
+.story-atlas__marker--chapter-2.is-highlighted .story-atlas__marker-label,
+.story-atlas__marker--chapter-2.is-active .story-atlas__marker-label {
+  transform: translate(.2rem, -50%);
+}
+
+.story-atlas__marker--chapter-3 button:hover .story-atlas__marker-label,
+.story-atlas__marker--chapter-3 button:focus-visible .story-atlas__marker-label,
+.story-atlas__marker--chapter-4 button:hover .story-atlas__marker-label,
+.story-atlas__marker--chapter-4 button:focus-visible .story-atlas__marker-label,
+.story-atlas__marker--chapter-3.is-highlighted .story-atlas__marker-label,
+.story-atlas__marker--chapter-3.is-active .story-atlas__marker-label,
+.story-atlas__marker--chapter-4.is-highlighted .story-atlas__marker-label,
+.story-atlas__marker--chapter-4.is-active .story-atlas__marker-label {
+  transform: translate(-.2rem, -50%);
+}
+
+.story-atlas__marker--chapter-2 .story-atlas__marker-label,
+.story-atlas__marker--chapter-3 .story-atlas__marker-label {
+  width: min(10.8rem, 12vw);
+}
+
+.story-atlas__token {
+  position: absolute;
+  z-index: 0;
+  display: block;
+  width: clamp(5.4rem, 6.8vw, 7.8rem);
+  height: clamp(5.4rem, 6.8vw, 7.8rem);
+  pointer-events: none;
+  opacity: 0;
+  visibility: hidden;
+  filter: saturate(.9) contrast(1.04) drop-shadow(0 .42rem .68rem rgb(1 14 19 / 36%));
+  transform: translate(-50%, -50%) scale(.76) rotate(-5deg);
+  transition: opacity 280ms ease, visibility 0s linear 280ms, transform 420ms cubic-bezier(.2, .78, .2, 1);
+}
+
+.story-atlas__token img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+
+.story-atlas__marker--chapter-1 .story-atlas__token {
+  left: -44%;
+  top: -62%;
+}
+
+.story-atlas__marker--chapter-2 .story-atlas__token {
+  left: -44%;
+  top: 152%;
+}
+
+.story-atlas__marker--chapter-3 .story-atlas__token {
+  left: 148%;
+  top: -58%;
+}
+
+.story-atlas__marker--chapter-4 .story-atlas__token {
+  left: 148%;
+  top: 148%;
+}
+
+.story-atlas__marker button:hover .story-atlas__token,
+.story-atlas__marker button:focus-visible .story-atlas__token,
+.story-atlas__marker.is-highlighted .story-atlas__token,
+.story-atlas__marker.is-active .story-atlas__token {
+  opacity: .94;
+  visibility: visible;
+  transform: translate(-50%, -50%) scale(1) rotate(0deg);
+  transition-delay: 0s;
+}
+
+.chapter-atlas-selection {
+  width: min(20rem, 27vw);
+  padding: 1.05rem 1rem 1rem 1.2rem;
+  background: linear-gradient(90deg, rgb(7 29 36 / 52%), rgb(7 29 36 / 12%) 88%, transparent);
+  border-block-start: 1px solid rgb(215 184 106 / 28%);
+}
+
+.chapter-atlas-selection h2 {
+  font-size: clamp(1.48rem, 1.9vw, 1.85rem);
+}
+
+.chapter-atlas-selection__action {
+  display: inline-flex;
+  gap: .46rem;
+  align-items: center;
+  min-height: 2.35rem;
+  padding: .2rem .08rem .2rem .02rem;
+  font-weight: 600;
+}
+
+.chapter-atlas-selection__action span {
+  color: var(--atlas-gold);
+  font-family: "Avenir Next", "Segoe UI", sans-serif;
+  transition: transform 180ms ease;
+}
+
+.chapter-atlas-selection__action:hover span,
+.chapter-atlas-selection__action:focus-visible span {
+  transform: translateX(.22rem);
+}
+
+@media (min-width: 721px) {
+  .chapter-overview__nav,
+  .story-atlas__masthead,
+  .chapter-atlas-index,
+  .story-atlas__marker,
+  .story-atlas__marker-label,
+  .story-atlas__caption,
+  .chapter-atlas-selection {
+    will-change: transform, opacity;
+  }
+
+  .chapter-atlas-selection { animation: none; }
+
+  body:has(.chapter-overview) .lan-mascot {
+    width: clamp(11.5rem, 16vw, 14rem);
+    height: clamp(13rem, 19vw, 16.5rem);
+  }
+
+  body:has(.chapter-overview) .lan-mascot__handle {
+    width: clamp(8.8rem, 11vw, 10.2rem);
+  }
+
+  body:has(.chapter-overview) .lan-mascot--animated-sprite .lan-mascot__sprite {
+    transform: scale(1.42);
+  }
+
+  body:has(.chapter-overview) .lan-mascot-host {
+    z-index: 45;
+  }
+
+  /* Keep the portaled subtitle clear of the chapter detail card when a
+     chapter is selected. The default state remains centered on the atlas. */
+  body:has(.chapter-atlas-selection) .lan-conversation--subtitle {
+    left: calc(50% - clamp(6rem, 8vw, 9rem)) !important;
+    width: min(64rem, 56vw);
+  }
+
+}
+
+@media (max-height: 780px) and (min-width: 721px) {
+  .story-atlas__masthead {
+    top: 2.8rem;
+    gap: .16rem;
+  }
+
+  .story-atlas__masthead h2 {
+    font-size: 1.32rem;
+  }
+
+  .story-atlas__masthead h2::after,
+  .story-atlas__masthead span {
+    display: none;
+  }
+}
+
+@media (max-width: 720px) {
+  .chapter-overview__nav {
+    top: .9rem;
+    left: .9rem;
+    min-height: 2rem;
+    padding: .34rem .58rem .38rem .5rem;
+    font-size: .72rem;
+  }
+
+  .story-atlas__masthead {
+    top: 4rem;
+    width: min(20rem, calc(100% - 2rem));
+  }
+
+  .story-atlas__masthead h2 {
+    font-size: 1.18rem;
+  }
+
+  .story-atlas__masthead span,
+  .story-atlas__marker-label {
+    display: none;
+  }
+
+  .chapter-atlas-index {
+    padding-top: .72rem;
+    padding-left: .82rem;
+    border-inline-start: 0;
+    background: linear-gradient(180deg, rgb(7 27 34 / 84%), rgb(7 27 34 / 96%));
+  }
+
+  .chapter-atlas-index__hint {
+    margin-bottom: .48rem;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .chapter-overview__nav,
+  .chapter-overview__home-link,
+  .story-atlas__marker-label,
+  .chapter-atlas-selection__action span {
+    transition: none;
+  }
 }

@@ -102,6 +102,142 @@
 
 @keyframes lan-dialogue-in { from { opacity: 0; } to { opacity: 1; } }
 
+/* A subtitle presentation for full-screen atlas scenes. It is portaled to
+   body by LanConversation so the fixed bar is independent from the draggable
+   mascot's transformed coordinate system. */
+.lan-conversation.lan-conversation--subtitle {
+  position: fixed;
+  z-index: 40;
+  top: auto !important;
+  right: auto !important;
+  bottom: clamp(4.75rem, 9vh, 6.5rem);
+  left: 50% !important;
+  display: block;
+  width: min(64rem, 60vw);
+  max-width: calc(100vw - 2rem);
+  transform: translateX(-50%) !important;
+  animation: lan-subtitle-in 340ms cubic-bezier(.2, .78, .2, 1) both;
+}
+
+.lan-conversation--subtitle .lan-conversation__bubble {
+  min-height: 0;
+  height: clamp(5.25rem, 6.5vw, 6.2rem);
+  aspect-ratio: auto;
+  overflow: hidden;
+  border-block: 1px solid rgb(215 184 106 / 36%);
+  border-radius: 1.1rem .42rem 1.1rem .42rem;
+  background:
+    radial-gradient(ellipse at 50% 100%, rgb(76 142 146 / 10%), transparent 63%),
+    repeating-linear-gradient(164deg, transparent 0 1.9rem, rgb(224 191 104 / 14%) 1.94rem 1.99rem, transparent 2.04rem 4.7rem),
+    linear-gradient(180deg, rgb(6 27 34 / 48%), rgb(6 25 32 / 60%));
+  box-shadow:
+    0 .65rem 1.6rem rgb(1 15 20 / 18%),
+    inset 0 1px 0 rgb(255 239 177 / 8%),
+    inset 0 -.9rem 2.2rem rgb(35 102 109 / 7%);
+  -webkit-mask-image:
+    linear-gradient(90deg, transparent 0%, #000 7%, #000 93%, transparent 100%),
+    linear-gradient(180deg, transparent 0%, #000 13%, #000 87%, transparent 100%);
+  -webkit-mask-composite: source-in;
+  mask-image:
+    linear-gradient(90deg, transparent 0%, #000 7%, #000 93%, transparent 100%),
+    linear-gradient(180deg, transparent 0%, #000 13%, #000 87%, transparent 100%);
+  mask-composite: intersect;
+}
+
+.lan-conversation--subtitle .lan-conversation__bubble::before,
+.lan-conversation--subtitle .lan-conversation__bubble::after {
+  position: absolute;
+  z-index: 1;
+  pointer-events: none;
+  content: "";
+}
+
+.lan-conversation--subtitle .lan-conversation__bubble::before {
+  inset: 0;
+  border: 1px solid rgb(215 184 106 / 27%);
+  background:
+    linear-gradient(104deg, transparent 0%, transparent 40%, rgb(255 229 151 / 38%) 50%, transparent 60%, transparent 100%),
+    repeating-linear-gradient(164deg, transparent 0 1.9rem, rgb(224 191 104 / 11%) 1.94rem 1.99rem, transparent 2.04rem 4.7rem);
+  background-position: 155% 0, 0 0;
+  background-size: 48% 100%, 100% 100%;
+  background-repeat: no-repeat;
+  background-blend-mode: screen;
+  animation: lan-subtitle-sheen 6.8s ease-in-out infinite;
+}
+
+.lan-conversation--subtitle .lan-conversation__bubble::after {
+  right: 22%;
+  bottom: .65rem;
+  left: 22%;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, rgb(108 191 192 / 24%), rgb(215 184 106 / 30%), rgb(108 191 192 / 24%), transparent);
+  box-shadow: 0 0 .6rem rgb(105 204 199 / 14%);
+  opacity: .78;
+}
+
+.lan-conversation--subtitle .lan-conversation__art {
+  opacity: .72;
+  object-fit: fill;
+  filter: saturate(.92) contrast(1.1) brightness(1.1);
+  mix-blend-mode: screen;
+}
+
+.lan-conversation--subtitle .lan-conversation__content {
+  width: min(88%, 58rem);
+  min-height: 100%;
+  padding: .42rem 1.9rem .38rem;
+  justify-content: center;
+  gap: .1rem;
+}
+
+.lan-conversation--subtitle .lan-conversation__message {
+  color: #f3ecd9;
+  font-size: clamp(.86rem, 1.05vw, 1.05rem);
+  letter-spacing: .1em;
+  line-height: 1.42;
+  text-shadow: 0 .1rem .42rem rgb(1 13 18 / 86%);
+}
+
+.lan-conversation--subtitle .lan-conversation__notice {
+  margin-top: .08rem;
+  color: rgb(229 201 121 / 82%);
+  font-size: clamp(.62rem, .68vw, .72rem);
+  letter-spacing: .08em;
+  text-shadow: 0 .08rem .3rem rgb(1 13 18 / 86%);
+}
+
+.lan-conversation--subtitle .lan-conversation__next,
+.lan-conversation--subtitle .lan-conversation__action {
+  position: relative;
+  z-index: 2;
+  margin-top: .2rem;
+  padding: .1rem .56rem .12rem;
+  border-color: rgb(229 193 104 / 58%);
+  background: rgb(8 32 38 / 30%);
+  color: rgb(240 215 143 / 88%);
+  font-size: .7rem;
+  letter-spacing: .12em;
+}
+
+.lan-conversation--subtitle .lan-conversation__close {
+  top: .46rem;
+  right: .72rem;
+  width: 1.2rem;
+  height: 1.2rem;
+  color: rgb(239 213 144 / 72%);
+}
+
+@keyframes lan-subtitle-in {
+  from { opacity: 0; transform: translate(-50%, .8rem); }
+  to { opacity: 1; transform: translate(-50%, 0); }
+}
+
+@keyframes lan-subtitle-sheen {
+  0%, 42% { background-position: 155% 0, 0 0; opacity: .2; }
+  62% { background-position: -55% 0, 0 0; opacity: .7; }
+  82%, 100% { background-position: -55% 0, 0 0; opacity: .2; }
+}
+
 @media (max-width: 720px) {
   .lan-conversation:not(.lan-conversation--attached),
   .lan-conversation--right:not(.lan-conversation--attached),
@@ -111,6 +247,13 @@
   .lan-conversation--attached {
     width: min(27rem, var(--lan-dialogue-width, 27rem), max(10rem, calc(100vw - 15rem)));
   }
+  .lan-conversation.lan-conversation--subtitle {
+    bottom: 1.25rem;
+    width: calc(100vw - 1.5rem);
+    max-width: none;
+  }
+  .lan-conversation--subtitle .lan-conversation__bubble { height: 7.4rem; }
+  .lan-conversation--subtitle .lan-conversation__content { width: 84%; padding-inline: 2rem; }
   .lan-conversation { align-items: flex-end; }
   .lan-conversation--left { flex-direction: row; }
   .lan-conversation__bubble { width: 100%; min-height: 0; max-height: min(24rem, calc(100vh - 7rem)); }
@@ -120,5 +263,6 @@
 @media (prefers-reduced-motion: reduce) {
   .lan-conversation__next,
   .lan-conversation__action { transition: none; }
-  .lan-conversation { animation: none; }
+  .lan-conversation,
+  .lan-conversation--subtitle .lan-conversation__bubble::before { animation: none; }
 }

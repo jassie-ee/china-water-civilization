@@ -1,6 +1,7 @@
 import type { LanMascotExpressionId } from './lanMascotExpressions';
 
 export type LanMascotPosition = { x: number; y: number };
+export type LanMascotDialoguePresentation = 'bubble' | 'subtitle';
 
 export interface LanMascotDialogue {
   conversationId: string;
@@ -19,5 +20,7 @@ export interface LanMascotConfig {
   expressionId: LanMascotExpressionId;
   initialPosition?: LanMascotPosition;
   spriteAlt: string;
+  spriteSrc?: string;
+  dialoguePresentation?: LanMascotDialoguePresentation;
   onDialogueClose?: () => void;
 }

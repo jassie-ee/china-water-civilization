@@ -147,10 +147,12 @@ function LanMascot({ record, onCloseDialogue, onOpenDialogue, onPositionChange }
 
   const { config, expressionId, isDialogueOpen, position } = record;
   const expression = lanMascotExpressions[expressionId];
+  const spriteSrc = config.spriteSrc ?? expression.src;
+  const hasAnimatedSprite = config.spriteSrc !== undefined;
 
   return (
     <div
-      className={`lan-mascot lan-mascot--${expression.motion}${isDialogueOpen ? ' lan-mascot--dialogue-open' : ''}`}
+      className={`lan-mascot lan-mascot--${expression.motion}${hasAnimatedSprite ? ' lan-mascot--animated-sprite' : ''}${isDialogueOpen ? ' lan-mascot--dialogue-open' : ''}`}
       style={{ left: `${position.x}%`, top: `${position.y}%` }}
     >
       <button
@@ -167,7 +169,7 @@ function LanMascot({ record, onCloseDialogue, onOpenDialogue, onPositionChange }
         onClick={handleClick}
         onKeyDown={handleKeyDown}
       >
-        <img className="lan-mascot__sprite" src={expression.src} alt="" aria-hidden="true" draggable={false} />
+        <img className="lan-mascot__sprite" src={spriteSrc} alt="" aria-hidden="true" draggable={false} />
       </button>
       {isDialogueOpen && (
         <LanConversation
@@ -177,6 +179,7 @@ function LanMascot({ record, onCloseDialogue, onOpenDialogue, onPositionChange }
           dialogLabel={config.dialogue.dialogLabel}
           dialogueId={config.dialogueId}
           messages={config.dialogue.messages}
+          presentation={config.dialoguePresentation}
           placement="attached"
           unavailableNotice={config.dialogue.unavailableNotice}
           onAction={config.dialogue.onAction}

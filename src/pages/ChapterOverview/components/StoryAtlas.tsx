@@ -2,9 +2,20 @@ import { useState, type CSSProperties, type PointerEvent, type ReactNode, type R
 
 import shanhaiWaterChronicle from '@/assets/images/shanhai-water-chronicle.webp';
 import shanhaiWaterChronicleFallback from '@/assets/images/shanhai-water-chronicle.png';
+import chapter1SourceToken from '@/assets/images/chapter-overview/chapter-1-source.png';
+import chapter2GovernanceToken from '@/assets/images/chapter-overview/chapter-2-governance.png';
+import chapter3VoyageToken from '@/assets/images/chapter-overview/chapter-3-voyage.png';
+import chapter4CosmosToken from '@/assets/images/chapter-overview/chapter-4-cosmos.png';
 import type { ChapterId, ChapterOverviewItem } from '@/types/chapter';
 
 import StoryAtlasEffects from './StoryAtlasEffects';
+
+const chapterTokenAssets: Record<ChapterId, string> = {
+  'chapter-1': chapter1SourceToken,
+  'chapter-2': chapter2GovernanceToken,
+  'chapter-3': chapter3VoyageToken,
+  'chapter-4': chapter4CosmosToken,
+};
 
 interface StoryAtlasProps {
   chapters: ChapterOverviewItem[];
@@ -76,6 +87,11 @@ function StoryAtlas({ chapters, activeChapterId, highlightedChapterId = null, ch
         />
       </div>
       <StoryAtlasEffects chapters={chapters} activeChapterId={activeChapterId} />
+      <header className="story-atlas__masthead">
+        <p>WATER MEMORY / CHAPTER ATLAS</p>
+        <h2>一张山海图，四段水脉</h2>
+        <span>沿着金色水线，选择一枚章节印记</span>
+      </header>
       <p className="story-atlas__caption" aria-hidden="true">山川 · 江河 · 海洋 · 家园</p>
       <ol className="story-atlas__markers" aria-label="四章入口">
         {chapters.map((chapter) => {
@@ -101,7 +117,15 @@ function StoryAtlas({ chapters, activeChapterId, highlightedChapterId = null, ch
                 onPointerDown={(event) => event.stopPropagation()}
                 onClick={(event) => onOpenChapter(chapter.id, event.currentTarget)}
               >
+                <span className="story-atlas__token" aria-hidden="true">
+                  <img src={chapterTokenAssets[chapter.id]} alt="" />
+                </span>
                 <span className="story-atlas__seal" aria-hidden="true">{chapter.markerGlyph}</span>
+                <span className="story-atlas__marker-label" aria-hidden="true">
+                  <small>CHAPTER 0{chapter.order}</small>
+                  <strong>{chapter.title}</strong>
+                  <em>{chapter.status === 'preview' ? `筹备中 · ${chapter.theme}` : chapter.theme}</em>
+                </span>
               </button>
             </li>
           );

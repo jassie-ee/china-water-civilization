@@ -107,6 +107,16 @@
   transform-origin: 50% 86%;
 }
 
+/* Chapter pages use a transparent 16:9 animation canvas. Crop its quiet
+   margins here so the global mascot keeps the same visual weight as the
+   static expressions without adding a second CSS float on top of the loop. */
+.lan-mascot.lan-mascot--animated-sprite .lan-mascot__sprite {
+  object-fit: cover;
+  animation: none;
+  transform: scale(1.34);
+  transform-origin: center;
+}
+
 .lan-mascot--turbid .lan-mascot__sprite {
   animation-name: lan-mascot-turbid;
   animation-duration: 3.1s;
