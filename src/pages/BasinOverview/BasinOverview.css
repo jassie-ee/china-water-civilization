@@ -11,8 +11,8 @@
 }
 
 .basin-overview-page--leaving { opacity: 0; transition: opacity 180ms ease; }
-.basin-overview__knowledge-trigger { position: fixed; z-index: 7; bottom: clamp(1rem, 3vh, 2rem); left: 50%; min-height: 2.15rem; padding: .36rem .8rem; border: 1px solid rgb(219 202 142 / 54%); border-radius: 999px; color: #f7eac1; background: rgb(5 30 37 / 55%); box-shadow: 0 .5rem 1.5rem rgb(1 14 20 / 22%); backdrop-filter: blur(6px); cursor: pointer; font-family: var(--font-calligraphy); font-size: .76rem; letter-spacing: .08em; transform: translateX(-50%); }
-.basin-overview__knowledge-trigger:hover, .basin-overview__knowledge-trigger:focus-visible { border-color: #f0d78d; background: rgb(20 62 67 / 72%); }
+.basin-overview__knowledge-trigger { position: fixed; z-index: 7; top: clamp(4.2rem, 6vw, 5.25rem); right: clamp(.9rem, 3vw, 2.5rem); display: grid; justify-items: center; color: #f7eac1; filter: drop-shadow(0 .5rem 1.2rem rgb(1 14 20 / 46%)); font-family: var(--font-calligraphy); font-size: .72rem; letter-spacing: .08em; }
+.basin-overview__knowledge-trigger > span { margin-top: -.1rem; padding: .22rem .6rem; border: 1px solid rgb(219 202 142 / 44%); border-radius: 999px; background: rgb(5 30 37 / 65%); white-space: nowrap; }
 
 .basin-overview-header {
   position: fixed;
@@ -212,11 +212,11 @@
   .basin-atlas__info { right: 1rem; bottom: 13rem; width: min(15rem, calc(100% - 2rem)); padding-top: .72rem; background: linear-gradient(90deg, rgb(7 29 38 / 82%), transparent); }
   .basin-atlas__info h2 { font-size: 1.22rem; }
   .basin-atlas__info small { font-size: .7rem; }
-  .basin-overview__knowledge-trigger { z-index: 8; bottom: 10.8rem; font-size: .68rem; }
+  .basin-overview__knowledge-trigger { z-index: 8; top: 3.35rem; right: .62rem; font-size: .64rem; }
 }
 
 .hydropower-atlas__backdrop { position: fixed; z-index: 50; inset: 0; display: grid; place-items: center; padding: clamp(.7rem, 2vw, 1.5rem); background: rgb(1 17 24 / 76%); backdrop-filter: blur(7px); }
-.hydropower-atlas { width: min(78rem, 100%); min-height: min(44rem, calc(100dvh - 2rem)); overflow: hidden; border: 1px solid rgb(206 218 187 / 28%); border-radius: .9rem; background: radial-gradient(circle at 72% 12%, rgb(93 183 188 / 16%), transparent 26rem), linear-gradient(135deg, #062d38, #0a484c 56%, #123b43); box-shadow: 0 1.4rem 5rem rgb(0 0 0 / 52%), inset 0 1px 0 rgb(244 244 220 / 11%); color: #ebf0df; }
+.hydropower-atlas { width: min(78rem, 100%); min-height: min(44rem, calc(100dvh - 2rem)); overflow: hidden; border: 1px solid rgb(206 218 187 / 28%); border-radius: .9rem; background: url('../../assets/images/hydropower-atlas/knowledge-atlas-backdrop.webp') center / cover; box-shadow: 0 1.4rem 5rem rgb(0 0 0 / 52%), inset 0 1px 0 rgb(244 244 220 / 11%); color: #ebf0df; }
 .hydropower-atlas header { display: flex; align-items: flex-start; justify-content: space-between; padding: 1.05rem clamp(1rem, 2.5vw, 1.8rem); border-bottom: 1px solid rgb(232 221 175 / 18%); }
 .hydropower-atlas header p, .hydropower-atlas__eyebrow { margin: 0; color: #d7bd77; font-family: var(--font-calligraphy); font-size: .72rem; letter-spacing: .12em; }
 .hydropower-atlas h2 { margin: .24rem 0 0; color: #f3f2dd; font-family: "Noto Serif SC", var(--font-calligraphy); font-size: clamp(1.3rem, 2.2vw, 1.8rem); font-weight: 500; letter-spacing: .08em; }
@@ -226,7 +226,11 @@
 .hydropower-depth-carousel { position: relative; display: grid; min-height: 100%; place-items: center; perspective: 1250px; outline: none; }
 .hydropower-depth-carousel:focus-visible { outline: 2px solid rgb(232 218 157 / 82%); outline-offset: 4px; }
 .hydropower-depth-carousel__stage { position: relative; width: min(100%, 22rem); height: clamp(19rem, 49vh, 27rem); transform-style: preserve-3d; }
-.hydropower-depth-carousel__card { position: absolute; top: 50%; left: 50%; display: grid; grid-template-rows: auto auto 1fr; width: min(15.2rem, 72vw); height: clamp(16rem, 40vh, 21rem); padding: 1rem; overflow: hidden; border: 1px solid rgb(213 235 216 / 32%); border-radius: .75rem; color: #f4f0d9; background: linear-gradient(155deg, rgb(70 164 166 / 28%), rgb(7 47 55 / 90%)); box-shadow: 0 1.4rem 2.6rem rgb(0 9 16 / 38%), inset 0 1px 0 rgb(245 251 232 / 18%); cursor: pointer; text-align: left; transform: translate(-50%, -50%); transform-style: preserve-3d; will-change: transform, filter, opacity; }
+.hydropower-depth-carousel__card { position: absolute; top: 50%; left: 50%; display: grid; grid-template-rows: auto auto 1fr; width: min(15.2rem, 72vw); height: clamp(16rem, 40vh, 21rem); padding: 1rem; overflow: hidden; border: 1px solid rgb(213 235 216 / 32%); border-radius: .75rem; color: #f4f0d9; background-color: #073037; background-position: center; background-size: cover; box-shadow: 0 1.4rem 2.6rem rgb(0 9 16 / 38%), inset 0 1px 0 rgb(245 251 232 / 18%); cursor: pointer; text-align: left; transform: translate(-50%, -50%); transform-style: preserve-3d; will-change: transform, filter, opacity; }
+.hydropower-depth-carousel__card--hydropower { background-image: linear-gradient(180deg, rgb(3 27 35 / 36%), rgb(3 28 34 / 89%) 76%), url('../../assets/images/hydropower-atlas/hydropower-intakes.webp'); }
+.hydropower-depth-carousel__card--classification { background-image: linear-gradient(180deg, rgb(3 27 35 / 34%), rgb(3 28 34 / 89%) 76%), url('../../assets/images/hydropower-atlas/station-classification.webp'); }
+.hydropower-depth-carousel__card--storage { background-image: linear-gradient(180deg, rgb(3 27 35 / 34%), rgb(3 28 34 / 89%) 76%), url('../../assets/images/hydropower-atlas/pumped-storage.webp'); }
+.hydropower-depth-carousel__card--basins { background-image: linear-gradient(180deg, rgb(3 27 35 / 34%), rgb(3 28 34 / 89%) 76%), url('../../assets/images/hydropower-atlas/basin-tasks.webp'); }
 .hydropower-depth-carousel__card::after { position: absolute; inset: auto -18% 10% 28%; height: 35%; border-top: 1px solid rgb(192 236 226 / 34%); border-radius: 50%; background: radial-gradient(ellipse, rgb(88 204 210 / 18%), transparent 67%); content: ''; pointer-events: none; }
 .hydropower-depth-carousel__card.is-active { border-color: rgb(230 204 132 / 74%); }
 .hydropower-depth-carousel__card-number { color: #d9b967; font-size: .68rem; letter-spacing: .16em; }

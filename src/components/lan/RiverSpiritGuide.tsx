@@ -1,6 +1,6 @@
 import { useCallback, useEffect, useMemo, useState } from 'react';
 
-import { useLanMascot, type LanMascotConfig, type LanMascotDialogue, type LanMascotExpressionId } from '@/components/lan-mascot';
+import { useChapterSpirit, type ChapterSpiritAction, type ChapterSpiritConfig, type ChapterSpiritDialogue } from '@/components/chapter-spirit';
 import type { RiverNode, RiverRegion } from '@/types/basin';
 
 interface RiverSpiritGuideProps {
@@ -8,8 +8,8 @@ interface RiverSpiritGuideProps {
   riverName: string;
   region: RiverRegion;
   node: RiverNode | null;
-  dialogueOverride?: LanMascotDialogue;
-  expressionOverride?: LanMascotExpressionId;
+  dialogueOverride?: ChapterSpiritDialogue;
+  actionOverride?: ChapterSpiritAction;
   onDialogueClose?: () => void;
 }
 
@@ -24,7 +24,7 @@ function shorten(text: string | undefined, maxLength = 74): string {
   return text.length > maxLength ? `${text.slice(0, maxLength)}…` : text;
 }
 
-function RiverSpiritGuide({ isOpen, riverName, region, node, dialogueOverride, expressionOverride, onDialogueClose }: RiverSpiritGuideProps) {
+function RiverSpiritGuide({ isOpen, riverName, region, node, dialogueOverride, actionOverride, onDialogueClose }: RiverSpiritGuideProps) {
   const [replayKey, setReplayKey] = useState(0);
   const sceneKey = `${riverName}-${node?.id ?? 'region'}-${region.id}`;
   const messages = useMemo(() => {
@@ -47,7 +47,7 @@ function RiverSpiritGuide({ isOpen, riverName, region, node, dialogueOverride, e
     ];
   }, [node, region, riverName]);
   const replayDialogue = useCallback(() => setReplayKey((currentKey) => currentKey + 1), []);
-  const mascotConfig = useMemo<LanMascotConfig>(() => ({
+  const mascotConfig = useMemo<ChapterSpiritConfig>(() => ({
     pageId: `chapter-two-${riverName}`,
     routePath: riverRoutePaths[riverName],
     dialogue: dialogueOverride ?? {
@@ -58,13 +58,13 @@ function RiverSpiritGuide({ isOpen, riverName, region, node, dialogueOverride, e
       onAction: replayDialogue,
     },
     dialogueId: `lan-dialogue-${riverName}`,
-    expressionId: expressionOverride ?? (node ? 'thinking' : 'happy'),
+    action: actionOverride ?? (node ? 'point-water' : 'happy'),
     initialPosition: { x: 16, y: 82 },
     spriteAlt: `${riverName}水脉精灵小澜，点击打开或关闭导览，也可以拖动`,
     dialoguePresentation: dialogueOverride ? 'modal' : 'floating',
     onDialogueClose,
-  }), [dialogueOverride, expressionOverride, messages, node, onDialogueClose, replayDialogue, replayKey, riverName, sceneKey]);
-  const { closeDialogue, openDialogue } = useLanMascot(mascotConfig);
+  }), [actionOverride, dialogueOverride, messages, node, onDialogueClose, replayDialogue, replayKey, riverName, sceneKey]);
+  const { closeDialogue, openDialogue } = useChapterSpirit(mascotConfig);
 
   useEffect(() => {
     if (isOpen) {

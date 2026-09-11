@@ -39,7 +39,7 @@ function HydropowerDepthCarousel({ activeIndex, items, onChange }: HydropowerDep
     if (event.key === 'ArrowRight') { event.preventDefault(); select(activeIndex + 1); }
   }}>
     <div className="hydropower-depth-carousel__stage">
-      {items.map((item, index) => <button key={item.id} ref={(element) => { cardRefs.current[index] = element; }} type="button" className={`hydropower-depth-carousel__card${index === activeIndex ? ' is-active' : ''}`} aria-label={`阅读：${item.label}`} aria-pressed={index === activeIndex} onClick={() => select(index)}>
+      {items.map((item, index) => <button key={item.id} ref={(element) => { cardRefs.current[index] = element; }} type="button" className={`hydropower-depth-carousel__card hydropower-depth-carousel__card--${item.id}${index === activeIndex ? ' is-active' : ''}`} aria-label={`阅读：${item.label}`} aria-pressed={index === activeIndex} onClick={() => select(index)}>
         <span className="hydropower-depth-carousel__card-number">0{index + 1}</span><span className="hydropower-depth-carousel__card-title">{item.label}</span>{item.visual}
       </button>)}
     </div>

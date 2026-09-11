@@ -1,0 +1,16 @@
+.chapter-spirit-host, .lan-footing-host { position: fixed; inset: 0; pointer-events: none; }
+.chapter-spirit-host { z-index: 40; }
+.lan-footing-host { z-index: 39; }
+.chapter-spirit-global { position: absolute; width: 15rem; height: 17rem; pointer-events: none; transform: translate(-50%, -50%); transition: left 120ms ease-out, top 120ms ease-out; }
+.chapter-spirit-global__handle { position: absolute; bottom: 30%; left: 50%; display: block; width: 13.6rem; aspect-ratio: 712 / 604; padding: 0; border: 0; background: transparent; cursor: grab; pointer-events: auto; touch-action: none; transform: translateX(-50%); }
+.chapter-spirit-global__handle:active { cursor: grabbing; }
+.chapter-spirit-global__handle:focus-visible { outline: 2px solid #ffe291; outline-offset: .25rem; }
+.chapter-spirit-global__image { display: block; width: 100%; height: 100%; object-fit: cover; filter: drop-shadow(0 .8rem .75rem rgb(0 11 15 / 24%)); transform: scale(1.2); transform-origin: center; user-select: none; }
+.lan-footing { position: absolute; width: 13.6rem; height: 17rem; pointer-events: none; transform: translate(-50%, -50%); transition: left 120ms ease-out, top 120ms ease-out; }
+.lan-footing__scene { position: absolute; z-index: 0; right: 0; bottom: 0; width: 100%; height: 100%; object-fit: fill; pointer-events: none; filter: drop-shadow(0 .55rem 1rem rgb(5 30 38 / 24%)); }
+.lan-footing__trigger { position: absolute; z-index: 1; bottom: 17%; left: 25%; width: 50%; height: 16%; padding: 0; border: 1px solid rgb(255 239 177 / 84%); border-radius: 50%; background: radial-gradient(ellipse at center, rgb(93 180 191 / 25%) 0%, rgb(93 180 191 / 11%) 58%, transparent 78%); cursor: zoom-in; pointer-events: auto; }
+.lan-footing__trigger .lan-footing__scene { position: relative; width: 100%; height: 100%; clip-path: ellipse(50% 50% at center); }
+.lan-water-bloom, .lan-loess-footing { position: absolute; right: -1.9rem; bottom: 18%; width: 17rem; height: 7.6rem; pointer-events: none; }
+.lan-water-bloom canvas, .lan-loess-footing canvas { display: block; width: 100% !important; height: 100% !important; }
+@media (max-width: 720px) { .chapter-spirit-global { width: 14rem; height: 16rem; } .chapter-spirit-global__handle, .lan-footing { width: 11.6rem; } .lan-footing { height: 16rem; } .lan-water-bloom, .lan-loess-footing { right: -1.6rem; width: 14.5rem; height: 6.5rem; } }
+@media (prefers-reduced-motion: reduce) { .chapter-spirit-global, .lan-footing { transition: none; } }

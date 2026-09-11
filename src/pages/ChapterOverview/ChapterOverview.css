@@ -61,7 +61,7 @@
   height: 100%;
   object-fit: cover;
   object-position: center;
-  filter: saturate(.8) contrast(1.04) brightness(.76);
+  filter: saturate(1.04) contrast(1.02) brightness(.94);
   transform: translate3d(var(--atlas-art-x, 0px), var(--atlas-art-y, 0px), 0) scale(1.012);
   transition: transform 600ms cubic-bezier(.2, .7, .2, 1);
 }
@@ -69,8 +69,8 @@
 .story-atlas__art::after { pointer-events: none; content: ""; }
 .story-atlas__art::before {
   background:
-    linear-gradient(90deg, rgb(7 26 33 / 84%) 0%, rgb(7 26 33 / 53%) 18%, transparent 42%, rgb(4 20 27 / 34%) 80%, rgb(4 20 27 / 74%) 100%),
-    linear-gradient(0deg, rgb(4 20 27 / 60%) 0%, transparent 35%, rgb(5 23 30 / 27%) 100%);
+    linear-gradient(90deg, rgb(7 26 33 / 70%) 0%, rgb(7 26 33 / 38%) 18%, transparent 42%, rgb(4 20 27 / 22%) 80%, rgb(4 20 27 / 58%) 100%),
+    linear-gradient(0deg, rgb(4 20 27 / 46%) 0%, transparent 35%, rgb(5 23 30 / 16%) 100%);
 }
 .story-atlas__art::after {
   background:
@@ -223,7 +223,9 @@
   color: var(--atlas-gold);
   font-family: "Noto Serif SC", var(--font-calligraphy);
   font-size: .78rem;
+  font-weight: 600;
   letter-spacing: .26em;
+  text-shadow: 0 0 .42rem rgb(229 197 113 / 26%), 0 .06rem .12rem rgb(3 21 28 / 54%);
 }
 .chapter-atlas-index__heading span { display: block; width: 2.1rem; height: 1px; background: rgb(215 184 106 / 52%); }
 .chapter-atlas-index__list { display: grid; gap: .34rem; padding: 0; margin: 0; list-style: none; }
@@ -253,11 +255,11 @@
   transform: translateX(.1rem);
 }
 .chapter-atlas-index__order { color: rgb(183 200 194 / 66%); font-size: .62rem; letter-spacing: .08em; }
-.chapter-atlas-index__glyph { color: var(--atlas-gold); font-family: "Noto Serif SC", var(--font-calligraphy); font-size: 1.42rem; line-height: 1; }
+.chapter-atlas-index__glyph { color: #e2c775; font-family: "Noto Serif SC", var(--font-calligraphy); font-size: 1.42rem; font-weight: 650; line-height: 1; text-shadow: 0 0 .34rem rgb(235 204 124 / 24%), 0 .06rem .13rem rgb(3 21 28 / 58%); }
 .chapter-atlas-index__copy { display: grid; min-width: 0; gap: .22rem; }
 .chapter-atlas-index__copy strong { overflow: hidden; color: var(--atlas-mist); font-family: "Noto Serif SC", var(--font-calligraphy); font-size: .94rem; font-weight: 500; text-overflow: ellipsis; white-space: nowrap; }
 .chapter-atlas-index__copy small { color: var(--atlas-muted); font-size: .69rem; letter-spacing: .08em; }
-.chapter-atlas-index__status { color: rgb(215 184 106 / 84%); font-size: .6rem; letter-spacing: .08em; white-space: nowrap; }
+.chapter-atlas-index__status { color: rgb(231 203 125 / 92%); font-size: .6rem; font-weight: 600; letter-spacing: .08em; text-shadow: 0 0 .3rem rgb(235 204 124 / 19%); white-space: nowrap; }
 
 .chapter-atlas-selection {
   position: absolute;

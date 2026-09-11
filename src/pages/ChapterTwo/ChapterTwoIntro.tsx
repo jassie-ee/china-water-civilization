@@ -14,8 +14,6 @@ function ChapterTwoIntro() {
       mediaFilename="chapter-two-intro.mp4"
       entryLabel="开启流域总览"
       entryRoute="/basins"
-      hiddenMascotPageId="chapter-two-intro-hidden"
-      routePath="/chapters/chapter-2/intro"
     />
   );
 }

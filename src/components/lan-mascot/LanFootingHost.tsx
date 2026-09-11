@@ -1,16 +1,16 @@
 import LanFootingScene from './LanFootingScene';
-import { useLanMascotContext } from './LanMascotContext';
+import { useChapterSpiritContext } from '@/components/chapter-spirit/ChapterSpiritContext';
 
-import './LanMascot.css';
+import '@/components/chapter-spirit/ChapterSpirit.css';
 
 function LanFootingHost() {
-  const { activeFooting, activeMascot } = useLanMascotContext();
+  const { activeFooting, activeSpirit } = useChapterSpiritContext();
 
-  if (activeFooting === null || activeMascot === null || activeFooting.config.visible === false || activeMascot.config.visible === false || activeFooting.config.pageId !== activeMascot.config.pageId) {
+  if (activeFooting === null || activeSpirit === null || activeFooting.config.visible === false || activeSpirit.config.visible === false || activeFooting.config.pageId !== activeSpirit.config.pageId) {
     return null;
   }
 
-  const { position } = activeMascot;
+  const { position } = activeSpirit;
 
   return (
     <div className="lan-footing-host">

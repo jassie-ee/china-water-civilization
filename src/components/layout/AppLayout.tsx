@@ -4,7 +4,8 @@ import GlobalScoreDisplay from '@/components/common/GlobalScoreDisplay';
 import ChapterInsightDisplay from '@/components/common/ChapterInsightDisplay';
 import ChapterInsightProvider from '@/components/common/ChapterInsightProvider';
 import { GovernanceProgressProvider } from '@/components/common/GovernanceProgressProvider';
-import { LanMascotHost, LanMascotProvider } from '@/components/lan-mascot';
+import { ChapterSpiritHost, ChapterSpiritProvider } from '@/components/chapter-spirit';
+import LanFootingHost from '@/components/lan-mascot/LanFootingHost';
 
 import './AppLayout.css';
 
@@ -16,7 +17,7 @@ function AppLayout({ children }: AppLayoutProps) {
   return (
     <GovernanceProgressProvider>
       <ChapterInsightProvider>
-        <LanMascotProvider>
+        <ChapterSpiritProvider>
           <div className="app-layout">
             <div className="app-layout__navigation-slot" aria-hidden="true" />
             <main className="app-layout__content">{children}</main>
@@ -25,9 +26,10 @@ function AppLayout({ children }: AppLayoutProps) {
               <ChapterInsightDisplay />
               <GlobalScoreDisplay />
             </div>
-            <LanMascotHost />
+            <LanFootingHost />
+            <ChapterSpiritHost />
           </div>
-        </LanMascotProvider>
+        </ChapterSpiritProvider>
       </ChapterInsightProvider>
     </GovernanceProgressProvider>
   );

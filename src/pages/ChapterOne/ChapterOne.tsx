@@ -5,7 +5,8 @@ import floodCover from '@/assets/images/chapter-one/memory-flood.webp';
 import homeCover from '@/assets/images/chapter-one/memory-home.webp';
 import pathCover from '@/assets/images/chapter-one/memory-path.webp';
 import { useChapterInsight } from '@/components/common/chapterInsightContext';
-import { useLanFooting, useLanMascot, type LanMascotConfig } from '@/components/lan-mascot';
+import { useChapterSpirit, type ChapterSpiritConfig } from '@/components/chapter-spirit';
+import { useLanFooting } from '@/components/lan-mascot/useLanFooting';
 
 import './ChapterOne.css';
 import { getChapterOneStoryVideoSource } from './chapterOneMedia';
@@ -136,7 +137,6 @@ function ChapterOne() {
   const [previewMemoryId, setPreviewMemoryId] = useState<MemoryId>(1);
   const [hoveredMemoryId, setHoveredMemoryId] = useState<MemoryId | null>(null);
   const [dialogueStep, setDialogueStep] = useState<DialogueStep>('idle');
-  const [hasDismissedInteraction, setHasDismissedInteraction] = useState(false);
   const [newlyAwakenedMemoryId, setNewlyAwakenedMemoryId] = useState<MemoryId | null>(null);
   const { awakenedMemories, completeMemory, insight } = useChapterInsight();
   const activeStory = memoryStories.find((story) => story.id === activeMemoryId) ?? memoryStories[0];
@@ -156,19 +156,16 @@ function ChapterOne() {
   const enterMemory = useCallback((memoryId: MemoryId): void => {
     setActiveMemoryId(memoryId);
     setDialogueStep('idle');
-    setHasDismissedInteraction(false);
     setNewlyAwakenedMemoryId(null);
     setScene('video');
   }, []);
 
   const returnToChapterLaunch = useCallback((): void => {
     setDialogueStep('idle');
-    setHasDismissedInteraction(false);
     setNewlyAwakenedMemoryId(null);
     setScene('launch');
   }, []);
 
-  const handleDialogueClose = useCallback((): void => setHasDismissedInteraction(true), []);
 
   const handleCardPointerMove = useCallback((event: ReactMouseEvent<HTMLElement>): void => {
     const bounds = event.currentTarget.getBoundingClientRect();
@@ -240,7 +237,7 @@ function ChapterOne() {
     };
   }, [activeStory, dialogueStep, finishMemory, newlyAwakenedMemoryId, returnToChapterLaunch]);
 
-  const mascotConfig = useMemo<LanMascotConfig>(() => ({
+  const mascotConfig = useMemo<ChapterSpiritConfig>(() => ({
     pageId: 'chapter-one-guide',
     routePath: '/chapters/chapter-1',
     dialogue: {
@@ -251,23 +248,21 @@ function ChapterOne() {
       showClose: true,
     },
     dialogueId: 'lan-dialogue-chapter-one',
-    expressionId: dialogueStep === 'question'
-      ? 'thinking'
-      : dialogueStep === 'insight' || dialogueStep === 'reward'
-        ? 'happy'
-        : dialogueStep === 'wrong' || activeStory.id === 1
-          ? 'turbid'
-          : 'thinking',
+    action: dialogueStep === 'question'
+      ? 'point-water'
+      : dialogueStep === 'insight'
+        ? 'hold-water'
+        : dialogueStep === 'reward'
+          ? 'happy'
+          : 'sleeve',
     initialPosition: { x: 16, y: 82 },
-    onDialogueClose: handleDialogueClose,
     spriteAlt: '水脉精灵小澜，可以拖动',
     dialoguePresentation: 'modal',
     visible: scene !== 'launch',
-  }), [activeStory.id, dialogueStep, handleDialogueClose, mascotDialogue, scene]);
-  const { closeDialogue, isDialogueOpen, openDialogue, setPosition } = useLanMascot(mascotConfig);
+  }), [dialogueStep, mascotDialogue, scene]);
+  const { closeDialogue, isDialogueOpen, openDialogue, setPosition } = useChapterSpirit(mascotConfig);
   const startQuestionDialogue = useCallback((): void => {
     setDialogueStep('question');
-    setHasDismissedInteraction(false);
     setNewlyAwakenedMemoryId(null);
     openDialogue();
   }, [openDialogue]);
@@ -384,10 +379,7 @@ function ChapterOne() {
                     <StoryVideoPlayer isInteractionOpen={isDialogueOpen} poster={activeStory.cover} source={activeStoryVideoSource} onEnded={startQuestionDialogue} />
                   ) : <p>本段故事影像准备中，请直接进入互动。</p>}
                 </div>
-                <button className="chapter-one__primary-action" type="button" onClick={startQuestionDialogue}>跳过影像，开始作答<span aria-hidden="true">→</span></button>
-                {hasDismissedInteraction && !isDialogueOpen && <button className="chapter-one__continue-interaction" type="button" onClick={() => {
-                  startQuestionDialogue();
-                }}>继续互动</button>}
+                <button className="chapter-one__primary-action" type="button" onClick={startQuestionDialogue}>{isActiveStoryAwakened ? '再次互动' : '跳过影像，直接互动'}<span aria-hidden="true">→</span></button>
               </div>
             </div>
           )}

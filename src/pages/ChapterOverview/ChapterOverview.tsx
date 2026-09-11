@@ -3,7 +3,7 @@ import { Link, useNavigate } from 'react-router-dom';
 
 import { chapterOverviewItems } from '@/data/chapters';
 import type { ChapterId } from '@/types/chapter';
-import { useLanMascot } from '@/components/lan-mascot';
+import { useChapterSpirit } from '@/components/chapter-spirit';
 
 import StoryAtlas from './components/StoryAtlas';
 import './ChapterOverview.css';
@@ -120,6 +120,11 @@ function ChapterOverview() {
 
     if (openChapter.id === 'chapter-2') {
       navigate('/chapters/chapter-2/intro');
+      return;
+    }
+
+    if (openChapter.id === 'chapter-3' || openChapter.id === 'chapter-4') {
+      navigate(openChapter.route ?? '/chapters');
     }
   }, [navigate, openChapter]);
 
@@ -141,7 +146,7 @@ function ChapterOverview() {
       messages: ['你好，我是水精灵。', '点击地图上的章节印记，我会带你继续探索水脉文明。'],
       actionLabel: '选择章节',
       unavailableNotice: '请先选择一个章节印记。',
-      onAction: () => undefined,
+      onAction: () => closeMascotDialogueRef.current(),
     };
   }, [handleAction, openChapter]);
 
@@ -150,14 +155,14 @@ function ChapterOverview() {
     routePath: '/chapters',
     dialogue: mascotDialogue,
     dialogueId,
-    expressionId: 'happy' as const,
+    action: openChapterId === null ? 'happy' as const : 'point-water' as const,
     spriteAlt: '水精灵，点击打开或关闭导览对话，也可以拖动',
     onDialogueClose: () => {
       if (openChapterId !== null) handleClose();
     },
   }), [dialogueId, handleClose, mascotDialogue, openChapterId]);
 
-  const { closeDialogue, openDialogue } = useLanMascot(mascotConfig);
+  const { closeDialogue, openDialogue } = useChapterSpirit(mascotConfig);
   closeMascotDialogueRef.current = closeDialogue;
 
   useEffect(() => {

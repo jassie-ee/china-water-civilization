@@ -1,8 +1,6 @@
 import { useEffect, useRef, useState, type CSSProperties } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 
-import { HiddenLanMascotRoute } from '@/components/lan-mascot';
-
 import './ChapterIntroPage.css';
 
 interface ChapterIntroPageProps {
@@ -16,8 +14,6 @@ interface ChapterIntroPageProps {
   mediaFilename: string;
   entryLabel: string;
   entryRoute: string;
-  hiddenMascotPageId: string;
-  routePath: string;
 }
 
 function ChapterIntroPage({
@@ -31,8 +27,6 @@ function ChapterIntroPage({
   mediaFilename,
   entryLabel,
   entryRoute,
-  hiddenMascotPageId,
-  routePath,
 }: ChapterIntroPageProps) {
   const navigate = useNavigate();
   const mediaFrameRef = useRef<HTMLDivElement>(null);
@@ -70,7 +64,6 @@ function ChapterIntroPage({
 
   return (
     <main className="chapter-intro" style={pageStyle}>
-      <HiddenLanMascotRoute pageId={hiddenMascotPageId} routePath={routePath} />
       <header className="chapter-intro__nav">
         <Link to="/chapters">返回水脉记忆</Link>
         <span aria-hidden="true">/</span>

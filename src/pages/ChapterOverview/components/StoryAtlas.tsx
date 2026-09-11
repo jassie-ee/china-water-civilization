@@ -1,7 +1,7 @@
 import { useState, type CSSProperties, type ReactNode, type RefObject } from 'react';
 
-import shanhaiWaterChronicle from '@/assets/images/shanhai-water-chronicle.webp';
-import shanhaiWaterChronicleFallback from '@/assets/images/shanhai-water-chronicle.png';
+import shanhaiWaterChronicle from '@/assets/images/shanhai-water-chronicle-refined.png';
+import shanhaiWaterChronicleFallback from '@/assets/images/shanhai-water-chronicle.webp';
 import type { ChapterId, ChapterOverviewItem } from '@/types/chapter';
 
 import StoryAtlasEffects from './StoryAtlasEffects';

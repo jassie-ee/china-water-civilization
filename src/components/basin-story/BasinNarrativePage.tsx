@@ -3,7 +3,7 @@ import { Link, useLocation } from 'react-router-dom';
 
 import { useGovernanceProgress } from '@/components/common/governanceProgressContext';
 import RiverSpiritGuide from '@/components/lan/RiverSpiritGuide';
-import type { LanMascotDialogue, LanMascotExpressionId } from '@/components/lan-mascot';
+import type { ChapterSpiritAction, ChapterSpiritDialogue } from '@/components/chapter-spirit';
 import type { BasinNarrativeConfig, BasinStoryScene } from '@/types/basinStory';
 
 import BasinStoryStage from './BasinStoryStage';
@@ -27,6 +27,7 @@ function BasinNarrativePage({ config }: { config: BasinNarrativeConfig }) {
   const [selectedChoiceId, setSelectedChoiceId] = useState<string | null>(null);
   const [rewardCopy, setRewardCopy] = useState('');
   const [isDialogueOpen, setIsDialogueOpen] = useState(false);
+  const [completedInteractionIds, setCompletedInteractionIds] = useState<string[]>([]);
   const activeScene = config.scenes.find((scene) => scene.id === activeSceneId) ?? config.scenes[0];
   const activeBackground = config.sceneBackgrounds?.[activeScene.id] ?? config.background;
   const interactionScene = config.scenes.find((scene) => scene.id === interactionSceneId);
@@ -51,13 +52,18 @@ function BasinNarrativePage({ config }: { config: BasinNarrativeConfig }) {
     setSelectedChoiceId(choiceId);
     setInteractionPhase('feedback');
     if (!choice.isCorrect) return;
+    if (completedInteractionIds.includes(interaction.id)) {
+      setRewardCopy('本次重温不再重复增加。');
+      return;
+    }
+    setCompletedInteractionIds((current) => [...current, interaction.id]);
     setRewardCopy('正在记录治理星级…');
     void recordLevelResult(interaction.id, interaction.rewardStars)
       .then((result) => setRewardCopy(result.didImprove ? `获得 ${interaction.rewardStars} 点${config.riverName}治理星级。` : '这段治理星级已经记录过了，本次重温不再重复增加。'))
       .catch(() => setRewardCopy('互动已完成，但本地治理星级暂未能写入。'));
-  }, [config.riverName, interaction, recordLevelResult]);
+  }, [completedInteractionIds, config.riverName, interaction, recordLevelResult]);
 
-  const dialogue = useMemo<LanMascotDialogue | undefined>(() => {
+  const dialogue = useMemo<ChapterSpiritDialogue | undefined>(() => {
     if (!interaction || interactionPhase === 'idle') return undefined;
     if (interactionPhase === 'question') {
       return {
@@ -102,9 +108,9 @@ function BasinNarrativePage({ config }: { config: BasinNarrativeConfig }) {
     };
   }, [config.riverName, interaction, interactionPhase, interactionScene?.title, rewardCopy, selectChoice, selectedChoice]);
 
-  const expression: LanMascotExpressionId = selectedChoice
-    ? selectedChoice.isCorrect ? 'happy' : 'turbid'
-    : dialogue ? 'thinking' : 'happy';
+  const action: ChapterSpiritAction = selectedChoice
+    ? selectedChoice.isCorrect ? 'purify' : 'point-water'
+    : dialogue ? 'point-water' : 'happy';
 
   const selectScene = (scene: BasinStoryScene): void => {
     setActiveSceneId(scene.id);
@@ -128,19 +134,16 @@ function BasinNarrativePage({ config }: { config: BasinNarrativeConfig }) {
           <div className="basin-narrative__heading">
             <p>{activeScene.label}</p><h2>{activeScene.title}</h2><span>{activeScene.summary}</span>
           </div>
-          <BasinStoryStage scene={activeScene} layout={config.theme === 'yangtze' || config.theme === 'pearl' ? 'split' : 'stacked'} onStartInteraction={() => openInteraction(activeScene)} />
+          <BasinStoryStage scene={activeScene} layout={config.theme === 'yangtze' || config.theme === 'pearl' ? 'split' : 'stacked'} onStartInteraction={() => openInteraction(activeScene)} interactionLabel={activeScene.interaction && completedInteractionIds.includes(activeScene.interaction.id) ? '再次互动' : '跳过影像，直接互动'} />
         </div>
       </main>
-      {interaction && !isDialogueOpen && interactionSceneId === activeScene.id && (
-        <button className="basin-narrative__continue" type="button" onClick={() => setIsDialogueOpen(true)}>继续互动</button>
-      )}
       <RiverSpiritGuide
         isOpen={isDialogueOpen}
         riverName={config.riverName}
         region={region}
         node={node}
         dialogueOverride={dialogue}
-        expressionOverride={expression}
+        actionOverride={action}
         onDialogueClose={() => setIsDialogueOpen(false)}
       />
     </section>

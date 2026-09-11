@@ -1,0 +1,2248 @@
+.world-water-page {
+  --chapter-ink: #f5edd5;
+  --chapter-body: rgb(244 239 217 / 80%);
+  --chapter-muted: rgb(228 222 197 / 68%);
+  --chapter-accent: #e7bf6c;
+  --chapter-focus: #fff1b2;
+  --chapter-panel-line: rgb(229 205 149 / 32%);
+  --chapter-panel-fill: rgb(7 29 35 / 86%);
+  --chapter-choice-line: rgb(222 231 211 / 22%);
+  --chapter-choice-fill: rgb(4 24 29 / 43%);
+  --chapter-choice-hover: rgb(112 92 47 / 30%);
+  --chapter-choice-selected: rgb(148 109 44 / 24%);
+  --chapter-feedback-fill: rgb(232 198 115 / 8%);
+  --chapter-subtle-line: rgb(235 219 174 / 19%);
+  --chapter-map-title: rgb(255 248 224 / 96%);
+  --chapter-map-meta: rgb(242 205 122 / 94%);
+  --chapter-map-detail: rgb(244 240 219 / 88%);
+  --chapter-map-shadow: 0 0 .16rem rgb(0 12 16 / 100%), 0 .12rem .62rem rgb(0 12 16 / 96%);
+  --chapter-panel-wash: linear-gradient(90deg, transparent 0%, rgb(3 22 29 / 24%) 14%, rgb(3 22 29 / 18%) 66%, transparent 100%);
+  --chapter-active-wash: linear-gradient(90deg, rgb(3 24 30 / 54%), rgb(3 24 30 / 16%) 78%, transparent 100%);
+  --chapter-dur-panel: 320ms;
+  --chapter-dur-route: 760ms;
+  --chapter-ease-out: cubic-bezier(.2, .75, .25, 1);
+  position: relative;
+  min-height: 100vh;
+  min-height: 100svh;
+  overflow: hidden;
+  isolation: isolate;
+  color: var(--chapter-ink);
+  background: #102d35;
+}
+
+.world-water-page__scene {
+  z-index: 0;
+  border: 0;
+}
+
+.world-water-page__scene .chapter-scene-stage__media {
+  opacity: 1;
+  filter: none;
+  animation: world-water-scene-in 520ms var(--chapter-ease-out) both;
+}
+
+.world-water-page__scene .chapter-scene-stage__wash {
+  background: none;
+}
+
+.world-water-page__scene .chapter-scene-stage__meta {
+  display: none;
+}
+
+@keyframes world-water-scene-in {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+.world-water-page__scene .chapter-scene-stage__play {
+  right: 2rem;
+  bottom: 4.3rem;
+}
+
+.world-water-page__scene-annotations {
+  position: absolute;
+  z-index: 4;
+  inset: 5rem 0 4.5rem;
+  pointer-events: none;
+}
+
+.world-water-page__grid {
+  position: relative;
+  z-index: 2;
+}
+
+.world-water-page__topbar {
+  position: relative;
+  z-index: 3;
+  display: grid;
+  grid-template-columns: 1fr auto 1fr;
+  align-items: center;
+  gap: 1rem;
+  width: min(100% - 3rem, 90rem);
+  margin: 0 auto;
+  padding: 1.35rem 0 0;
+}
+
+.world-water-page__back-link,
+.world-water-page__score {
+  color: var(--chapter-muted);
+  font-size: .73rem;
+  letter-spacing: .13em;
+}
+
+.world-water-page__back-link {
+  width: fit-content;
+  padding: .25rem 0;
+}
+
+.world-water-page__back-link:hover,
+.world-water-page__back-link:focus-visible {
+  color: var(--chapter-ink);
+}
+
+.world-water-page__back-link:focus-visible,
+.world-water-route__node button:focus-visible,
+.world-water-page__text-button:focus-visible,
+.world-water-page__finish-actions button:focus-visible,
+.world-water-page__finish-actions a:focus-visible {
+  outline: 2px solid var(--chapter-focus);
+  outline-offset: .3rem;
+}
+
+.world-water-page__chapter-mark {
+  display: grid;
+  justify-items: center;
+  gap: .2rem;
+  color: var(--chapter-muted);
+  text-align: center;
+}
+
+.world-water-page__chapter-mark span {
+  color: var(--chapter-accent);
+  font-size: .63rem;
+  letter-spacing: .22em;
+}
+
+.world-water-page__chapter-mark strong {
+  font-family: var(--font-calligraphy, "STKaiti", "KaiTi", serif);
+  font-size: .9rem;
+  font-weight: 400;
+  letter-spacing: .12em;
+}
+
+.world-water-page__score {
+  display: flex;
+  justify-content: flex-end;
+  gap: .55rem;
+  align-items: baseline;
+  margin-right: clamp(0rem, 5vw, 8rem);
+}
+
+.world-water-page__score strong {
+  color: var(--chapter-accent);
+  font-family: Georgia, serif;
+  font-size: 1.4rem;
+  font-weight: 400;
+  letter-spacing: .08em;
+}
+
+.world-water-page__score small {
+  color: var(--chapter-muted);
+  font-family: inherit;
+  font-size: .67rem;
+  letter-spacing: .04em;
+}
+
+.world-water-page__grid {
+  display: grid;
+  grid-template-columns: minmax(13rem, .72fr) minmax(25rem, 1.62fr) minmax(19rem, 1.08fr);
+  align-items: center;
+  gap: clamp(1.4rem, 3vw, 3.6rem);
+  width: min(100% - 3rem, 90rem);
+  min-height: calc(100vh - 6.1rem);
+  min-height: calc(100svh - 6.1rem);
+  margin: 0 auto;
+  padding: 2.2rem 0 4.2rem;
+}
+
+.world-water-page__intro,
+.world-water-route,
+.world-water-page__panel {
+  min-width: 0;
+}
+
+.world-water-page__intro,
+.world-water-page__panel {
+  position: relative;
+  isolation: isolate;
+}
+
+.world-water-page__intro {
+  align-self: center;
+  padding: 1.25rem 1.1rem 1.55rem;
+}
+
+.world-water-page__intro::before,
+.world-water-page__panel::before {
+  position: absolute;
+  z-index: -1;
+  content: "";
+  pointer-events: none;
+}
+
+.world-water-page__intro::before {
+  inset: -1.35rem -1.6rem -1.35rem -1.2rem;
+  background: linear-gradient(90deg, rgb(4 24 30 / 78%), rgb(4 24 30 / 48%) 72%, transparent);
+  border-left: 1px solid rgb(231 191 108 / 42%);
+}
+
+.world-water-page__panel::before {
+  inset: -2rem -1.5rem -2rem -1.25rem;
+  background: linear-gradient(90deg, rgb(4 24 30 / 72%), rgb(4 24 30 / 35%) 78%, transparent);
+}
+
+.world-water-page__intro h1,
+.world-water-page__intro .world-water-page__lede,
+.world-water-page__intro .world-water-page__eyebrow {
+  position: relative;
+}
+
+.world-water-page__eyebrow {
+  margin: 0;
+  color: var(--chapter-accent);
+  font-size: .67rem;
+  letter-spacing: .2em;
+  line-height: 1.5;
+}
+
+.world-water-page__intro h1 {
+  margin: .85rem 0 1rem;
+  color: var(--chapter-ink);
+  font-family: var(--font-calligraphy, "STKaiti", "KaiTi", serif);
+  font-size: clamp(2.15rem, 3.8vw, 3.9rem);
+  font-weight: 400;
+  letter-spacing: .06em;
+  line-height: 1.18;
+}
+
+.world-water-page__intro h1 em {
+  color: #d9e5d0;
+  font-style: normal;
+}
+
+.world-water-page__lede {
+  max-width: 17rem;
+  color: var(--chapter-body);
+  font-family: var(--font-calligraphy, "STKaiti", "KaiTi", serif);
+  font-size: .9rem;
+  line-height: 1.7;
+}
+
+.world-water-page__principle {
+  display: grid;
+  gap: .42rem;
+  max-width: 18rem;
+  margin-top: 2rem;
+  padding: .75rem 0;
+  border-top: 1px solid var(--chapter-accent);
+  border-bottom: 1px solid rgb(235 219 174 / 17%);
+}
+
+.world-water-page__principle span {
+  color: var(--chapter-accent);
+  font-size: .64rem;
+  letter-spacing: .15em;
+}
+
+.world-water-page__principle p {
+  margin: 0;
+  color: var(--chapter-muted);
+  font-size: .76rem;
+  line-height: 1.7;
+}
+
+.world-water-page__legend {
+  display: flex;
+  flex-wrap: wrap;
+  gap: .75rem 1rem;
+  margin-top: 2.1rem;
+  color: rgb(225 231 214 / 55%);
+  font-size: .63rem;
+  letter-spacing: .07em;
+}
+
+.world-water-page__legend span {
+  display: inline-flex;
+  gap: .42rem;
+  align-items: center;
+}
+
+.world-water-page__legend i {
+  display: block;
+  width: .45rem;
+  height: .45rem;
+  border: 1px solid var(--chapter-accent);
+  border-radius: 50%;
+}
+
+.world-water-page__legend i.is-current { background: var(--chapter-accent); }
+.world-water-page__legend i.is-recorded { border-color: #b4d6c3; background: #b4d6c3; }
+.world-water-page__legend i.is-question { border-radius: 0; transform: rotate(45deg); }
+
+.world-water-route {
+  align-self: center;
+  min-width: 0;
+}
+
+.world-water-route__heading,
+.world-water-route__note {
+  display: flex;
+  justify-content: space-between;
+  gap: 1rem;
+  color: var(--chapter-muted);
+  font-size: .64rem;
+  letter-spacing: .13em;
+}
+
+.world-water-route__heading {
+  padding-bottom: .9rem;
+  border-bottom: 1px solid var(--chapter-subtle-line);
+}
+
+.world-water-route__heading span:first-child { color: var(--chapter-accent); }
+
+.world-water-route__instruction {
+  color: rgb(250 223 151 / 86%);
+  font-size: .6rem;
+  letter-spacing: .06em;
+}
+
+.world-water-route__surface {
+  position: relative;
+  min-height: clamp(23rem, 50vh, 27rem);
+  margin: 1.1rem 0 .75rem;
+  overflow: visible;
+  border-bottom: 1px solid var(--chapter-subtle-line);
+  background: transparent;
+}
+
+.world-water-route__surface::before,
+.world-water-route__surface::after {
+  position: absolute;
+  z-index: 1;
+  top: 0;
+  bottom: 0;
+  width: 1px;
+  content: "";
+  background: var(--chapter-subtle-line);
+}
+
+.world-water-route__surface::before { left: 0; }
+.world-water-route__surface::after { right: 0; }
+
+.world-water-route__svg {
+  position: absolute;
+  z-index: 2;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  overflow: visible;
+  pointer-events: none;
+}
+
+.world-water-route__contour {
+  fill: none;
+  stroke: rgb(185 215 198 / 17%);
+  stroke-linecap: round;
+  stroke-width: 1;
+}
+
+.world-water-route__contour--two { stroke: rgb(232 211 163 / 14%); }
+
+.world-water-route__line {
+  fill: none;
+  stroke: #d7ba6a;
+  stroke-dasharray: 7 14;
+  stroke-linecap: round;
+  stroke-width: 2;
+  animation: world-water-route-flow 12s linear infinite;
+}
+
+.world-water-route__line--echo {
+  opacity: .26;
+  stroke: #b5d4ca;
+  stroke-dasharray: 2 18;
+  stroke-width: 1;
+  animation-duration: 18s;
+  animation-direction: reverse;
+}
+
+.world-water-route__trace {
+  fill: none;
+  stroke: #f2d58b;
+  stroke-dasharray: 30 430;
+  stroke-linecap: round;
+  stroke-width: 2.5;
+  opacity: 0;
+}
+
+.world-water-route__trace.is-active {
+  opacity: .88;
+  animation: world-water-route-trace 3.2s linear infinite;
+}
+
+.world-water-route__nodes {
+  position: absolute;
+  z-index: 4;
+  inset: 0;
+  padding: 0;
+  margin: 0;
+  list-style: none;
+}
+
+.world-water-route__node {
+  position: absolute;
+  top: var(--node-y);
+  left: var(--node-x);
+  width: min(10.2rem, 25%);
+  transform: translate(-50%, -50%);
+}
+
+.world-water-route__node button {
+  display: grid;
+  grid-template-columns: 1rem minmax(0, 1fr);
+  gap: .65rem;
+  align-items: start;
+  width: 100%;
+  padding: .2rem;
+  color: var(--chapter-body);
+  background: transparent;
+  text-align: left;
+}
+
+.world-water-route__node-dot {
+  position: relative;
+  display: block;
+  width: .85rem;
+  height: .85rem;
+  margin-top: .22rem;
+  border: 1px solid var(--chapter-accent);
+  border-radius: 50%;
+  background: #132e34;
+  box-shadow: 0 0 0 .25rem rgb(232 194 108 / 8%);
+}
+
+.world-water-route__node:not(.is-recorded) .world-water-route__node-dot::after {
+  position: absolute;
+  inset: -.3rem;
+  border: 1px solid rgb(232 194 108 / 60%);
+  border-radius: 50%;
+  content: "";
+  animation: world-water-node-pulse 2.8s ease-out infinite;
+}
+
+.world-water-route__node-copy {
+  display: grid;
+  gap: .18rem;
+}
+
+.world-water-route__node-copy small,
+.world-water-route__node-copy em {
+  color: var(--chapter-muted);
+  font-size: .58rem;
+  font-style: normal;
+  letter-spacing: .04em;
+  line-height: 1.4;
+}
+
+.world-water-route__node-copy strong {
+  color: var(--chapter-ink);
+  font-family: var(--font-calligraphy, "STKaiti", "KaiTi", serif);
+  font-size: clamp(.86rem, 1.35vw, 1.1rem);
+  font-weight: 400;
+  line-height: 1.35;
+}
+
+.world-water-route__node-copy em { opacity: .72; }
+
+.world-water-route__node:hover .world-water-route__node-dot,
+.world-water-route__node.is-active .world-water-route__node-dot {
+  background: var(--chapter-accent);
+  box-shadow: 0 0 0 .35rem rgb(232 194 108 / 13%), 0 0 .8rem rgb(232 194 108 / 48%);
+}
+
+.world-water-route__node:hover .world-water-route__node-copy strong,
+.world-water-route__node.is-active .world-water-route__node-copy strong {
+  color: var(--chapter-accent);
+}
+
+.world-water-route__node.is-next .world-water-route__node-copy {
+  opacity: .92;
+  transform: translateY(0);
+}
+
+.world-water-route__node.is-next:not(.is-recorded) .world-water-route__node-dot::after {
+  opacity: .62;
+  animation: world-water-node-pulse 2.8s ease-out infinite;
+}
+
+.world-water-route__node.is-recorded .world-water-route__node-dot {
+  border-color: #b4d6c3;
+  background: #b4d6c3;
+}
+
+.world-water-route__stamp {
+  display: none;
+  position: absolute;
+  z-index: 4;
+  right: 1rem;
+  bottom: 1.05rem;
+  display: grid;
+  gap: .2rem;
+  color: rgb(226 200 133 / 65%);
+  text-align: right;
+  transform: rotate(-7deg);
+}
+
+.world-water-route__stamp span {
+  font-family: var(--font-calligraphy, "STKaiti", "KaiTi", serif);
+  font-size: 2rem;
+  line-height: 1;
+}
+
+.world-water-route__stamp small {
+  font-size: .56rem;
+  letter-spacing: .15em;
+}
+
+.world-water-route__note {
+  justify-content: flex-start;
+  color: rgb(231 228 205 / 54%);
+  font-size: .68rem;
+  letter-spacing: .08em;
+}
+
+.world-water-page__panel {
+  align-self: center;
+  min-width: 0;
+}
+
+.world-water-page__guide,
+.world-water-page__finish {
+  display: grid;
+  gap: .8rem;
+  min-height: 24rem;
+  align-content: center;
+  padding: clamp(1.25rem, 2.4vw, 2rem) 0 clamp(1.25rem, 2.4vw, 2rem) clamp(1rem, 2vw, 1.8rem);
+  border-left: 1px solid var(--chapter-panel-line);
+}
+
+.world-water-page__guide-mark {
+  display: grid;
+  width: 2.9rem;
+  height: 2.9rem;
+  margin-bottom: .35rem;
+  place-items: center;
+  border: 1px solid var(--chapter-accent);
+  border-radius: 50%;
+  color: var(--chapter-accent);
+  font-family: var(--font-calligraphy, "STKaiti", "KaiTi", serif);
+  font-size: 1.55rem;
+}
+
+.world-water-page__guide h2,
+.world-water-page__finish h2 {
+  margin: 0;
+  color: var(--chapter-ink);
+  font-family: var(--font-calligraphy, "STKaiti", "KaiTi", serif);
+  font-size: clamp(1.55rem, 2.6vw, 2.15rem);
+  font-weight: 400;
+  line-height: 1.45;
+}
+
+.world-water-page__guide > p:not(.world-water-page__eyebrow),
+.world-water-page__finish > p:not(.world-water-page__eyebrow) {
+  max-width: 19rem;
+  color: var(--chapter-body);
+  font-size: .86rem;
+  line-height: 1.8;
+}
+
+.world-water-page__guide-line {
+  display: block;
+  width: 4.2rem;
+  height: 1px;
+  margin-top: .8rem;
+  background: var(--chapter-accent);
+}
+
+.world-water-page__guide small {
+  color: var(--chapter-muted);
+  font-size: .67rem;
+  letter-spacing: .05em;
+}
+
+.world-water-page__text-button,
+.world-water-page__primary-button {
+  display: inline-flex;
+  width: fit-content;
+  gap: .6rem;
+  align-items: center;
+  padding: .52rem .72rem;
+  border: 1px solid var(--chapter-accent);
+  color: var(--chapter-ink);
+  background: rgb(232 198 115 / 8%);
+  font-family: var(--font-calligraphy, "STKaiti", "KaiTi", serif);
+  font-size: .82rem;
+  letter-spacing: .08em;
+  transition: background 180ms ease, color 180ms ease, transform 180ms ease;
+}
+
+.world-water-page__text-button:hover,
+.world-water-page__primary-button:hover {
+  color: var(--chapter-accent);
+  background: rgb(232 198 115 / 15%);
+  transform: translateX(2px);
+}
+
+.world-water-page__finish {
+  align-content: center;
+  border-left-color: var(--chapter-accent);
+}
+
+.world-water-page__finish h2 { font-size: clamp(1.4rem, 2.2vw, 1.9rem); }
+.world-water-page__finish > p strong { color: var(--chapter-accent); font-weight: 500; }
+
+.world-water-page__quote {
+  color: var(--chapter-accent) !important;
+  font-family: var(--font-calligraphy, "STKaiti", "KaiTi", serif);
+  font-size: .95rem !important;
+}
+
+.world-water-page__finish-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+  align-items: center;
+  margin-top: .65rem;
+}
+
+.world-water-page__finish-actions button,
+.world-water-page__finish-actions a {
+  display: inline-flex;
+  gap: .5rem;
+  align-items: center;
+  padding: .45rem 0;
+  border-bottom: 1px solid var(--chapter-accent);
+  color: var(--chapter-ink);
+  background: transparent;
+  font-family: var(--font-calligraphy, "STKaiti", "KaiTi", serif);
+  font-size: .8rem;
+}
+
+.world-water-page__finish-actions a:hover,
+.world-water-page__finish-actions button:hover { color: var(--chapter-accent); }
+
+.world-water-page__footer {
+  position: absolute;
+  z-index: 2;
+  right: max(1.5rem, calc((100% - 90rem) / 2));
+  bottom: 1.25rem;
+  left: max(1.5rem, calc((100% - 90rem) / 2));
+  display: grid;
+  grid-template-columns: auto minmax(5rem, 1fr) auto;
+  gap: .85rem;
+  align-items: center;
+  color: var(--chapter-muted);
+  font-size: .64rem;
+  letter-spacing: .1em;
+}
+
+.world-water-page__progress {
+  height: 1px;
+  background: rgb(226 217 181 / 22%);
+}
+
+.world-water-page__progress i {
+  display: block;
+  width: var(--progress);
+  height: 100%;
+  background: var(--chapter-accent);
+  transition: width 300ms ease;
+}
+
+@keyframes world-water-route-flow {
+  to { stroke-dashoffset: -160; }
+}
+
+@keyframes world-water-route-trace {
+  from { stroke-dashoffset: 460; }
+  to { stroke-dashoffset: -460; }
+}
+
+@keyframes world-water-node-pulse {
+  0%, 60%, 100% { opacity: 0; transform: scale(.7); }
+  25% { opacity: 1; }
+}
+
+@media (max-width: 1200px) and (min-width: 901px) {
+  .world-water-page__topbar,
+  .world-water-page__grid {
+    width: min(100% - 2rem, 90rem);
+  }
+
+  .world-water-page__grid {
+    grid-template-columns: minmax(10.5rem, .64fr) minmax(20rem, 1.42fr) minmax(15rem, .9fr);
+    gap: 1.2rem;
+  }
+
+  .world-water-page__intro h1 {
+    font-size: clamp(2.1rem, 4vw, 3.7rem);
+    letter-spacing: .08em;
+  }
+}
+
+@media (max-width: 1120px) {
+  .world-water-page__grid {
+    grid-template-columns: minmax(10.5rem, .64fr) minmax(20rem, 1.42fr) minmax(15rem, .9fr);
+    gap: 1.2rem;
+  }
+
+  .world-water-page__intro h1 { font-size: clamp(2.1rem, 4vw, 3.7rem); }
+  .world-water-route__node { width: min(8.8rem, 25%); }
+}
+
+@media (max-width: 900px) {
+  .world-water-page { overflow: auto; }
+
+  .world-water-page__topbar {
+    position: sticky;
+    top: 0;
+    background: linear-gradient(180deg, rgb(10 35 41 / 92%), transparent);
+  }
+
+  .world-water-page__grid {
+    grid-template-columns: minmax(0, 1fr) minmax(19rem, .9fr);
+    align-items: start;
+    min-height: 0;
+    padding-top: 2rem;
+    padding-bottom: 5rem;
+  }
+
+  .world-water-page__intro { grid-column: 1 / -1; padding-bottom: 0; }
+  .world-water-page__lede { max-width: 34rem; }
+  .world-water-page__principle { margin-top: 1.1rem; }
+  .world-water-page__legend { margin-top: 1.15rem; }
+  .world-water-route { grid-column: 1; }
+  .world-water-page__panel { grid-column: 2; }
+}
+
+@media (max-width: 680px) {
+  .world-water-page__topbar,
+  .world-water-page__grid { width: min(100% - 1.5rem, 42rem); }
+
+  .world-water-page__topbar { grid-template-columns: 1fr auto; gap: .75rem; padding-top: 1rem; padding-right: 5.5rem; }
+  .world-water-page__scene .chapter-scene-stage__meta { top: 4.4rem; right: .75rem; }
+  .world-water-page__scene .chapter-scene-stage__play { right: .75rem; bottom: 4.5rem; }
+  .world-water-page__chapter-mark { justify-items: end; text-align: right; }
+  .world-water-page__score { display: none; }
+
+  .world-water-page__grid {
+    grid-template-columns: 1fr;
+    gap: 1.5rem;
+  }
+
+  .world-water-page__intro,
+  .world-water-route,
+  .world-water-page__panel { grid-column: 1; }
+  .world-water-page__intro h1 { margin-top: .7rem; font-size: clamp(2.25rem, 12vw, 3.4rem); }
+  .world-water-route__surface { min-height: 31rem; }
+  .world-water-route__node { width: min(10rem, 43%); }
+  .world-water-route__node:first-child { transform: translate(-5%, -50%); }
+  .world-water-route__node:nth-child(2) { transform: translate(-18%, -50%); }
+  .world-water-route__node:last-child { transform: translate(-96%, -50%); }
+  .world-water-route__node-copy strong { font-size: .92rem; }
+  .world-water-route__stamp { right: .55rem; }
+  .world-water-page__panel { border-top: 1px solid var(--chapter-panel-line); padding-top: 1.3rem; }
+  .world-water-page__guide,
+  .world-water-page__finish { min-height: 0; padding: .6rem 0 1.5rem; border-left: 0; }
+  .world-water-page__footer { position: fixed; right: .75rem; bottom: .65rem; left: .75rem; padding: .55rem .7rem; background: rgb(8 31 38 / 88%); }
+  .world-water-page__footer span:first-child { display: none; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .world-water-page__scene .chapter-scene-stage__media { animation: none; }
+  .world-water-route__line,
+  .world-water-route__trace,
+  .world-water-route__node:not(.is-recorded) .world-water-route__node-dot::after {
+    animation: none;
+  }
+
+  .world-water-route__trace.is-active { opacity: .56; }
+
+  .world-water-page__progress i,
+  .world-water-page__text-button,
+  .world-water-page__primary-button { transition: none; }
+
+  .world-water-page__text-button:hover,
+  .world-water-page__primary-button:hover { transform: none; }
+}
+
+/* Chapter 03 build pass: route-ledger interaction, scoped to this page. */
+.world-water-route__line,
+.world-water-route__line--echo {
+  animation: none;
+  stroke-dashoffset: 0;
+}
+
+.world-water-route__trace {
+  stroke-dashoffset: 460;
+}
+
+.world-water-route__trace.is-active {
+  animation: world-water-route-trace-ledger var(--chapter-dur-route) var(--chapter-ease-out) forwards;
+}
+
+.world-water-route__node button {
+  min-height: 44px;
+}
+
+.world-water-route__node-copy {
+  opacity: 0;
+  transform: translateY(.2rem);
+  transition: opacity 220ms var(--chapter-ease-out), transform 220ms var(--chapter-ease-out);
+}
+
+.world-water-route__node.is-active .world-water-route__node-copy,
+.world-water-route__node.is-recorded .world-water-route__node-copy,
+.world-water-route__node:hover .world-water-route__node-copy,
+.world-water-route__node:focus-within .world-water-route__node-copy {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* Keep map annotations readable without tinting the whole atlas. */
+.world-water-page .chapter-scene-annotations__item {
+  max-width: min(10.5rem, 18vw);
+}
+
+.world-water-page .chapter-scene-annotations__item button {
+  gap: .5rem;
+  padding: .38rem .55rem;
+  border-left: 1px solid rgb(235 204 126 / 72%);
+  background: linear-gradient(90deg, rgb(4 25 31 / 86%), rgb(4 25 31 / 56%) 78%, transparent);
+  box-shadow: 0 .35rem 1rem rgb(0 12 15 / 18%);
+  text-shadow: none;
+}
+
+.world-water-page .chapter-scene-annotations__item[data-align="right"] button {
+  border-right: 1px solid rgb(235 204 126 / 72%);
+  border-left: 0;
+  background: linear-gradient(270deg, rgb(4 25 31 / 86%), rgb(4 25 31 / 56%) 78%, transparent);
+}
+
+.world-water-page .chapter-scene-annotations__copy {
+  gap: .08rem;
+}
+
+.world-water-page .chapter-scene-annotations__copy small {
+  color: #edc979;
+  font-size: .53rem;
+}
+
+.world-water-page .chapter-scene-annotations__copy strong {
+  color: #fff7dd;
+  font-size: clamp(.78rem, 1.05vw, .94rem);
+  text-shadow: 0 .1rem .35rem rgb(0 10 13 / 66%);
+}
+
+.world-water-page .chapter-scene-annotations__copy em {
+  color: rgb(240 237 218 / 82%);
+}
+
+.world-water-route__node:not(.is-recorded) .world-water-route__node-dot::after {
+  opacity: 0;
+  transform: scale(.82);
+  animation: none;
+  transition: opacity 180ms var(--chapter-ease-out), transform 180ms var(--chapter-ease-out);
+}
+
+.world-water-route__node:hover .world-water-route__node-dot::after,
+.world-water-route__node:focus-within .world-water-route__node-dot::after,
+.world-water-route__node.is-active .world-water-route__node-dot::after {
+  opacity: .72;
+  transform: scale(1);
+}
+
+.world-water-page__panel-content {
+  animation: world-water-panel-in var(--chapter-dur-panel) var(--chapter-ease-out) both;
+}
+
+.world-water-page .chapter-choice-panel {
+  padding: clamp(1rem, 2vw, 1.55rem) 0;
+  border: 0;
+  border-top: 1px solid var(--chapter-panel-line);
+  border-bottom: 1px solid var(--chapter-panel-line);
+  background: transparent;
+  box-shadow: none;
+}
+
+.world-water-page .chapter-choice-panel__feedback {
+  border-top: 1px solid var(--chapter-accent);
+  border-left: 0;
+  background: var(--chapter-feedback-fill);
+}
+
+.world-water-page .chapter-choice-panel__choice {
+  min-height: 44px;
+}
+
+.world-water-page__text-button,
+.world-water-page__primary-button {
+  min-height: 44px;
+}
+
+.world-water-page__progress i {
+  width: 100%;
+  transform: scaleX(var(--progress));
+  transform-origin: left center;
+  transition: transform 300ms var(--chapter-ease-out);
+}
+
+@keyframes world-water-route-trace-ledger {
+  0% { opacity: 0; stroke-dashoffset: 460; }
+  18% { opacity: .88; }
+  100% { opacity: .28; stroke-dashoffset: 0; }
+}
+
+@keyframes world-water-panel-in {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@media (max-width: 1120px) {
+  .world-water-page__grid {
+    grid-template-columns: minmax(11rem, .7fr) minmax(22rem, 1.35fr) minmax(17rem, .95fr);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .world-water-route__node-copy,
+  .world-water-route__node-dot::after,
+  .world-water-page__panel-content,
+  .world-water-page__progress i {
+    animation: none;
+    transition: none;
+  }
+}
+
+/* Library motion wrappers keep the route surface and CTA dimensions intact. */
+.world-water-route__mist-layer {
+  display: block;
+  width: 100%;
+}
+
+.world-water-route__mist-layer > .chapter-water-mist__content {
+  width: 100%;
+}
+
+.world-water-page__magnet,
+.world-water-page__magnet > .chapter-magnet__inner,
+.world-water-page__cta-mist,
+.world-water-page__cta-mist > .chapter-water-mist__content {
+  display: inline-flex;
+}
+
+/* Chapter 03 responsive pass: keep the atlas readable at common desktop and tablet sizes. */
+@media (min-width: 901px) and (max-width: 1200px) {
+  .world-water-page__topbar,
+  .world-water-page__grid {
+    width: min(100% - 2rem, 90rem);
+  }
+
+  .world-water-page__score { margin-right: 0; }
+
+  .world-water-page__grid {
+    grid-template-columns: minmax(9.5rem, .65fr) minmax(20rem, 1.45fr) minmax(14.5rem, .95fr);
+    gap: 1rem;
+  }
+
+  .world-water-page__intro {
+    padding-right: .65rem;
+    padding-left: .65rem;
+  }
+
+  .world-water-page__intro h1 {
+    font-size: clamp(2rem, 4vw, 3.25rem);
+  }
+
+  .world-water-route__node { width: min(8rem, 30%); }
+
+  .world-water-page__guide,
+  .world-water-page__finish {
+    padding-left: 1rem;
+  }
+}
+
+@media (min-width: 901px) and (max-height: 820px) {
+  .world-water-page__topbar { padding-top: .85rem; }
+
+  .world-water-page__grid {
+    min-height: calc(100svh - 4.9rem);
+    gap: .8rem 1.5rem;
+    padding-top: 1rem;
+    padding-bottom: 3.2rem;
+  }
+
+  .world-water-page__intro {
+    padding-top: .85rem;
+    padding-bottom: 1rem;
+  }
+
+  .world-water-page__intro h1 {
+    margin-top: .65rem;
+    margin-bottom: .75rem;
+  }
+
+  .world-water-page__lede { font-size: .82rem; }
+
+  .world-water-route__surface {
+    min-height: clamp(20rem, 50vh, 24rem);
+    margin-top: .65rem;
+    margin-bottom: .45rem;
+  }
+
+  .world-water-page__guide,
+  .world-water-page__finish {
+    min-height: 20rem;
+    padding-top: 1rem;
+    padding-bottom: 1rem;
+  }
+
+  .world-water-page__footer { bottom: .85rem; }
+}
+
+@media (max-width: 900px) and (min-width: 681px) {
+  .world-water-page__topbar {
+    grid-template-columns: 1fr auto;
+    width: min(100% - 2rem, 60rem);
+    padding-top: 1rem;
+  }
+
+  .world-water-page__score { display: none; }
+
+  .world-water-page__chapter-mark {
+    justify-items: end;
+    text-align: right;
+  }
+
+  .world-water-page__grid {
+    grid-template-columns: minmax(0, 1.25fr) minmax(18rem, .9fr);
+    width: min(100% - 2rem, 60rem);
+    gap: 1.25rem;
+    padding-top: 1.5rem;
+  }
+
+  .world-water-page__intro {
+    grid-column: 1 / -1;
+    padding: .7rem .75rem .25rem;
+  }
+
+  .world-water-page__intro::before {
+    inset: -.8rem -1rem -.8rem -1rem;
+  }
+
+  .world-water-page__intro h1 {
+    margin-top: .65rem;
+    font-size: clamp(2.15rem, 6vw, 3.2rem);
+  }
+
+  .world-water-page__lede { max-width: 28rem; }
+  .world-water-route { grid-column: 1; }
+  .world-water-page__panel { grid-column: 2; }
+
+  .world-water-route__surface {
+    min-height: clamp(24rem, 55vh, 28rem);
+  }
+
+  .world-water-page .chapter-scene-annotations__item {
+    max-width: min(10.5rem, 31vw);
+  }
+}
+
+/*
+ * The route labels are the primary interaction layer while a question is open.
+ * A few scene callouts intentionally sit near the same landmarks in the atlas;
+ * fold only those callouts away during the question state so the route remains
+ * readable without changing their positions in the calm/guide state.
+ */
+@media (min-width: 901px) {
+  .world-water-page--question.world-water-page--scene-guinea
+    .world-water-page__scene-annotations [data-annotation-id="guinea-fall"],
+  .world-water-page--question.world-water-page--scene-equatorial
+    .world-water-page__scene-annotations [data-annotation-id="equatorial-source"],
+  .world-water-page--question.world-water-page--scene-equatorial
+    .world-water-page__scene-annotations [data-annotation-id="equatorial-treatment"],
+  .world-water-page--question.world-water-page--scene-equatorial
+    .world-water-page__scene-annotations [data-annotation-id="equatorial-mangrove"] {
+    visibility: hidden;
+    pointer-events: none;
+  }
+}
+
+@media (max-width: 680px) {
+  .world-water-page__scene-annotations { inset: 4.4rem 0 3rem; }
+
+  .world-water-page__intro {
+    padding: .8rem .65rem .55rem;
+  }
+
+  .world-water-page__intro::before {
+    inset: -.7rem -.8rem -.7rem -.8rem;
+  }
+
+  .world-water-page .chapter-scene-annotations__item {
+    max-width: min(9.5rem, 38vw);
+  }
+
+  .world-water-page .chapter-scene-annotations__copy strong {
+    font-size: .76rem;
+  }
+
+  .world-water-page__panel::before {
+    inset: -1rem -.6rem -1rem -.6rem;
+  }
+}
+
+/* Atlas overlay pass: the scene is the paper; controls are printed on top. */
+@media (min-width: 901px) {
+  .world-water-page__grid {
+    position: absolute;
+    z-index: 3;
+    inset: 0;
+    display: block;
+    width: 100%;
+    min-height: 0;
+    margin: 0;
+    padding: 0;
+    pointer-events: none;
+  }
+
+  .world-water-page__grid > * { pointer-events: auto; }
+
+  .world-water-page__intro {
+    position: absolute;
+    top: clamp(7rem, 17vh, 11rem);
+    left: clamp(1.5rem, 4.2vw, 5.2rem);
+    width: min(14rem, 18vw);
+    padding: 0;
+    background: none;
+    text-shadow: 0 .12rem .8rem rgb(0 12 16 / 82%);
+  }
+
+  .world-water-page__intro::before,
+  .world-water-page__panel::before { display: none; }
+
+  .world-water-page__intro h1 {
+    margin: .62rem 0 .75rem;
+    font-size: clamp(1.9rem, 3.6vw, 3.65rem);
+    letter-spacing: .08em;
+  }
+
+  .world-water-page__lede {
+    max-width: 12rem;
+    color: rgb(244 239 217 / 76%);
+    font-size: .76rem;
+    line-height: 1.65;
+  }
+
+  .world-water-page__principle {
+    max-width: 12rem;
+    margin-top: 1.15rem;
+    padding: .55rem 0;
+  }
+
+  .world-water-page__principle p { font-size: .68rem; }
+  .world-water-page__legend { margin-top: 1rem; font-size: .56rem; }
+
+  .world-water-route {
+    position: absolute;
+    top: 15.5%;
+    right: 22%;
+    bottom: 8.5%;
+    left: 17.5%;
+    align-self: auto;
+  }
+
+  .world-water-route__mist-layer,
+  .world-water-route__mist-layer > .chapter-water-mist__content {
+    height: 100%;
+  }
+
+  .world-water-route__heading {
+    position: absolute;
+    z-index: 6;
+    top: 0;
+    right: 0;
+    left: 0;
+    padding: 0;
+    border-bottom: 0;
+    text-shadow: 0 .1rem .6rem rgb(0 12 16 / 78%);
+  }
+
+  .world-water-route__surface {
+    height: 100%;
+    min-height: 0;
+    margin: 0;
+    border-bottom: 0;
+  }
+
+  .world-water-route__surface::before,
+  .world-water-route__surface::after { display: none; }
+
+  .world-water-route__note {
+    position: absolute;
+    right: 0;
+    bottom: -.15rem;
+    left: 0;
+    text-shadow: 0 .1rem .6rem rgb(0 12 16 / 78%);
+  }
+
+  .world-water-route__node { width: min(9.6rem, 25%); }
+
+  .world-water-route__node button { padding: .18rem 0; }
+
+  .world-water-route__node-copy {
+    opacity: .82;
+    transform: none;
+    text-shadow: 0 .1rem .55rem rgb(0 12 16 / 92%);
+  }
+
+  .world-water-route__node-copy em { font-size: .5rem; }
+
+  .world-water-route__node.is-next .world-water-route__node-copy,
+  .world-water-route__node.is-active .world-water-route__node-copy,
+  .world-water-route__node.is-recorded .world-water-route__node-copy { opacity: 1; }
+
+  .world-water-page__panel {
+    position: absolute;
+    top: 18%;
+    right: clamp(1.5rem, 4.2vw, 5.2rem);
+    width: min(22rem, 24vw);
+    align-self: auto;
+    background: linear-gradient(90deg, rgb(4 24 30 / 22%), rgb(4 24 30 / 26%) 58%, transparent 100%);
+    text-shadow: 0 0 .18rem rgb(0 12 16 / 92%), 0 .1rem .7rem rgb(0 12 16 / 86%);
+  }
+
+  .world-water-page__guide,
+  .world-water-page__finish {
+    min-height: 0;
+    padding: .25rem 0 .75rem 1rem;
+    border-left: 1px solid rgb(235 219 174 / 38%);
+    background: linear-gradient(90deg, rgb(4 24 30 / 14%), transparent 88%);
+  }
+
+  .world-water-page__guide h2,
+  .world-water-page__finish h2 { font-size: clamp(1.35rem, 2.1vw, 1.85rem); }
+
+  .world-water-page__guide > p:not(.world-water-page__eyebrow),
+  .world-water-page__finish > p:not(.world-water-page__eyebrow) {
+    max-width: 17rem;
+    font-size: .76rem;
+    line-height: 1.65;
+  }
+
+  .world-water-page .chapter-choice-panel {
+    padding: .8rem 0;
+    border-top: 1px solid rgb(235 219 174 / 34%);
+    border-bottom: 0;
+    background: transparent;
+    box-shadow: none;
+  }
+
+  .world-water-page .chapter-choice-panel h2 { font-size: clamp(1.18rem, 1.85vw, 1.6rem); }
+  .world-water-page .chapter-choice-panel__story { font-size: .76rem; line-height: 1.65; }
+  .world-water-page .chapter-choice-panel__choice {
+    padding: .52rem 0;
+    border: 0;
+    border-bottom: 1px solid rgb(225 235 219 / 28%);
+    background: linear-gradient(90deg, rgb(4 24 30 / 17%), transparent 94%);
+    box-shadow: none;
+  }
+
+  .world-water-page .chapter-choice-panel__choice:hover:not(:disabled),
+  .world-water-page .chapter-choice-panel__choice.is-selected {
+    background: linear-gradient(90deg, rgb(123 100 48 / 24%), transparent 94%);
+    transform: translateX(2px);
+  }
+
+  .world-water-page .chapter-scene-annotations__item button {
+    padding: .24rem 0;
+    border: 0;
+    background: transparent;
+    box-shadow: none;
+  }
+
+  .world-water-page .chapter-scene-annotations__item[data-align="right"] button {
+    border: 0;
+    background: transparent;
+  }
+
+  .world-water-page .chapter-scene-annotations__copy strong,
+  .world-water-page .chapter-scene-annotations__copy em {
+    text-shadow: 0 .1rem .65rem rgb(0 12 16 / 96%);
+  }
+
+  .world-water-page .chapter-scene-annotations__copy em {
+    padding: .12rem .18rem;
+    background: linear-gradient(90deg, rgb(4 24 30 / 18%), transparent);
+  }
+
+  .world-water-page .chapter-scene-annotations__item { animation: chapter-map-mark-in 420ms var(--chapter-ease-out) both; }
+  .world-water-page .chapter-scene-annotations__item:nth-child(2) { animation-delay: 70ms; }
+  .world-water-page .chapter-scene-annotations__item:nth-child(3) { animation-delay: 140ms; }
+
+  .world-water-page .chapter-guide {
+    width: clamp(4.8rem, 6.7vw, 6.2rem);
+    height: clamp(5.8rem, 8vw, 7.4rem);
+  }
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .world-water-route__node.is-next .world-water-route__node-copy {
+    animation: chapter-map-mark-in 420ms var(--chapter-ease-out) both;
+  }
+}
+
+@keyframes chapter-map-mark-in {
+  from { opacity: 0; transform: translateY(.35rem); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@media (max-width: 900px) {
+  .world-water-page__grid {
+    position: relative;
+    inset: auto;
+    display: grid;
+    width: min(100% - 2rem, 60rem);
+    min-height: calc(100svh - 6.1rem);
+    margin: 0 auto;
+    padding: 2rem 0 5rem;
+    pointer-events: auto;
+  }
+
+  .world-water-page__intro,
+  .world-water-route,
+  .world-water-page__panel {
+    position: relative;
+    top: auto;
+    right: auto;
+    bottom: auto;
+    left: auto;
+    width: auto;
+  }
+
+  .world-water-page__intro {
+    padding: .8rem 0 .35rem;
+    background: none;
+    text-shadow: 0 .1rem .7rem rgb(0 12 16 / 88%);
+  }
+
+  .world-water-page__intro::before,
+  .world-water-page__panel::before { display: none; }
+  .world-water-page__intro h1 { font-size: clamp(2rem, 9vw, 3.4rem); }
+  .world-water-route__surface { height: auto; min-height: 31rem; margin: 1rem 0 .65rem; }
+  .world-water-route__mist-layer,
+  .world-water-route__mist-layer > .chapter-water-mist__content { height: auto; }
+  .world-water-route__heading { position: relative; padding-bottom: .7rem; border-bottom: 1px solid var(--chapter-subtle-line); }
+  .world-water-route__note { position: relative; right: auto; bottom: auto; left: auto; }
+  .world-water-page__panel { background: none; }
+}
+
+/* Keep scene annotations paper-printed at every breakpoint. */
+.world-water-page .chapter-scene-annotations__item button,
+.world-water-page .chapter-scene-annotations__item[data-align="right"] button {
+  border: 0;
+  background: transparent;
+  box-shadow: none;
+  text-shadow: 0 0 .18rem rgb(0 12 16 / 94%), 0 .1rem .65rem rgb(0 12 16 / 88%);
+}
+
+@media (max-width: 680px) {
+  .world-water-page__footer {
+    background: linear-gradient(90deg, rgb(8 31 38 / 56%), rgb(8 31 38 / 24%) 74%, transparent);
+  }
+}
+
+/* 2026-09-07 harmony pass: the map stays primary; motion explains the route. */
+.world-water-page__scene .chapter-scene-stage__media {
+  animation: world-water-scene-settle 760ms var(--chapter-ease-out) both;
+  transform-origin: center;
+}
+
+.world-water-route__line {
+  opacity: .54;
+  stroke-width: 1.35;
+  stroke-dasharray: 4 12;
+}
+
+.world-water-route__line--echo {
+  opacity: .2;
+  stroke-width: .72;
+  stroke-dasharray: 1 16;
+}
+
+.world-water-route__trace {
+  opacity: 0;
+  stroke: var(--chapter-focus);
+  stroke-width: 2;
+  stroke-dasharray: var(--route-progress, 0) 1;
+  stroke-dashoffset: var(--route-progress, 0);
+}
+
+.world-water-route__trace.is-active {
+  animation: world-water-route-write 760ms var(--chapter-ease-out) both;
+}
+
+.world-water-route__node {
+  z-index: 1;
+}
+
+.world-water-route__node:hover,
+.world-water-route__node:focus-within,
+.world-water-route__node.is-active {
+  z-index: 7;
+}
+
+.world-water-route__node-copy {
+  position: relative;
+  gap: .08rem;
+  padding: .12rem .22rem;
+  opacity: .9;
+  text-shadow: var(--chapter-map-shadow);
+}
+
+.world-water-route__node-copy::before {
+  position: absolute;
+  z-index: -1;
+  inset: -.18rem -.42rem;
+  content: "";
+  background: var(--chapter-active-wash);
+  opacity: 0;
+  transform: scaleX(.86);
+  transform-origin: left center;
+  transition: opacity 220ms var(--chapter-ease-out), transform 220ms var(--chapter-ease-out);
+}
+
+.world-water-route__node-copy small {
+  color: var(--chapter-map-meta);
+  font-size: clamp(.72rem, .76vw, .78rem);
+  font-weight: 600;
+  letter-spacing: .025em;
+  white-space: nowrap;
+}
+
+.world-water-route__node-copy strong {
+  color: var(--chapter-map-title);
+  font-size: clamp(.96rem, 1.18vw, 1.08rem);
+  font-weight: 500;
+  letter-spacing: .025em;
+}
+
+.world-water-route__node-copy em {
+  max-height: 0;
+  color: var(--chapter-map-detail);
+  font-size: .64rem;
+  opacity: 0;
+  overflow: hidden;
+  transform: translateY(-.12rem);
+  transition: max-height 220ms var(--chapter-ease-out), opacity 180ms var(--chapter-ease-out), transform 220ms var(--chapter-ease-out);
+}
+
+.world-water-route__node:hover .world-water-route__node-copy::before,
+.world-water-route__node:focus-within .world-water-route__node-copy::before,
+.world-water-route__node.is-active .world-water-route__node-copy::before {
+  opacity: 1;
+  transform: scaleX(1);
+}
+
+.world-water-route__node:hover .world-water-route__node-copy em,
+.world-water-route__node:focus-within .world-water-route__node-copy em,
+.world-water-route__node.is-active .world-water-route__node-copy em {
+  max-height: 1.2rem;
+  opacity: .88;
+  transform: translateY(0);
+}
+
+.world-water-route__node.is-recorded:not(.is-active) .world-water-route__node-copy {
+  opacity: .82;
+}
+
+.world-water-page .chapter-scene-annotations__item {
+  max-width: min(11.5rem, 20vw);
+}
+
+.world-water-page .chapter-scene-annotations__item button,
+.world-water-page .chapter-scene-annotations__item[data-align="right"] button {
+  min-height: 44px;
+  gap: .52rem;
+  padding: .34rem .18rem;
+  border: 0;
+  background: transparent;
+  box-shadow: none;
+  text-shadow: var(--chapter-map-shadow);
+}
+
+.world-water-page .chapter-scene-annotations__pin {
+  margin-top: .34rem;
+  background: rgb(5 31 37 / 72%);
+}
+
+.world-water-page .chapter-scene-annotations__pin::after {
+  width: 1.15rem;
+  transform: scaleX(.62);
+  transition: transform 260ms var(--chapter-ease-out);
+}
+
+.world-water-page .chapter-scene-annotations__item:hover .chapter-scene-annotations__pin::after,
+.world-water-page .chapter-scene-annotations__item:focus-within .chapter-scene-annotations__pin::after,
+.world-water-page .chapter-scene-annotations__item.is-active .chapter-scene-annotations__pin::after {
+  transform: scaleX(1);
+}
+
+.world-water-page .chapter-scene-annotations__copy {
+  gap: .08rem;
+}
+
+.world-water-page .chapter-scene-annotations__copy small {
+  color: var(--chapter-map-meta);
+  font-size: clamp(.72rem, .75vw, .77rem);
+  font-weight: 600;
+  letter-spacing: .025em;
+  white-space: nowrap;
+}
+
+.world-water-page .chapter-scene-annotations__copy strong {
+  color: var(--chapter-map-title);
+  font-size: clamp(.98rem, 1.15vw, 1.08rem);
+  font-weight: 500;
+  letter-spacing: .02em;
+  text-shadow: var(--chapter-map-shadow);
+}
+
+.world-water-page .chapter-scene-annotations__copy em {
+  color: var(--chapter-map-detail);
+  font-size: .68rem;
+  text-shadow: var(--chapter-map-shadow);
+}
+
+@media (min-width: 901px) {
+  .world-water-page__lede {
+    font-size: clamp(.8rem, .84vw, .9rem);
+  }
+
+  .world-water-page__principle span {
+    font-size: .7rem;
+  }
+
+  .world-water-page__principle p {
+    font-size: clamp(.72rem, .76vw, .8rem);
+  }
+
+  .world-water-page__legend {
+    color: rgb(231 238 219 / 74%);
+    font-size: .68rem;
+  }
+
+  .world-water-route {
+    right: clamp(22rem, 29vw, 34rem);
+  }
+
+  .world-water-route__node {
+    width: min(10.6rem, 29%);
+  }
+
+  .world-water-route__heading > span:first-child {
+    color: var(--chapter-map-meta);
+    font-size: .74rem;
+    font-weight: 600;
+    text-shadow: var(--chapter-map-shadow);
+  }
+
+  .world-water-route__node:last-child button {
+    grid-template-columns: minmax(0, 1fr) 1rem;
+    text-align: right;
+  }
+
+  .world-water-route__node:last-child .world-water-route__node-dot {
+    grid-row: 1;
+    grid-column: 2;
+  }
+
+  .world-water-route__node:last-child .world-water-route__node-copy {
+    grid-row: 1;
+    grid-column: 1;
+    justify-items: end;
+  }
+
+  .world-water-route__instruction {
+    max-width: 18rem;
+    color: var(--chapter-map-meta);
+    font-size: .74rem;
+    font-weight: 600;
+    text-align: right;
+    text-shadow: var(--chapter-map-shadow);
+  }
+
+  .world-water-page__panel {
+    top: 16%;
+    bottom: auto;
+    width: min(19.5rem, 21.5vw);
+    max-height: calc(84svh - 4.4rem);
+    padding-right: .25rem;
+    overflow-y: auto;
+    background: var(--chapter-panel-wash);
+    scrollbar-width: none;
+  }
+
+  .world-water-page__panel::-webkit-scrollbar { width: 0; height: 0; }
+
+  .world-water-page--question .world-water-page__panel,
+  .world-water-page--finish .world-water-page__panel {
+    width: min(21rem, 24vw);
+    background: transparent;
+  }
+
+  .world-water-page--question .world-water-page__panel::before,
+  .world-water-page--finish .world-water-page__panel::before {
+    display: block;
+    inset: -.55rem -.7rem;
+    background: radial-gradient(ellipse at 52% 48%, rgb(3 22 29 / 74%) 0 44%, rgb(3 22 29 / 38%) 68%, transparent 100%);
+    filter: blur(13px);
+    -webkit-mask-image: none;
+    mask-image: none;
+  }
+
+  .world-water-page__guide,
+  .world-water-page__finish {
+    gap: .62rem;
+    padding: .45rem 0 .75rem 1rem;
+    background: transparent;
+  }
+
+  .world-water-page__guide-mark,
+  .world-water-page__guide-line,
+  .world-water-page__guide > small {
+    display: none;
+  }
+
+  .world-water-page__guide h2,
+  .world-water-page__finish h2 {
+    color: var(--chapter-map-title);
+    font-size: clamp(1.55rem, 2.05vw, 1.95rem);
+    font-weight: 500;
+    line-height: 1.38;
+    text-wrap: balance;
+  }
+
+  .world-water-page__guide > p:not(.world-water-page__eyebrow),
+  .world-water-page__finish > p:not(.world-water-page__eyebrow) {
+    color: var(--chapter-map-detail);
+    font-size: clamp(.82rem, .88vw, .9rem);
+    line-height: 1.72;
+  }
+
+  .world-water-page__eyebrow {
+    color: var(--chapter-map-meta);
+    font-size: .74rem;
+    font-weight: 600;
+  }
+
+  .world-water-page .chapter-choice-panel {
+    gap: .62rem;
+    padding: .45rem 0 .65rem .9rem;
+  }
+
+  .world-water-page .chapter-choice-panel__header {
+    gap: .2rem;
+  }
+
+  .world-water-page .chapter-choice-panel__subtitle,
+  .world-water-page .chapter-choice-panel__footer {
+    display: none;
+  }
+
+  .world-water-page .chapter-choice-panel h2 {
+    color: var(--chapter-map-title);
+    font-size: clamp(1.32rem, 1.7vw, 1.65rem);
+    font-weight: 500;
+    text-wrap: balance;
+  }
+
+  .world-water-page .chapter-choice-panel__story,
+  .world-water-page .chapter-choice-panel__question {
+    color: var(--chapter-map-detail);
+    font-size: clamp(.84rem, .88vw, .92rem);
+  }
+
+  .world-water-page .chapter-choice-panel__story {
+    line-height: 1.65;
+  }
+
+  .world-water-page .chapter-choice-panel__question {
+    gap: .28rem;
+    padding: .62rem 0 0;
+  }
+
+  .world-water-page .chapter-choice-panel__question > span {
+    color: var(--chapter-map-meta);
+    font-size: .72rem;
+    font-weight: 600;
+    letter-spacing: .06em;
+  }
+
+  .world-water-page .chapter-choice-panel__question h3 {
+    font-size: clamp(1rem, 1.18vw, 1.18rem);
+    line-height: 1.5;
+  }
+
+  .world-water-page .chapter-choice-panel__choices {
+    gap: .18rem;
+  }
+
+  .world-water-page .chapter-choice-panel__choice {
+    grid-template-columns: 1.45rem minmax(0, 1fr);
+    gap: .62rem;
+    min-height: 44px;
+    padding: .46rem .14rem;
+    font-size: clamp(.82rem, .86vw, .9rem);
+  }
+
+  .world-water-page .chapter-choice-panel__choice-text {
+    color: var(--chapter-map-detail);
+    font-size: clamp(.82rem, .86vw, .9rem);
+    line-height: 1.48;
+  }
+
+  .world-water-page .chapter-choice-panel__choice-action {
+    display: none;
+  }
+
+  .world-water-page .chapter-choice-panel__choice:disabled:not(.is-selected) {
+    display: none;
+  }
+
+  .world-water-page .chapter-choice-panel__submit-row {
+    gap: .42rem;
+  }
+
+  .world-water-page .chapter-choice-panel__hint {
+    color: var(--chapter-map-detail);
+    font-size: .72rem;
+    line-height: 1.5;
+    letter-spacing: .025em;
+  }
+
+  .world-water-page .chapter-choice-panel__feedback {
+    gap: .42rem;
+    padding: .68rem .76rem;
+  }
+}
+
+@keyframes world-water-route-write {
+  0% { opacity: 0; stroke-dashoffset: var(--route-progress, 0); }
+  24% { opacity: .96; }
+  100% { opacity: .76; stroke-dashoffset: 0; }
+}
+
+@keyframes world-water-scene-settle {
+  from { opacity: 0; transform: scale(1.018); }
+  to { opacity: 1; transform: scale(1); }
+}
+
+@media (max-width: 900px) {
+  .world-water-route__node-copy small,
+  .world-water-page .chapter-scene-annotations__copy small { font-size: .68rem; }
+
+  .world-water-route__node-copy strong,
+  .world-water-page .chapter-scene-annotations__copy strong { font-size: .94rem; }
+
+  .world-water-page__panel { overflow: visible; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .world-water-page__scene .chapter-scene-stage__media,
+  .world-water-route__trace,
+  .world-water-route__node-copy::before,
+  .world-water-route__node-copy em,
+  .world-water-page .chapter-scene-annotations__pin::after {
+    animation: none;
+    transition: none;
+  }
+
+  .world-water-route__trace.is-active {
+    opacity: .72;
+    stroke-dashoffset: 0;
+  }
+}
+
+@media (max-width: 680px) {
+  .world-water-page__grid {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .world-water-route,
+  .world-water-route__surface {
+    width: 100%;
+    min-width: 0;
+    max-width: 100%;
+  }
+
+  .world-water-route__surface {
+    aspect-ratio: auto;
+  }
+
+  .world-water-page--question .chapter-scene-annotations,
+  .world-water-page--finish .chapter-scene-annotations {
+    display: none;
+  }
+
+  .world-water-page .chapter-choice-panel__subtitle,
+  .world-water-page .chapter-choice-panel__footer,
+  .world-water-page .chapter-choice-panel__choice-action {
+    display: none;
+  }
+}
+
+/* Desktop typography and control pass: keep the map primary while giving the voyage chrome a clear hierarchy. */
+@media (min-width: 901px) {
+  .world-water-page__topbar {
+    padding-top: 1.05rem;
+  }
+
+  .world-water-page__back-link {
+    display: inline-flex;
+    width: fit-content;
+    gap: .42rem;
+    align-items: center;
+    padding: .4rem .72rem .42rem 0;
+    border-bottom: 1px solid rgb(215 189 114 / 34%);
+    color: var(--chapter-map-detail);
+    font-size: clamp(.84rem, .9vw, .94rem);
+    font-weight: 500;
+    letter-spacing: .08em;
+    text-shadow: var(--chapter-map-shadow);
+  }
+
+  .world-water-page__back-link:hover,
+  .world-water-page__back-link:focus-visible {
+    border-bottom-color: var(--chapter-accent);
+    color: var(--chapter-map-title);
+  }
+
+  .world-water-page__chapter-mark {
+    min-width: 9rem;
+    gap: .34rem;
+    padding: .25rem .9rem .46rem;
+    border-bottom: 1px solid rgb(215 189 114 / 38%);
+  }
+
+  .world-water-page__chapter-mark span {
+    font-size: clamp(.72rem, .78vw, .82rem);
+    font-weight: 600;
+    letter-spacing: .2em;
+  }
+
+  .world-water-page__chapter-mark strong {
+    color: var(--chapter-map-detail);
+    font-size: clamp(1rem, 1.08vw, 1.14rem);
+    letter-spacing: .16em;
+    text-shadow: var(--chapter-map-shadow);
+  }
+
+  .world-water-page__score {
+    justify-self: end;
+    width: fit-content;
+    min-width: 9.5rem;
+    margin-right: 8rem;
+    padding: .38rem .72rem .42rem .82rem;
+    border-left: 1px solid rgb(215 189 114 / 42%);
+    border-bottom: 1px solid rgb(215 189 114 / 28%);
+    background: rgb(5 25 32 / 22%);
+    color: var(--chapter-map-detail);
+    font-size: clamp(.8rem, .84vw, .88rem);
+    font-weight: 500;
+    letter-spacing: .08em;
+    text-shadow: var(--chapter-map-shadow);
+  }
+
+  .world-water-page__score strong {
+    font-size: clamp(1.55rem, 1.72vw, 1.82rem);
+    line-height: 1;
+  }
+
+  .world-water-page__score small {
+    color: var(--chapter-map-detail);
+    font-size: clamp(.76rem, .78vw, .84rem);
+  }
+
+  .world-water-page__intro .world-water-page__eyebrow {
+    font-size: clamp(.72rem, .78vw, .82rem);
+    font-weight: 600;
+  }
+
+  .world-water-page__lede {
+    font-size: clamp(.86rem, .9vw, .96rem);
+  }
+
+  .world-water-page__principle span {
+    font-size: .7rem;
+    font-weight: 600;
+  }
+
+  .world-water-page__principle p {
+    font-size: clamp(.76rem, .8vw, .84rem);
+  }
+
+  .world-water-page__legend {
+    color: rgb(231 238 219 / 74%);
+    font-size: .68rem;
+  }
+
+  .world-water-route__heading > span:first-child {
+    color: var(--chapter-map-meta);
+    font-size: .78rem;
+    font-weight: 600;
+    text-shadow: var(--chapter-map-shadow);
+  }
+
+  .world-water-route__instruction {
+    max-width: 18rem;
+    color: var(--chapter-map-meta);
+    font-size: .76rem;
+    font-weight: 600;
+    text-align: right;
+    text-shadow: var(--chapter-map-shadow);
+  }
+
+  .world-water-route__node {
+    width: min(11rem, 29%);
+  }
+
+  .world-water-route__node-dot {
+    width: .95rem;
+    height: .95rem;
+    margin-top: .25rem;
+  }
+
+  .world-water-route__node-copy {
+    gap: .1rem;
+    padding: .16rem .28rem;
+  }
+
+  .world-water-route__node-copy small {
+    color: var(--chapter-map-meta);
+    font-size: clamp(.74rem, .78vw, .82rem);
+    font-weight: 600;
+    text-shadow: var(--chapter-map-shadow);
+  }
+
+  .world-water-route__node-copy strong {
+    color: var(--chapter-map-title);
+    font-size: clamp(1.04rem, 1.25vw, 1.18rem);
+    font-weight: 500;
+    letter-spacing: .03em;
+    text-shadow: var(--chapter-map-shadow);
+  }
+
+  .world-water-route__node-copy em {
+    color: var(--chapter-map-detail);
+    font-size: .67rem;
+  }
+
+  .world-water-route__node.is-next .world-water-route__node-copy::before,
+  .world-water-route__node.is-active .world-water-route__node-copy::before {
+    opacity: .52;
+    transform: scaleX(1);
+  }
+
+  .world-water-route__node:last-child button {
+    grid-template-columns: minmax(0, 1fr) 1rem;
+    text-align: right;
+  }
+
+  .world-water-route__node:last-child .world-water-route__node-dot {
+    grid-row: 1;
+    grid-column: 2;
+  }
+
+  .world-water-route__node:last-child .world-water-route__node-copy {
+    grid-row: 1;
+    grid-column: 1;
+    justify-items: end;
+  }
+
+  .world-water-route__stamp {
+    right: 1.15rem;
+    bottom: .65rem;
+  }
+
+  .world-water-route__stamp span {
+    color: var(--chapter-map-meta);
+    font-size: clamp(2.05rem, 2.3vw, 2.5rem);
+  }
+
+  .world-water-route__stamp small {
+    color: var(--chapter-map-detail);
+    font-size: clamp(.66rem, .7vw, .74rem);
+    font-weight: 500;
+  }
+
+  .world-water-route__note {
+    color: var(--chapter-map-detail);
+    font-size: .74rem;
+    font-weight: 500;
+    text-shadow: var(--chapter-map-shadow);
+  }
+
+  .world-water-page__panel {
+    top: 16%;
+    bottom: auto;
+    width: min(19.5rem, 21.5vw);
+    max-height: calc(84svh - 4.4rem);
+    padding-right: .25rem;
+    overflow-y: auto;
+    background: var(--chapter-panel-wash);
+    scrollbar-width: none;
+  }
+
+  .world-water-page__panel::-webkit-scrollbar {
+    width: 0;
+    height: 0;
+  }
+
+  .world-water-page--question .world-water-page__panel,
+  .world-water-page--finish .world-water-page__panel {
+    width: min(21rem, 24vw);
+    background: transparent;
+  }
+
+  .world-water-page--question .world-water-page__panel::before,
+  .world-water-page--finish .world-water-page__panel::before {
+    display: block;
+    inset: -.55rem -.7rem;
+    background: radial-gradient(ellipse at 52% 48%, rgb(3 22 29 / 74%) 0 44%, rgb(3 22 29 / 38%) 68%, transparent 100%);
+    filter: blur(13px);
+    -webkit-mask-image: none;
+    mask-image: none;
+  }
+
+  .world-water-page__guide,
+  .world-water-page__finish {
+    gap: .62rem;
+    padding: .45rem 0 .75rem 1rem;
+    background: transparent;
+  }
+
+  .world-water-page__guide-mark,
+  .world-water-page__guide-line,
+  .world-water-page__guide > small {
+    display: none;
+  }
+
+  .world-water-page__guide h2,
+  .world-water-page__finish h2 {
+    color: var(--chapter-map-title);
+    font-size: clamp(1.65rem, 2.1vw, 2rem);
+    font-weight: 500;
+    line-height: 1.38;
+    text-wrap: balance;
+  }
+
+  .world-water-page__guide > p:not(.world-water-page__eyebrow),
+  .world-water-page__finish > p:not(.world-water-page__eyebrow) {
+    color: var(--chapter-map-detail);
+    font-size: clamp(.86rem, .9vw, .94rem);
+    line-height: 1.72;
+  }
+
+  .world-water-page__eyebrow {
+    color: var(--chapter-map-meta);
+    font-size: .76rem;
+    font-weight: 600;
+  }
+
+  .world-water-page .chapter-choice-panel {
+    gap: .62rem;
+    padding: .45rem 0 .65rem .9rem;
+  }
+
+  .world-water-page .chapter-choice-panel__header {
+    gap: .2rem;
+  }
+
+  .world-water-page .chapter-choice-panel__subtitle,
+  .world-water-page .chapter-choice-panel__footer {
+    display: none;
+  }
+
+  .world-water-page .chapter-choice-panel h2 {
+    color: var(--chapter-map-title);
+    font-size: clamp(1.42rem, 1.78vw, 1.72rem);
+    font-weight: 500;
+    text-wrap: balance;
+  }
+
+  .world-water-page .chapter-choice-panel__story,
+  .world-water-page .chapter-choice-panel__question {
+    color: var(--chapter-map-detail);
+    font-size: clamp(.86rem, .9vw, .94rem);
+  }
+
+  .world-water-page .chapter-choice-panel__story {
+    line-height: 1.65;
+  }
+
+  .world-water-page .chapter-choice-panel__question {
+    gap: .28rem;
+    padding: .62rem 0 0;
+  }
+
+  .world-water-page .chapter-choice-panel__question > span {
+    color: var(--chapter-map-meta);
+    font-size: .74rem;
+    font-weight: 600;
+    letter-spacing: .06em;
+  }
+
+  .world-water-page .chapter-choice-panel__question h3 {
+    font-size: clamp(1.04rem, 1.2vw, 1.22rem);
+    line-height: 1.5;
+  }
+
+  .world-water-page .chapter-choice-panel__choices {
+    gap: .2rem;
+  }
+
+  .world-water-page .chapter-choice-panel__choice {
+    grid-template-columns: 1.5rem minmax(0, 1fr);
+    gap: .65rem;
+    min-height: 46px;
+    padding: .5rem .14rem;
+    font-size: clamp(.84rem, .88vw, .92rem);
+  }
+
+  .world-water-page .chapter-choice-panel__choice-text {
+    color: var(--chapter-map-detail);
+    font-size: clamp(.84rem, .88vw, .92rem);
+    line-height: 1.5;
+  }
+
+  .world-water-page .chapter-choice-panel__choice-action {
+    display: none;
+  }
+
+  .world-water-page .chapter-choice-panel__choice:disabled:not(.is-selected) {
+    display: none;
+  }
+
+  .world-water-page .chapter-choice-panel__submit-row {
+    gap: .42rem;
+  }
+
+  .world-water-page .chapter-choice-panel__hint {
+    color: var(--chapter-map-detail);
+    font-size: .74rem;
+    line-height: 1.5;
+    letter-spacing: .025em;
+  }
+
+  .world-water-page .chapter-choice-panel__feedback {
+    gap: .42rem;
+    padding: .68rem .76rem;
+  }
+
+  .world-water-page__text-button,
+  .world-water-page__primary-button,
+  .world-water-page__finish-actions button,
+  .world-water-page__finish-actions a {
+    min-height: 48px;
+    padding: .68rem 1.05rem;
+    border: 1px solid rgb(232 194 108 / 84%);
+    background: rgb(5 29 36 / 58%);
+    box-shadow: 0 0 0 1px rgb(4 25 32 / 30%), 0 .45rem 1.25rem rgb(0 10 14 / 18%);
+    color: var(--chapter-map-title);
+    font-size: clamp(.94rem, .98vw, 1.06rem);
+    font-weight: 500;
+    letter-spacing: .1em;
+  }
+
+  .world-water-page__text-button:hover,
+  .world-water-page__primary-button:hover,
+  .world-water-page__finish-actions button:hover,
+  .world-water-page__finish-actions a:hover {
+    border-color: var(--chapter-focus);
+    background: rgb(224 193 109 / 18%);
+    box-shadow: 0 0 0 1px rgb(255 241 178 / 32%), 0 .55rem 1.4rem rgb(0 10 14 / 26%);
+    color: var(--chapter-focus);
+    transform: translateY(-1px);
+  }
+
+  .world-water-page__finish-actions button,
+  .world-water-page__finish-actions a {
+    min-height: 44px;
+    padding: .58rem .82rem;
+    font-size: clamp(.88rem, .92vw, .98rem);
+  }
+
+  .world-water-page__footer {
+    gap: 1rem;
+    color: var(--chapter-map-detail);
+    font-size: clamp(.74rem, .78vw, .82rem);
+    font-weight: 500;
+    letter-spacing: .08em;
+    text-shadow: var(--chapter-map-shadow);
+  }
+
+  .world-water-page__footer span:first-child {
+    color: var(--chapter-map-meta);
+    font-size: clamp(.76rem, .8vw, .84rem);
+  }
+
+  .world-water-page__footer span:last-child {
+    color: var(--chapter-map-title);
+    font-family: Georgia, serif;
+    font-size: clamp(.8rem, .86vw, .92rem);
+    letter-spacing: .12em;
+  }
+
+  .world-water-page__progress {
+    position: relative;
+    height: .34rem;
+    overflow: visible;
+    border: 1px solid rgb(215 189 114 / 38%);
+    background: rgb(3 22 29 / 54%);
+    box-shadow: 0 0 0 .16rem rgb(5 25 32 / 28%);
+  }
+
+  .world-water-page__progress i {
+    position: relative;
+    height: 100%;
+    background: var(--chapter-accent);
+    box-shadow: 0 0 .72rem rgb(232 194 108 / 52%);
+    transition: width 520ms var(--chapter-ease-out);
+  }
+
+  .world-water-page__progress i::after {
+    position: absolute;
+    top: 50%;
+    right: -.22rem;
+    width: .42rem;
+    height: .42rem;
+    border: 1px solid var(--chapter-focus);
+    background: var(--chapter-accent);
+    box-shadow: 0 0 .5rem rgb(232 194 108 / 72%);
+    content: "";
+    transform: translateY(-50%) rotate(45deg);
+  }
+}

@@ -1,7 +1,7 @@
 import { useEffect, useMemo, useRef, useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 
-import { useLanMascot } from '@/components/lan-mascot';
+import { useChapterSpirit } from '@/components/chapter-spirit';
 import { basinOverviewItems } from '@/data/basinOverview';
 import usePrefersReducedMotion from '@/hooks/usePrefersReducedMotion';
 import type { BasinId, BasinOverviewEntry } from '@/types/basin';
@@ -9,6 +9,7 @@ import type { BasinId, BasinOverviewEntry } from '@/types/basin';
 import BasinAtlas from './components/BasinAtlas';
 import BasinOverviewHeader from './components/BasinOverviewHeader';
 import HydropowerKnowledgeAtlas from './components/HydropowerKnowledgeAtlas';
+import Folder from '@/components/Folder/Folder';
 
 import './BasinOverview.css';
 
@@ -27,7 +28,7 @@ function BasinOverview() {
     pageId: 'basin-overview',
     routePath: '/basins',
     dialogueId: 'lan-dialogue-basin-overview',
-    expressionId: 'happy' as const,
+    action: 'happy' as const,
     initialPosition: { x: 15, y: 80 },
     spriteAlt: '水精灵，点击打开或关闭流域导览，也可以拖动',
     dialogue: {
@@ -39,7 +40,7 @@ function BasinOverview() {
       closeOnAction: true,
     },
   }), []);
-  const { openDialogue } = useLanMascot(mascotConfig);
+  const { openDialogue } = useChapterSpirit(mascotConfig);
 
   useEffect(() => () => {
     if (navigationTimerRef.current !== null) {
@@ -78,7 +79,19 @@ function BasinOverview() {
         onBasinActivate={handleBasinActivate}
         onBasinHighlight={setHighlightedBasinId}
       />
-      <button className="basin-overview__knowledge-trigger" type="button" onClick={() => setIsKnowledgeOpen(true)}>水电与储能知识册</button>
+      <div className="basin-overview__knowledge-trigger">
+        <Folder
+          color="#2c98a0"
+          size={.58}
+          onActivate={() => setIsKnowledgeOpen(true)}
+          items={[
+            <span key="water">水势<br />与电能</span>,
+            <span key="station">电站<br />分类</span>,
+            <span key="storage">抽水<br />蓄能</span>,
+          ]}
+        />
+        <span aria-hidden="true">水电与储能知识册</span>
+      </div>
       <HydropowerKnowledgeAtlas isOpen={isKnowledgeOpen} onClose={() => setIsKnowledgeOpen(false)} />
     </section>
   );

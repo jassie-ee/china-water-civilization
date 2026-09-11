@@ -19,8 +19,6 @@ function ChapterOneIntro() {
       mediaFilename="chapter-one-intro.mp4"
       entryLabel="找寻水脉记忆"
       entryRoute="/chapters/chapter-1"
-      hiddenMascotPageId="chapter-one-intro-hidden"
-      routePath="/chapters/chapter-1/intro"
     />
   );
 }

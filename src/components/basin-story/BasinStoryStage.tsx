@@ -7,10 +7,11 @@ import BasinStoryTabs from './BasinStoryTabs';
 interface BasinStoryStageProps {
   scene: BasinStoryScene;
   onStartInteraction: () => void;
+  interactionLabel?: string;
   layout?: 'stacked' | 'split';
 }
 
-function BasinStoryStage({ scene, onStartInteraction, layout = 'stacked' }: BasinStoryStageProps) {
+function BasinStoryStage({ scene, onStartInteraction, interactionLabel = '跳过影像，直接互动', layout = 'stacked' }: BasinStoryStageProps) {
   const video = scene.videoFilename ? {
     title: scene.videoTitle ?? scene.title,
     description: '影像素材从项目 Release 按需读取；暂未上传时仍可直接进入互动。',
@@ -21,8 +22,7 @@ function BasinStoryStage({ scene, onStartInteraction, layout = 'stacked' }: Basi
 
   const mediaAfterSectionId = scene.mediaAfterSectionId ?? 'problem';
   const mediaSlot = video !== undefined ? <div className="basin-story-stage__media">
-    <NodeVideoPanel video={video} onComplete={scene.interaction ? onStartInteraction : undefined} skipLabel={scene.interaction ? '跳过影像，开始互动' : undefined} />
-    {scene.interaction && <button className="basin-story-stage__interaction" type="button" onClick={onStartInteraction}>开始互动</button>}
+    <NodeVideoPanel video={video} onComplete={scene.interaction ? onStartInteraction : undefined} skipLabel={scene.interaction ? interactionLabel : undefined} />
   </div> : scene.interaction ? <aside className="basin-story-stage__discovery" aria-label="互动探索入口">
     <span>互动观察</span><strong>{scene.label}</strong><p>先认识生活在这段水脉中的生命，再一起思考该怎样守护它们。</p>
     <button className="basin-story-stage__interaction" type="button" onClick={onStartInteraction}>开始识图</button>

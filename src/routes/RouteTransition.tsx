@@ -6,9 +6,11 @@ import ChapterOverview from '@/pages/ChapterOverview/ChapterOverview';
 import ChapterOne from '@/pages/ChapterOne/ChapterOne';
 import ChapterOneIntro from '@/pages/ChapterOne/ChapterOneIntro';
 import ChapterTwoIntro from '@/pages/ChapterTwo/ChapterTwoIntro';
+import CosmicFuture from '@/pages/CosmicFuture/CosmicFuture';
 import GovernanceLevel from '@/pages/GovernanceLevel/GovernanceLevel';
 import Home from '@/pages/Home/Home';
 import NotFound from '@/pages/NotFound/NotFound';
+import WorldWater from '@/pages/WorldWater/WorldWater';
 
 import './RouteTransition.css';
 
@@ -24,6 +26,8 @@ function RouteTransition() {
         <Route path="/chapters/chapter-1/intro" element={<ChapterOneIntro />} />
         <Route path="/chapters/chapter-1" element={<ChapterOne />} />
         <Route path="/chapters/chapter-2/intro" element={<ChapterTwoIntro />} />
+        <Route path="/chapter-3" element={<WorldWater />} />
+        <Route path="/chapter-4" element={<CosmicFuture />} />
         <Route path="/basins" element={<BasinOverview />} />
         <Route path="/basins/yellow-river" element={<BasinDetail basinId="yellow-river" />} />
         <Route path="/basins/yellow-river/nodes/:nodeId" element={<GovernanceLevel />} />

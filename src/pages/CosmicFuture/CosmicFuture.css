@@ -1,0 +1,2109 @@
+.cosmic-future-page {
+  --chapter-ink: #edf1dc;
+  --chapter-body: rgb(231 238 217 / 79%);
+  --chapter-muted: rgb(202 220 211 / 64%);
+  --chapter-accent: #d7bd72;
+  --chapter-focus: #fff1b2;
+  --chapter-panel-line: rgb(205 220 187 / 31%);
+  --chapter-panel-fill: rgb(7 28 37 / 86%);
+  --chapter-choice-line: rgb(208 228 215 / 21%);
+  --chapter-choice-fill: rgb(4 23 32 / 43%);
+  --chapter-choice-hover: rgb(94 107 68 / 28%);
+  --chapter-choice-selected: rgb(133 108 45 / 24%);
+  --chapter-feedback-fill: rgb(224 199 119 / 8%);
+  --chapter-subtle-line: rgb(215 224 195 / 17%);
+  --chapter-map-title: rgb(244 246 223 / 96%);
+  --chapter-map-meta: rgb(227 199 123 / 94%);
+  --chapter-map-detail: rgb(230 238 218 / 88%);
+  --chapter-map-shadow: 0 0 .16rem rgb(0 11 17 / 100%), 0 .12rem .62rem rgb(0 11 17 / 96%);
+  --chapter-panel-wash: linear-gradient(90deg, transparent 0%, rgb(3 19 28 / 25%) 14%, rgb(3 19 28 / 18%) 66%, transparent 100%);
+  --chapter-active-wash: linear-gradient(90deg, rgb(4 25 33 / 58%), rgb(4 25 33 / 14%) 80%, transparent 100%);
+  --chapter-dur-panel: 320ms;
+  --chapter-dur-phase: 620ms;
+  --chapter-ease-out: cubic-bezier(.2, .75, .25, 1);
+  position: relative;
+  min-height: 100vh;
+  min-height: 100svh;
+  overflow: hidden;
+  isolation: isolate;
+  color: var(--chapter-ink);
+  background: #0a2430;
+}
+
+.cosmic-future-page__backdrop,
+.cosmic-future-page__wash {
+  position: absolute;
+  z-index: -2;
+  inset: 0;
+  pointer-events: none;
+}
+
+.cosmic-future-page__backdrop img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: 53% 34%;
+  filter: saturate(.74) contrast(1.02) brightness(.72);
+  transform: scale(1.02);
+  animation: cosmic-future-scene-in 620ms var(--chapter-ease-out) both;
+}
+
+.cosmic-future-page__wash {
+  display: none;
+}
+
+.cosmic-future-page__topbar {
+  position: relative;
+  z-index: 3;
+  display: grid;
+  grid-template-columns: 1fr auto 1fr;
+  align-items: center;
+  gap: 1rem;
+  width: min(100% - 3rem, 90rem);
+  margin: 0 auto;
+  padding: 1.35rem 0 0;
+}
+
+.cosmic-future-page__back-link,
+.cosmic-future-page__score {
+  color: var(--chapter-muted);
+  font-size: .73rem;
+  letter-spacing: .13em;
+}
+
+.cosmic-future-page__back-link {
+  width: fit-content;
+  padding: .25rem 0;
+}
+
+.cosmic-future-page__back-link:hover,
+.cosmic-future-page__back-link:focus-visible {
+  color: var(--chapter-ink);
+}
+
+.cosmic-future-page__back-link:focus-visible,
+.cosmic-future-orbit__signal button:focus-visible,
+.cosmic-future-orbit__shard:focus-visible,
+.cosmic-future-page__primary-button:focus-visible,
+.cosmic-future-page__finish-actions button:focus-visible,
+.cosmic-future-page__finish-actions a:focus-visible {
+  outline: 2px solid var(--chapter-focus);
+  outline-offset: .3rem;
+}
+
+.cosmic-future-page__chapter-mark {
+  display: grid;
+  justify-items: center;
+  gap: .2rem;
+  color: var(--chapter-muted);
+  text-align: center;
+}
+
+.cosmic-future-page__chapter-mark span {
+  color: var(--chapter-accent);
+  font-size: .63rem;
+  letter-spacing: .22em;
+}
+
+.cosmic-future-page__chapter-mark strong {
+  font-family: var(--font-calligraphy, "STKaiti", "KaiTi", serif);
+  font-size: .9rem;
+  font-weight: 400;
+  letter-spacing: .12em;
+}
+
+.cosmic-future-page__score {
+  display: flex;
+  justify-content: flex-end;
+  gap: .55rem;
+  align-items: baseline;
+  margin-right: 8rem;
+}
+
+.cosmic-future-page__score strong {
+  color: var(--chapter-accent);
+  font-family: Georgia, serif;
+  font-size: 1.4rem;
+  font-weight: 400;
+  letter-spacing: .08em;
+}
+
+.cosmic-future-page__score small {
+  color: var(--chapter-muted);
+  font-family: inherit;
+  font-size: .67rem;
+  letter-spacing: .04em;
+}
+
+.cosmic-future-page__grid {
+  display: grid;
+  grid-template-columns: minmax(12rem, .7fr) minmax(25rem, 1.65fr) minmax(17rem, .8fr);
+  align-items: center;
+  gap: clamp(1.3rem, 3.2vw, 3.8rem);
+  width: min(100% - 3rem, 90rem);
+  min-height: calc(100vh - 6.1rem);
+  min-height: calc(100svh - 6.1rem);
+  margin: 0 auto;
+  padding: 2.2rem 0 4.2rem;
+}
+
+.cosmic-future-page__intro {
+  align-self: center;
+  padding: 1rem 0 2rem;
+  background: linear-gradient(90deg, rgb(5 25 31 / 38%), rgb(5 25 31 / 12%) 78%, transparent);
+}
+
+.cosmic-future-page__eyebrow {
+  margin: 0;
+  color: var(--chapter-accent);
+  font-size: .67rem;
+  letter-spacing: .2em;
+  line-height: 1.5;
+}
+
+.cosmic-future-page__intro h1 {
+  margin: 1rem 0 1.25rem;
+  color: var(--chapter-ink);
+  font-family: var(--font-calligraphy, "STKaiti", "KaiTi", serif);
+  font-size: clamp(2.45rem, 5vw, 5rem);
+  font-weight: 400;
+  letter-spacing: .12em;
+  line-height: 1.18;
+}
+
+.cosmic-future-page__intro h1 em {
+  color: #bfd9cb;
+  font-style: normal;
+}
+
+.cosmic-future-page__lede {
+  max-width: 20rem;
+  color: var(--chapter-body);
+  font-family: var(--font-calligraphy, "STKaiti", "KaiTi", serif);
+  font-size: .98rem;
+  line-height: 1.9;
+}
+
+.cosmic-future-page__principle {
+  display: grid;
+  gap: .42rem;
+  max-width: 18rem;
+  margin-top: 2rem;
+  padding: .75rem 0;
+  border-top: 1px solid var(--chapter-accent);
+  border-bottom: 1px solid rgb(215 224 195 / 17%);
+}
+
+.cosmic-future-page__principle span {
+  color: var(--chapter-accent);
+  font-size: .64rem;
+  letter-spacing: .15em;
+}
+
+.cosmic-future-page__principle p {
+  margin: 0;
+  color: var(--chapter-muted);
+  font-size: .76rem;
+  line-height: 1.7;
+}
+
+.cosmic-future-page__legend {
+  display: flex;
+  flex-wrap: wrap;
+  gap: .75rem 1rem;
+  margin-top: 2.1rem;
+  color: rgb(218 229 214 / 55%);
+  font-size: .63rem;
+  letter-spacing: .07em;
+}
+
+.cosmic-future-page__legend span {
+  display: inline-flex;
+  gap: .42rem;
+  align-items: center;
+}
+
+.cosmic-future-page__legend i {
+  display: block;
+  width: .45rem;
+  height: .45rem;
+  border: 1px solid var(--chapter-accent);
+  border-radius: 50%;
+}
+
+.cosmic-future-page__legend i.is-current { background: var(--chapter-accent); }
+.cosmic-future-page__legend i.is-recorded { border-color: #b7d4c0; background: #b7d4c0; }
+.cosmic-future-page__legend i.is-shard { border-radius: 0; transform: rotate(45deg); }
+
+.cosmic-future-orbit {
+  align-self: center;
+  min-width: 0;
+}
+
+.cosmic-future-orbit__heading,
+.cosmic-future-orbit__note {
+  display: flex;
+  justify-content: space-between;
+  gap: 1rem;
+  color: var(--chapter-muted);
+  font-size: .64rem;
+  letter-spacing: .13em;
+}
+
+.cosmic-future-orbit__heading {
+  padding-bottom: .9rem;
+  border-bottom: 1px solid var(--chapter-subtle-line);
+}
+
+.cosmic-future-orbit__heading span:first-child { color: var(--chapter-accent); }
+
+.cosmic-future-orbit__surface {
+  position: relative;
+  aspect-ratio: 640 / 560;
+  min-height: 27rem;
+  margin: .7rem 0 .75rem;
+  overflow: visible;
+  border-bottom: 1px solid var(--chapter-subtle-line);
+  background:
+    radial-gradient(circle at 50% 50%, rgb(92 166 157 / 8%), transparent 35%),
+    linear-gradient(180deg, transparent, rgb(218 219 182 / 4%));
+}
+
+.cosmic-future-orbit__surface::before,
+.cosmic-future-orbit__surface::after {
+  position: absolute;
+  z-index: 1;
+  top: 0;
+  bottom: 0;
+  width: 1px;
+  content: "";
+  background: var(--chapter-subtle-line);
+}
+
+.cosmic-future-orbit__surface::before { left: 0; }
+.cosmic-future-orbit__surface::after { right: 0; }
+
+.cosmic-future-orbit__svg {
+  position: absolute;
+  z-index: 2;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  overflow: visible;
+  pointer-events: none;
+}
+
+.cosmic-future-orbit__halo {
+  fill: rgb(77 147 143 / 5%);
+  stroke: rgb(185 215 193 / 28%);
+  stroke-dasharray: 1 8;
+  stroke-width: 1;
+}
+
+.cosmic-future-orbit__orbit {
+  fill: none;
+  stroke: rgb(205 224 198 / 27%);
+  stroke-dasharray: 1 9;
+  stroke-linecap: round;
+  stroke-width: 1;
+  transform-box: fill-box;
+  transform-origin: center;
+  animation: cosmic-future-orbit-spin 26s linear infinite;
+}
+
+.cosmic-future-orbit__orbit--two {
+  stroke: rgb(225 204 143 / 31%);
+  animation-duration: 34s;
+  animation-direction: reverse;
+}
+
+.cosmic-future-orbit__orbit--three {
+  stroke: rgb(160 206 199 / 26%);
+  animation-duration: 42s;
+}
+
+.cosmic-future-orbit__waterline {
+  fill: none;
+  stroke: #d5ba70;
+  stroke-dasharray: 6 15;
+  stroke-linecap: round;
+  stroke-width: 2;
+  animation: cosmic-future-waterline-flow 12s linear infinite;
+}
+
+.cosmic-future-orbit__waterline--echo {
+  opacity: .24;
+  stroke: #b4d4c5;
+  stroke-dasharray: 2 18;
+  stroke-width: 1;
+  animation-duration: 18s;
+  animation-direction: reverse;
+}
+
+.cosmic-future-orbit__waterline--trace {
+  stroke: #f2d58b;
+  stroke-dasharray: 32 390;
+  stroke-width: 2.6;
+  opacity: 0;
+  animation: none;
+}
+
+.cosmic-future-orbit__waterline--trace.is-active {
+  opacity: .9;
+  animation: cosmic-future-waterline-trace 3.4s linear infinite;
+}
+
+.cosmic-future-orbit__core {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  z-index: 2;
+  display: grid;
+  width: 7.5rem;
+  height: 7.5rem;
+  place-items: center;
+  border: 1px solid rgb(231 202 126 / 74%);
+  border-radius: 50%;
+  color: var(--chapter-ink);
+  background: radial-gradient(circle at 35% 30%, rgb(139 192 176 / 45%), rgb(10 48 56 / 92%) 62%);
+  box-shadow: 0 0 0 1.2rem rgb(191 211 180 / 5%), 0 0 3rem rgb(82 168 156 / 17%);
+  text-align: center;
+  transform: translate(-50%, -50%);
+  transition: box-shadow 500ms ease, border-color 500ms ease;
+}
+
+.cosmic-future-page--awakening .cosmic-future-orbit__core,
+.cosmic-future-page--complete .cosmic-future-orbit__core {
+  border-color: rgb(242 212 132 / 92%);
+  box-shadow: 0 0 0 1.4rem rgb(191 211 180 / 7%), 0 0 4rem rgb(228 194 95 / 28%);
+}
+
+.cosmic-future-orbit__core::before,
+.cosmic-future-orbit__core::after {
+  position: absolute;
+  inset: .6rem;
+  border: 1px solid rgb(215 190 113 / 22%);
+  border-radius: 50%;
+  content: "";
+  transform: rotate(38deg) scaleX(.55);
+}
+
+.cosmic-future-orbit__core::after { transform: rotate(-38deg) scaleX(.55); }
+
+.cosmic-future-orbit__core span,
+.cosmic-future-orbit__core strong {
+  position: relative;
+  z-index: 1;
+  grid-column: 1;
+  grid-row: 1;
+  font-family: var(--font-calligraphy, "STKaiti", "KaiTi", serif);
+  font-weight: 400;
+}
+
+.cosmic-future-orbit__core span { margin-top: -1.1rem; font-size: 1.05rem; }
+.cosmic-future-orbit__core strong { margin-top: 1.15rem; color: var(--chapter-accent); font-size: 1.3rem; }
+.cosmic-future-orbit__core i { position: absolute; bottom: 1.45rem; width: 1.9rem; height: 1px; background: var(--chapter-accent); }
+
+.cosmic-future-orbit__shards {
+  position: absolute;
+  /* Keep the actual ritual pieces above the broad, transparent route hitboxes. */
+  z-index: 7;
+  inset: 0;
+  pointer-events: none;
+}
+
+.cosmic-future-orbit__shard {
+  position: absolute;
+  display: grid;
+  width: 3.5rem;
+  height: 3.5rem;
+  place-items: center;
+  border: 1px solid rgb(225 199 123 / 74%);
+  color: var(--chapter-accent);
+  background: rgb(8 39 46 / 82%);
+  box-shadow: 0 0 0 .45rem rgb(221 190 103 / 7%);
+  pointer-events: auto;
+  transform: rotate(45deg);
+  transition: top 550ms ease, left 550ms ease, background 350ms ease, box-shadow 350ms ease, transform 550ms ease;
+}
+
+.cosmic-future-orbit__shard:nth-child(1) { top: 18%; left: 24%; }
+.cosmic-future-orbit__shard:nth-child(2) { top: 34%; left: 71%; }
+.cosmic-future-orbit__shard:nth-child(3) { top: 73%; left: 22%; }
+
+.cosmic-future-orbit__shard span {
+  font-family: var(--font-calligraphy, "STKaiti", "KaiTi", serif);
+  font-size: 1.25rem;
+  transform: rotate(-45deg);
+}
+
+.cosmic-future-orbit__shard:hover:not(:disabled),
+.cosmic-future-orbit__shard.is-assembled {
+  background: rgb(125 101 42 / 38%);
+  box-shadow: 0 0 0 .55rem rgb(221 190 103 / 12%), 0 0 1.8rem rgb(224 192 102 / 32%);
+}
+
+.cosmic-future-orbit__shard.is-assembled:nth-child(1) { top: 45%; left: 41%; }
+.cosmic-future-orbit__shard.is-assembled:nth-child(2) { top: 48%; left: 50%; }
+.cosmic-future-orbit__shard.is-assembled:nth-child(3) { top: 54%; left: 45%; }
+
+.cosmic-future-orbit__shard:disabled { cursor: default; }
+
+.cosmic-future-orbit__signals {
+  position: absolute;
+  z-index: 5;
+  inset: 0;
+  padding: 0;
+  margin: 0;
+  list-style: none;
+}
+
+.cosmic-future-orbit__signal {
+  position: absolute;
+  top: var(--signal-y);
+  left: var(--signal-x);
+  width: min(10.5rem, 34%);
+  transform: translate(-50%, -50%);
+}
+
+.cosmic-future-orbit__signal button {
+  display: grid;
+  grid-template-columns: 1rem minmax(0, 1fr);
+  gap: .65rem;
+  align-items: start;
+  width: 100%;
+  padding: .2rem;
+  color: var(--chapter-body);
+  background: transparent;
+  text-align: left;
+}
+
+.cosmic-future-orbit__signal button:disabled { cursor: not-allowed; opacity: .36; }
+
+.cosmic-future-orbit__signal-dot {
+  position: relative;
+  display: block;
+  width: .85rem;
+  height: .85rem;
+  margin-top: .22rem;
+  border: 1px solid var(--chapter-accent);
+  border-radius: 50%;
+  background: #122f38;
+  box-shadow: 0 0 0 .25rem rgb(232 194 108 / 8%);
+}
+
+.cosmic-future-orbit__signal:not(.is-recorded) .cosmic-future-orbit__signal-dot::after {
+  position: absolute;
+  inset: -.3rem;
+  border: 1px solid rgb(232 194 108 / 56%);
+  border-radius: 50%;
+  content: "";
+  animation: cosmic-future-signal-pulse 2.8s ease-out infinite;
+}
+
+.cosmic-future-orbit__signal-copy {
+  display: grid;
+  gap: .18rem;
+}
+
+.cosmic-future-orbit__signal-copy small {
+  color: var(--chapter-muted);
+  font-size: .58rem;
+  letter-spacing: .08em;
+  line-height: 1.4;
+}
+
+.cosmic-future-orbit__signal-copy strong {
+  color: var(--chapter-ink);
+  font-family: var(--font-calligraphy, "STKaiti", "KaiTi", serif);
+  font-size: clamp(.88rem, 1.35vw, 1.12rem);
+  font-weight: 400;
+  line-height: 1.35;
+}
+
+.cosmic-future-orbit__signal:hover:not(:has(button:disabled)) .cosmic-future-orbit__signal-dot,
+.cosmic-future-orbit__signal.is-active .cosmic-future-orbit__signal-dot {
+  background: var(--chapter-accent);
+  box-shadow: 0 0 0 .35rem rgb(232 194 108 / 13%), 0 0 .8rem rgb(232 194 108 / 48%);
+}
+
+.cosmic-future-orbit__signal:hover:not(:has(button:disabled)) .cosmic-future-orbit__signal-copy strong,
+.cosmic-future-orbit__signal.is-active .cosmic-future-orbit__signal-copy strong {
+  color: var(--chapter-accent);
+}
+
+.cosmic-future-orbit__signal.is-recorded .cosmic-future-orbit__signal-dot {
+  border-color: #b7d4c0;
+  background: #b7d4c0;
+}
+
+.cosmic-future-orbit__assembly-count {
+  position: absolute;
+  right: 1rem;
+  bottom: 4.1rem;
+  z-index: 5;
+  color: rgb(224 196 124 / 68%);
+  font-size: .62rem;
+  letter-spacing: .12em;
+}
+
+.cosmic-future-orbit__stamp {
+  position: absolute;
+  z-index: 5;
+  right: 1rem;
+  bottom: .9rem;
+  display: grid;
+  gap: .18rem;
+  color: rgb(224 196 124 / 63%);
+  text-align: right;
+  transform: rotate(-8deg);
+}
+
+.cosmic-future-orbit__stamp span {
+  font-family: var(--font-calligraphy, "STKaiti", "KaiTi", serif);
+  font-size: 2rem;
+  line-height: 1;
+}
+
+.cosmic-future-orbit__stamp small {
+  font-size: .56rem;
+  letter-spacing: .13em;
+}
+
+.cosmic-future-orbit__note {
+  justify-content: flex-start;
+  color: rgb(225 231 209 / 54%);
+  font-size: .68rem;
+  letter-spacing: .08em;
+}
+
+.cosmic-future-page__panel {
+  align-self: center;
+  min-width: 0;
+  background: linear-gradient(90deg, rgb(4 22 30 / 10%), rgb(4 22 30 / 32%));
+}
+
+.cosmic-future-page__ritual,
+.cosmic-future-page__voyage-panel,
+.cosmic-future-page__awakening-panel,
+.cosmic-future-page__finish {
+  display: grid;
+  gap: .8rem;
+  min-height: 24rem;
+  align-content: center;
+  padding: clamp(1.25rem, 2.4vw, 2rem) 0 clamp(1.25rem, 2.4vw, 2rem) clamp(1rem, 2vw, 1.8rem);
+  border-left: 1px solid var(--chapter-panel-line);
+}
+
+.cosmic-future-page__ritual h2,
+.cosmic-future-page__voyage-panel h2,
+.cosmic-future-page__awakening-panel h2,
+.cosmic-future-page__finish h2 {
+  margin: 0;
+  color: var(--chapter-ink);
+  font-family: var(--font-calligraphy, "STKaiti", "KaiTi", serif);
+  font-size: clamp(1.55rem, 2.6vw, 2.15rem);
+  font-weight: 400;
+  line-height: 1.45;
+}
+
+.cosmic-future-page__ritual > p:not(.cosmic-future-page__eyebrow),
+.cosmic-future-page__voyage-panel > p:not(.cosmic-future-page__eyebrow),
+.cosmic-future-page__awakening-panel > p:not(.cosmic-future-page__eyebrow),
+.cosmic-future-page__finish > p:not(.cosmic-future-page__eyebrow) {
+  max-width: 19rem;
+  color: var(--chapter-body);
+  font-size: .86rem;
+  line-height: 1.8;
+}
+
+.cosmic-future-page__ritual small {
+  color: var(--chapter-muted);
+  font-size: .67rem;
+  letter-spacing: .05em;
+}
+
+.cosmic-future-page__shard-meter {
+  display: flex;
+  gap: .5rem;
+  margin: .3rem 0 .35rem;
+}
+
+.cosmic-future-page__shard-meter i {
+  display: grid;
+  width: 2rem;
+  height: 2rem;
+  place-items: center;
+  border: 1px solid rgb(225 199 123 / 52%);
+  color: var(--chapter-muted);
+  font-family: var(--font-calligraphy, "STKaiti", "KaiTi", serif);
+  font-size: .9rem;
+  font-style: normal;
+  transform: rotate(45deg);
+}
+
+.cosmic-future-page__shard-meter i span { transform: rotate(-45deg); }
+.cosmic-future-page__shard-meter i.is-assembled { color: var(--chapter-accent); background: rgb(125 101 42 / 36%); }
+
+.cosmic-future-page__primary-button {
+  display: inline-flex;
+  width: fit-content;
+  gap: .6rem;
+  align-items: center;
+  padding: .55rem .75rem;
+  border: 1px solid var(--chapter-accent);
+  color: var(--chapter-ink);
+  background: rgb(224 193 109 / 9%);
+  font-family: var(--font-calligraphy, "STKaiti", "KaiTi", serif);
+  font-size: .82rem;
+  letter-spacing: .08em;
+  transition: background 180ms ease, color 180ms ease, transform 180ms ease;
+}
+
+.cosmic-future-page__primary-button:hover {
+  color: var(--chapter-accent);
+  background: rgb(224 193 109 / 16%);
+  transform: translateX(2px);
+}
+
+.cosmic-future-page__voyage-route {
+  display: flex;
+  gap: .45rem;
+  align-items: center;
+  max-width: 19rem;
+  color: var(--chapter-muted);
+  font-size: .62rem;
+  letter-spacing: .08em;
+}
+
+.cosmic-future-page__voyage-route i {
+  flex: 1;
+  height: 1px;
+  min-width: .8rem;
+  background: var(--chapter-accent);
+  opacity: .65;
+}
+
+.cosmic-future-page__quote {
+  color: var(--chapter-accent) !important;
+  font-family: var(--font-calligraphy, "STKaiti", "KaiTi", serif);
+  font-size: .95rem !important;
+}
+
+.cosmic-future-page__reward {
+  padding-left: .75rem;
+  border-left: 1px solid var(--chapter-accent);
+  color: var(--chapter-accent) !important;
+}
+
+.cosmic-future-page__finish {
+  align-content: center;
+  border-left-color: var(--chapter-accent);
+}
+
+.cosmic-future-page__finish-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+  align-items: center;
+  margin-top: .65rem;
+}
+
+.cosmic-future-page__finish-actions button,
+.cosmic-future-page__finish-actions a {
+  display: inline-flex;
+  gap: .5rem;
+  align-items: center;
+  padding: .45rem 0;
+  border-bottom: 1px solid var(--chapter-accent);
+  color: var(--chapter-ink);
+  background: transparent;
+  font-family: var(--font-calligraphy, "STKaiti", "KaiTi", serif);
+  font-size: .8rem;
+}
+
+.cosmic-future-page__finish-actions a:hover,
+.cosmic-future-page__finish-actions button:hover { color: var(--chapter-accent); }
+
+.cosmic-future-page__footer {
+  position: absolute;
+  z-index: 2;
+  right: max(1.5rem, calc((100% - 90rem) / 2));
+  bottom: 1.25rem;
+  left: max(1.5rem, calc((100% - 90rem) / 2));
+  display: grid;
+  grid-template-columns: auto minmax(5rem, 1fr) auto;
+  gap: .85rem;
+  align-items: center;
+  color: var(--chapter-muted);
+  font-size: .64rem;
+  letter-spacing: .1em;
+}
+
+.cosmic-future-page__progress {
+  height: 1px;
+  background: rgb(220 219 186 / 22%);
+}
+
+.cosmic-future-page__progress i {
+  display: block;
+  width: var(--progress);
+  height: 100%;
+  background: var(--chapter-accent);
+  transition: width 300ms ease;
+}
+
+@keyframes cosmic-future-orbit-spin {
+  to { transform: rotate(360deg); }
+}
+
+@keyframes cosmic-future-waterline-flow {
+  to { stroke-dashoffset: -160; }
+}
+
+@keyframes cosmic-future-waterline-trace {
+  from { stroke-dashoffset: 420; }
+  to { stroke-dashoffset: -420; }
+}
+
+@keyframes cosmic-future-signal-pulse {
+  0%, 60%, 100% { opacity: 0; transform: scale(.7); }
+  25% { opacity: 1; }
+}
+
+@media (max-width: 1120px) {
+  .cosmic-future-page__grid {
+    grid-template-columns: minmax(11rem, .7fr) minmax(22rem, 1.2fr) minmax(17rem, .9fr);
+    gap: 1.5rem;
+  }
+
+  .cosmic-future-page__intro h1 { font-size: clamp(2.1rem, 4.5vw, 3.8rem); }
+  .cosmic-future-orbit__signal { width: min(9rem, 34%); }
+}
+
+@media (max-width: 900px) {
+  .cosmic-future-page { overflow: auto; }
+
+  .cosmic-future-page__topbar {
+    position: sticky;
+    top: 0;
+    background: linear-gradient(180deg, rgb(6 28 37 / 92%), transparent);
+  }
+
+  .cosmic-future-page__grid {
+    grid-template-columns: minmax(0, 1fr) minmax(19rem, .9fr);
+    align-items: start;
+    min-height: 0;
+    padding-top: 2rem;
+    padding-bottom: 5rem;
+  }
+
+  .cosmic-future-page__intro { grid-column: 1 / -1; padding-bottom: 0; }
+  .cosmic-future-page__lede { max-width: 34rem; }
+  .cosmic-future-page__principle { margin-top: 1.1rem; }
+  .cosmic-future-page__legend { margin-top: 1.15rem; }
+  .cosmic-future-orbit { grid-column: 1; }
+  .cosmic-future-page__panel { grid-column: 2; }
+}
+
+@media (max-width: 680px) {
+  .cosmic-future-page__topbar,
+  .cosmic-future-page__grid { width: min(100% - 1.5rem, 42rem); }
+
+  .cosmic-future-page__topbar { grid-template-columns: 1fr auto; gap: .75rem; padding-top: 1rem; padding-right: 5.5rem; }
+  .cosmic-future-page__chapter-mark { justify-items: end; text-align: right; }
+  .cosmic-future-page__score { display: none; }
+
+  .cosmic-future-page__grid {
+    grid-template-columns: 1fr;
+    gap: 1.5rem;
+  }
+
+  .cosmic-future-page__intro,
+  .cosmic-future-orbit,
+  .cosmic-future-page__panel { grid-column: 1; }
+  .cosmic-future-page__intro h1 { margin-top: .7rem; font-size: clamp(2.35rem, 14vw, 3.6rem); }
+  .cosmic-future-orbit__surface { min-height: 23rem; }
+  .cosmic-future-orbit__signal { width: min(9.5rem, 42%); }
+  .cosmic-future-orbit__signal:nth-child(2) { left: 76%; }
+  .cosmic-future-orbit__signal-copy strong { font-size: .9rem; }
+  .cosmic-future-orbit__core { width: 6.2rem; height: 6.2rem; }
+  .cosmic-future-orbit__stamp { right: .55rem; }
+  .cosmic-future-page__panel { border-top: 1px solid var(--chapter-panel-line); padding-top: 1.3rem; }
+  .cosmic-future-page__ritual,
+  .cosmic-future-page__voyage-panel,
+  .cosmic-future-page__awakening-panel,
+  .cosmic-future-page__finish { min-height: 0; padding: .6rem 0 1.5rem; border-left: 0; }
+  .cosmic-future-page__footer { position: fixed; right: .75rem; bottom: .65rem; left: .75rem; padding: .55rem .7rem; background: rgb(6 29 38 / 90%); }
+  .cosmic-future-page__footer span:first-child { display: none; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .cosmic-future-orbit__orbit,
+  .cosmic-future-orbit__waterline,
+  .cosmic-future-orbit__waterline--trace,
+  .cosmic-future-orbit__signal:not(.is-recorded) .cosmic-future-orbit__signal-dot::after {
+    animation: none;
+  }
+
+  .cosmic-future-orbit__waterline--trace.is-active { opacity: .58; }
+
+  .cosmic-future-orbit__shard,
+  .cosmic-future-page__primary-button,
+  .cosmic-future-page__progress i { transition: none; }
+
+  .cosmic-future-page__primary-button:hover { transform: none; }
+}
+
+/* Chapter 04 build pass: phase-driven orbit ritual, scoped to this page. */
+.cosmic-future-orbit__orbit {
+  opacity: .24;
+  animation: none;
+  transition: opacity 320ms var(--chapter-ease-out), stroke 320ms var(--chapter-ease-out);
+}
+
+.cosmic-future-page--assembly .cosmic-future-orbit__orbit--one,
+.cosmic-future-page--reflection .cosmic-future-orbit__orbit--one {
+  opacity: .78;
+  stroke: var(--chapter-accent);
+}
+
+.cosmic-future-page--reflection .cosmic-future-orbit__orbit--one,
+.cosmic-future-page--voyage .cosmic-future-orbit__orbit--two,
+.cosmic-future-page--awakening .cosmic-future-orbit__orbit--three {
+  animation: cosmic-future-orbit-settle var(--chapter-dur-phase) var(--chapter-ease-out) both;
+}
+
+.cosmic-future-page--voyage .cosmic-future-orbit__orbit--two {
+  opacity: .84;
+  stroke: var(--chapter-accent);
+}
+
+.cosmic-future-page--awakening .cosmic-future-orbit__orbit--three,
+.cosmic-future-page--complete .cosmic-future-orbit__orbit--three {
+  opacity: .88;
+  stroke: var(--chapter-water-soft, #a0cec7);
+}
+
+.cosmic-future-orbit__waterline,
+.cosmic-future-orbit__waterline--echo {
+  animation: none;
+  stroke-dashoffset: 0;
+}
+
+.cosmic-future-orbit__waterline--trace {
+  stroke-dashoffset: 420;
+}
+
+.cosmic-future-orbit__waterline--trace.is-active {
+  animation: cosmic-future-waterline-trace-ledger 720ms var(--chapter-ease-out) both;
+}
+
+.cosmic-future-orbit__signal-copy {
+  opacity: .5;
+  transition: opacity 220ms var(--chapter-ease-out);
+}
+
+.cosmic-future-orbit__signal.is-active .cosmic-future-orbit__signal-copy,
+.cosmic-future-orbit__signal.is-recorded .cosmic-future-orbit__signal-copy,
+.cosmic-future-orbit__signal:hover .cosmic-future-orbit__signal-copy,
+.cosmic-future-orbit__signal:focus-within .cosmic-future-orbit__signal-copy {
+  opacity: 1;
+}
+
+.cosmic-future-orbit__signal:not(.is-recorded) .cosmic-future-orbit__signal-dot::after {
+  opacity: 0;
+  animation: none;
+  transform: scale(.82);
+  transition: opacity 180ms var(--chapter-ease-out), transform 180ms var(--chapter-ease-out);
+}
+
+.cosmic-future-orbit__signal.is-active .cosmic-future-orbit__signal-dot::after,
+.cosmic-future-orbit__signal:hover .cosmic-future-orbit__signal-dot::after,
+.cosmic-future-orbit__signal:focus-within .cosmic-future-orbit__signal-dot::after {
+  opacity: .58;
+  transform: scale(1);
+}
+
+.cosmic-future-page__panel-content {
+  animation: cosmic-future-panel-in var(--chapter-dur-panel) var(--chapter-ease-out) both;
+}
+
+.cosmic-future-page .chapter-choice-panel {
+  padding: clamp(1rem, 2vw, 1.55rem) 0;
+  border: 0;
+  border-top: 1px solid var(--chapter-panel-line);
+  border-bottom: 1px solid var(--chapter-panel-line);
+  background: transparent;
+  box-shadow: none;
+}
+
+.cosmic-future-page .chapter-choice-panel__feedback {
+  border-top: 1px solid var(--chapter-accent);
+  border-left: 0;
+  background: var(--chapter-feedback-fill);
+}
+
+.cosmic-future-page .chapter-choice-panel__choice {
+  min-height: 44px;
+}
+
+.cosmic-future-page__primary-button,
+.cosmic-future-page__finish-actions button,
+.cosmic-future-page__finish-actions a {
+  min-height: 44px;
+}
+
+.cosmic-future-page__progress i {
+  width: 100%;
+  transform: scaleX(var(--progress));
+  transform-origin: left center;
+  transition: transform 300ms var(--chapter-ease-out);
+}
+
+@keyframes cosmic-future-orbit-settle {
+  from { opacity: .3; transform: rotate(-4deg) scale(.985); }
+  to { opacity: 1; transform: rotate(0) scale(1); }
+}
+
+@keyframes cosmic-future-waterline-trace-ledger {
+  0% { opacity: 0; stroke-dashoffset: 420; }
+  22% { opacity: .9; }
+  100% { opacity: .34; stroke-dashoffset: 0; }
+}
+
+@keyframes cosmic-future-panel-in {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes cosmic-future-scene-in {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@media (max-width: 1120px) {
+  .cosmic-future-page__grid {
+    grid-template-columns: minmax(11rem, .7fr) minmax(22rem, 1.3fr) minmax(17rem, .9fr);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .cosmic-future-orbit__orbit,
+  .cosmic-future-orbit__waterline,
+  .cosmic-future-orbit__waterline--trace,
+  .cosmic-future-orbit__signal-copy,
+  .cosmic-future-orbit__signal-dot::after,
+  .cosmic-future-page__backdrop img,
+  .cosmic-future-page__panel-content,
+  .cosmic-future-page__progress i {
+    animation: none;
+    transition: none;
+  }
+}
+
+/* Library motion wrappers keep the orbit surface and CTA dimensions intact. */
+.cosmic-future-orbit__mist-layer {
+  display: block;
+  width: 100%;
+}
+
+.cosmic-future-orbit__mist-layer > .chapter-water-mist__content {
+  width: 100%;
+}
+
+.cosmic-future-page__magnet,
+.cosmic-future-page__magnet > .chapter-magnet__inner,
+.cosmic-future-page__cta-mist,
+.cosmic-future-page__cta-mist > .chapter-water-mist__content {
+  display: inline-flex;
+}
+
+/* Cartographic refinement: quiet continuous lines and a paper-map globe. */
+.cosmic-future-orbit__halo {
+  fill: rgb(92 166 157 / 3%);
+  stroke: rgb(185 215 193 / 30%);
+  stroke-width: .75;
+  stroke-dasharray: none;
+  opacity: .76;
+}
+
+.cosmic-future-orbit__orbit,
+.cosmic-future-orbit__orbit--two,
+.cosmic-future-orbit__orbit--three {
+  animation: none;
+  stroke-linecap: round;
+  stroke-width: .72;
+  stroke-dasharray: none;
+  opacity: .34;
+}
+
+.cosmic-future-orbit__orbit--one { stroke: rgb(205 224 198 / 33%); }
+.cosmic-future-orbit__orbit--two { stroke: rgb(225 204 143 / 38%); opacity: .4; }
+.cosmic-future-orbit__orbit--three { stroke: rgb(160 206 199 / 31%); opacity: .32; }
+
+.cosmic-future-orbit__waterline,
+.cosmic-future-orbit__waterline--echo {
+  animation: none;
+  stroke-linecap: round;
+  stroke-dasharray: none;
+  stroke-dashoffset: 0;
+}
+
+.cosmic-future-orbit__waterline {
+  stroke: rgb(225 195 116 / 72%);
+  stroke-width: 1.15;
+  opacity: .72;
+}
+
+.cosmic-future-orbit__waterline--echo {
+  stroke: rgb(180 212 197 / 46%);
+  stroke-width: .68;
+  opacity: .34;
+}
+
+.cosmic-future-orbit__waterline--trace {
+  stroke: rgb(242 213 139 / 92%);
+  stroke-width: 1.7;
+  stroke-dasharray: .16 .84;
+  stroke-dashoffset: 1.16;
+  opacity: 0;
+}
+
+.cosmic-future-orbit__waterline--trace.is-active {
+  animation: cosmic-future-waterline-trace-refined 720ms var(--chapter-ease-out) both;
+  opacity: .78;
+}
+
+.cosmic-future-orbit__core {
+  width: clamp(6.2rem, 12vw, 8.6rem);
+  height: clamp(6.2rem, 12vw, 8.6rem);
+  border: 0;
+  background: transparent;
+  box-shadow: 0 0 0 .9rem rgb(191 211 180 / 4%), 0 0 2.4rem rgb(82 168 156 / 12%);
+  isolation: isolate;
+}
+
+.cosmic-future-orbit__core::before,
+.cosmic-future-orbit__core::after {
+  border: 1px solid rgb(215 190 113 / 30%);
+  transform: none;
+}
+
+.cosmic-future-orbit__core::before { inset: .22rem; opacity: .68; }
+.cosmic-future-orbit__core::after { inset: -.48rem; opacity: .3; }
+
+.cosmic-future-orbit__globe {
+  position: absolute;
+  inset: .52rem;
+  z-index: 0;
+  width: calc(100% - 1.04rem);
+  height: calc(100% - 1.04rem);
+  overflow: visible;
+}
+
+.cosmic-future-orbit__energy-orb {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  overflow: visible;
+  pointer-events: none;
+}
+
+.cosmic-future-orbit__energy-orb .chapter-energy-orb__stars {
+  clip-path: circle(39% at 50% 50%);
+}
+
+.cosmic-future-orbit__energy-orb .chapter-energy-orb__shader {
+  clip-path: circle(42% at 50% 50%);
+}
+
+.cosmic-future-orbit__globe-map {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  width: 100%;
+  height: 100%;
+  overflow: visible;
+}
+
+.cosmic-future-orbit__globe-disc {
+  fill: url(#cosmic-globe-fill);
+  opacity: .18;
+  stroke: none;
+}
+
+.cosmic-future-orbit__globe-map {
+  opacity: .9;
+}
+
+.cosmic-future-orbit__globe-grid {
+  fill: none;
+  stroke: rgb(183 216 201 / 43%);
+  stroke-width: .8;
+  vector-effect: non-scaling-stroke;
+}
+
+.cosmic-future-orbit__globe-land {
+  fill: rgb(156 190 155 / 35%);
+  stroke: rgb(222 195 122 / 36%);
+  stroke-width: .7;
+  vector-effect: non-scaling-stroke;
+}
+
+.cosmic-future-orbit__globe-route {
+  fill: none;
+  stroke: rgb(238 207 128 / 86%);
+  stroke-width: 1.1;
+  stroke-linecap: round;
+  vector-effect: non-scaling-stroke;
+  opacity: 0;
+}
+
+.cosmic-future-orbit__core--voyage .cosmic-future-orbit__globe-route,
+.cosmic-future-orbit__core--awakening .cosmic-future-orbit__globe-route,
+.cosmic-future-orbit__core--complete .cosmic-future-orbit__globe-route {
+  opacity: .86;
+}
+
+.cosmic-future-orbit__globe-island {
+  fill: rgb(224 197 125 / 66%);
+}
+
+.cosmic-future-orbit__globe-rim {
+  fill: none;
+  stroke: rgb(221 199 135 / 76%);
+  stroke-width: 1.05;
+  vector-effect: non-scaling-stroke;
+}
+
+.cosmic-future-orbit__globe-meridian {
+  fill: none;
+  stroke: rgb(232 213 164 / 42%);
+  stroke-width: .75;
+  stroke-linecap: round;
+  vector-effect: non-scaling-stroke;
+}
+
+.cosmic-future-orbit__core span { margin-top: -1.05rem; font-size: .94rem; letter-spacing: .12em; }
+.cosmic-future-orbit__core strong { margin-top: 1.05rem; font-size: 1.14rem; letter-spacing: .08em; }
+.cosmic-future-orbit__core i { z-index: 1; bottom: 1.2rem; width: 1.35rem; opacity: .78; }
+
+@keyframes cosmic-future-waterline-trace-refined {
+  0% { opacity: 0; stroke-dashoffset: 1.16; }
+  22% { opacity: .9; }
+  100% { opacity: .72; stroke-dashoffset: .16; }
+}
+
+/* Waves-derived motion: a quiet, continuous cartographic current. */
+.cosmic-future-orbit__contours {
+  opacity: .68;
+  mask-image: linear-gradient(180deg, transparent 4%, black 18%, black 84%, transparent 98%);
+}
+
+.cosmic-future-orbit__svg {
+  z-index: 1;
+  pointer-events: none;
+}
+
+.cosmic-future-orbit__orbit {
+  animation: cosmic-future-orbit-breathe 24s ease-in-out infinite;
+  will-change: transform;
+}
+
+.cosmic-future-orbit__orbit--two {
+  animation-duration: 31s;
+  animation-delay: -8s;
+}
+
+.cosmic-future-orbit__orbit--three {
+  animation-duration: 38s;
+  animation-delay: -15s;
+}
+
+.cosmic-future-orbit__globe {
+  transform-box: fill-box;
+  transform-origin: center;
+  animation: cosmic-future-globe-breathe 16s ease-in-out infinite;
+  will-change: transform;
+}
+
+.cosmic-future-orbit__core--voyage .cosmic-future-orbit__globe-route,
+.cosmic-future-orbit__core--awakening .cosmic-future-orbit__globe-route,
+.cosmic-future-orbit__core--complete .cosmic-future-orbit__globe-route {
+  stroke-dasharray: .16 .84;
+  stroke-dashoffset: 1;
+  animation: cosmic-future-globe-route 14s linear infinite;
+}
+
+@keyframes cosmic-future-orbit-breathe {
+  0%, 100% { transform: rotate(-.55deg) scale(1); }
+  50% { transform: rotate(.55deg) scale(1.012); }
+}
+
+@keyframes cosmic-future-globe-breathe {
+  0%, 100% { transform: rotate(-.45deg) scale(.992); }
+  50% { transform: rotate(.45deg) scale(1.012); }
+}
+
+@keyframes cosmic-future-globe-route {
+  to { stroke-dashoffset: 0; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .chapter-flowing-contours__canvas,
+  .cosmic-future-orbit__orbit,
+  .cosmic-future-orbit__globe,
+  .cosmic-future-orbit__globe-route {
+    animation: none;
+  }
+}
+
+/* Atlas overlay pass: keep the artwork open and print the ritual on top. */
+@media (min-width: 901px) {
+  .cosmic-future-page__grid {
+    position: absolute;
+    z-index: 3;
+    inset: 0;
+    display: block;
+    width: 100%;
+    min-height: 0;
+    margin: 0;
+    padding: 0;
+    pointer-events: none;
+  }
+
+  .cosmic-future-page__grid > * { pointer-events: auto; }
+
+  .cosmic-future-page__intro {
+    position: absolute;
+    top: clamp(7rem, 17vh, 11rem);
+    left: clamp(1.5rem, 4.2vw, 5.2rem);
+    width: min(14rem, 18vw);
+    padding: 0;
+    background: none;
+    text-shadow: 0 .12rem .8rem rgb(0 12 16 / 82%);
+  }
+
+  .cosmic-future-page__intro h1 {
+    margin: .62rem 0 .75rem;
+    font-size: clamp(1.9rem, 3.6vw, 3.65rem);
+    letter-spacing: .08em;
+  }
+
+  .cosmic-future-page__lede {
+    max-width: 12rem;
+    font-size: .76rem;
+    line-height: 1.65;
+  }
+
+  .cosmic-future-page__principle {
+    max-width: 12rem;
+    margin-top: 1.15rem;
+    padding: .55rem 0;
+  }
+
+  .cosmic-future-page__principle p { font-size: .68rem; }
+  .cosmic-future-page__legend { margin-top: 1rem; font-size: .56rem; }
+
+  .cosmic-future-orbit {
+    position: absolute;
+    top: 15.5%;
+    right: 22%;
+    bottom: 8.5%;
+    left: 17.5%;
+    align-self: auto;
+  }
+
+  .cosmic-future-orbit__mist-layer,
+  .cosmic-future-orbit__mist-layer > .chapter-water-mist__content {
+    height: 100%;
+  }
+
+  .cosmic-future-orbit__heading {
+    position: absolute;
+    z-index: 6;
+    top: 0;
+    right: 0;
+    left: 0;
+    padding: 0;
+    border-bottom: 0;
+    text-shadow: 0 .1rem .6rem rgb(0 12 16 / 78%);
+  }
+
+  .cosmic-future-orbit__surface {
+    height: 100%;
+    min-height: 0;
+    aspect-ratio: auto;
+    margin: 0;
+    border-bottom: 0;
+    background: transparent;
+  }
+
+  .cosmic-future-orbit__surface::before,
+  .cosmic-future-orbit__surface::after { display: none; }
+
+  .cosmic-future-orbit__note {
+    position: absolute;
+    right: 0;
+    bottom: -.15rem;
+    left: 0;
+    text-shadow: 0 .1rem .6rem rgb(0 12 16 / 78%);
+  }
+
+  .cosmic-future-orbit__signal-copy {
+    opacity: .8;
+    text-shadow: 0 .1rem .55rem rgb(0 12 16 / 92%);
+  }
+
+  .cosmic-future-orbit__signal.is-active .cosmic-future-orbit__signal-copy,
+  .cosmic-future-orbit__signal.is-recorded .cosmic-future-orbit__signal-copy { opacity: 1; }
+
+  .cosmic-future-orbit__signal { width: min(9.6rem, 25%); }
+
+  .cosmic-future-orbit__shard {
+    background: rgb(8 39 46 / 34%);
+    box-shadow: 0 0 0 .35rem rgb(221 190 103 / 6%);
+  }
+
+  .cosmic-future-page__panel {
+    position: absolute;
+    top: 18%;
+    right: clamp(1.5rem, 4.2vw, 5.2rem);
+    width: min(22rem, 24vw);
+    align-self: auto;
+    background: linear-gradient(90deg, rgb(4 24 30 / 18%), rgb(4 24 30 / 22%) 58%, transparent 100%);
+    text-shadow: 0 0 .18rem rgb(0 12 16 / 92%), 0 .1rem .7rem rgb(0 12 16 / 86%);
+  }
+
+  .cosmic-future-page__ritual,
+  .cosmic-future-page__voyage-panel,
+  .cosmic-future-page__awakening-panel,
+  .cosmic-future-page__finish {
+    min-height: 0;
+    padding: .25rem 0 .75rem 1rem;
+    border-left: 1px solid rgb(235 219 174 / 38%);
+    background: linear-gradient(90deg, rgb(4 24 30 / 14%), transparent 88%);
+  }
+
+  .cosmic-future-page__ritual h2,
+  .cosmic-future-page__voyage-panel h2,
+  .cosmic-future-page__awakening-panel h2,
+  .cosmic-future-page__finish h2 { font-size: clamp(1.35rem, 2.1vw, 1.85rem); }
+
+  .cosmic-future-page__ritual > p:not(.cosmic-future-page__eyebrow),
+  .cosmic-future-page__voyage-panel > p:not(.cosmic-future-page__eyebrow),
+  .cosmic-future-page__awakening-panel > p:not(.cosmic-future-page__eyebrow),
+  .cosmic-future-page__finish > p:not(.cosmic-future-page__eyebrow) {
+    max-width: 17rem;
+    font-size: .76rem;
+    line-height: 1.65;
+  }
+
+  .cosmic-future-page .chapter-choice-panel {
+    padding: .8rem 0;
+    border-top: 1px solid rgb(235 219 174 / 34%);
+    border-bottom: 0;
+    background: transparent;
+    box-shadow: none;
+  }
+
+  .cosmic-future-page .chapter-choice-panel h2 { font-size: clamp(1.18rem, 1.85vw, 1.6rem); }
+  .cosmic-future-page .chapter-choice-panel__story { font-size: .76rem; line-height: 1.65; }
+  .cosmic-future-page .chapter-choice-panel__choice {
+    padding: .52rem 0;
+    border: 0;
+    border-bottom: 1px solid rgb(225 235 219 / 28%);
+    background: linear-gradient(90deg, rgb(4 24 30 / 17%), transparent 94%);
+    box-shadow: none;
+  }
+
+  .cosmic-future-page .chapter-choice-panel__choice:hover:not(:disabled),
+  .cosmic-future-page .chapter-choice-panel__choice.is-selected {
+    background: linear-gradient(90deg, rgb(123 100 48 / 24%), transparent 94%);
+    transform: translateX(2px);
+  }
+
+  .cosmic-future-page .chapter-guide {
+    width: clamp(4.8rem, 6.7vw, 6.2rem);
+    height: clamp(5.8rem, 8vw, 7.4rem);
+  }
+
+  .cosmic-future-page .cosmic-future-orbit__signal { animation: chapter-map-mark-in 420ms var(--chapter-ease-out) both; }
+  .cosmic-future-page .cosmic-future-orbit__signal:nth-child(2) { animation-delay: 70ms; }
+  .cosmic-future-page .cosmic-future-orbit__signal:nth-child(3) { animation-delay: 140ms; }
+}
+
+@keyframes chapter-map-mark-in {
+  from { opacity: 0; transform: translate(-50%, calc(-50% + .35rem)); }
+  to { opacity: 1; transform: translate(-50%, -50%); }
+}
+
+@media (max-width: 900px) {
+  .cosmic-future-page__grid {
+    position: relative;
+    inset: auto;
+    display: grid;
+    width: min(100% - 2rem, 60rem);
+    min-height: calc(100svh - 6.1rem);
+    margin: 0 auto;
+    padding: 2rem 0 5rem;
+    pointer-events: auto;
+  }
+
+  .cosmic-future-page__intro,
+  .cosmic-future-orbit,
+  .cosmic-future-page__panel {
+    position: relative;
+    top: auto;
+    right: auto;
+    bottom: auto;
+    left: auto;
+    width: auto;
+  }
+
+  .cosmic-future-page__intro { padding: .8rem 0 .35rem; background: none; }
+  .cosmic-future-orbit__surface { height: auto; min-height: 23rem; margin: .7rem 0 .75rem; }
+  .cosmic-future-orbit__mist-layer,
+  .cosmic-future-orbit__mist-layer > .chapter-water-mist__content { height: auto; }
+  .cosmic-future-orbit__heading { position: relative; padding-bottom: .7rem; border-bottom: 1px solid var(--chapter-subtle-line); }
+  .cosmic-future-orbit__note { position: relative; right: auto; bottom: auto; left: auto; }
+  .cosmic-future-page__panel { background: none; }
+}
+
+/* 2026-09-07 harmony pass: each orbit moves only when its phase has meaning. */
+.cosmic-future-page__backdrop img {
+  animation: cosmic-future-scene-settle 820ms var(--chapter-ease-out) both;
+  transform-origin: center;
+}
+
+.cosmic-future-orbit__orbit,
+.cosmic-future-orbit__orbit--two,
+.cosmic-future-orbit__orbit--three {
+  animation: none;
+  opacity: .24;
+  transition: opacity 320ms var(--chapter-ease-out), stroke 320ms var(--chapter-ease-out), transform 620ms var(--chapter-ease-out);
+}
+
+.cosmic-future-page--assembly .cosmic-future-orbit__orbit--one,
+.cosmic-future-page--reflection .cosmic-future-orbit__orbit--one {
+  animation: cosmic-future-current-orbit 28s ease-in-out infinite;
+  opacity: .72;
+  stroke: var(--chapter-accent);
+}
+
+.cosmic-future-page--voyage .cosmic-future-orbit__orbit--two {
+  animation: cosmic-future-current-orbit 24s ease-in-out infinite;
+  opacity: .8;
+  stroke: var(--chapter-accent);
+}
+
+.cosmic-future-page--awakening .cosmic-future-orbit__orbit--three {
+  animation: cosmic-future-current-orbit 20s ease-in-out 1;
+  opacity: .84;
+  stroke: var(--chapter-water-soft, #a0cec7);
+}
+
+.cosmic-future-page--complete .cosmic-future-orbit__orbit--three {
+  opacity: .82;
+  stroke: var(--chapter-water-soft, #a0cec7);
+}
+
+.cosmic-future-orbit__waterline {
+  opacity: .5;
+  stroke-width: 1.1;
+}
+
+.cosmic-future-orbit__waterline--echo {
+  opacity: .2;
+  stroke-width: .66;
+}
+
+.cosmic-future-page--voyage .cosmic-future-orbit__waterline--trace,
+.cosmic-future-page--awakening .cosmic-future-orbit__waterline--trace,
+.cosmic-future-page--complete .cosmic-future-orbit__waterline--trace {
+  opacity: .82;
+}
+
+.cosmic-future-orbit__signal {
+  z-index: 1;
+}
+
+.cosmic-future-orbit__signal:hover,
+.cosmic-future-orbit__signal:focus-within,
+.cosmic-future-orbit__signal.is-active {
+  z-index: 7;
+}
+
+.cosmic-future-orbit__signal-copy {
+  position: relative;
+  gap: .08rem;
+  padding: .12rem .22rem;
+  opacity: .86;
+  text-shadow: var(--chapter-map-shadow);
+}
+
+.cosmic-future-orbit__signal-copy::before {
+  position: absolute;
+  z-index: -1;
+  inset: -.18rem -.42rem;
+  content: "";
+  background: var(--chapter-active-wash);
+  opacity: 0;
+  transform: scaleX(.86);
+  transform-origin: left center;
+  transition: opacity 220ms var(--chapter-ease-out), transform 220ms var(--chapter-ease-out);
+}
+
+.cosmic-future-orbit__signal-copy small {
+  color: var(--chapter-map-meta);
+  font-size: clamp(.72rem, .76vw, .78rem);
+  font-weight: 600;
+  letter-spacing: .025em;
+  white-space: nowrap;
+}
+
+.cosmic-future-orbit__signal-copy strong {
+  color: var(--chapter-map-title);
+  font-size: clamp(.98rem, 1.18vw, 1.1rem);
+  font-weight: 500;
+  letter-spacing: .025em;
+}
+
+.cosmic-future-orbit__signal:hover:not(:has(button:disabled)) .cosmic-future-orbit__signal-copy::before,
+.cosmic-future-orbit__signal:focus-within .cosmic-future-orbit__signal-copy::before,
+.cosmic-future-orbit__signal.is-active .cosmic-future-orbit__signal-copy::before {
+  opacity: 1;
+  transform: scaleX(1);
+}
+
+.cosmic-future-orbit__signal button:disabled {
+  opacity: .58;
+}
+
+.cosmic-future-orbit__shard {
+  transition: top 620ms var(--chapter-ease-out), left 620ms var(--chapter-ease-out), opacity 260ms var(--chapter-ease-out), background 260ms var(--chapter-ease-out), box-shadow 260ms var(--chapter-ease-out), transform 620ms var(--chapter-ease-out);
+}
+
+.cosmic-future-orbit__shard.is-assembled {
+  opacity: .66;
+  transform: rotate(45deg) scale(.78);
+}
+
+.cosmic-future-orbit__globe {
+  animation: none;
+}
+
+.cosmic-future-page--assembly .cosmic-future-orbit__globe,
+.cosmic-future-page--reflection .cosmic-future-orbit__globe {
+  animation: cosmic-future-current-globe 18s ease-in-out infinite;
+}
+
+.cosmic-future-orbit__contours {
+  opacity: .18;
+  transition: opacity 420ms var(--chapter-ease-out);
+}
+
+.cosmic-future-page--voyage .cosmic-future-orbit__contours {
+  opacity: .48;
+}
+
+.cosmic-future-page--awakening .cosmic-future-orbit__contours,
+.cosmic-future-page--complete .cosmic-future-orbit__contours {
+  opacity: .32;
+}
+
+.cosmic-future-page--awakening .cosmic-future-orbit__globe-route,
+.cosmic-future-page--complete .cosmic-future-orbit__globe-route {
+  animation: none;
+  stroke-dashoffset: 0;
+}
+
+@media (min-width: 901px) {
+  .cosmic-future-page__lede {
+    font-size: clamp(.8rem, .84vw, .9rem);
+  }
+
+  .cosmic-future-page__principle span {
+    font-size: .7rem;
+  }
+
+  .cosmic-future-page__principle p {
+    font-size: clamp(.72rem, .76vw, .8rem);
+  }
+
+  .cosmic-future-page__legend {
+    color: rgb(225 235 219 / 74%);
+    font-size: .68rem;
+  }
+
+  .cosmic-future-orbit {
+    right: clamp(22rem, 29vw, 34rem);
+  }
+
+  .cosmic-future-orbit__signal {
+    width: min(10.2rem, 29%);
+  }
+
+  .cosmic-future-orbit__heading > span {
+    color: var(--chapter-map-meta);
+    font-size: .74rem;
+    font-weight: 600;
+    text-shadow: var(--chapter-map-shadow);
+  }
+
+  .cosmic-future-orbit__signal:nth-child(2) button {
+    grid-template-columns: minmax(0, 1fr) 1rem;
+    text-align: right;
+  }
+
+  .cosmic-future-orbit__signal:nth-child(2) .cosmic-future-orbit__signal-dot {
+    grid-row: 1;
+    grid-column: 2;
+  }
+
+  .cosmic-future-orbit__signal:nth-child(2) .cosmic-future-orbit__signal-copy {
+    grid-row: 1;
+    grid-column: 1;
+    justify-items: end;
+  }
+
+  .cosmic-future-page__panel {
+    top: 16%;
+    bottom: auto;
+    width: min(19.5rem, 21.5vw);
+    max-height: calc(84svh - 4.4rem);
+    padding-right: .25rem;
+    overflow-y: auto;
+    background: var(--chapter-panel-wash);
+    scrollbar-width: none;
+  }
+
+  .cosmic-future-page__panel::-webkit-scrollbar { width: 0; height: 0; }
+
+  .cosmic-future-page--reflection .cosmic-future-page__panel,
+  .cosmic-future-page--voyage .cosmic-future-page__panel,
+  .cosmic-future-page--awakening .cosmic-future-page__panel,
+  .cosmic-future-page--complete .cosmic-future-page__panel {
+    width: min(21rem, 24vw);
+    background: transparent;
+  }
+
+  .cosmic-future-page--reflection .cosmic-future-page__panel::before,
+  .cosmic-future-page--voyage .cosmic-future-page__panel::before,
+  .cosmic-future-page--awakening .cosmic-future-page__panel::before,
+  .cosmic-future-page--complete .cosmic-future-page__panel::before {
+    display: block;
+    inset: -.55rem -.7rem;
+    background: radial-gradient(ellipse at 52% 48%, rgb(3 19 28 / 76%) 0 44%, rgb(3 19 28 / 40%) 68%, transparent 100%);
+    filter: blur(13px);
+    -webkit-mask-image: none;
+    mask-image: none;
+  }
+
+  .cosmic-future-page__ritual,
+  .cosmic-future-page__voyage-panel,
+  .cosmic-future-page__awakening-panel,
+  .cosmic-future-page__finish {
+    gap: .62rem;
+    padding: .45rem 0 .75rem 1rem;
+    background: transparent;
+  }
+
+  .cosmic-future-page__ritual h2,
+  .cosmic-future-page__voyage-panel h2,
+  .cosmic-future-page__awakening-panel h2,
+  .cosmic-future-page__finish h2 {
+    color: var(--chapter-map-title);
+    font-size: clamp(1.5rem, 2vw, 1.92rem);
+    font-weight: 500;
+    line-height: 1.38;
+    text-wrap: balance;
+  }
+
+  .cosmic-future-page__ritual > p:not(.cosmic-future-page__eyebrow),
+  .cosmic-future-page__voyage-panel > p:not(.cosmic-future-page__eyebrow),
+  .cosmic-future-page__awakening-panel > p:not(.cosmic-future-page__eyebrow),
+  .cosmic-future-page__finish > p:not(.cosmic-future-page__eyebrow) {
+    color: var(--chapter-map-detail);
+    font-size: clamp(.82rem, .88vw, .9rem);
+    line-height: 1.72;
+  }
+
+  .cosmic-future-page__eyebrow {
+    color: var(--chapter-map-meta);
+    font-size: .74rem;
+    font-weight: 600;
+  }
+
+  .cosmic-future-page__ritual small {
+    color: var(--chapter-map-detail);
+    font-size: .74rem;
+  }
+
+  .cosmic-future-page .chapter-choice-panel {
+    gap: .62rem;
+    padding: .45rem 0 .65rem .9rem;
+  }
+
+  .cosmic-future-page .chapter-choice-panel__header {
+    gap: .2rem;
+  }
+
+  .cosmic-future-page .chapter-choice-panel__subtitle,
+  .cosmic-future-page .chapter-choice-panel__footer {
+    display: none;
+  }
+
+  .cosmic-future-page .chapter-choice-panel h2 {
+    color: var(--chapter-map-title);
+    font-size: clamp(1.3rem, 1.68vw, 1.62rem);
+    font-weight: 500;
+    text-wrap: balance;
+  }
+
+  .cosmic-future-page .chapter-choice-panel__story,
+  .cosmic-future-page .chapter-choice-panel__question {
+    color: var(--chapter-map-detail);
+    font-size: clamp(.84rem, .88vw, .92rem);
+  }
+
+  .cosmic-future-page .chapter-choice-panel__story {
+    line-height: 1.65;
+  }
+
+  .cosmic-future-page .chapter-choice-panel__question {
+    gap: .28rem;
+    padding: .62rem 0 0;
+  }
+
+  .cosmic-future-page .chapter-choice-panel__question > span {
+    color: var(--chapter-map-meta);
+    font-size: .72rem;
+    font-weight: 600;
+    letter-spacing: .06em;
+  }
+
+  .cosmic-future-page .chapter-choice-panel__question h3 {
+    font-size: clamp(1rem, 1.18vw, 1.18rem);
+    line-height: 1.5;
+  }
+
+  .cosmic-future-page .chapter-choice-panel__choices {
+    gap: .18rem;
+  }
+
+  .cosmic-future-page .chapter-choice-panel__choice {
+    grid-template-columns: 1.45rem minmax(0, 1fr);
+    gap: .62rem;
+    min-height: 44px;
+    padding: .46rem .14rem;
+    font-size: clamp(.82rem, .86vw, .9rem);
+  }
+
+  .cosmic-future-page .chapter-choice-panel__choice-text {
+    color: var(--chapter-map-detail);
+    font-size: clamp(.82rem, .86vw, .9rem);
+    line-height: 1.48;
+  }
+
+  .cosmic-future-page .chapter-choice-panel__choice-action {
+    display: none;
+  }
+
+  .cosmic-future-page .chapter-choice-panel__choice:disabled:not(.is-selected) {
+    display: none;
+  }
+
+  .cosmic-future-page .chapter-choice-panel__hint {
+    color: var(--chapter-map-detail);
+    font-size: .72rem;
+    line-height: 1.5;
+    letter-spacing: .025em;
+  }
+
+  .cosmic-future-page .chapter-choice-panel__feedback {
+    gap: .42rem;
+    padding: .68rem .76rem;
+  }
+}
+
+@keyframes cosmic-future-current-orbit {
+  0%, 100% { transform: rotate(-.45deg) scale(.995); }
+  50% { transform: rotate(.45deg) scale(1.008); }
+}
+
+@keyframes cosmic-future-current-globe {
+  0%, 100% { transform: translateY(0) scale(.996); }
+  50% { transform: translateY(-.12rem) scale(1.006); }
+}
+
+@keyframes cosmic-future-scene-settle {
+  from { opacity: 0; transform: scale(1.034); }
+  to { opacity: 1; transform: scale(1.02); }
+}
+
+@media (max-width: 900px) {
+  .cosmic-future-orbit__signal-copy small { font-size: .68rem; }
+  .cosmic-future-orbit__signal-copy strong { font-size: .94rem; }
+  .cosmic-future-page__panel { overflow: visible; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .cosmic-future-page__backdrop img,
+  .cosmic-future-orbit__orbit,
+  .cosmic-future-orbit__globe,
+  .cosmic-future-orbit__signal-copy::before,
+  .cosmic-future-orbit__shard,
+  .cosmic-future-orbit__contours {
+    animation: none;
+    transition: none;
+  }
+}
+
+@media (max-width: 680px) {
+  .cosmic-future-page__grid {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .cosmic-future-orbit,
+  .cosmic-future-orbit__surface {
+    width: 100%;
+    min-width: 0;
+    max-width: 100%;
+  }
+
+  .cosmic-future-orbit__surface {
+    aspect-ratio: auto;
+  }
+
+  .cosmic-future-page .chapter-choice-panel__subtitle,
+  .cosmic-future-page .chapter-choice-panel__footer,
+  .cosmic-future-page .chapter-choice-panel__choice-action {
+    display: none;
+  }
+}
+
+/* Desktop typography and control pass: the atlas chrome should read like a designed page, not metadata. */
+@media (min-width: 901px) {
+  .cosmic-future-page__topbar {
+    padding-top: 1.05rem;
+  }
+
+  .cosmic-future-page__back-link {
+    display: inline-flex;
+    width: fit-content;
+    gap: .42rem;
+    align-items: center;
+    padding: .4rem .72rem .42rem 0;
+    border-bottom: 1px solid rgb(215 189 114 / 34%);
+    color: var(--chapter-map-detail);
+    font-size: clamp(.84rem, .9vw, .94rem);
+    font-weight: 500;
+    letter-spacing: .08em;
+    text-shadow: var(--chapter-map-shadow);
+  }
+
+  .cosmic-future-page__back-link:hover,
+  .cosmic-future-page__back-link:focus-visible {
+    border-bottom-color: var(--chapter-accent);
+    color: var(--chapter-map-title);
+  }
+
+  .cosmic-future-page__chapter-mark {
+    min-width: 9rem;
+    gap: .34rem;
+    padding: .25rem .9rem .46rem;
+    border-bottom: 1px solid rgb(215 189 114 / 38%);
+  }
+
+  .cosmic-future-page__chapter-mark span {
+    font-size: clamp(.72rem, .78vw, .82rem);
+    font-weight: 600;
+    letter-spacing: .2em;
+  }
+
+  .cosmic-future-page__chapter-mark strong {
+    color: var(--chapter-map-detail);
+    font-size: clamp(1rem, 1.08vw, 1.14rem);
+    letter-spacing: .16em;
+    text-shadow: var(--chapter-map-shadow);
+  }
+
+  .cosmic-future-page__score {
+    justify-self: end;
+    width: fit-content;
+    min-width: 9.5rem;
+    margin-right: 8rem;
+    padding: .38rem .72rem .42rem .82rem;
+    border-left: 1px solid rgb(215 189 114 / 42%);
+    border-bottom: 1px solid rgb(215 189 114 / 28%);
+    background: rgb(5 25 32 / 22%);
+    color: var(--chapter-map-detail);
+    font-size: clamp(.8rem, .84vw, .88rem);
+    font-weight: 500;
+    letter-spacing: .08em;
+    text-shadow: var(--chapter-map-shadow);
+  }
+
+  .cosmic-future-page__score strong {
+    font-size: clamp(1.55rem, 1.72vw, 1.82rem);
+    line-height: 1;
+  }
+
+  .cosmic-future-page__score small {
+    color: var(--chapter-map-detail);
+    font-size: clamp(.76rem, .78vw, .84rem);
+  }
+
+  .cosmic-future-page__intro .cosmic-future-page__eyebrow {
+    font-size: clamp(.72rem, .78vw, .82rem);
+    font-weight: 600;
+  }
+
+  .cosmic-future-orbit__shard {
+    width: clamp(3.8rem, 4.1vw, 4.35rem);
+    height: clamp(3.8rem, 4.1vw, 4.35rem);
+    border-width: 1.5px;
+    background: rgb(8 39 46 / 76%);
+    box-shadow: 0 0 0 .5rem rgb(221 190 103 / 8%), 0 0 1.2rem rgb(18 73 78 / 18%);
+  }
+
+  .cosmic-future-orbit__shard span {
+    color: var(--chapter-map-title);
+    font-size: clamp(1.3rem, 1.48vw, 1.52rem);
+    font-weight: 500;
+  }
+
+  .cosmic-future-orbit__shard:hover:not(:disabled),
+  .cosmic-future-orbit__shard:focus-visible,
+  .cosmic-future-orbit__shard.is-assembled {
+    border-color: var(--chapter-focus);
+    background: rgb(125 101 42 / 48%);
+    box-shadow: 0 0 0 .62rem rgb(221 190 103 / 14%), 0 0 2.2rem rgb(224 192 102 / 38%);
+  }
+
+  .cosmic-future-orbit__shard.is-assembled {
+    opacity: .9;
+    transform: rotate(45deg) scale(.84);
+  }
+
+  .cosmic-future-orbit__assembly-count {
+    right: 1.1rem;
+    bottom: 4.25rem;
+    color: var(--chapter-map-meta);
+    font-size: clamp(.72rem, .76vw, .8rem);
+    font-weight: 600;
+    text-shadow: var(--chapter-map-shadow);
+  }
+
+  .cosmic-future-orbit__stamp {
+    right: 1.15rem;
+    bottom: .65rem;
+  }
+
+  .cosmic-future-orbit__stamp span {
+    color: var(--chapter-map-meta);
+    font-size: clamp(2.05rem, 2.3vw, 2.5rem);
+  }
+
+  .cosmic-future-orbit__stamp small {
+    color: var(--chapter-map-detail);
+    font-size: clamp(.66rem, .7vw, .74rem);
+    font-weight: 500;
+  }
+
+  .cosmic-future-page__shard-meter {
+    gap: .65rem;
+    margin: .42rem 0 .5rem;
+  }
+
+  .cosmic-future-page__shard-meter i {
+    width: 2.25rem;
+    height: 2.25rem;
+    border-color: rgb(225 199 123 / 68%);
+    font-size: 1rem;
+  }
+
+  .cosmic-future-page__primary-button,
+  .cosmic-future-page__finish-actions button,
+  .cosmic-future-page__finish-actions a {
+    min-height: 48px;
+    padding: .68rem 1.05rem;
+    border-color: rgb(232 194 108 / 84%);
+    background: rgb(5 29 36 / 58%);
+    box-shadow: 0 0 0 1px rgb(4 25 32 / 30%), 0 .45rem 1.25rem rgb(0 10 14 / 18%);
+    color: var(--chapter-map-title);
+    font-size: clamp(.92rem, .98vw, 1.04rem);
+    font-weight: 500;
+    letter-spacing: .1em;
+  }
+
+  .cosmic-future-page__primary-button:hover,
+  .cosmic-future-page__finish-actions button:hover,
+  .cosmic-future-page__finish-actions a:hover {
+    border-color: var(--chapter-focus);
+    background: rgb(224 193 109 / 18%);
+    box-shadow: 0 0 0 1px rgb(255 241 178 / 32%), 0 .55rem 1.4rem rgb(0 10 14 / 26%);
+    color: var(--chapter-focus);
+    transform: translateY(-1px);
+  }
+
+  .cosmic-future-page__finish-actions button,
+  .cosmic-future-page__finish-actions a {
+    min-height: 44px;
+    padding: .58rem .82rem;
+    font-size: clamp(.86rem, .9vw, .96rem);
+  }
+
+  .cosmic-future-page__footer {
+    gap: 1rem;
+    color: var(--chapter-map-detail);
+    font-size: clamp(.72rem, .76vw, .8rem);
+    font-weight: 500;
+    letter-spacing: .08em;
+    text-shadow: var(--chapter-map-shadow);
+  }
+
+  .cosmic-future-page__footer span:first-child {
+    color: var(--chapter-map-meta);
+    font-size: clamp(.74rem, .78vw, .82rem);
+  }
+
+  .cosmic-future-page__footer span:last-child {
+    color: var(--chapter-map-title);
+    font-family: Georgia, serif;
+    font-size: clamp(.78rem, .84vw, .9rem);
+    letter-spacing: .12em;
+  }
+
+  .cosmic-future-page__progress {
+    position: relative;
+    height: .34rem;
+    overflow: visible;
+    border: 1px solid rgb(215 189 114 / 38%);
+    background: rgb(3 22 29 / 54%);
+    box-shadow: 0 0 0 .16rem rgb(5 25 32 / 28%);
+  }
+
+  .cosmic-future-page__progress i {
+    position: relative;
+    height: 100%;
+    background: var(--chapter-accent);
+    box-shadow: 0 0 .72rem rgb(232 194 108 / 52%);
+    transition: transform 520ms var(--chapter-ease-out);
+  }
+
+  .cosmic-future-page__progress i::after {
+    position: absolute;
+    top: 50%;
+    right: -.22rem;
+    width: .42rem;
+    height: .42rem;
+    border: 1px solid var(--chapter-focus);
+    background: var(--chapter-accent);
+    box-shadow: 0 0 .5rem rgb(232 194 108 / 72%);
+    content: "";
+    transform: translateY(-50%) rotate(45deg);
+  }
+}

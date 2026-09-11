@@ -33,7 +33,7 @@ const yangtzeNarrative: BasinNarrativeConfig = {
   scenes: [
     {
       id: 'yangtze-joint-regulation', label: '江湖共调', title: '让洪峰有处可去', summary: '从上游梯级水库到通江湖泊，让不同时间、不同地点的水有序通过。',
-      nodeId: 'dongting-lake', videoFilename: 'yangtze-cascade-dispatch.mp4', videoTitle: '梯级调度——美好生态', mediaAfterSectionId: 'problem',
+      nodeId: 'dongting-lake', videoFilename: 'changjiang-1.mp4', videoTitle: '梯级调度——美好生态', mediaAfterSectionId: 'problem',
       sections: [
         { id: 'background', label: '背景介绍', paragraphs: ['长江像一条横贯中国的大水脉。它从高山峡谷一路奔来，汇集岷江、嘉陵江、汉江等许多支流，也与洞庭湖、鄱阳湖等大型湖泊相连。', '如果把长江比作一条很长很长的路，那么每一条支流都是从不同方向汇入的“车流”。平常，它们共同滋养城市、农田和湿地；可一到汛期，暴雨会让许多支流同时变成急匆匆的“水车队”，一起冲向干流。', '长江的水有明显的季节变化：夏天雨多，江水涨得快；冬春雨少，有些河段水位又会下降。因此，治理长江不是让水永远保持一样多，而是学会在水多与水少之间找到平衡。'] },
         { id: 'problem', label: '问题剖析', paragraphs: ['洪水最怕“赶在一起”。假如上游下了一场大雨，中游的支流也同时涨水，洞庭湖、鄱阳湖周边再遇到强降雨，几股洪峰便可能像在狭窄路口相遇的车流，互相叠加、越积越高。', '可是，水也不能被永远关在水库里。下泄水量太少，可能影响沿江供水、船舶航行和农田灌溉；一些鱼类还会因为水流太缓、水温或水位变化不合适，而难以正常繁殖。', '所以，长江面临的不是简单的“洪水要不要拦”，而是一个更复杂的问题：洪水来了，怎样让它慢下来、错开来？枯水来了，怎样让河流仍保持基本活力？', '看，远处的云正在下雨，上游的水库和江湖也都在等待消息。它们该怎样配合，才能不让洪峰挤在同一段河道里呢？'], points: ['多地暴雨 → 支流同时涨水 → 洪峰相遇 → 中下游压力增加'] },

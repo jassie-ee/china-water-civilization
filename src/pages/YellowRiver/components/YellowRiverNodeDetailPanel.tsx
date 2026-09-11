@@ -17,7 +17,6 @@ interface YellowRiverNodeDetailPanelProps {
   onSelectPrevious?: () => void;
   onSelectNext?: () => void;
   onStartEcologicalInteraction?: () => void;
-  showContinueInteraction?: boolean;
 }
 
 interface DetailSectionProps {
@@ -44,7 +43,6 @@ function YellowRiverNodeDetailPanel({
   onSelectPrevious,
   onSelectNext,
   onStartEcologicalInteraction,
-  showContinueInteraction = false,
 }: YellowRiverNodeDetailPanelProps) {
   const closeButtonRef = useRef<HTMLButtonElement>(null);
   const contentRef = useRef<HTMLDivElement>(null);
@@ -96,12 +94,9 @@ function YellowRiverNodeDetailPanel({
         {node.media?.video && <NodeVideoPanel
           video={node.media.video}
           onComplete={node.id === 'loess-plateau' ? onStartEcologicalInteraction : undefined}
-          skipLabel={node.id === 'loess-plateau' ? '跳过影像，开始互动' : undefined}
+          skipLabel={node.id === 'loess-plateau' ? '跳过影像，直接互动' : undefined}
         />}
         {node.id === 'loess-plateau' && <LoessPlateauNarrative />}
-        {node.id === 'loess-plateau' && showContinueInteraction && onStartEcologicalInteraction && (
-          <button className="yellow-river-detail-panel__continue-interaction" type="button" onClick={onStartEcologicalInteraction}>继续互动</button>
-        )}
         {node.id !== 'loess-plateau' && node.summary && <p className="yellow-river-detail-panel__introduction">{node.summary}</p>}
         {node.id !== 'loess-plateau' && node.problemDescription && <DetailSection title="这里发生了什么？"><p>{node.problemDescription}</p></DetailSection>}
         {node.id !== 'loess-plateau' && node.causes && node.causes.length > 0 && (

@@ -2,7 +2,8 @@ import { lazy, Suspense, useCallback, useMemo, useState, type MouseEvent } from 
 import { Link, useLocation } from 'react-router-dom';
 
 import { useGovernanceProgress } from '@/components/common/governanceProgressContext';
-import { useLanFooting, type LanMascotDialogue } from '@/components/lan-mascot';
+import { type ChapterSpiritDialogue } from '@/components/chapter-spirit';
+import { useLanFooting } from '@/components/lan-mascot/useLanFooting';
 import RiverSpiritGuide from '@/components/lan/RiverSpiritGuide';
 import { yellowRiverNodes } from '@/data/yellowRiverNodes';
 import { yellowRiverRegions } from '@/data/yellowRiverRegions';
@@ -86,10 +87,11 @@ function YellowRiver() {
   const [activeNarrativeId, setActiveNarrativeId] = useState<YellowRiverNarrativeId>(() => getInitialNarrativeId(location.state));
   const [isDialogueOpen, setIsDialogueOpen] = useState(false);
   const [loessStep, setLoessStep] = useState<LoessInteractionStep>('idle');
-  const [isLoessDialogueDismissed, setIsLoessDialogueDismissed] = useState(false);
   const [loessRewardCopy, setLoessRewardCopy] = useState('');
+  const [hasCompletedLoessInteraction, setHasCompletedLoessInteraction] = useState(false);
   const [xiaolangdiStep, setXiaolangdiStep] = useState<XiaolangdiInteractionStep>('idle');
   const [xiaolangdiRewardCopy, setXiaolangdiRewardCopy] = useState('');
+  const [hasCompletedXiaolangdiInteraction, setHasCompletedXiaolangdiInteraction] = useState(false);
   const [sceneRipple, setSceneRipple] = useState<SceneRipple | null>(null);
   const [deltaSectionId, setDeltaSectionId] = useState<DeltaAtlasSectionId>('estuary');
   const { recordLevelResult } = useGovernanceProgress();
@@ -104,37 +106,45 @@ function YellowRiver() {
     selectNarrative(id);
   }, [selectNarrative]);
   const startLoessInteraction = useCallback((): void => {
-    setLoessStep((current) => current === 'idle' ? 'question' : current);
-    setIsLoessDialogueDismissed(false);
+    setLoessStep('question');
     setIsDialogueOpen(true);
   }, []);
   const startXiaolangdiInteraction = useCallback((): void => {
-    setXiaolangdiStep((current) => current === 'idle' ? 'question' : current);
+    setXiaolangdiStep('question');
     setIsDialogueOpen(true);
   }, []);
   const selectLoessOption = useCallback((option: keyof typeof loessOptions): void => {
-    setIsLoessDialogueDismissed(false);
     setIsDialogueOpen(true);
     if (option === 'correct') {
       setLoessStep('correct');
-      setLoessRewardCopy('正在记录治理星级…');
-      void recordLevelResult('loess-plateau', 3).then((update) => setLoessRewardCopy(update.didImprove ? '你获得了 3 点黄河治理星级。' : '这段治理星级已经记录过了，本次重温不再重复增加。')).catch(() => setLoessRewardCopy('本地互动已完成，治理星级暂未能写入。'));
+      if (hasCompletedLoessInteraction) {
+        setLoessRewardCopy('本次重温不再重复增加。');
+      } else {
+        setHasCompletedLoessInteraction(true);
+        setLoessRewardCopy('正在记录治理星级…');
+        void recordLevelResult('loess-plateau', 3).then((update) => setLoessRewardCopy(update.didImprove ? '你获得了 3 点黄河治理星级。' : '这段治理星级已经记录过了，本次重温不再重复增加。')).catch(() => setLoessRewardCopy('本地互动已完成，治理星级暂未能写入。'));
+      }
       return;
     }
     setLoessStep(option === 'downstreamDam' ? 'downstream-dam' : 'check-dam');
-  }, [recordLevelResult]);
+  }, [hasCompletedLoessInteraction, recordLevelResult]);
   const selectXiaolangdiOption = useCallback((option: keyof typeof xiaolangdiOptions): void => {
     setIsDialogueOpen(true);
     if (option === 'correct') {
       setXiaolangdiStep('correct');
-      setXiaolangdiRewardCopy('正在记录治理星级…');
-      void recordLevelResult('xiaolangdi', 3).then((update) => setXiaolangdiRewardCopy(update.didImprove ? '你获得了 3 点黄河治理星级。' : '这段治理星级已经记录过了，本次重温不再重复增加。')).catch(() => setXiaolangdiRewardCopy('本地互动已完成，治理星级暂未能写入。'));
+      if (hasCompletedXiaolangdiInteraction) {
+        setXiaolangdiRewardCopy('本次重温不再重复增加。');
+      } else {
+        setHasCompletedXiaolangdiInteraction(true);
+        setXiaolangdiRewardCopy('正在记录治理星级…');
+        void recordLevelResult('xiaolangdi', 3).then((update) => setXiaolangdiRewardCopy(update.didImprove ? '你获得了 3 点黄河治理星级。' : '这段治理星级已经记录过了，本次重温不再重复增加。')).catch(() => setXiaolangdiRewardCopy('本地互动已完成，治理星级暂未能写入。'));
+      }
       return;
     }
     setXiaolangdiStep(option === 'singleOperation' ? 'single-operation' : 'flat-operation');
-  }, [recordLevelResult]);
+  }, [hasCompletedXiaolangdiInteraction, recordLevelResult]);
 
-  const loessDialogue = useMemo<LanMascotDialogue | undefined>(() => {
+  const loessDialogue = useMemo<ChapterSpiritDialogue | undefined>(() => {
     if (activeNarrativeId === 'system' && xiaolangdiStep !== 'idle') {
       if (xiaolangdiStep === 'question') return {
         conversationId: 'xiaolangdi-water-sediment-question', dialogLabel: '小澜的调水调沙互动', heading: '小浪底调水调沙', messages: [xiaolangdiQuestion], actionLabel: '做出选择', onAction: () => undefined,
@@ -167,13 +177,13 @@ function YellowRiver() {
     return {
       conversationId: `loess-plateau-${feedbackKey}-feedback`, dialogLabel: '小澜的黄土高原互动',
       messages: [isCorrect ? `${feedback.copy}${loessRewardCopy ? ` ${loessRewardCopy}` : ''}` : feedback.copy], actionLabel: isCorrect ? '完成互动' : '重新选择',
-      onAction: () => { if (isCorrect) { setIsLoessDialogueDismissed(true); setIsDialogueOpen(false); } else setLoessStep('question'); },
+      onAction: () => { if (isCorrect) setIsDialogueOpen(false); else setLoessStep('question'); },
       media: { src: getReleaseMediaUrl(feedback.video), title: `黄土高原互动反馈：${feedback.video}` }, closeOnBackdrop: true, closeOnEscape: true, showClose: true,
     };
   }, [activeNarrativeId, loessRewardCopy, loessStep, selectLoessOption, selectXiaolangdiOption, xiaolangdiRewardCopy, xiaolangdiStep]);
 
   useLanFooting({ pageId: 'yellow-river-chronicle', routePath: '/basins/yellow-river', sceneId: 'loess-bloom', visible: loessDialogue !== undefined });
-  const handleDialogueClose = useCallback((): void => { setIsDialogueOpen(false); if (loessStep !== 'idle') setIsLoessDialogueDismissed(true); }, [loessStep]);
+  const handleDialogueClose = useCallback((): void => { setIsDialogueOpen(false); }, []);
 
   return (
     <section className={`yellow-river-chronicle yellow-river-chronicle--${activeNarrativeId}`}>
@@ -192,15 +202,13 @@ function YellowRiver() {
         <div key={`annotation-${activeNarrativeId}`} className="yellow-river-chronicle__heading" aria-live="polite"><p>{activeNarrative.label}</p><h2>{activeNarrative.title}</h2><span>{activeNarrative.summary}</span></div>
         {activeNarrativeId === 'sediment' && loessNode && <article className="yellow-river-chronicle__scene yellow-river-chronicle__scene--sediment">
           <div className="yellow-river-chronicle__media">
-            <NodeVideoPanel video={loessNode.media?.video} onComplete={startLoessInteraction} skipLabel="跳过影像，开始互动" />
-            <button className="yellow-river-chronicle__interaction" type="button" onClick={startLoessInteraction}>{isLoessDialogueDismissed && loessStep !== 'idle' ? '继续与小澜互动' : '开始互动'}</button>
+            <NodeVideoPanel video={loessNode.media?.video} onComplete={startLoessInteraction} skipLabel={hasCompletedLoessInteraction ? '再次互动' : '跳过影像，直接互动'} />
           </div>
           <div className="yellow-river-chronicle__reading"><LoessPlateauNarrative compact /></div>
         </article>}
         {activeNarrativeId === 'system' && <article className="yellow-river-chronicle__scene yellow-river-chronicle__scene--system">
           <div className="yellow-river-chronicle__media">
-            <NodeVideoPanel video={{ title: '小浪底调水调沙影像', description: '视频将从 Release 按需加载。', src: getReleaseMediaUrl('xiaolangdi.mp4') }} onComplete={startXiaolangdiInteraction} skipLabel="跳过影像，开始互动" />
-            <button className="yellow-river-chronicle__interaction" type="button" onClick={startXiaolangdiInteraction}>{xiaolangdiStep === 'idle' ? '开始互动' : '继续与小澜互动'}</button>
+            <NodeVideoPanel video={{ title: '小浪底调水调沙影像', description: '视频将从 Release 按需加载。', src: getReleaseMediaUrl('xiaolangdi.mp4') }} onComplete={startXiaolangdiInteraction} skipLabel={hasCompletedXiaolangdiInteraction ? '再次互动' : '跳过影像，直接互动'} />
           </div>
           <div className="yellow-river-chronicle__engineering-copy" aria-live="polite">
             <p className="yellow-river-chronicle__engineering-eyebrow">水库群联合调度</p>
@@ -218,7 +226,7 @@ function YellowRiver() {
           <YellowRiverDeltaAtlas activeSectionId={deltaSectionId} onSectionChange={setDeltaSectionId} />
         </article>}
       </main>
-      <RiverSpiritGuide isOpen={isDialogueOpen} riverName="黄河" region={yellowRiverRegions[1]} node={activeNarrativeId === 'sediment' ? loessNode ?? null : yellowRiverNodes.find((node) => node.id === 'xiaolangdi') ?? null} dialogueOverride={loessDialogue} expressionOverride={loessStep === 'correct' || xiaolangdiStep === 'correct' ? 'happy' : loessDialogue ? 'thinking' : undefined} onDialogueClose={handleDialogueClose} />
+      <RiverSpiritGuide isOpen={isDialogueOpen} riverName="黄河" region={yellowRiverRegions[1]} node={activeNarrativeId === 'sediment' ? loessNode ?? null : yellowRiverNodes.find((node) => node.id === 'xiaolangdi') ?? null} dialogueOverride={loessDialogue} actionOverride={loessStep === 'correct' || xiaolangdiStep === 'correct' ? 'purify' : loessDialogue ? 'point-water' : undefined} onDialogueClose={handleDialogueClose} />
     </section>
   );
 }
