@@ -93,8 +93,8 @@
 .lan-conversation__close {
   position: absolute;
   z-index: 2;
-  top: 13%;
-  right: 10.5%;
+  top: 14%;
+  right: 16%;
   display: grid;
   width: 1.7rem;
   height: 1.7rem;
@@ -156,6 +156,8 @@
 .lan-conversation--modal .lan-conversation__choices--dispatch .lan-conversation__choice { text-align: left; }
 .lan-conversation--modal .lan-conversation__choice { min-height: 3.35rem; padding: .7rem .9rem; border-radius: 1rem; font-size: .92rem; text-align: center; }
 .lan-conversation--modal .lan-conversation__action { padding: .55rem 1.12rem; font-size: .92rem; }
+.lan-conversation--modal.lan-conversation--maozhou { width: min(54rem, calc(100vw - 2rem)); }.lan-conversation--modal.lan-conversation--maozhou .lan-conversation__bubble { min-height: min(34rem, calc(100svh - 2rem)); }.lan-conversation--modal.lan-conversation--maozhou .lan-conversation__content { inset: 26% 12% 13%; justify-content: flex-start; padding-top: .3rem; }.lan-conversation--modal.lan-conversation--maozhou .lan-conversation__heading { margin-bottom: .7rem; }.lan-conversation--modal.lan-conversation--maozhou .lan-conversation__message { line-height: 1.6; }
+.lan-conversation__maozhou-cards { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); width: 100%; max-width: 39rem; gap: .65rem; margin-top: .7rem; }.lan-maozhou-card { min-height: 12.2rem; perspective: 65rem; }.lan-maozhou-card__inner { position: relative; width: 100%; height: 12.2rem; transform-style: preserve-3d; transition: transform 540ms cubic-bezier(.2, .75, .25, 1); }.lan-maozhou-card.is-flipped .lan-maozhou-card__inner { transform: rotateY(180deg); }.lan-maozhou-card.is-expanded { position: fixed; z-index: 55; top: 50%; left: 50%; width: min(32rem, calc(100vw - 2rem)); height: min(30rem, calc(100svh - 2rem)); min-height: 0; transform: translate(-50%, -50%); animation: lan-maozhou-card-expand 880ms cubic-bezier(.16, .78, .22, 1) both; }.lan-maozhou-card.is-expanded .lan-maozhou-card__inner { height: 100%; }.lan-maozhou-card__front, .lan-maozhou-card__back { position: absolute; inset: 0; display: flex; flex-direction: column; backface-visibility: hidden; }.lan-maozhou-card__front { align-items: flex-start; justify-content: center; gap: .55rem; width: 100%; padding: .85rem; border: 1px solid rgb(20 137 180 / 48%); border-radius: .7rem; color: #176484; background: linear-gradient(135deg, rgb(255 255 255 / 76%), rgb(131 224 246 / 35%)); box-shadow: inset 0 0 .45rem rgb(255 255 255 / 74%), 0 .18rem .5rem rgb(21 116 153 / 14%); cursor: pointer; font-family: var(--font-calligraphy, "STKaiti", "KaiTi", serif); text-align: left; }.lan-maozhou-card__front:hover, .lan-maozhou-card__front:focus-visible { border-color: #4abbd9; background: linear-gradient(135deg, rgb(255 255 255 / 92%), rgb(131 224 246 / 48%)); }.lan-maozhou-card__front span { color: #0a7098; font-size: 1.85rem; line-height: 1; }.lan-maozhou-card__front strong { font-size: .86rem; font-weight: 700; line-height: 1.5; }.lan-maozhou-card__front small { margin-top: auto; color: rgb(19 86 112 / 68%); font-family: "Noto Sans SC", sans-serif; font-size: .64rem; }.lan-maozhou-card__back { gap: .65rem; padding: .7rem; overflow: hidden; border: 1px solid rgb(20 137 180 / 52%); border-radius: .7rem; background: linear-gradient(145deg, rgb(244 253 255 / 96%), rgb(179 234 244 / 78%)); color: #155674; transform: rotateY(180deg); }.lan-maozhou-card__back video { width: 100%; aspect-ratio: 16 / 9; background: #092d40; object-fit: cover; }.lan-maozhou-card__back p { margin: 0; font-family: var(--font-calligraphy, "STKaiti", "KaiTi", serif); font-size: .67rem; font-weight: 600; line-height: 1.45; overflow-y: auto; }.lan-maozhou-card.is-expanded .lan-maozhou-card__back { gap: .8rem; padding: 1.15rem; }.lan-maozhou-card.is-expanded .lan-maozhou-card__back p { font-size: clamp(.88rem, 1.5vw, 1.05rem); line-height: 1.7; }.lan-maozhou-card__back button { align-self: flex-start; padding: 0; border: 0; color: #0a7098; background: transparent; cursor: pointer; font-family: var(--font-calligraphy, "STKaiti", "KaiTi", serif); font-size: .67rem; }.lan-maozhou-card.is-expanded .lan-maozhou-card__back button { font-size: .9rem; }
 
 .lan-conversation button:focus-visible { outline: 2px solid #1989b5; outline-offset: .18rem; }
 
@@ -220,7 +222,9 @@
   .lan-conversation--modal .lan-conversation__choices--species { grid-template-columns: repeat(3, minmax(0, 1fr)); }
   .lan-conversation--modal .lan-conversation__choices--species .lan-conversation__choice { padding: .42rem; font-size: .72rem; }
   .lan-conversation--modal .lan-conversation__choices--species .lan-conversation__choice small { display: none; }
+  .lan-conversation__maozhou-cards { grid-template-columns: repeat(3, minmax(0, 1fr)); gap: .35rem; }.lan-maozhou-card, .lan-maozhou-card__inner { min-height: 11rem; height: 11rem; }.lan-maozhou-card__front { padding: .55rem; }.lan-maozhou-card__front strong { font-size: .7rem; }.lan-maozhou-card__front small { font-size: .56rem; }.lan-maozhou-card__back p { font-size: .59rem; }.lan-maozhou-card__back button { font-size: .6rem; }
 }
+@keyframes lan-maozhou-card-expand { from { opacity: .7; transform: translate(-50%, -50%) scale(.34); } to { opacity: 1; transform: translate(-50%, -50%) scale(1); } }
 
 @media (prefers-reduced-motion: reduce) {
   .lan-conversation__next,
@@ -231,4 +235,5 @@
   .lan-conversation__bubble::after { animation: none; }
   .lan-conversation__bubble::after { display: none; }
   .lan-conversation__backdrop { animation: none; }
+  .lan-maozhou-card.is-expanded { animation: none; }
 }

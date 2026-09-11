@@ -142,8 +142,8 @@ function ChapterOverview() {
       dialogLabel: '水精灵导览',
       messages: ['你好，我是水精灵。', '点击地图上的章节印记，我会带你继续探索水脉文明。'],
       actionLabel: '选择章节',
-      unavailableNotice: '请先选择一个章节印记。',
-      onAction: () => closeMascotDialogueRef.current(),
+      onAction: () => undefined,
+      closeOnAction: true,
     };
   }, [handleAction, openChapter]);
 

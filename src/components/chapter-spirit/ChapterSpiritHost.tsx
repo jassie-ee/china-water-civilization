@@ -31,6 +31,22 @@ function ChapterSpiritHost() {
     return () => window.clearTimeout(timeout);
   }, [activeAction, activePageId]);
 
+  useEffect(() => {
+    if (activeSpirit === null || !activeSpirit.isDialogueOpen || activeSpirit.config.dialoguePresentation === 'stage') return undefined;
+
+    const { config } = activeSpirit;
+    const handleOutsidePointerDown = (event: PointerEvent): void => {
+      if (!(event.target instanceof Node)) return;
+      if (handleRef.current?.contains(event.target) || document.getElementById(config.dialogueId)?.contains(event.target)) return;
+
+      closeDialogue(config.pageId);
+      config.onDialogueClose?.();
+    };
+
+    document.addEventListener('pointerdown', handleOutsidePointerDown, true);
+    return () => document.removeEventListener('pointerdown', handleOutsidePointerDown, true);
+  }, [activeSpirit, closeDialogue]);
+
   if (activeSpirit === null || activeSpirit.config.visible === false) return null;
   const { config, position } = activeSpirit;
   const handleClose = (): void => { closeDialogue(config.pageId); config.onDialogueClose?.(); window.requestAnimationFrame(() => handleRef.current?.focus()); };

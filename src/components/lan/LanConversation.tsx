@@ -25,9 +25,11 @@ interface LanConversationProps {
     label: string;
     description?: string;
     imageSrc?: string;
+    feedback?: string;
+    videoSrc?: string;
     onSelect: () => void;
   }>;
-  choicePresentation?: 'list' | 'species' | 'dispatch';
+  choicePresentation?: 'list' | 'species' | 'dispatch' | 'maozhou';
   media?: {
     src: string;
     title: string;
@@ -63,14 +65,24 @@ function LanConversation({
 }: LanConversationProps) {
   const [messageIndex, setMessageIndex] = useState(0);
   const [isRepairNoticeVisible, setIsRepairNoticeVisible] = useState(false);
+  const [flippedChoiceId, setFlippedChoiceId] = useState<string | null>(null);
+  const [expandedChoiceId, setExpandedChoiceId] = useState<string | null>(null);
+  const zoomTimerRef = useRef<number | null>(null);
   const closeButtonRef = useRef<HTMLButtonElement>(null);
   const isFinalMessage = messageIndex === messages.length - 1;
 
   useEffect(() => {
     setMessageIndex(0);
     setIsRepairNoticeVisible(false);
+    setFlippedChoiceId(null);
+    setExpandedChoiceId(null);
+    if (zoomTimerRef.current !== null) window.clearTimeout(zoomTimerRef.current);
     window.requestAnimationFrame(() => closeButtonRef.current?.focus());
   }, [conversationId]);
+
+  useEffect(() => () => {
+    if (zoomTimerRef.current !== null) window.clearTimeout(zoomTimerRef.current);
+  }, []);
 
   useEffect(() => {
     if (!closeOnEscape) return undefined;
@@ -157,7 +169,7 @@ function LanConversation({
   const conversation = (
     <section
       ref={conversationRef}
-      className={`lan-conversation lan-conversation--${resolvedAnchor.dialogueSide} lan-conversation--${resolvedAnchor.dialogueVertical} lan-conversation--${placement}`}
+      className={`lan-conversation lan-conversation--${resolvedAnchor.dialogueSide} lan-conversation--${resolvedAnchor.dialogueVertical} lan-conversation--${placement}${choicePresentation === 'maozhou' ? ' lan-conversation--maozhou' : ''}`}
       id={dialogueId}
       role="dialog"
       aria-modal={placement === 'modal' || undefined}
@@ -188,7 +200,31 @@ function LanConversation({
           {isRepairNoticeVisible && unavailableNotice !== undefined && (
             <p className="lan-conversation__notice" role="status">{unavailableNotice}</p>
           )}
-          {isFinalMessage && choices !== undefined && choices.length > 0 ? (
+          {isFinalMessage && choices !== undefined && choices.length > 0 && choicePresentation === 'maozhou' ? (
+            <div className="lan-conversation__maozhou-cards" role="group" aria-label="茅洲河治理方案">
+              {choices.map((choice) => {
+                const isFlipped = flippedChoiceId === choice.id;
+                const isExpanded = expandedChoiceId === choice.id;
+                return <article key={choice.id} className={`lan-maozhou-card${isFlipped ? ' is-flipped' : ''}${isExpanded ? ' is-expanded' : ''}`}>
+                  <div className="lan-maozhou-card__inner">
+                    <button className="lan-maozhou-card__front" type="button" aria-pressed={isFlipped} onClick={() => {
+                      setFlippedChoiceId(choice.id);
+                      choice.onSelect();
+                      if (zoomTimerRef.current !== null) window.clearTimeout(zoomTimerRef.current);
+                      zoomTimerRef.current = window.setTimeout(() => setExpandedChoiceId(choice.id), 520);
+                    }}>
+                      <span>{choice.label.slice(0, 1)}</span><strong>{choice.label.slice(3)}</strong><small>点击查看治理后果</small>
+                    </button>
+                    <section className="lan-maozhou-card__back" aria-label={`${choice.label.slice(0, 1)} 选项反馈`}>
+                      {choice.videoSrc && <video controls autoPlay muted playsInline preload="metadata"><source src={choice.videoSrc} /></video>}
+                      <p>{choice.feedback}</p>
+                      <button type="button" onClick={() => { if (zoomTimerRef.current !== null) window.clearTimeout(zoomTimerRef.current); setExpandedChoiceId(null); setFlippedChoiceId(null); }}>返回选项</button>
+                    </section>
+                  </div>
+                </article>;
+              })}
+            </div>
+          ) : isFinalMessage && choices !== undefined && choices.length > 0 ? (
             <div ref={choicesRef} className={`lan-conversation__choices lan-conversation__choices--${choicePresentation}`} role="group" aria-label="选择回答">
               {choices.map((choice) => (
                 <button key={choice.id} className="lan-conversation__choice" type="button" onClick={choice.onSelect} onPointerMove={handleChoicePointerMove} onPointerLeave={(event) => {

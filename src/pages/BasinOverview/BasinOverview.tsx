@@ -24,6 +24,7 @@ function BasinOverview() {
   const [isLeaving, setIsLeaving] = useState(false);
   const [isKnowledgeOpen, setIsKnowledgeOpen] = useState(false);
   const navigationTimerRef = useRef<number | null>(null);
+  const hasOpenedWelcomeDialogueRef = useRef(false);
   const mascotConfig = useMemo(() => ({
     pageId: 'basin-overview',
     routePath: '/basins',
@@ -49,6 +50,8 @@ function BasinOverview() {
   }, []);
 
   useEffect(() => {
+    if (hasOpenedWelcomeDialogueRef.current) return;
+    hasOpenedWelcomeDialogueRef.current = true;
     openDialogue();
   }, [openDialogue]);
 

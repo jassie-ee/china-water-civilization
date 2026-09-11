@@ -5,6 +5,8 @@ import { useGovernanceProgress } from '@/components/common/governanceProgressCon
 import RiverSpiritGuide from '@/components/lan/RiverSpiritGuide';
 import type { ChapterSpiritAction, ChapterSpiritDialogue } from '@/components/chapter-spirit';
 import type { BasinNarrativeConfig, BasinStoryScene } from '@/types/basinStory';
+import type { BasinStoryChoice } from '@/types/basinStory';
+import { getLocalVideoAssetUrl } from '@/assets/videos/mediaSources';
 
 import BasinStoryStage from './BasinStoryStage';
 import './BasinStory.css';
@@ -63,6 +65,13 @@ function BasinNarrativePage({ config }: { config: BasinNarrativeConfig }) {
       .catch(() => setRewardCopy('互动已完成，但本地积分暂未能写入。'));
   }, [completedInteractionIds, interaction, recordLevelResult]);
 
+  const resolveMaozhouChoice = useCallback((choice: BasinStoryChoice): void => {
+    const maozhouInteraction = config.scenes.find((scene) => scene.id === 'pearl-city')?.interaction;
+    if (!maozhouInteraction?.choices.some((item) => item.id === choice.id) || !choice.isCorrect || completedInteractionIds.includes(maozhouInteraction.id)) return;
+    setCompletedInteractionIds((current) => [...current, maozhouInteraction.id]);
+    void recordLevelResult(maozhouInteraction.id, maozhouInteraction.rewardStars);
+  }, [completedInteractionIds, config.scenes, recordLevelResult]);
+
   const dialogue = useMemo<ChapterSpiritDialogue | undefined>(() => {
     if (!interaction || interactionPhase === 'idle') return undefined;
     if (interactionPhase === 'question') {
@@ -73,13 +82,15 @@ function BasinNarrativePage({ config }: { config: BasinNarrativeConfig }) {
         messages: [interaction.question],
         actionLabel: '做出选择',
         onAction: () => undefined,
-        choicePresentation: interaction.mode === 'species-recognition' ? 'species' : interaction.mode === 'dispatch' ? 'dispatch' : 'list',
+        choicePresentation: interaction.id === 'pearl-maozhou-governance' ? 'maozhou' : interaction.mode === 'species-recognition' ? 'species' : interaction.mode === 'dispatch' ? 'dispatch' : 'list',
         choices: interaction.choices.map((choice) => ({
           id: choice.id,
           label: choice.label,
           description: choice.description,
           imageSrc: choice.imageSrc,
-          onSelect: () => selectChoice(choice.id),
+          feedback: choice.feedback,
+          videoSrc: choice.feedbackVideoFilename ? getLocalVideoAssetUrl(choice.feedbackVideoFilename) : undefined,
+          onSelect: () => interaction.id === 'pearl-maozhou-governance' ? resolveMaozhouChoice(choice) : selectChoice(choice.id),
         })),
         closeOnBackdrop: true,
         closeOnEscape: true,
@@ -106,7 +117,7 @@ function BasinNarrativePage({ config }: { config: BasinNarrativeConfig }) {
       closeOnEscape: true,
       showClose: true,
     };
-  }, [config.riverName, interaction, interactionPhase, interactionScene?.title, rewardCopy, selectChoice, selectedChoice]);
+  }, [config.riverName, interaction, interactionPhase, interactionScene?.title, resolveMaozhouChoice, rewardCopy, selectChoice, selectedChoice]);
 
   const action: ChapterSpiritAction = selectedChoice
     ? selectedChoice.isCorrect ? 'purify' : 'point-water'
@@ -134,7 +145,7 @@ function BasinNarrativePage({ config }: { config: BasinNarrativeConfig }) {
           <div className="basin-narrative__heading">
             <p>{activeScene.label}</p><h2>{activeScene.title}</h2><span>{activeScene.summary}</span>
           </div>
-          <BasinStoryStage scene={activeScene} layout={config.theme === 'yangtze' || config.theme === 'pearl' ? 'split' : 'stacked'} onStartInteraction={() => openInteraction(activeScene)} interactionLabel={activeScene.interaction && completedInteractionIds.includes(activeScene.interaction.id) ? '再次互动' : '跳过影像，直接互动'} />
+          <BasinStoryStage scene={activeScene} layout={config.theme === 'yangtze' || config.theme === 'pearl' ? 'split' : 'stacked'} onStartInteraction={() => openInteraction(activeScene)} interactionLabel={activeScene.interaction && completedInteractionIds.includes(activeScene.interaction.id) ? '再次互动' : '开始治理决策'} />
         </div>
       </main>
       <RiverSpiritGuide

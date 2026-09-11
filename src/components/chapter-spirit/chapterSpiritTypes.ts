@@ -9,8 +9,8 @@ export interface ChapterSpiritDialogue {
   actionLabel: string;
   unavailableNotice?: string;
   onAction: () => void;
-  choices?: Array<{ id: string; label: string; description?: string; imageSrc?: string; onSelect: () => void }>;
-  choicePresentation?: 'list' | 'species' | 'dispatch';
+  choices?: Array<{ id: string; label: string; description?: string; imageSrc?: string; feedback?: string; videoSrc?: string; onSelect: () => void }>;
+  choicePresentation?: 'list' | 'species' | 'dispatch' | 'maozhou';
   heading?: string;
   media?: { src: string; title: string };
   closeOnBackdrop?: boolean;

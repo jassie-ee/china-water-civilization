@@ -26,11 +26,59 @@
 .basin-narrative__heading span { display: block; color: rgb(232 242 224 / 82%); font-size: clamp(.76rem, .96vw, .88rem); line-height: 1.55; text-wrap: pretty; }
 .basin-story-stage { display: block; min-height: 0; overflow: hidden; animation: basin-story-copy-in 320ms cubic-bezier(.2, .75, .25, 1) both; }
 .basin-story-stage--split { display: grid; grid-template-columns: minmax(18rem, .9fr) minmax(23rem, 1.1fr); width: min(100%, 78rem); gap: clamp(1.25rem, 3vw, 3rem); align-items: start; margin: clamp(.2rem, .8vh, .5rem) auto 0; }
+.basin-story-stage--maozhou { display: grid; grid-template-columns: minmax(15rem, .66fr) minmax(27rem, 1.34fr); width: min(100%, 78rem); gap: clamp(1.5rem, 3.4vw, 3.25rem); align-items: start; margin: clamp(.2rem, .8vh, .5rem) auto 0; }
+.basin-story-stage--maozhou .basin-story-tabs { width: 100%; }
+.maozhou-decision { display: grid; align-content: center; min-height: clamp(16rem, 28vh, 19rem); padding: clamp(1.1rem, 2.2vw, 1.7rem); border-left: 2px solid var(--story-accent); background: linear-gradient(112deg, rgb(8 42 43 / 88%), rgb(17 58 55 / 56%)); box-shadow: 0 1rem 3.4rem rgb(0 7 13 / 28%); }
+.maozhou-decision > p { margin: 0; color: var(--story-accent); font-family: var(--font-calligraphy); font-size: .72rem; letter-spacing: .08em; }.maozhou-decision > h3 { max-width: 17rem; margin: .4rem 0 .55rem; color: #fff4d6; font-family: "Noto Serif SC", var(--font-calligraphy); font-size: clamp(1.28rem, 1.8vw, 1.58rem); font-weight: 500; line-height: 1.35; }.maozhou-decision > span { display: block; max-width: 17rem; color: rgb(232 242 224 / 80%); font-size: .8rem; line-height: 1.65; }.maozhou-decision__start { justify-self: start; margin-top: 1.15rem; padding: .74rem 1.15rem; border: 1px solid rgb(238 209 126 / 70%); border-radius: 99rem; color: #f8edca; background: linear-gradient(135deg, rgb(22 125 162 / 82%), rgb(188 143 49 / 72%)); box-shadow: 0 .45rem 2rem rgb(10 88 125 / 42%), 0 0 1.5rem rgb(241 203 107 / 25%), inset 0 1px rgb(255 255 255 / 42%); cursor: pointer; font-family: var(--font-calligraphy); font-size: .92rem; letter-spacing: .13em; transition: opacity 180ms ease, transform 180ms ease, box-shadow 180ms ease; }.maozhou-decision__start:hover, .maozhou-decision__start:focus-visible { border-color: #fff2bb; transform: translateY(-2px); }.maozhou-decision__start span { margin-left: .55rem; }
+.maozhou-decision__heading p { margin: 0; color: var(--story-accent); font-family: var(--font-calligraphy); font-size: .72rem; letter-spacing: .08em; }.maozhou-decision__heading h3 { max-width: 26rem; margin: .4rem 0 1rem; color: #fff4d6; font-family: "Noto Serif SC", var(--font-calligraphy); font-size: clamp(1.22rem, 1.85vw, 1.65rem); font-weight: 500; line-height: 1.35; }
+.maozhou-decision__choices { display: grid; gap: .65rem; }.maozhou-choice { min-height: 5.25rem; perspective: 65rem; }.maozhou-choice__inner { position: relative; width: 100%; min-height: 5.25rem; transform-style: preserve-3d; transition: transform 540ms cubic-bezier(.2, .75, .25, 1); }.maozhou-choice.is-flipped .maozhou-choice__inner { min-height: 15rem; transform: rotateX(180deg); }.maozhou-choice__front, .maozhou-choice__back { position: absolute; inset: 0; display: grid; backface-visibility: hidden; }.maozhou-choice__front { grid-template-columns: 2.2rem minmax(0, 1fr); gap: .15rem .72rem; align-items: center; width: 100%; padding: .78rem .9rem; border: 1px solid rgb(218 235 207 / 26%); border-radius: .45rem; color: #edf3e8; background: rgb(16 54 53 / 78%); cursor: pointer; font-family: inherit; text-align: left; transition: border-color 180ms ease, background 180ms ease; }.maozhou-choice__front:hover, .maozhou-choice__front:focus-visible { border-color: var(--story-accent); background: rgb(39 86 76 / 78%); }.maozhou-choice__front span { grid-row: 1 / span 2; align-self: center; color: var(--story-accent); font-family: var(--font-calligraphy); font-size: 1.38rem; }.maozhou-choice__front strong { font-family: var(--font-calligraphy); font-size: .86rem; font-weight: 500; line-height: 1.45; }.maozhou-choice__front small { color: rgb(226 237 223 / 61%); font-size: .66rem; }.maozhou-choice__back { grid-template-rows: auto minmax(0, 1fr) auto; gap: .35rem; padding: .55rem; overflow: hidden; border: 1px solid rgb(218 235 207 / 38%); border-radius: .45rem; background: #0f3534; transform: rotateX(180deg); }.maozhou-choice__back video { width: 100%; max-height: 8.2rem; background: #061e20; object-fit: cover; }.maozhou-choice__back p { margin: 0; color: rgb(237 243 232 / 90%); font-size: .71rem; line-height: 1.55; }.maozhou-choice__back button { justify-self: start; padding: 0; border: 0; color: var(--story-accent); background: transparent; cursor: pointer; font-family: var(--font-calligraphy); font-size: .68rem; }
 .basin-story-stage__interactive-column { min-width: 0; }
 .basin-story-stage--split .basin-story-stage__media { margin-top: 0; }
 .basin-story-stage__interactive-column > .basin-story-stage__discovery { margin-top: 0; }
 .basin-story-stage--split .basin-story-tabs { width: 100%; margin: 0; }
 .basin-story-stage--split.basin-story-stage--has-media .basin-story-tabs { min-height: 0; height: var(--split-media-height); }
+.basin-story-stage--yangtze-life {
+  grid-template-columns: minmax(15rem, .54fr) minmax(0, 1.46fr);
+  gap: clamp(1.35rem, 3.6vw, 3.5rem);
+  align-items: start;
+}
+.basin-story-stage--yangtze-life .basin-story-stage__interactive-column {
+  display: flex;
+  justify-content: flex-end;
+  padding-top: clamp(.8rem, 3vh, 2.4rem);
+}
+.basin-story-stage--yangtze-life .basin-story-stage__discovery {
+  width: min(100%, 21rem);
+  min-height: 0;
+  margin: 0;
+  grid-template-columns: auto minmax(0, 1fr);
+  gap: .5rem .8rem;
+  padding: 1rem 1.1rem 1.05rem;
+  border: 0;
+  border-left: 2px solid color-mix(in srgb, var(--story-accent) 76%, #e8e2b9);
+  border-radius: 0 .7rem .7rem 0;
+  background: linear-gradient(105deg, rgb(10 48 54 / 66%), rgb(19 74 77 / 29%));
+  box-shadow: inset 0 1px 0 rgb(233 255 244 / 12%), 0 .85rem 2.2rem rgb(0 18 24 / 15%);
+}
+.basin-story-stage--yangtze-life .basin-story-stage__discovery > span { grid-row: 1 / span 3; }
+.basin-story-stage--yangtze-life .basin-story-stage__discovery strong { align-self: end; font-size: 1.08rem; }
+.basin-story-stage--yangtze-life .basin-story-stage__discovery p { grid-column: 2; margin: 0; }
+.basin-story-stage--yangtze-life .basin-story-stage__discovery .basin-story-stage__interaction { grid-column: 2; grid-row: auto; justify-self: start; margin-top: .2rem; }
+.basin-story-stage__life-copy {
+  min-height: clamp(16rem, 34vh, 22rem);
+  padding: clamp(.95rem, 1.9vw, 1.45rem);
+  border-left: 1px solid rgb(104 193 201 / 42%);
+  background: linear-gradient(100deg, rgb(71 163 170 / 14%), transparent 74%);
+}
+.basin-story-stage__life-eyebrow { margin: 0; color: #8fd8d1; font-size: .78rem; letter-spacing: .15em; }
+.basin-story-stage__life-copy h3 { margin: .38rem 0 .72rem; color: #f3efd9; font-family: "Noto Serif SC", var(--font-calligraphy); font-size: clamp(1.3rem, 1.9vw, 1.72rem); font-weight: 500; line-height: 1.3; }
+.basin-story-stage__life-body p,
+.basin-story-stage__life-conclusion { max-width: 38rem; margin: 0; color: rgb(229 238 220 / 88%); font-size: clamp(.82rem, .98vw, .92rem); line-height: 1.72; text-indent: 2em; text-wrap: pretty; }
+.basin-story-stage__life-body p + p { margin-top: .52rem; }
+.basin-story-stage__life-process { display: flex; flex-wrap: wrap; gap: .35rem .5rem; align-items: center; margin-top: .72rem; color: #d8e6aa; font-family: var(--font-calligraphy); font-size: clamp(.8rem, .96vw, .88rem); letter-spacing: .05em; }
+.basin-story-stage__life-process strong { padding: .34rem .52rem; border: 1px solid rgb(143 216 209 / 34%); background: rgb(102 188 176 / 10%); font-weight: 500; }
+.basin-story-stage__life-process b { color: #8fd8d1; font-weight: 400; }
+.basin-story-stage__life-conclusion { margin-top: .72rem; padding-left: .78rem; border-left: 2px solid var(--story-accent); color: rgb(216 240 224 / 92%); font-family: var(--font-calligraphy); text-indent: 0; }
 .basin-story-stage__media { position: relative; margin-top: .9rem; overflow: hidden; }
 .basin-story-stage__media .node-video-panel { aspect-ratio: 16 / 9; min-height: 0; margin: 0; border-color: color-mix(in srgb, var(--story-accent) 48%, transparent); background: rgb(3 25 31 / 60%); box-shadow: 0 1rem 3.4rem rgb(0 7 13 / 35%), 0 0 0 1px oklch(1 0 0 / .1); }
 .basin-story-stage__media .node-video-panel__media { outline: 1px solid oklch(1 0 0 / .1); outline-offset: -1px; }
@@ -64,5 +112,5 @@
 @keyframes basin-story-scene-in { from { opacity: 0; transform: scale(1.018); } to { opacity: 1; transform: scale(1); } }
 @keyframes basin-story-copy-in { from { opacity: 0; transform: translateY(.62rem); } to { opacity: 1; transform: translateY(0); } }
 @media (max-width: 860px) and (min-width: 761px) { .basin-narrative { padding-inline: 1.2rem; } .basin-story-tabs { grid-template-columns: minmax(6.4rem, .32fr) minmax(0, 1fr); } .basin-story-tabs__list button { font-size: .7rem; } }
-@media (max-width: 760px) { .basin-narrative { display: block; height: auto; min-height: 100dvh; overflow: visible; padding: 1rem; } .basin-narrative__header > div { margin-top: 2.7rem; } .basin-narrative__header h1 { font-size: 1.25rem; } .basin-narrative__nav { margin-top: 1rem; } .basin-narrative__nav button { font-size: .72rem; } .basin-narrative__stage { display: block; margin-top: 1rem; } .basin-story-stage { overflow: visible; } .basin-story-stage--split { grid-template-columns: 1fr; gap: 1rem; } .basin-story-stage__media { min-height: 13rem; overflow: visible; } .basin-story-tabs, .basin-story-stage--split.basin-story-stage--has-media .basin-story-tabs { min-height: 0; height: auto; grid-template-columns: 1fr; } .basin-story-tabs__list, .basin-story-tabs--fill-height .basin-story-tabs__list { grid-template-columns: repeat(5, minmax(0, 1fr)); grid-template-rows: none; border-right: 0; border-bottom: 1px solid rgb(233 242 220 / 17%); } .basin-story-tabs__list button, .basin-story-tabs--fill-height .basin-story-tabs__list button { min-height: 2.2rem; height: auto; font-size: .65rem; text-align: center; } .basin-story-tabs__panel { min-height: 15rem; } .basin-story-stage__discovery { grid-template-columns: 1fr auto; } .basin-story-stage__discovery > span { display: none; } .basin-story-stage__discovery p { grid-column: 1; } .basin-story-stage__discovery .basin-story-stage__interaction { grid-column: 2; grid-row: 1 / span 2; } }
+@media (max-width: 760px) { .basin-narrative { display: block; height: auto; min-height: 100dvh; overflow: visible; padding: 1rem; } .basin-narrative__header > div { margin-top: 2.7rem; } .basin-narrative__header h1 { font-size: 1.25rem; } .basin-narrative__nav { margin-top: 1rem; } .basin-narrative__nav button { font-size: .72rem; } .basin-narrative__stage { display: block; margin-top: 1rem; } .basin-story-stage { overflow: visible; } .basin-story-stage--split, .basin-story-stage--yangtze-life, .basin-story-stage--maozhou { grid-template-columns: 1fr; gap: 1rem; } .basin-story-stage--yangtze-life .basin-story-stage__interactive-column { justify-content: flex-start; padding-top: 0; } .basin-story-stage--yangtze-life .basin-story-stage__discovery { width: 100%; } .basin-story-stage--yangtze-life .basin-story-stage__discovery > span { display: none; } .basin-story-stage--yangtze-life .basin-story-stage__discovery p { grid-column: 1; } .basin-story-stage--yangtze-life .basin-story-stage__discovery .basin-story-stage__interaction { grid-column: 2; grid-row: 1 / span 2; margin-top: 0; } .basin-story-stage__media { min-height: 13rem; overflow: visible; } .basin-story-tabs, .basin-story-stage--split.basin-story-stage--has-media .basin-story-tabs { min-height: 0; height: auto; grid-template-columns: 1fr; } .basin-story-tabs__list, .basin-story-tabs--fill-height .basin-story-tabs__list { grid-template-columns: repeat(5, minmax(0, 1fr)); grid-template-rows: none; border-right: 0; border-bottom: 1px solid rgb(233 242 220 / 17%); } .basin-story-tabs__list button, .basin-story-tabs--fill-height .basin-story-tabs__list button { min-height: 2.2rem; height: auto; font-size: .65rem; text-align: center; } .basin-story-tabs__panel { min-height: 15rem; } .basin-story-stage__discovery { grid-template-columns: 1fr auto; } .basin-story-stage__discovery > span { display: none; } .basin-story-stage__discovery p { grid-column: 1; } .basin-story-stage__discovery .basin-story-stage__interaction { grid-column: 2; grid-row: 1 / span 2; } }
 @media (prefers-reduced-motion: reduce) { .basin-narrative *, .basin-narrative *::before, .basin-narrative *::after { animation: none !important; transition: none !important; } }

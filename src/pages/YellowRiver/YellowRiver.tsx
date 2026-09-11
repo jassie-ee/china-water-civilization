@@ -98,6 +98,7 @@ function YellowRiver() {
   const [deltaSectionId, setDeltaSectionId] = useState<DeltaAtlasSectionId>('estuary');
   const { recordLevelResult } = useGovernanceProgress();
   const loessNode = yellowRiverNodes.find((node) => node.id === 'loess-plateau');
+  const xiaolangdiNode = yellowRiverNodes.find((node) => node.id === 'xiaolangdi');
   const deltaNode = yellowRiverNodes.find((node) => node.id === 'yellow-river-delta-wetland');
   const activeNarrative = narratives.find((item) => item.id === activeNarrativeId) ?? narratives[0];
 
@@ -210,7 +211,7 @@ function YellowRiver() {
         </article>}
         {activeNarrativeId === 'system' && <article className="yellow-river-chronicle__scene yellow-river-chronicle__scene--system yellow-river-chronicle__scene--with-video" style={chronicleSplitStyle}>
           <div ref={chronicleMediaRef} className="yellow-river-chronicle__media">
-            <NodeVideoPanel video={{ title: '小浪底调水调沙影像', description: '视频已随网页打包部署。', src: localVideoAssets['xiaolangdi.mp4'] }} onComplete={startXiaolangdiInteraction} skipLabel={hasCompletedXiaolangdiInteraction ? '再次互动' : '跳过影像，直接互动'} />
+            <NodeVideoPanel video={xiaolangdiNode?.media?.video ?? { title: '小浪底调水调沙影像', description: '视频已随网页打包部署。', src: localVideoAssets['xiaolangdi.mp4'], sourceLabel: '来源：水利部宣传教育中心、水利部水旱灾害防御司、黄河水利委员会、小浪底水利枢纽管理中心' }} onComplete={startXiaolangdiInteraction} skipLabel={hasCompletedXiaolangdiInteraction ? '再次互动' : '跳过影像，直接互动'} />
           </div>
           <div className="yellow-river-chronicle__engineering-copy" aria-live="polite">
             <p className="yellow-river-chronicle__engineering-eyebrow">水库群联合调度</p>

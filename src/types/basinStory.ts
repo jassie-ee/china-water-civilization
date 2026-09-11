@@ -16,6 +16,8 @@ export interface BasinStoryChoice {
   imageSrc?: string;
   isCorrect: boolean;
   feedback: string;
+  /** 选择后播放的治理结果影像。 */
+  feedbackVideoFilename?: string;
 }
 
 export interface BasinStoryInteraction {

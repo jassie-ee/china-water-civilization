@@ -1,6 +1,6 @@
 import type { CSSProperties } from 'react';
 
-import chinaThreeBasinsAtlas from '@/assets/images/china-three-basins-atlas.webp';
+import chinaThreeBasinsAtlas from '@/assets/images/china-three-basins-atlas-highlighted.webp';
 import { basinAtlasMarkers } from '@/data/basinAtlas';
 import { basinOverviewItems } from '@/data/basinOverview';
 import type { BasinId } from '@/types/basin';

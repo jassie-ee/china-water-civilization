@@ -50,7 +50,7 @@ function GlobalScoreDisplay() {
   return (
     <>
       <button ref={triggerRef} className="global-score-display" type="button" aria-haspopup="dialog" aria-expanded={isOpen} aria-controls="score-popover" onClick={() => (isOpen ? handleClose() : setIsOpen(true))}>
-        <span className="global-score-display__label">章节积分</span>
+        <span className="global-score-display__label">治理星级</span>
         <span className="global-score-display__star" aria-hidden="true">★</span>
         <strong className="global-score-display__value">{totalStars}</strong>
       </button>
@@ -58,11 +58,11 @@ function GlobalScoreDisplay() {
         <div className="score-popover__backdrop" role="presentation" onClick={handleClose}>
           <section id="score-popover" className="score-popover" role="dialog" aria-modal="true" aria-labelledby="score-popover-title" onClick={(event) => event.stopPropagation()}>
             <header className="score-popover__header">
-              <div><p>水脉学习档案</p><h2 id="score-popover-title">我的章节积分</h2></div>
+              <div><p>水脉学习档案</p><h2 id="score-popover-title">我的治理星级</h2></div>
               <button ref={closeButtonRef} className="score-popover__close" type="button" aria-label="关闭治理星级面板" onClick={handleClose}>×</button>
             </header>
             <div className="score-popover__cards">
-              <ScoreCard title="总章节积分" stars={totalStars} />
+              <ScoreCard title="总治理积分" stars={totalStars} />
               <p className="score-popover__basin-heading">治 · 航 · 望</p>
               <ScoreCard title="治 · 第二章" stars={getChapterStars('zhi')} />
               <ScoreCard title="航 · 第三章" stars={getChapterStars('hang')} />

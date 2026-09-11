@@ -122,7 +122,7 @@ const pearlNarrative: BasinNarrativeConfig = {
     },
     {
       id: 'pearl-city', label: '城市河流', title: '让城市河流重新呼吸', summary: '河面变清只是开始，治河更要追到地下管网与污染源头。',
-      videoFilename: 'maozhou-river-governance.mp4', videoTitle: '茅洲河黑臭水体治理影像', mediaAfterSectionId: 'problem',
+      videoFilename: 'maozhou-1.mp4', videoTitle: '茅洲河黑臭水体现场', mediaAfterSectionId: 'problem',
       sections: [
         { id: 'background', label: '背景介绍', paragraphs: ['茅洲河流经深圳和东莞，是一条典型的跨城市河流。随着城市快速发展，流域内人口、工厂、道路和建筑不断增加，城市需要排放和处理的污水也越来越多。', '河流原本像城市的“毛细血管”，负责输送水分、连接生态空间。但如果地下污水管网不完整，生活污水和工业废水便可能进入雨水管或直接排入河道。久而久之，河水就会变黑、发臭，鱼虾也难以生存。'] },
         { id: 'problem', label: '问题剖析', paragraphs: ['黑臭水体表面上看是“河水脏了”，真正的病根却往往藏在岸上和地下。有的污水管道破损或连接错误，有的老旧社区没有完成雨污分流，还有一些企业违法排污。即使清淤船把河底污泥挖走，只要岸上的污水仍不断进入，河流很快又会重新变黑。', '此外，高密度城市中的河道往往被建筑和硬质河岸挤压，水流速度慢，自净能力不足。枯水期如果缺少基本水量，河流就像一条很久没有换水的鱼缸，污染物更容易积累。', '治好茅洲河不能只在河里施工，而要沿着污水的来路倒着寻找：河水为什么黑？污水从哪里来？地下管道有没有接错？净化厂能不能及时处理？', '河水变黑以后，只把河底的污泥挖走够不够呢？跟着我沿着排水口向岸上寻找，也许真正的答案藏在看不见的地下管网里。'] },
@@ -132,11 +132,11 @@ const pearlNarrative: BasinNarrativeConfig = {
       ],
       interaction: {
         id: 'pearl-maozhou-governance', mode: 'choice', rewardStars: 3,
-        question: '要让茅洲河长期变清，最先应该把治理力量放在哪里？',
+        question: '河水已经发黑发臭。有限的治理资金，第一步该投向哪里？',
         choices: [
-          { id: 'paint', label: 'A. 只美化河岸并增加灯光景观', isCorrect: false, feedback: '景观改善不能阻止污染继续进入河流，河岸好看不等于水质真正恢复。' },
-          { id: 'flush', label: 'B. 长期依赖调水把污染冲走', isCorrect: false, feedback: '调水可以缓解局部水质，却不能代替污染源控制和管网建设。' },
-          { id: 'source', label: 'C. 控源截污、完善管网，再结合清淤与生态修复', isCorrect: true, feedback: '找到根源了！从源头减少污染，再修复河道，水质改善才会稳定下来。' },
+          { id: 'source', label: 'A. 先在岸上修管网、建净水厂，把污水拦住不让进河', isCorrect: true, feedback: '对啦！污染在河里，根子在岸上。先把污水拦住不让进河，河自然就慢慢变清了。要是先清河里，岸上还在排脏水，清完又脏了，白花钱。', feedbackVideoFilename: 'maozhou-1.mp4' },
+          { id: 'dredge', label: 'B. 先在河里清淤、种水草，把河水先弄干净', isCorrect: false, feedback: '先清河里听起来见效快，可岸上的污水还在往河里排，清完没几天又臭了，钱等于白花了，得先从根子上解决。', feedbackVideoFilename: 'maozhou-2.mp4' },
+          { id: 'split', label: 'C. 一半一半，岸上和河里同时治', isCorrect: false, feedback: '一半一半听起来稳妥，可钱分散了两边都做不彻底，岸上没截住污，河里清了也白清，得集中力量先把根子堵住。', feedbackVideoFilename: 'maozhou-3.mp4' },
         ],
       },
     },
