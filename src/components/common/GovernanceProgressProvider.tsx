@@ -1,7 +1,7 @@
 import { useCallback, useEffect, useMemo, useState, type ReactNode } from 'react';
 
 import type { GovernanceProgressState, GovernanceProgressUpdate } from '@/types/governanceProgress';
-import type { GovernanceProgressScope } from '@/types/governanceData';
+import type { GovernanceChapterScope, GovernanceProgressScope } from '@/types/governanceData';
 import type { BasinId } from '@/types/basin';
 import { governanceDataSource } from '@/services/governanceDataSource';
 import { getTotalStars } from '@/utils/governanceProgress';
@@ -67,6 +67,13 @@ function GovernanceProgressProvider({ children }: GovernanceProgressProviderProp
     [progress.levelBestStars],
   );
 
+  const getChapterStars = useCallback(
+    (chapterId: GovernanceChapterScope): number => Object.entries(progress.levelBestStars)
+      .filter(([levelId]) => levelId.startsWith(`${chapterId}-`))
+      .reduce((total, [, stars]) => total + stars, 0),
+    [progress.levelBestStars],
+  );
+
   const clearProgress = useCallback(
     async (scope: GovernanceProgressScope): Promise<void> => {
       const nextProgress = await governanceDataSource.clearProgress(accountId, progress, scope);
@@ -80,11 +87,12 @@ function GovernanceProgressProvider({ children }: GovernanceProgressProviderProp
       totalStars: getTotalStars(progress),
       getLevelBestStars,
       getBasinStars,
+      getChapterStars,
       recordLevelResult,
       clearProgress,
       refreshProgress,
     }),
-    [clearProgress, getBasinStars, getLevelBestStars, progress, recordLevelResult, refreshProgress],
+    [clearProgress, getBasinStars, getChapterStars, getLevelBestStars, progress, recordLevelResult, refreshProgress],
   );
 
   return <GovernanceProgressContext.Provider value={value}>{children}</GovernanceProgressContext.Provider>;

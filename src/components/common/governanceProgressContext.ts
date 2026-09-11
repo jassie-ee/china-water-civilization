@@ -1,13 +1,14 @@
 import { createContext, useContext } from 'react';
 
 import type { GovernanceProgressUpdate } from '@/types/governanceProgress';
-import type { GovernanceProgressScope } from '@/types/governanceData';
+import type { GovernanceChapterScope, GovernanceProgressScope } from '@/types/governanceData';
 import type { BasinId } from '@/types/basin';
 
 interface GovernanceProgressContextValue {
   totalStars: number;
   getLevelBestStars: (levelId: string) => number;
   getBasinStars: (basinId: BasinId) => number;
+  getChapterStars: (chapterId: GovernanceChapterScope) => number;
   recordLevelResult: (levelId: string, completedStars: number) => Promise<GovernanceProgressUpdate>;
   clearProgress: (scope: GovernanceProgressScope) => Promise<void>;
   refreshProgress: () => Promise<void>;

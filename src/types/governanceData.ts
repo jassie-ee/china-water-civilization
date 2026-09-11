@@ -1,8 +1,10 @@
 import type { GovernanceQuestionLevelConfig } from './governanceLevel';
 import type { GovernanceProgressState, GovernanceProgressUpdate } from './governanceProgress';
 import type { BasinId } from './basin';
+import type { ChapterId } from './chapter';
 
-export type GovernanceProgressScope = 'all' | BasinId;
+export type GovernanceChapterScope = Extract<ChapterId, 'chapter-3' | 'chapter-4'>;
+export type GovernanceProgressScope = 'all' | BasinId | GovernanceChapterScope;
 
 /** 后端接入时使用的账户关卡结果写入载荷。 */
 export interface GovernanceLevelResultInput {
