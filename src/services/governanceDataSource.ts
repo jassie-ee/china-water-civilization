@@ -1,9 +1,13 @@
 import { governanceQuestionLevelConfigs } from '@/data/governanceLevels/questionLevelConfigs';
-import type { GovernanceDataSource } from '@/types/governanceData';
+import type { GovernanceChapterScope, GovernanceDataSource, GovernanceProgressScope } from '@/types/governanceData';
 import { clearLevelBestStars, getGovernanceProgress, saveGovernanceProgress, updateLevelBestStars } from '@/utils/governanceProgress';
 import { getSupabaseClient, isSupabaseConfigured } from '@/services/supabaseClient';
 
 const remoteQuestionLevelIds = new Set(['dujiangyan', 'danjiangkou']);
+
+function isChapterProgressScope(scope: GovernanceProgressScope): scope is GovernanceChapterScope {
+  return scope === 'chapter-3' || scope === 'chapter-4';
+}
 
 function readRemoteChallenge(value: unknown) {
   if (typeof value !== 'object' || value === null) throw new Error('云端题库返回格式异常。');
@@ -118,7 +122,7 @@ const localGovernanceDataSource: GovernanceDataSource = {
     return { progress, update };
   },
   clearProgress: async (accountId, currentProgress, scope) => {
-    if (isSupabaseConfigured && accountId !== 'local-demo-account') {
+    if (isSupabaseConfigured && accountId !== 'local-demo-account' && !isChapterProgressScope(scope)) {
       const client = await requireSupabaseClient();
       const { error } = await client.rpc('reset_governance_progress', { p_scope: scope });
       if (error !== null) throw new Error(error.message);
@@ -126,9 +130,11 @@ const localGovernanceDataSource: GovernanceDataSource = {
 
     const levelIds = scope === 'all'
       ? undefined
-      : governanceQuestionLevelConfigs
-        .filter((level) => level.basinId === scope)
-        .map((level) => level.levelId);
+      : isChapterProgressScope(scope)
+        ? Object.keys(currentProgress.levelBestStars).filter((levelId) => levelId.startsWith(`${scope}-`))
+        : governanceQuestionLevelConfigs
+          .filter((level) => level.basinId === scope)
+          .map((level) => level.levelId);
     const progress = clearLevelBestStars(currentProgress, levelIds);
 
     if (progress !== currentProgress) saveGovernanceProgress(progress);

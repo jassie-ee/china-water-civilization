@@ -1366,8 +1366,8 @@
   .world-water-page .chapter-scene-annotations__item:nth-child(3) { animation-delay: 140ms; }
 
   .world-water-page .chapter-guide {
-    width: clamp(4.8rem, 6.7vw, 6.2rem);
-    height: clamp(5.8rem, 8vw, 7.4rem);
+    width: clamp(7rem, 10vw, 9rem);
+    height: clamp(8rem, 12vw, 10.5rem);
   }
 }
 
@@ -2527,7 +2527,7 @@
     gap: .62rem;
     width: fit-content;
     min-width: 10.7rem;
-    margin-right: clamp(0rem, 5vw, 8rem);
+    margin-right: clamp(8rem, 9vw, 10rem);
     padding: .44rem .82rem .48rem 1.08rem;
     border: 1px solid rgb(215 189 114 / 46%);
     border-inline-start: 0;

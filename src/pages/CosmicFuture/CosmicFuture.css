@@ -1486,8 +1486,8 @@
   }
 
   .cosmic-future-page .chapter-guide {
-    width: clamp(4.8rem, 6.7vw, 6.2rem);
-    height: clamp(5.8rem, 8vw, 7.4rem);
+    width: clamp(7rem, 10vw, 9rem);
+    height: clamp(8rem, 12vw, 10.5rem);
   }
 
   .cosmic-future-page .cosmic-future-orbit__signal { animation: chapter-map-mark-in 420ms var(--chapter-ease-out) both; }
@@ -1995,7 +1995,7 @@
     justify-self: end;
     width: fit-content;
     min-width: 9.5rem;
-    margin-right: 8rem;
+    margin-right: clamp(8rem, 9vw, 10rem);
     padding: .38rem .72rem .42rem .82rem;
     border-left: 1px solid rgb(215 189 114 / 42%);
     border-bottom: 1px solid rgb(215 189 114 / 28%);
